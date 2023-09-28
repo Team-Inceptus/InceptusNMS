@@ -30,12 +30,26 @@ tasks {
         kotlinOptions.jvmTarget = jvmVersion.toString()
     }
 
+    clean {
+        delete("generated")
+    }
+
     register("generate", JavaExec::class.java) {
-        mainClass.set("us.teaminceptus.inceptusnms.Generate")
+        dependsOn("validate")
+
+        mainClass.set("us.teaminceptus.inceptusnms.generation.Main")
         classpath = sourceSets["main"].runtimeClasspath
         args = listOf(
             file("docs").absolutePath,
             file("generated").absolutePath
+        )
+    }
+
+    register("validate", JavaExec::class.java) {
+        mainClass.set("us.teaminceptus.inceptusnms.validation.Main")
+        classpath = sourceSets["main"].runtimeClasspath
+        args = listOf(
+            file("docs").absolutePath
         )
     }
 }
