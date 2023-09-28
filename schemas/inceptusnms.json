@@ -1,0 +1,227 @@
+{
+    "$id": "inceptusnms-docs.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": true,
+    "definitions": {
+        "javatype": {
+            "type": "string",
+            "enum": [
+                "class",
+                "interface",
+                "enum",
+                "record"
+            ],
+            "description": "The Java type of the class"
+        },
+        "comment": {
+            "type": "string",
+            "description": "The JavaDoc comment value of an element"
+        },
+        "params": {
+            "type": "array",
+            "additionalItems": true,
+            "items": {
+                "additionalProperties": true,
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "comment": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "type",
+                    "name",
+                    "comment"
+                ]
+            },
+            "description": "The parameters of a method or constructor"
+        },
+        "visbility": {
+            "type": "string",
+            "enum": [
+                "public",
+                "package-private",
+                "protected",
+                "private"
+            ],
+            "default": "public",
+            "description": "The visbility of an element"
+        },
+        "mods": {
+            "type": "array",
+            "additionalItems": true,
+            "items": {
+                "additionalProperties": false,
+                "type": "string",
+                "enum": [
+                    "static",
+                    "final",
+                    "strictfp",
+                    "volatile",
+                    "transient"
+                ]
+            },
+            "description": "The java modifiers of an element"
+        },
+        "enumeration": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "comment": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "comment"
+            ],
+            "description": "Enumeration definition"
+        },
+        "field": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "type": {
+                    "type": "string"
+                },
+                "visbility": {
+                    "$ref": "#/definitions/visbility"
+                },
+                "mods": {
+                    "$ref": "#/definitions/mods"
+                },
+                "comment": {
+                    "$ref": "#/definitions/comment"
+                }
+            },
+            "required": [
+                "type",
+                "comment"
+            ],
+            "description": "Field definition"
+        },
+        "constructor": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "visbility": {
+                    "$ref": "#/definitions/visbility"
+                },
+                "params": {
+                    "$ref": "#/definitions/params"
+                },
+                "comment": {
+                    "$ref": "#/definitions/comment"
+                }
+            },
+            "required": [
+                "comment"
+            ],
+            "description": "Constructor definition"
+        },
+        "method": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "visbility": {
+                    "$ref": "#/definitions/visbility"
+                },
+                "mods": {
+                    "$ref": "#/definitions/mods"
+                },
+                "params": {
+                    "$ref": "#/definitions/params"
+                },
+                "return": {
+                    "type": "string",
+                    "default": "void",
+                    "description": "The return type of the method"
+                },
+                "comment": {
+                    "$ref": "#/definitions/comment"
+                }
+            },
+            "required": [
+                "comment"
+            ],
+            "description": "Method definition"
+        }
+    },
+    "properties": {
+        "class": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "type": {
+                    "$ref": "#/definitions/javatype"
+                },
+                "enclosing": {
+                    "type": "string",
+                    "description": "The enclosing class of this class (if applicable)"
+                },
+                "visbility": {
+                    "$ref": "#/definitions/visbility"
+                },
+                "mods": {
+                    "$ref": "#/definitions/mods"
+                },
+                "comment": {
+                    "$ref": "#/definitions/comment"
+                }
+            },
+            "description": "Class definition",
+            "required": [
+                "type",
+                "comment"
+            ]
+        },
+        "enumerations": {
+            "type": "array",
+            "additionalItems": true,
+            "items": {
+                "$ref": "#/definitions/enumeration"
+            },
+            "description": "Enumeration definitions"
+        },
+        "fields": {
+            "type": "object",
+            "additionalProperties": true,
+            "patternProperties": {
+                "[\\s\\S]*": {
+                    "$ref": "#/definitions/field"
+                }
+            },
+            "description": "Field definitions"
+        },
+        "constructors": {
+            "type": "array",
+            "additionalItems": true,
+            "items": {
+                "$ref": "#/definitions/constructor"
+            },
+            "description": "Constructor definitions"
+        },
+        "methods": {
+            "type": "object",
+            "additionalProperties": true,
+            "patternProperties": {
+                "[\\s\\S]*": {
+                    "$ref": "#/definitions/method"
+                }
+            },
+            "description": "Method definitions"
+        }
+    },
+    "title": "InceptusNMS Documentation",
+    "description": "InceptusNMS Documentation Schema for a class docs JSON file",
+    "type": "object"
+}
