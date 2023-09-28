@@ -54,11 +54,15 @@ We document all fields and methods, regardless of visibility. This includes pack
 
 - This object should always be the first object in the JSON file.
 - `type` should always be the first line in the object.
+- `enclosing`, if provided, should be after `type`. This is only necessary for subclasses.
+- `visibility`, if provided, should be after `enclosing` or `type`. If not provided, it is implied to be `public`.
+- `mods`, if provided, should be after `enclosing`, `visibility` or `type`.
+  - This array must be in the order that the modifiers are declared. For example: `public static final` should be `["static", "final"]`.  
 - `comment` should always be the last line in the object.
 
-#### `enumerations` object
+#### `enumerations` array
 
-- This object should always be the second object in the JSON file if `class` specifies that the type is an enum.
+- This array should always be the second object in the JSON file if `class` specifies that the type is an enum.
 - The objects in this array should be in the order of the enum constants.
 - For each individual object:
   - `name` should be the name of the enum constant, case sensitive, and should always be the first line in the object.
@@ -73,8 +77,8 @@ We document all fields and methods, regardless of visibility. This includes pack
     - This array must be in the order that the modifiers are declared. For example: `public static final` should be `["static", "final"]`. 
   - `comment` should always be the last line in the object.
 
-### `constructors` object
-- This object should always be the fourth object (for enums) or third object (for non-enums) in the JSON file. If not provided, no constructor will be generated.
+### `constructors` array
+- This array should always be the fourth object (for enums) or third object (for non-enums) in the JSON file. If not provided, no constructor will be generated.
 - This cannot be provided if `class` indicates an interface.
 - The objects in this array should be in the order of the constructors declared on the class file.
   - `visibility`, if provided, should be the first line in the object. If not provided, it is implied to be `public`.
@@ -90,9 +94,17 @@ We document all fields and methods, regardless of visibility. This includes pack
     - This array must be in the order that the modifiers are declared. For example: `public static final` should be `["static", "final"]`. 
   - `params`, if provided, should be after `mods` or `visibility` .
     - This array must be in the order that the parameters are declared. For example: `int a, int b` should be `[{"type": "int", "name": "a"}, {"type": "int", "name": "b"}]`. If a parameter has a generic or undescriptive name (e.g. `arg1`), it can be renamed to a more descriptive one, such as the field name it is being mapped to.
-  - `return` should be after `params`, `mods`, or `visibility`. If none are provided, it should be the first line in the object.
+  - `return` should be after `params`, `mods`, or `visibility`. If none are provided, it should be the first line in the object. This is also optional if the method returns `void`.
   - `comment` should always be the last line in the object.
 
 #### Package Info Documentation
 
 Each Package should have a `package-info.json` file, containing a `comment` attribute. This comment should be the first and only line in the file.
+
+#### Subclasses Documentation
+
+For generating JavaDocs for Subclasses, simply provide a Dollar Sign (`$`) for each layer. For Example:
+
+- `Class$Parent$SubclassDocumenting.json`
+
+Additionally, an `enclosing` attribute must be provided before `visibility` in the `class` object.
