@@ -88,6 +88,7 @@ We document all fields and methods, regardless of visibility. This includes pack
   - `visibility`, if provided, should be the first line in the object. If not provided, it is implied to be `public`.
   - `params`, if provided, should be after `visibility`.
     - This array must be in the order that the parameters are declared. For example: `Object(int a, int b)` should be `[{"type": "int", "name": "a"}, {"type": "int", "name": "b"}]`.
+    - If empty, the constructor should be `Object()`. This is only allowed once.
   - `comment` should always be the last line in the object.
 
 #### `methods` object
@@ -100,6 +101,8 @@ We document all fields and methods, regardless of visibility. This includes pack
   - `params`, if provided, should be after `mods` or `visibility` .
     - This array must be in the order that the parameters are declared. For example: `int a, int b` should be `[{"type": "int", "name": "a"}, {"type": "int", "name": "b"}]`. If a parameter has a generic or undescriptive name (e.g. `arg1`), it can be renamed to a more descriptive one, such as the field name it is being mapped to.
   - `return` should be after `params`, `mods`, or `visibility`. If none are provided, it should be the first line in the object. This is also optional if the method returns `void`.
+  - `throws` should be after `return`, `params`, `mods`, or `visibility`. If none are provided, it should be the first line in the object. This is also optional if the method does not throw any exceptions.
+    - This array must be in the order that the exceptions are declared. For example: `throws IOException, IllegalArgumentException` should be `["java.lang.IOException", "java.lang.IllegalArgumentException"]`.
   - `comment` should always be the last line in the object.
 
 Methods that are overrided should have updated documentation (if necessary). Implementing methods for interfaces are optional to document. The documentation for the private field in use for a getter on an interface should have (near) identical documentation to the getter.
