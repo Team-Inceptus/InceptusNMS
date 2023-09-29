@@ -4,7 +4,6 @@ package us.teaminceptus.inceptusnms.generation
 
 import us.teaminceptus.inceptusnms.generation.Util.getJavaPackages
 import java.io.File
-import java.nio.file.Files
 import java.nio.file.Paths
 
 fun main(args: Array<String>) {
@@ -32,6 +31,10 @@ fun main(args: Array<String>) {
         writeText(packages.joinToString("\n"))
     }
     println("Created element-list...")
+
+    // HTML Files
+    println("Generating HTML Pages...")
+    DocGenerator.generatePages(output)
 
     // JS Scripts
     println("Generating JavaScript Files...")
