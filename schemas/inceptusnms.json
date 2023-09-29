@@ -147,6 +147,14 @@
                     "default": "void",
                     "description": "The return type of the method"
                 },
+                "throws": {
+                    "type": "array",
+                    "additionalItems": true,
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "The exceptions thrown by the method"
+                },
                 "comment": {
                     "$ref": "#/definitions/comment"
                 }
