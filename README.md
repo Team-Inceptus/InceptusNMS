@@ -1,5 +1,5 @@
 # InceptusNMS
-> JavaDocs for Mojang-Mapped Minecraft NMS and CraftBukkit
+> JavaDocs for Mojang-Mapped Minecraft NMS and CraftBukkit for the latest Minecraft Version
 
 ## 📕 Background
 <details>
