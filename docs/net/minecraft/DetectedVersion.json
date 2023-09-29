@@ -1,0 +1,94 @@
+{
+  "class": {
+      "type": "class",
+      "implements": [
+        "net.minecraft.WorldVersion"
+      ],
+      "comment": "The default implementation of WorldVersion that automatically detects the protocl and server version."
+  },
+  "fields": {
+    "LOGGER": {
+      "type": "org.slf4j.Logger",
+      "visbility": "private",
+      "mods": ["static", "final"],
+      "comment": "The logger for this class."
+    },
+    "BUILT_IN": {
+      "type": "net.minecraft.WorldVersion",
+      "mods": ["static", "final"],
+      "comment": "The built in minecraft version."
+    },
+    "id": {
+      "type": "string",
+      "visbility": "private",
+      "mods": ["final"],
+      "comment": "The Unique Identifier of this Server's Version, as a trimmed UUID string."
+    },
+    "name": {
+      "type": "string",
+      "visbility": "private",
+      "mods": ["final"],
+      "comment": "The Friendly Name of this Server's Version, such as \"1.20.2\"."
+    },
+    "stable": {
+      "type": "boolean",
+      "visbility": "private",
+      "mods": ["final"],
+      "comment": "Whether or not this Server's Version is considered stable."
+    },
+    "worldVersion": {
+      "type": "net.minecraft.WorldVersion",
+      "visbility": "private",
+      "mods": ["final"],
+      "comment": "The WorldVersion of this Server's Version."
+    },
+    "protocolVersion": {
+      "type": "int",
+      "visbility": "private",
+      "mods": ["final"],
+      "comment": "The Protocol Version of this Server's Version."
+    },
+    "resourcePackVersion": {
+      "type": "int",
+      "visbility": "private",
+      "mods": ["final"],
+      "comment": "The Resource Pack Version ID of this Server's Version."
+    },
+    "dataPackVersion": {
+      "type": "int",
+      "visbility": "private",
+      "mods": ["final"],
+      "comment": "The Data Pack Version ID of this Server's Version."
+    },
+    "buildTime": {
+      "type": "date",
+      "visbility": "private",
+      "mods": ["final"],
+      "comment": "The Build Time of this Server's Version."
+    }
+  },
+  "constructors": [
+    {
+      "visbility": "private",
+      "comment": "Constructs a new DetectedVersion using hard-coded parameters."
+    },
+    {
+      "visbility": "private",
+      "params": [
+        {
+          "type": "com.google.gson.JsonObject",
+          "name": "json",
+          "comment": "The JSON Object to read from."
+        }
+      ],
+      "comment": "Constructs a new DetectedVersion using the given JSON Object. The inputted object is directly read from <pre>version.json</pre>, a file stored in the server JAR.",
+    }
+  ],
+  "methods": {
+    "tryDetectVersion": {
+      "mods": ["static"],
+      "return": "net.minecraft.WorldVersion",
+      "comment": "Attempts to detect the version of the server. If the version cannot be detected, the built-in version is returned."
+    }
+  }
+}
