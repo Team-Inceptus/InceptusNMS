@@ -1,0 +1,71 @@
+{
+  "class": {
+    "type": "class",
+    "mods": ["final"],
+    "comment": "Represents a @(net.minecraft.core.BlockPos) currently linked to a World."
+  },
+  "fields": {
+    "CODEC": {
+      "type": "codec",
+      "mods": ["static", "final"],
+      "comment": "The Codec for this GlobalPos."
+    },
+    "dimension": {
+      "type": "net.minecraft.resources.ResourceKey<net.minecraft.world.level.Level>",
+      "visbility": "private",
+      "mods": ["final"],
+      "comment": "The Resource Key of the World this GlobalPos belongs in."
+    },
+    "pos": {
+      "type": "net.minecraft.core.BlockPos",
+      "visbility": "private",
+      "mods": ["final"],
+      "comment": "The BlockPos position that represents this GlobalPos's coordinates."
+    }
+  },
+  "constructors": [
+    {
+      "visbility": "private",
+      "params": [
+        {
+          "type": "net.minecraft.resources.ResourceKey<net.minecraft.world.level.Level>",
+          "name": "dimension",
+          "comment": "The Resource Key of the World this GlobalPos belongs in."
+        },
+        {
+          "type": "net.minecraft.core.BlockPos",
+          "name": "pos",
+          "comment": "The BlockPos position that represents this GlobalPos's coordinates."
+        }
+      ],
+      "comment": "Constructs a new GlobalPos."
+    }
+  ],
+  "methods": {
+    "of": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.resources.ResourceKey<net.minecraft.world.level.Level>",
+          "name": "dimension",
+          "comment": "The Resource Key of the World this GlobalPos belongs in."
+        },
+        {
+          "type": "net.minecraft.core.BlockPos",
+          "name": "pos",
+          "comment": "The BlockPos position that represents this GlobalPos's coordinates."
+        }
+      ],
+      "return": "<this>",
+      "comment": "Constructs a new GlobalPos."
+    },
+    "dimension": {
+      "return": "net.minecraft.resources.ResourceKey<net.minecraft.world.level.Level>",
+      "comment": "Fetches the Resource Key of the World this GlobalPos belongs in."
+    },
+    "pos": {
+      "return": "net.minecraft.core.BlockPos",
+      "comment": "Fetches the BlockPos position that represents this GlobalPos's coordinates."
+    }
+  }
+}

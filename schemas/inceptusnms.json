@@ -18,6 +18,23 @@
             "type": "string",
             "description": "The JavaDoc comment value of an element"
         },
+        "annotations": {
+            "type": "array",
+            "additionalItems": true,
+            "items": {
+                "additionalProperties": true,
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "description": "The Java type of the annotation"
+                    },
+                    "params": {
+                        "$ref": "#/definitions/params"
+                    }
+                }
+            }
+        },
         "params": {
             "type": "array",
             "additionalItems": true,
@@ -26,13 +43,15 @@
                 "type": "object",
                 "properties": {
                     "type": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The Java type of the parameter"
                     },
                     "name": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The case-sensitive name of the parameter"
                     },
                     "comment": {
-                        "type": "string"
+                        "$ref": "#/definitions/comment"
                     }
                 },
                 "required": [
@@ -61,6 +80,7 @@
                 "additionalProperties": false,
                 "type": "string",
                 "enum": [
+                    "abstract",
                     "static",
                     "final",
                     "strictfp",
@@ -75,10 +95,14 @@
             "additionalProperties": true,
             "properties": {
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The name of the enum constant"
+                },
+                "annotations": {
+                    "$ref": "#/definitions/annotations"
                 },
                 "comment": {
-                    "type": "string"
+                    "$ref": "#/definitions/comment"
                 }
             },
             "required": [
@@ -100,6 +124,9 @@
                 "mods": {
                     "$ref": "#/definitions/mods"
                 },
+                "annotations": {
+                    "$ref": "#/definitions/annotations"
+                },
                 "comment": {
                     "$ref": "#/definitions/comment"
                 }
@@ -119,6 +146,9 @@
                 },
                 "params": {
                     "$ref": "#/definitions/params"
+                },
+                "annotations": {
+                    "$ref": "#/definitions/annotations"
                 },
                 "comment": {
                     "$ref": "#/definitions/comment"
@@ -154,6 +184,9 @@
                         "type": "string"
                     },
                     "description": "The exceptions thrown by the method"
+                },
+                "annotations": {
+                    "$ref": "#/definitions/annotations"
                 },
                 "comment": {
                     "$ref": "#/definitions/comment"
@@ -194,6 +227,9 @@
                         "type": "string"
                     },
                     "description": "The interfaces this class implements (if applicable)"
+                },
+                "annotations": {
+                    "$ref": "#/definitions/annotations"
                 },
                 "comment": {
                     "$ref": "#/definitions/comment"
