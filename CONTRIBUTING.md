@@ -16,6 +16,7 @@ In order for the parser to successfully generate JavaDocs, we need to input all 
 
 | Alias       | Actual Type                            |
 |-------------|----------------------------------------|
+| `<this>`    | class representing the JSON file       |
 | `boolean`   | prmivitive `boolean`                   |
 | `byte`      | prmivitive `byte`                      |
 | `char`      | prmivitive `char`                      |
@@ -36,15 +37,18 @@ In order for the parser to successfully generate JavaDocs, we need to input all 
 | `wshort`    | `java.lang.Short`                      |
 | `file`      | `java.io.File`                         |
 | `component` | `net.minecraft.network.chat.Component` |
+| `codec`     | `com.mojang.serialization.Codec`       |
 
 #### Generics
 
 For Generic Types, simply include the type in the alias. For example:
 
 - `java.util.List<string>`
-- `java.util.Map<string, wint>`
-- `java.util.List<java.util.Map<file, wlong>>`
+- `java.util.Map<string,wint>`
+- `java.util.List<java.util.Map<file,wlong>>`
 - `java.util.Set<org.bukkit.entity.Player>`
+
+There shold be **no spaces** in between generic arguments.
 
 ### Documentation Conventions
 
@@ -61,6 +65,7 @@ We document all fields and methods, regardless of visibility. This includes pack
 - `mods`, if provided, should be after `visibility`, `enclosing`, `implements`, `extends`, or `type`.
   - This array must be in the order that the modifiers are declared. For example: `public static final` should be `["static", "final"]`.  
   - The array must be declared on one line.
+- `annotations`, if provided, should be before `comment`.
 - `comment` should always be the last line in the object.
 
 #### `enumerations` array
@@ -69,9 +74,11 @@ We document all fields and methods, regardless of visibility. This includes pack
 - The objects in this array should be in the order of the enum constants.
 - For each individual object:
   - `name` should be the name of the enum constant, case sensitive, and should always be the first line in the object.
+  - `annotations`, if provided, should be after `name`.
   - `comment` should always be the last line in the object.
 
 #### `fields` object
+
 - This object should always be the third object (for enums) or second object (for non-enums) in the JSON file.
 - The objects in this object should have their keys be the field name as case sensitive, and must be in the order declared on the class file.
   - `type` should always be the first line in the object.
@@ -79,9 +86,11 @@ We document all fields and methods, regardless of visibility. This includes pack
   - `mods`, if provided, should be after `visibility` or `type`.
     - This array must be in the order that the modifiers are declared. For example: `public static final` should be `["static", "final"]`. 
     - The array must be declared on one line.
+  - `annotations`, if provided, should be before `comment`.
   - `comment` should always be the last line in the object.
 
 ### `constructors` array
+
 - This array should always be the fourth object (for enums) or third object (for non-enums) in the JSON file. If not provided, no constructor will be generated.
 - This cannot be provided if `class` indicates an interface.
 - The objects in this array should be in the order of the constructors declared on the class file.
@@ -89,9 +98,11 @@ We document all fields and methods, regardless of visibility. This includes pack
   - `params`, if provided, should be after `visibility`.
     - This array must be in the order that the parameters are declared. For example: `Object(int a, int b)` should be `[{"type": "int", "name": "a"}, {"type": "int", "name": "b"}]`.
     - If empty, the constructor should be `Object()`. This is only allowed once.
+  - `annotations`, if provided, should be before `comment`.
   - `comment` should always be the last line in the object.
 
 #### `methods` object
+
 - This object should always be the fifth object (for enums) or fourth object (for non-enums) in the JSON file. If not provided, no methods will be generated.
 - The objects in this object should have their keys be the method name as case sensitive, and must be in the order declared on the class file.
   - `visibility`, if provided, should be the first line in the object. If not provided, it is implied to be `public`.
@@ -103,6 +114,7 @@ We document all fields and methods, regardless of visibility. This includes pack
   - `return` should be after `params`, `mods`, or `visibility`. If none are provided, it should be the first line in the object. This is also optional if the method returns `void`.
   - `throws` should be after `return`, `params`, `mods`, or `visibility`. If none are provided, it should be the first line in the object. This is also optional if the method does not throw any exceptions.
     - This array must be in the order that the exceptions are declared. For example: `throws IOException, IllegalArgumentException` should be `["java.lang.IOException", "java.lang.IllegalArgumentException"]`.
+  - `annotations`, if provided, should be before `comment`.
   - `comment` should always be the last line in the object.
 
 Methods that are overrided should have updated documentation (if necessary). Implementing methods for interfaces are optional to document. The documentation for the private field in use for a getter on an interface should have (near) identical documentation to the getter.
@@ -118,3 +130,34 @@ For generating JavaDocs for Subclasses, simply provide a Dollar Sign (`$`) for e
 - `Class$Parent$SubclassDocumenting.json`
 
 Additionally, an `enclosing` attribute must be provided before `visibility` in the `class` object.
+
+## Special Characters
+
+The parser has specific special characters since JSON strings cannot use multiple lines.
+
+### HTML/CSS
+
+HTML and CSS is fully supported in the JSON string. Please take special care when using HTML tags.
+
+```json
+{
+  // ...
+  "comment": "This <strong>does not</strong> actually kill the player."
+}
+```
+
+### Class Links
+
+For linking another java class, either external or external, please provide the full name or type alias for it appended in a `@` and in parenthesis `()`. For example:
+
+```json
+{
+  // ...
+  "comment": "Represents a @(string)."
+}
+
+{
+  // ...
+  "comment": "Spawns a new @(net.minecraft.world.entity.LivingEntity)."
+}
+```
