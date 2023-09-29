@@ -22,21 +22,11 @@ fun main(args: Array<String>) {
         try {
             val json = Json.parseToJsonElement(file.readText()).jsonObject
 
-            if (file.name.contains("package-info.json"))
-                validatePackage(file, json)
-            else
-                validateClass(file, json)
+            validateClass(file, json)
         } catch (e: SerializationException) {
             throw IllegalStateException("Invalid JSON File: ${file.absolutePath}", e)
         }
     }
-}
-
-fun validatePackage(file: File, json: JsonObject) {
-    assert(json.contains("comment") && json["comment"]?.jsonPrimitive?.content != null) { "Package must have a comment!" }
-    assert(json.entries.size == 1) { "Package must only have a comment!" }
-
-    println("Package ${getJavaPackage(file)} validated")
 }
 
 fun validateClass(file: File, json: JsonObject) {

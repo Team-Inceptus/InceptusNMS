@@ -48,16 +48,19 @@ For Generic Types, simply include the type in the alias. For example:
 
 ### Documentation Conventions
 
-We document all fields and methods, regardless of visibility. This includes package-protected and private methods and fields. The only (current) exception are constructors on enum classes.
+We document all fields and methods, regardless of visibility. This includes package-protected and private methods and fields. The only (current) exception are constructors on enum classes. Files must also maintain a double-space, CRLF format and must not have tabs. 
 
 #### `class` object
 
 - This object should always be the first object in the JSON file.
 - `type` should always be the first line in the object.
-- `enclosing`, if provided, should be after `type`. This is only necessary for subclasses.
-- `visibility`, if provided, should be after `enclosing` or `type`. If not provided, it is implied to be `public`.
-- `mods`, if provided, should be after `enclosing`, `visibility` or `type`.
+- `extends`, if provided, should be after `type`.
+- `implements`, if provided, should be after `extends` or `type`.
+- `enclosing`, if provided, should be after `implements`, `extends`, or `type`. This is only necessary for subclasses.
+- `visibility`, if provided, should be after `enclosing`, `implements`, `extends`, or `type`. If not provided, it is implied to be `public`.
+- `mods`, if provided, should be after `visibility`, `enclosing`, `implements`, `extends`, or `type`.
   - This array must be in the order that the modifiers are declared. For example: `public static final` should be `["static", "final"]`.  
+  - The array must be declared on one line.
 - `comment` should always be the last line in the object.
 
 #### `enumerations` array
@@ -75,6 +78,7 @@ We document all fields and methods, regardless of visibility. This includes pack
   - `visibility`, if provided, should be after `type`. If not provided, it is implied to be `public`.
   - `mods`, if provided, should be after `visibility` or `type`.
     - This array must be in the order that the modifiers are declared. For example: `public static final` should be `["static", "final"]`. 
+    - The array must be declared on one line.
   - `comment` should always be the last line in the object.
 
 ### `constructors` array
@@ -92,10 +96,13 @@ We document all fields and methods, regardless of visibility. This includes pack
   - `visibility`, if provided, should be the first line in the object. If not provided, it is implied to be `public`.
   - `mods`, if provided, should be after `visibility`.
     - This array must be in the order that the modifiers are declared. For example: `public static final` should be `["static", "final"]`. 
+    - The array must be declared on one line.
   - `params`, if provided, should be after `mods` or `visibility` .
     - This array must be in the order that the parameters are declared. For example: `int a, int b` should be `[{"type": "int", "name": "a"}, {"type": "int", "name": "b"}]`. If a parameter has a generic or undescriptive name (e.g. `arg1`), it can be renamed to a more descriptive one, such as the field name it is being mapped to.
   - `return` should be after `params`, `mods`, or `visibility`. If none are provided, it should be the first line in the object. This is also optional if the method returns `void`.
   - `comment` should always be the last line in the object.
+
+Methods that are overrided should have updated documentation (if necessary). Implementing methods for interfaces are optional to document. The documentation for the private field in use for a getter on an interface should have (near) identical documentation to the getter.
 
 #### Package Info Documentation
 
