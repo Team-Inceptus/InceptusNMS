@@ -1,5 +1,5 @@
 {
-    "$id": "inceptusnms-docs.json",
+    "$id": "inceptusnms.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": true,
     "definitions": {
@@ -9,7 +9,8 @@
                 "class",
                 "interface",
                 "enum",
-                "record"
+                "record",
+                "annotation"
             ],
             "description": "The Java type of the class"
         },
@@ -46,7 +47,7 @@
             "type": "string",
             "enum": [
                 "public",
-                "package-private",
+                "package",
                 "protected",
                 "private"
             ],
@@ -173,6 +174,18 @@
                 },
                 "mods": {
                     "$ref": "#/definitions/mods"
+                },
+                "extends": {
+                    "type": "string",
+                    "description": "The class this class extends (if applicable)"
+                },
+                "implements": {
+                    "type": "array",
+                    "additionalItems": true,
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "The interfaces this class implements (if applicable)"
                 },
                 "comment": {
                     "$ref": "#/definitions/comment"
