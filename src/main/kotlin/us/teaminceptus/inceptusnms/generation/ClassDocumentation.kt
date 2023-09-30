@@ -19,6 +19,7 @@ data class ClassDocumentation(
 
     val pkg: String = name.substring(0, name.lastIndexOf('.'))
     val simpleName: String = name.substring(name.lastIndexOf('.') + 1)
+    val docName: String = enclosing?.let { "${it.substring(it.lastIndexOf('.') + 1)}.$simpleName" } ?: simpleName
 
     // Definitions
 
@@ -29,7 +30,7 @@ data class ClassDocumentation(
     )
 
     data class AnnotationDocumentation(
-        val name: String,
+        val type: String,
         val parameters: List<ParameterDocumentation> = emptyList(),
     )
 
@@ -58,6 +59,7 @@ data class ClassDocumentation(
     }
 
     data class MethodDocumentation(
+        val name: String,
         val visibility: String = "public",
         val mods: List<String> = emptyList(),
         val parameters: List<ParameterDocumentation> = emptyList(),
@@ -78,29 +80,38 @@ data class ClassDocumentation(
 
     companion object {
 
-        fun params(json: JsonElement?): List<ParameterDocumentation> {
+        fun processType(name: String, type: String): String {
+            var newType = Util.mapTypeAliases(type)
+
+            if (newType == "<this>")
+                newType = name
+
+            return newType
+        }
+
+        fun params(name: String, json: JsonElement?): List<ParameterDocumentation> {
             if (json == null) return emptyList()
 
             return json.jsonArray.map {
                 val param = it.jsonObject
 
                 ParameterDocumentation(
-                    param["type"]!!.jsonPrimitive.content,
+                    processType(name, param["type"]!!.jsonPrimitive.content),
                     param["name"]!!.jsonPrimitive.content,
                     param["comment"]!!.jsonPrimitive.content
                 )
             }
         }
 
-        fun annotations(json: JsonElement?): List<AnnotationDocumentation> {
+        fun annotations(name: String, json: JsonElement?): List<AnnotationDocumentation> {
             if (json == null) return emptyList()
 
             return json.jsonArray.map {
                 val annotation = it.jsonObject
 
                 AnnotationDocumentation(
-                    annotation.jsonObject["type"]!!.jsonPrimitive.content,
-                    params(annotation.jsonObject["params"])
+                    processType(name, annotation.jsonObject["type"]!!.jsonPrimitive.content),
+                    params(name, annotation.jsonObject["params"])
                 )
             }
         }
@@ -116,7 +127,7 @@ data class ClassDocumentation(
 
                     EnumDocumentation(
                         obj["name"]!!.jsonPrimitive.content,
-                        annotations(obj["annotations"]),
+                        annotations(name, obj["annotations"]),
                         obj["comment"]!!.jsonPrimitive.content
                     )
                 })
@@ -131,7 +142,7 @@ data class ClassDocumentation(
                         field.key,
                         obj["visibility"]?.jsonPrimitive?.content ?: "public",
                         obj["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
-                        annotations(obj["annotations"]),
+                        annotations(name, obj["annotations"]),
                         obj["comment"]!!.jsonPrimitive.content
                     )
                 })
@@ -143,8 +154,8 @@ data class ClassDocumentation(
 
                     ConstructorDocumentation(
                         obj["visibility"]?.jsonPrimitive?.content ?: "public",
-                        params(obj["params"]),
-                        annotations(obj["annotations"]),
+                        params(name, obj["params"]),
+                        annotations(name, obj["annotations"]),
                         obj["comment"]!!.jsonPrimitive.content
                     )
                 } ?: listOf(ConstructorDocumentation(clazz["comment"]!!.jsonPrimitive.content)))
@@ -155,12 +166,13 @@ data class ClassDocumentation(
                     val obj = method.value.jsonObject
 
                     MethodDocumentation(
+                        method.key,
                         obj["visibility"]?.jsonPrimitive?.content ?: "public",
                         obj["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
-                        params(obj["params"]),
+                        params(name, obj["params"]),
                         obj["return"]?.jsonPrimitive?.content ?: "void",
                         obj["throws"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
-                        annotations(obj["annotations"]),
+                        annotations(name, obj["annotations"]),
                         obj["comment"]!!.jsonPrimitive.content
                     )
                 })
