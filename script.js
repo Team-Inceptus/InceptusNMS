@@ -41,7 +41,7 @@ function loadScripts(doc, tag) {
 function createElem(doc, tag, path) {
     var script = doc.createElement(tag);
     var scriptElement = doc.getElementsByTagName(tag)[0];
-    script.src = pathtoroot + path;
+    script.src = path;
     scriptElement.parentNode.insertBefore(script, scriptElement);
 }
 
