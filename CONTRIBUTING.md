@@ -14,30 +14,32 @@ When documenting methods that reutrn `void`, please omit the `return` value in t
 
 In order for the parser to successfully generate JavaDocs, we need to input all return, parameter, and field types, which can get tedious for common types. We have a list of small aliases listed below.
 
-| Alias       | Actual Type                            |
-|-------------|----------------------------------------|
-| `<this>`    | class representing the JSON file       |
-| `boolean`   | prmivitive `boolean`                   |
-| `byte`      | prmivitive `byte`                      |
-| `char`      | prmivitive `char`                      |
-| `double`    | prmivitive `double`                    |
-| `float`     | prmivitive `float`                     |
-| `int`       | prmivitive `int`                       |
-| `long`      | prmivitive `long`                      |
-| `short`     | prmivitive `short`                     |
-| `string`    | `java.lang.String`                     |
-| `date`      | `java.util.Date`                       |
-| `wboolean`  | `java.lang.Boolean`                    |
-| `wbyte`     | `java.lang.Byte`                       |
-| `wchar`     | `java.lang.Character`                  |
-| `wdouble`   | `java.lang.Double`                     |
-| `wfloat`    | `java.lang.Float`                      |
-| `wint`      | `java.lang.Integer`                    |
-| `wlong`     | `java.lang.Long`                       |
-| `wshort`    | `java.lang.Short`                      |
-| `file`      | `java.io.File`                         |
-| `component` | `net.minecraft.network.chat.Component` |
-| `codec`     | `com.mojang.serialization.Codec`       |
+| Alias        | Actual Type                            |
+|--------------|----------------------------------------|
+| `<this>`     | class representing the JSON file       |
+| `obj`        | `java.lang.Object`                     |
+| `boolean`    | prmivitive `boolean`                   |
+| `byte`       | prmivitive `byte`                      |
+| `char`       | prmivitive `char`                      |
+| `double`     | prmivitive `double`                    |
+| `float`      | prmivitive `float`                     |
+| `int`        | prmivitive `int`                       |
+| `long`       | prmivitive `long`                      |
+| `short`      | prmivitive `short`                     |
+| `string`     | `java.lang.String`                     |
+| `date`       | `java.util.Date`                       |
+| `wboolean`   | `java.lang.Boolean`                    |
+| `wbyte`      | `java.lang.Byte`                       |
+| `wchar`      | `java.lang.Character`                  |
+| `wdouble`    | `java.lang.Double`                     |
+| `wfloat`     | `java.lang.Float`                      |
+| `wint`       | `java.lang.Integer`                    |
+| `wlong`      | `java.lang.Long`                       |
+| `wshort`     | `java.lang.Short`                      |
+| `file`       | `java.io.File`                         |
+| `component`  | `net.minecraft.network.chat.Component` |
+| `codec`      | `com.mojang.serialization.Codec`       |
+| `deprecated` | `java.lang.Deprecated`                 |
 
 #### Generics
 
