@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"net.minecraft"},{"l":"net.minecraft.world"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"}, {"l":"net.minecraft"}, {"l":"net.minecraft.core"}, {"l":"net.minecraft.world"}];updateSearchResults();

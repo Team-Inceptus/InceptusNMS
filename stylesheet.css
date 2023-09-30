@@ -867,3 +867,9 @@ table.striped > tbody > tr > th {
         padding-right: 12px;
     }
 }
+
+/* InceptusNMS Start */
+ol, li {
+    list-style-type: none;
+}
+/* InceptusNMS End */
