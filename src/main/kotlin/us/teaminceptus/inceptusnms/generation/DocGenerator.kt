@@ -9,6 +9,7 @@ import us.teaminceptus.inceptusnms.generation.Util.log
 import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL
+import java.net.UnknownHostException
 import java.nio.file.Paths
 
 object DocGenerator {
@@ -236,10 +237,13 @@ object DocGenerator {
     // Class Generators
 
     fun Iterable<String>.joinString(separator: CharSequence): String {
-        if (toList().size == 1)
-            return first()
+        if (toList().isEmpty())
+            return ""
 
-        return joinToString(separator)
+        if (toList().size == 1)
+            return first() + " "
+
+        return joinToString(separator) + " "
     }
 
     fun generateClass(info: ClassDocumentation): Document {
@@ -270,7 +274,7 @@ object DocGenerator {
 
             appendChild(Element("div").apply {
                 addClass("type-signature")
-                append("<span class=\"modifiers\">${info.visibility}${info.mods.joinString(" ")} ${info.type} </span>")
+                append("<span class=\"modifiers\">${info.visibility} ${info.mods.joinString(" ")}${info.type} </span>")
                 append("<span class=\"element-name type-name-label\">${info.simpleName}</span>")
 
                 if (info.implements.isNotEmpty() || info.extends != null) {
@@ -455,11 +459,15 @@ object DocGenerator {
         for (repo in REPOSITORIES) {
             val url = URL(repo + docUrl)
 
-            with(url.openConnection() as HttpURLConnection) {
-                requestMethod = "GET"
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "GET"
 
-                if (responseCode == 200)
-                    return "<a href=\"${repo + docUrl}\" title=\"member in $pkg\">${simpleName}</a>"
+                    if (responseCode == 200)
+                        return "<a href=\"${repo + docUrl}\" title=\"member in $pkg\">${simpleName}</a>"
+                }
+            } catch (ignored: UnknownHostException) { // Offline
+                return newClass
             }
         }
 
