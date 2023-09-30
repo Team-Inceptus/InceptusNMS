@@ -26,7 +26,11 @@ We use a custom parser to parse JSON files stored in our `docs` folder to emulat
   - [x] Type Search Functionality
 - [ ] Add Constant Fields Page
 - [ ] Add Tree Overview Page
+  - [ ] Add Class Inheritance Tree
+- [ ] Links to Extends & Implements
+- [ ] Add Direct Known Subclasses Section
 - [ ] Add Deprecated List Page
+- [ ] IntelliJ Plugin for JavaDoc Creation
 
 ## 📝 Contributing
 
