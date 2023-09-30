@@ -243,13 +243,13 @@ object DocGenerator {
     }
 
     fun generateClass(info: ClassDocumentation): Document {
-        val clazz = startDocument("${info.docName}.html", if (info.type == "record") "class" else info.type, info.simpleName, when (info.type) {
-            "interface" -> "Interface ${info.docName}"
-            "enum" -> "Enum Class ${info.docName}"
-            "record" -> "Record Class ${info.docName}"
-            "annotation" -> "Annotation Interface ${info.docName}"
-            else -> "Class ${info.docName}"
-        }, "declaration: package: ${info.pkg}; ${info.type} ${info.docName}")
+        val clazz = startDocument("${info.simpleName}.html", if (info.type == "record") "class" else info.type, info.simpleName, when (info.type) {
+            "interface" -> "Interface ${info.simpleName}"
+            "enum" -> "Enum Class ${info.simpleName}"
+            "record" -> "Record Class ${info.simpleName}"
+            "annotation" -> "Annotation Interface ${info.simpleName}"
+            else -> "Class ${info.simpleName}"
+        }, "declaration: package: ${info.pkg}; ${info.type} ${info.simpleName}")
         val main = clazz.main()
 
         // TODO Class Inheritance
