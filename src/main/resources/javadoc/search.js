@@ -23,6 +23,10 @@
  * questions.
  */
 
+/**
+ * Modified by Team Inceptus for InceptusNMS
+ */
+
 var noResult = {l: "No results found"};
 var loading = {l: "Loading search index..."};
 var catModules = "Modules";
@@ -343,9 +347,9 @@ $(function() {
                     url += ui.item.u;
                 }
                 if (top !== window) {
-                    parent.classFrame.location = pathtoroot + url;
+                    parent.classFrame.location = url;
                 } else {
-                    window.location.href = pathtoroot + url;
+                    window.location.href = url;
                 }
                 $("#search-input").focus();
             }
