@@ -23,7 +23,7 @@ We use a custom parser to parse JSON files stored in our `docs` folder to emulat
 - [ ] Add Full Search Functionality
   - [x] Package Search Functionality
   - [ ] Member Search Functionality
-  - [ ] Type Search Functionality
+  - [x] Type Search Functionality
 - [ ] Add Constant Fields Page
 - [ ] Add Tree Overview Page
 - [ ] Add Deprecated List Page
