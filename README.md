@@ -20,14 +20,14 @@ We use a custom parser to parse JSON files stored in our `docs` folder to emulat
 
 - [ ] Finish NMS Documentation
 - [ ] Finish CraftBukkit Documentation
-- [ ] Add Full Search Functionality
+- [x] Add Full Search Functionality
   - [x] Package Search Functionality
-  - [ ] Member Search Functionality
+  - [x] Member Search Functionality
   - [x] Type Search Functionality
 - [ ] Add Constant Fields Page
 - [ ] Add Tree Overview Page
   - [ ] Add Class Inheritance Tree
-- [ ] Links to Extends & Implements
+- [x] Links to Extends & Implements
 - [ ] Add Direct Known Subclasses Section
 - [ ] Add Deprecated List Page
 - [ ] IntelliJ Plugin for JavaDoc Creation
