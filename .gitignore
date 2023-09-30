@@ -4,3 +4,4 @@ generated/
 .gradle/
 build/
 .DS_Store
+bin/
