@@ -13,6 +13,9 @@ object JSGenerator {
         generateTypeSearchIndex(output)
         log("Created type-search-index.js")
 
+        generateMemberSearchIndex(output)
+        log("Created member-search-index.js")
+
         log("Finished Generating JavaScript Files!")
     }
 
@@ -52,6 +55,39 @@ object JSGenerator {
         File(output, "type-search-index.js").apply {
             createNewFile()
             writeText("typeSearchIndex = $list;updateSearchResults();")
+        }
+    }
+
+    fun generateMemberSearchIndex(output: File) {
+        val list = buildJsonArray {
+            for (type in Util.getClassDocumentation()) {
+                for (enum in type.enumerations?.enums ?: emptyList())
+                    add(JsonObject(mapOf(
+                        "p" to JsonPrimitive(type.pkg),
+                        "c" to JsonPrimitive(type.simpleName),
+                        "l" to JsonPrimitive(enum.name)
+                    )))
+
+                for (field in type.fields?.fields ?: emptyList())
+                    add(JsonObject(mapOf(
+                        "p" to JsonPrimitive(type.pkg),
+                        "c" to JsonPrimitive(type.simpleName),
+                        "l" to JsonPrimitive(field.name),
+                    )))
+
+                for (method in type.methods?.methods ?: emptyList())
+                    add(JsonObject(mapOf(
+                        "p" to JsonPrimitive(type.pkg),
+                        "c" to JsonPrimitive(type.simpleName),
+                        "l" to JsonPrimitive(method.cleanName),
+                        "u" to JsonPrimitive(method.fullName),
+                    )))
+            }
+        }
+
+        File(output, "member-search-index.js").apply {
+            createNewFile()
+            writeText("memberSearchIndex = $list;updateSearchResults();")
         }
     }
 
