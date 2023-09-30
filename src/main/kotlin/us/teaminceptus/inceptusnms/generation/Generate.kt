@@ -3,12 +3,13 @@
 package us.teaminceptus.inceptusnms.generation
 
 import us.teaminceptus.inceptusnms.generation.Util.getJavaPackages
+import us.teaminceptus.inceptusnms.generation.Util.log
 import java.io.File
 import java.nio.file.Paths
 
 fun main(args: Array<String>) {
     if (args.size != 2) {
-        println("Usage: ./gradlew generate -Parg1=<input docs folder> -Parg2=<output directory>")
+        log("Usage: ./gradlew generate -Parg1=<input docs folder> -Parg2=<output directory>")
         return
     }
 
@@ -16,7 +17,7 @@ fun main(args: Array<String>) {
     val output = File(args[1])
 
     if (!input.exists()) {
-        println("Input documentation folder does not exist!")
+        log("Input documentation folder does not exist!")
         return
     }
 
@@ -30,20 +31,21 @@ fun main(args: Array<String>) {
         createNewFile()
         writeText(packages.joinToString("\n"))
     }
-    println("Created element-list...")
+    log("Created element-list...")
 
     // HTML Files
-    println("Generating HTML Pages...")
-    DocGenerator.generatePages(output)
+    log("Generating HTML Pages...")
+    Util.getClassDocumentation(input) // Load all documentation
+    DocGenerator.generatePages(input, output)
 
     // JS Scripts
-    println("Generating JavaScript Files...")
+    log("Generating JavaScript Files...")
     JSGenerator.generateScripts(output, packages)
 
     // Copy Resources
-    println("Copying Final Resources...")
+    log("Copying Final Resources...")
     File(Paths.get("").toAbsolutePath().toString(), "/src/main/resources/javadoc")
         .copyRecursively(output)
 
-    println("Done!")
+    log("Done!")
 }
