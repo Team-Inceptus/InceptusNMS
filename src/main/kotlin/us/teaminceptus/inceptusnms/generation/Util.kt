@@ -1,15 +1,31 @@
 package us.teaminceptus.inceptusnms.generation
 
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonObject
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 object Util {
+
+    private val LOADED_DOCUMENTATION = mutableListOf<ClassDocumentation>()
+
+    fun getAllJavaPackages(root: File): List<String> {
+        val packages = mutableSetOf<String>()
+        root.walkTopDown().forEach {
+            if (it.isFile && it.name.endsWith(".json"))
+                packages.add(getJavaPackage(it))
+        }
+
+        return packages.sorted()
+    }
 
     fun getJavaPackage(file: File): String {
         assert(file.isFile) { "File is not a file!" }
         assert(file.exists()) { "File does not exist!" }
 
         val path = file.absolutePath
-        val filePath = path.split("docs")[1].substring(1).replace("/", ".")
+        val filePath = path.split("docs")[1].substring(1).replace("[/\\\\]".toRegex(), ".")
 
         return filePath.substring(0, filePath.length - (file.name.length + 1))
     }
@@ -37,6 +53,31 @@ object Util {
         val name = file.name.split(".json")[0]
 
         return "$pkg.$name"
+    }
+
+    fun getClassDocumentation(input: File? = null): Set<ClassDocumentation> {
+        if (LOADED_DOCUMENTATION.isEmpty() && input != null) {
+            input.walkTopDown().filter { it.isFile && it.name.endsWith(".json") }.forEach { file ->
+                LOADED_DOCUMENTATION.add(
+                    ClassDocumentation.fromJson(
+                        getJavaName(file),
+                        Json.parseToJsonElement(file.readText()).jsonObject
+                    )
+                )
+            }
+        }
+
+        return LOADED_DOCUMENTATION.toSet()
+    }
+    
+    // Logging
+    
+    fun log(message: String) {
+        println("[${Thread.currentThread().name.uppercase()} ${SimpleDateFormat("MMM dd, YYYY hh:mm:ss a").format(Date())}] $message")
+    }
+
+    fun error(message: String) {
+        System.err.println("[${Thread.currentThread().name.uppercase()} ${SimpleDateFormat("MMM dd, YYYY hh:mm:ss a").format(Date())}] $message")
     }
 
 }
