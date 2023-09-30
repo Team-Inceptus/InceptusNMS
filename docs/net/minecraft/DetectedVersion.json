@@ -81,7 +81,7 @@
           "comment": "The JSON Object to read from."
         }
       ],
-      "comment": "Constructs a new DetectedVersion using the given JSON Object. The inputted object is directly read from <pre>version.json</pre>, a file stored in the server JAR.",
+      "comment": "Constructs a new DetectedVersion using the given JSON Object. The inputted object is directly read from <pre>version.json</pre>, a file stored in the server JAR."
     }
   ],
   "methods": {
