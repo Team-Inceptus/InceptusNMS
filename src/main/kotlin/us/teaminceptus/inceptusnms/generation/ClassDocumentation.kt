@@ -18,8 +18,7 @@ data class ClassDocumentation(
 ) {
 
     val pkg: String = name.substring(0, name.lastIndexOf('.'))
-    val simpleName: String = name.substring(name.lastIndexOf('.') + 1)
-    val docName: String = enclosing?.let { "${it.substring(it.lastIndexOf('.') + 1)}.$simpleName" } ?: simpleName
+    val simpleName: String = name.substring(name.lastIndexOf('.') + 1).replace("$", ".")
 
     // Definitions
 
@@ -67,7 +66,30 @@ data class ClassDocumentation(
         val throws: List<String> = emptyList(),
         val annotations: List<AnnotationDocumentation> = emptyList(),
         val comment: String
-    )
+    ) {
+
+        val cleanName: String
+            get() {
+                if (parameters.isEmpty()) return "$name()"
+
+                val params = parameters.map {
+                    if (it.type.contains("."))
+                        it.type.substring(it.type.lastIndexOf('.') + 1)
+                    else
+                        it.type
+                }
+
+                return "$name(${params.joinToString(",")})"
+            }
+
+        val fullName: String
+            get() {
+                if (parameters.isEmpty()) return "$name()"
+                val params = parameters.map {it.type }
+
+                return "$name(${params.joinToString(",")})"
+            }
+    }
 
     // Properties
 
