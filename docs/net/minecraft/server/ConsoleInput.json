@@ -1,0 +1,18 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Utility class for reading console input."
+  },
+  "fields": {
+    "msg": {
+      "type": "string",
+      "mods": ["final"],
+      "comment": "The message to display to the user."
+    },
+    "source": {
+      "type": "net.minecraft.commands.CommandSourceStack",
+      "mods": ["final"],
+      "comment": "The command sent to the console."
+    }
+  }
+}
