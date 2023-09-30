@@ -10,6 +10,33 @@ object Util {
 
     private val LOADED_DOCUMENTATION = mutableListOf<ClassDocumentation>()
 
+    private val TYPE_ALIASES = mapOf(
+        "obj" to "java.lang.Object",
+        "wboolean" to "java.lang.Boolean",
+        "wbyte" to "java.lang.Byte",
+        "wshort" to "java.lang.Short",
+        "wint" to "java.lang.Integer",
+        "wlong" to "java.lang.Long",
+        "wfloat" to "java.lang.Float",
+        "wdouble" to "java.lang.Double",
+        "wchar" to "java.lang.Character",
+        "wshort" to "java.lang.Short",
+        "file" to "java.io.File",
+        "string" to "java.lang.String",
+        "date" to "java.util.Date",
+        "component" to "net.minecraft.network.chat.Component",
+        "codec" to "com.mojang.serialization.Codec",
+        "deprecated" to "java.lang.Deprecated"
+    )
+
+    fun mapTypeAliases(type: String): String {
+        var newType = type
+        for ((alias, replacement) in TYPE_ALIASES)
+            newType = newType.replace(alias, replacement, ignoreCase = false)
+
+        return newType
+    }
+
     fun getAllJavaPackages(root: File): List<String> {
         val packages = mutableSetOf<String>()
         root.walkTopDown().forEach {
