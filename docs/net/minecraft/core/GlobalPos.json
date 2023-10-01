@@ -12,20 +12,20 @@
     },
     "dimension": {
       "type": "net.minecraft.resources.ResourceKey<net.minecraft.world.level.Level>",
-      "visbility": "private",
+      "visibility": "private",
       "mods": ["final"],
       "comment": "The Resource Key of the World this GlobalPos belongs in."
     },
     "pos": {
       "type": "net.minecraft.core.BlockPos",
-      "visbility": "private",
+      "visibility": "private",
       "mods": ["final"],
       "comment": "The BlockPos position that represents this GlobalPos's coordinates."
     }
   },
   "constructors": [
     {
-      "visbility": "private",
+      "visibility": "private",
       "params": [
         {
           "type": "net.minecraft.resources.ResourceKey<net.minecraft.world.level.Level>",
@@ -56,7 +56,7 @@
           "comment": "The BlockPos position that represents this GlobalPos's coordinates."
         }
       ],
-      "return": "<this>",
+      "return": "{this}",
       "comment": "Constructs a new GlobalPos."
     },
     "dimension": {

@@ -6,19 +6,19 @@
   "fields": {
     "LOGGER": {
       "type": "org.slf4j.Logger",
-      "visbility": "private",
+      "visibility": "private",
       "mods": ["static", "final"],
       "comment": "The logger for this class."
     },
     "file": {
       "type": "java.nio.file.Path",
-      "visbility": "private",
+      "visibility": "private",
       "mods": ["final"],
       "comment": "The path to the <code>eula.txt</code> file."
     },
     "agreed": {
       "type": "boolean",
-      "visbility": "private",
+      "visibility": "private",
       "mods": ["final"],
       "comment": "Whether the user has agreed to the Minecraft EULA."
     }
@@ -37,7 +37,7 @@
   ],
   "methods": {
     "readFile": {
-      "visbility": "private",
+      "visibility": "private",
       "return": "boolean",
       "comment": "Reads the <code>eula.txt</code> file in the default location."
     },
@@ -46,7 +46,7 @@
       "comment": "Fetches whether the user has agreed to the Minecraft EULA."
     },
     "saveDefaults": {
-      "visbility": "private",
+      "visibility": "private",
       "comment": "Creates or Saves <code>eula.txt</code>, setting agreed to <code>false</code> if it is not currently set."
     }
   }
