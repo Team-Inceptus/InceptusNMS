@@ -1,0 +1,12 @@
+{
+  "class": {
+    "type": "enum",
+    "comment": "Utility class for representing a unit value, <code>null</code> being it is not present and @(<this>#INSTANCE) if it is present."
+  },
+  "enumerations": [
+    {
+      "name": "INSTANCE",
+      "comment": "The Unit Instance."
+    }
+  ]
+}
