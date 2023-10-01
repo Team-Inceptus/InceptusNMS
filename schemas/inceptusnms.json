@@ -62,7 +62,7 @@
             },
             "description": "The parameters of a method or constructor"
         },
-        "visbility": {
+        "visibility": {
             "type": "string",
             "enum": [
                 "public",
@@ -118,8 +118,8 @@
                 "type": {
                     "type": "string"
                 },
-                "visbility": {
-                    "$ref": "#/definitions/visbility"
+                "visibility": {
+                    "$ref": "#/definitions/visibility"
                 },
                 "mods": {
                     "$ref": "#/definitions/mods"
@@ -141,8 +141,8 @@
             "type": "object",
             "additionalProperties": true,
             "properties": {
-                "visbility": {
-                    "$ref": "#/definitions/visbility"
+                "visibility": {
+                    "$ref": "#/definitions/visibility"
                 },
                 "params": {
                     "$ref": "#/definitions/params"
@@ -163,8 +163,8 @@
             "type": "object",
             "additionalProperties": true,
             "properties": {
-                "visbility": {
-                    "$ref": "#/definitions/visbility"
+                "visibility": {
+                    "$ref": "#/definitions/visibility"
                 },
                 "mods": {
                     "$ref": "#/definitions/mods"
@@ -196,6 +196,35 @@
                 "comment"
             ],
             "description": "Method definition"
+        },
+        "generic": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "extends": {
+                    "type": "array",
+                    "description": "The Java types this generic extends (if applicable)",
+                    "additionalItems": true,
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "super": {
+                    "type": "array",
+                    "description": "The Java types this generic supers (if applicable)",
+                    "additionalItems": true,
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "comment": {
+                    "$ref": "#/definitions/comment"
+                }
+            },
+            "required": [
+                "comment"
+            ],
+            "description": "Generic Type definition"
         }
     },
     "properties": {
@@ -210,8 +239,8 @@
                     "type": "string",
                     "description": "The enclosing class of this class (if applicable)"
                 },
-                "visbility": {
-                    "$ref": "#/definitions/visbility"
+                "visibility": {
+                    "$ref": "#/definitions/visibility"
                 },
                 "mods": {
                     "$ref": "#/definitions/mods"
@@ -227,6 +256,15 @@
                         "type": "string"
                     },
                     "description": "The interfaces this class implements (if applicable)"
+                },
+                "generics": {
+                    "type": "object",
+                    "additionalProperties": true,
+                    "patternProperties": {
+                        "[\\s\\S]*": {
+                            "$ref": "#/definitions/generic"
+                        }
+                    }
                 },
                 "annotations": {
                     "$ref": "#/definitions/annotations"
