@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.incremental.deleteDirectoryContents
+import java.io.IOException
 import java.nio.charset.StandardCharsets
 
 plugins {
@@ -31,7 +33,11 @@ tasks {
     }
 
     clean {
-        delete("generated")
+        try {
+            File("generated").deleteRecursively()
+        } catch (e: IOException) { // Running Test Server
+            File("generated").deleteDirectoryContents()
+        }
     }
 
     register("generate", JavaExec::class.java) {
