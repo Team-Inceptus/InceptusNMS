@@ -16,7 +16,7 @@ In order for the parser to successfully generate JavaDocs, we need to input all 
 
 | Alias        | Actual Type                            |
 |--------------|----------------------------------------|
-| `<this>`     | class representing the JSON file       |
+| `{this}`     | class representing the JSON file       |
 | `obj`        | `java.lang.Object`                     |
 | `boolean`    | prmivitive `boolean`                   |
 | `byte`       | prmivitive `byte`                      |
@@ -62,9 +62,10 @@ We document all fields and methods, regardless of visibility. This includes pack
 - `type` should always be the first line in the object.
 - `extends`, if provided, should be after `type`.
 - `implements`, if provided, should be after `extends` or `type`.
-- `enclosing`, if provided, should be after `implements`, `extends`, or `type`. This is only necessary for subclasses.
-- `visibility`, if provided, should be after `enclosing`, `implements`, `extends`, or `type`. If not provided, it is implied to be `public`.
-- `mods`, if provided, should be after `visibility`, `enclosing`, `implements`, `extends`, or `type`.
+- `generics`, if provided, should be after `implements`, `extends`, or `type`.
+- `enclosing`, if provided, should be after `generics`, `implements`, `extends`, or `type`. This is only necessary for subclasses.
+- `visibility`, if provided, should be after `generics`, `enclosing`, `implements`, `extends`, or `type`. If not provided, it is implied to be `public`.
+- `mods`, if provided, should be after `generics`, `visibility`, `enclosing`, `implements`, `extends`, or `type`.
   - This array must be in the order that the modifiers are declared. For example: `public static final` should be `["static", "final"]`.  
   - The array must be declared on one line.
 - `annotations`, if provided, should be before `comment`.
