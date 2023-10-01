@@ -23,6 +23,10 @@
  * questions.
  */
 
+/**
+ * Modified by Team Inceptus
+ */
+
 var moduleSearchIndex;
 var packageSearchIndex;
 var typeSearchIndex;
@@ -41,7 +45,7 @@ function loadScripts(doc, tag) {
 function createElem(doc, tag, path) {
     var script = doc.createElement(tag);
     var scriptElement = doc.getElementsByTagName(tag)[0];
-    script.src = path;
+    script.src = '/' + path;
     scriptElement.parentNode.insertBefore(script, scriptElement);
 }
 
