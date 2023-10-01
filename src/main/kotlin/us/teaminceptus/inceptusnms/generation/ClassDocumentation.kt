@@ -102,14 +102,10 @@ data class ClassDocumentation(
 
     companion object {
 
-        fun processType(name: String, type: String): String {
-            var newType = Util.mapTypeAliases(type)
+        fun processType(name: String, type: String): String =
+            Util.mapTypeAliases(type)
+                .replace("<this>", name)
 
-            if (newType == "<this>")
-                newType = name
-
-            return newType
-        }
 
         fun params(name: String, json: JsonElement?): List<ParameterDocumentation> {
             if (json == null) return emptyList()

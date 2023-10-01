@@ -445,33 +445,34 @@ object DocGenerator {
     )
 
     fun link(self: String, clazz: String): String {
-        val newClass = ClassDocumentation.processType(self, clazz)
-        if (!newClass.contains("."))
-            return newClass
+        var finalClass = clazz
+        for (child in clazz.split("[<>,]".toRegex()).filter { it.isNotBlank() }) {
+            val newClass = ClassDocumentation.processType(self, child)
+            if (!newClass.contains(".")) continue
 
-        val pkg = newClass.substring(0, newClass.lastIndexOf('.'))
-        val simpleName = newClass.substring(newClass.lastIndexOf('.') + 1)
-        val docUrl = newClass.replace('.', '/') + ".html"
+            val pkg = newClass.substring(0, newClass.lastIndexOf('.'))
+            val simpleName = newClass.substring(newClass.lastIndexOf('.') + 1)
+            val docUrl = newClass.replace('.', '/') + ".html"
 
-        if (Util.getClassDocumentation().any { it.name == newClass })
-            return "<a href=\"/${docUrl}\" title=\"member in $pkg\">${simpleName}</a>"
+            if (Util.getClassDocumentation().any { it.name == newClass })
+                finalClass = finalClass.replace(child, "<a href=\"/${docUrl}\" title=\"member in $pkg\">${simpleName}</a>")
 
-        for (repo in REPOSITORIES) {
-            val url = URL(repo + docUrl)
+            for (repo in REPOSITORIES) {
+                val url = URL(repo + docUrl)
 
-            try {
-                with(url.openConnection() as HttpURLConnection) {
-                    requestMethod = "GET"
+                try {
+                    with(url.openConnection() as HttpURLConnection) {
+                        requestMethod = "GET"
 
-                    if (responseCode == 200)
-                        return "<a href=\"${repo + docUrl}\" title=\"member in $pkg\">${simpleName}</a>"
+                        if (responseCode == 200)
+                            finalClass = finalClass.replace(child, "<a href=\"${repo + docUrl}\" title=\"member in $pkg\">${simpleName}</a>")
+                    }
+                } catch (ignored: UnknownHostException) { // Offline
                 }
-            } catch (ignored: UnknownHostException) { // Offline
-                return newClass
             }
         }
 
-        return newClass
+        return finalClass
     }
 
 }
