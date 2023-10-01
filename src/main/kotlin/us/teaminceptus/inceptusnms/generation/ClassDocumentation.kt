@@ -1,12 +1,15 @@
 package us.teaminceptus.inceptusnms.generation
 
 import kotlinx.serialization.json.*
+import us.teaminceptus.inceptusnms.generation.DocGenerator.generics
+import us.teaminceptus.inceptusnms.generation.DocGenerator.link
 
 data class ClassDocumentation(
     val type: String,
     val name: String,
     val extends: String? = null,
     val implements: List<String> = emptyList(),
+    val generics: List<GenericDocumentation> = emptyList(),
     val enclosing: String? = null,
     val visibility: String = "public",
     val mods: List<String> = emptyList(),
@@ -19,8 +22,16 @@ data class ClassDocumentation(
 
     val pkg: String = name.substring(0, name.lastIndexOf('.'))
     val simpleName: String = name.substring(name.lastIndexOf('.') + 1).replace("$", ".")
+    val docName: String = "$simpleName${generics(this)}"
 
     // Definitions
+    
+    data class GenericDocumentation(
+        val name: String,
+        val extends: List<String> = emptyList(),
+        val supers: List<String> = emptyList(),
+        val comment: String
+    )
 
     data class ParameterDocumentation(
         val type: String,
@@ -85,7 +96,7 @@ data class ClassDocumentation(
         val fullName: String
             get() {
                 if (parameters.isEmpty()) return "$name()"
-                val params = parameters.map {it.type }
+                val params = parameters.map { it.type }
 
                 return "$name(${params.joinToString(",")})"
             }
@@ -102,9 +113,23 @@ data class ClassDocumentation(
 
     companion object {
 
+        fun processComment(name: String, comment: String): String {
+            var newComment = comment
+
+            for (str in comment.split("\\s".toRegex())) {
+                if (str.contains("@(") && str.contains(")") && !str.startsWith("\\@("))
+                    newComment = newComment.replace(str, link(name, str.substring(str.indexOf("@("), str.indexOf(")"))))
+
+                if (str.contains("\\@("))
+                    newComment = newComment.replace("\\@(", "@(")
+            }
+
+            return newComment
+        }
+
         fun processType(name: String, type: String): String =
             Util.mapTypeAliases(type)
-                .replace("<this>", name)
+                .replace("{this}", name)
 
 
         fun params(name: String, json: JsonElement?): List<ParameterDocumentation> {
@@ -116,7 +141,7 @@ data class ClassDocumentation(
                 ParameterDocumentation(
                     processType(name, param["type"]!!.jsonPrimitive.content),
                     param["name"]!!.jsonPrimitive.content,
-                    param["comment"]!!.jsonPrimitive.content
+                    processComment(name, param["comment"]!!.jsonPrimitive.content)
                 )
             }
         }
@@ -138,6 +163,20 @@ data class ClassDocumentation(
             val clazz = json["class"]!!.jsonObject
             val type = clazz["type"]!!.jsonPrimitive.content
 
+            val generics = if (clazz.contains("generics"))
+                clazz["generics"]!!.jsonObject.map { generic ->
+                    val obj = generic.value.jsonObject
+
+                    GenericDocumentation(
+                        generic.key,
+                        obj["extends"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
+                        obj["supers"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
+                        processComment(name, obj["comment"]!!.jsonPrimitive.content)
+                    )
+                }
+            else
+                emptyList()
+            
             var enums: EnumsDocumentation? = null
             if (type == "enum" && json.contains("enumerations"))
                 enums = EnumsDocumentation(json["enumerations"]!!.jsonArray.map {
@@ -146,7 +185,7 @@ data class ClassDocumentation(
                     EnumDocumentation(
                         obj["name"]!!.jsonPrimitive.content,
                         annotations(name, obj["annotations"]),
-                        obj["comment"]!!.jsonPrimitive.content
+                        processComment(name, obj["comment"]!!.jsonPrimitive.content)
                     )
                 })
 
@@ -156,12 +195,12 @@ data class ClassDocumentation(
                     val obj = field.value.jsonObject
 
                     FieldDocumentation(
-                        obj["type"]!!.jsonPrimitive.content,
+                        processType(name, obj["type"]!!.jsonPrimitive.content),
                         field.key,
                         obj["visibility"]?.jsonPrimitive?.content ?: "public",
                         obj["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
                         annotations(name, obj["annotations"]),
-                        obj["comment"]!!.jsonPrimitive.content
+                        processComment(name, obj["comment"]!!.jsonPrimitive.content)
                     )
                 })
 
@@ -171,10 +210,10 @@ data class ClassDocumentation(
                     val obj = it.jsonObject
 
                     ConstructorDocumentation(
-                        obj["visibility"]?.jsonPrimitive?.content ?: "public",
+                        obj["visibility"]?.jsonPrimitive?.content ?: (if (type == "enum") "private" else "public"),
                         params(name, obj["params"]),
                         annotations(name, obj["annotations"]),
-                        obj["comment"]!!.jsonPrimitive.content
+                        processComment(name, obj["comment"]!!.jsonPrimitive.content)
                     )
                 } ?: listOf(ConstructorDocumentation(clazz["comment"]!!.jsonPrimitive.content)))
 
@@ -188,10 +227,10 @@ data class ClassDocumentation(
                         obj["visibility"]?.jsonPrimitive?.content ?: "public",
                         obj["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
                         params(name, obj["params"]),
-                        obj["return"]?.jsonPrimitive?.content ?: "void",
-                        obj["throws"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
+                        processType(name, obj["return"]?.jsonPrimitive?.content ?: "void"),
+                        obj["throws"]?.jsonArray?.map { processType(name, it.jsonPrimitive.content) } ?: emptyList(),
                         annotations(name, obj["annotations"]),
-                        obj["comment"]!!.jsonPrimitive.content
+                        processComment(name, obj["comment"]!!.jsonPrimitive.content)
                     )
                 })
 
@@ -200,10 +239,11 @@ data class ClassDocumentation(
                 name,
                 clazz["extends"]?.jsonPrimitive?.content,
                 clazz["implements"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
+                generics,
                 clazz["enclosing"]?.jsonPrimitive?.content,
                 clazz["visibility"]?.jsonPrimitive?.content ?: "public",
                 clazz["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
-                clazz["comment"]!!.jsonPrimitive.content,
+                processComment(name, clazz["comment"]!!.jsonPrimitive.content),
                 enums,
                 fields,
                 constructors,
