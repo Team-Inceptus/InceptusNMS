@@ -62,6 +62,9 @@ object DocGenerator {
 
     fun Document.main(): Element
         = body().selectFirst("main")!!
+
+    fun String.header(): String
+        = run { if (contains("\n")) substring(0, indexOf("\n")) else this }.take(60)
     
     // Generation
 
@@ -176,6 +179,8 @@ object DocGenerator {
             "declaration: package: $pkg")
         val main = summary.main()
 
+        val classes = Util.getClassDocumentation().filter { it.pkg == pkg }
+
         main.append("<hr>")
         main.append("<div class=\"package-signature\">package <span class=\"element-name\">$pkg</span></div>")
 
@@ -226,7 +231,89 @@ object DocGenerator {
                 .appendChild(Element("li").apply {
                     appendChild(Element("div").apply {
                         id("class-summary")
-                        // TODO Add Class Summary
+
+                        fun classSummaryButton(id: Int, text: String): Element =
+                            Element("button").apply {
+                                id("class-summary-tab$id")
+                                addClass("table-tab")
+
+                                attr("role", "tab")
+                                attr("aria-selected", (id == 0).toString())
+                                attr("aria-controls", "class-summary.tabpanel")
+                                attr("tabindex", if (id == 0) "0" else "-1")
+                                attr("onkeydown", "switchTab(event)")
+                                attr("onclick", "show('class-summary', 'class-summary${if (id == 0) "" else "-tab$id"}', 2)")
+
+                                text(text)
+                            }
+
+                        when {
+                            classes.all { it.type == "class" } -> {
+                                append("<div class=\"caption\"><span>Classes</span></div>")
+                            }
+                            classes.all { it.type == "interface" } -> {
+                                append("<div class=\"caption\"><span>Interfaces</span></div>")
+                            }
+                            classes.all { it.type == "enum" } -> {
+                                append("<div class=\"caption\"><span>Enum Classes</span></div>")
+                            }
+                            classes.all { it.type == "record" } -> {
+                                append("<div class=\"caption\"><span>Record Classes</span></div>")
+                            }
+                            classes.all { it.type == "annotation" } -> {
+                                append("<div class=\"caption\"><span>Annotation Interfaces</span></div>")
+                            }
+                            else -> {
+                                appendChild(classSummaryButton(0, "All Classes and Interfaces"))
+
+                                if (classes.any { it.type == "interface" })
+                                    appendChild(classSummaryButton(1, "Interfaces"))
+
+                                if (classes.any { it.type == "class" })
+                                    appendChild(classSummaryButton(2, "Classes"))
+
+                                if (classes.any { it.type == "enum" })
+                                    appendChild(classSummaryButton(3, "Enum Classes"))
+
+                                if (classes.any { it.type == "record" })
+                                    appendChild(classSummaryButton(4, "Record Classes"))
+
+                                if (classes.any { it.type == "annotation" })
+                                    appendChild(classSummaryButton(7, "Annotation Interfaces"))
+                            }
+                        }
+
+                        appendChild(Element("div").apply {
+                            classNames(setOf("summary-table", "two-column-summary"))
+
+                            append("<div class=\"table-header col-first\">Class</div>")
+                            append("<div class=\"table-header col-last\">Description</div>")
+
+                            var even = true
+                            for (clazz in classes) {
+                                val rowColor = "${if (even) "even" else "odd"}-row-color"
+
+                                appendChild(Element("div").apply {
+                                    classNames(setOf("col-first", rowColor))
+
+                                    val builder = StringBuilder()
+                                    builder.append("<a href=\"${clazz.simpleName}.html\" title=\"${clazz.type} in $pkg\">${clazz.simpleName}</a>")
+
+                                    if (clazz.generics.isNotEmpty())
+                                        builder.append(generics(clazz))
+
+                                    append(builder.toString())
+                                })
+
+                                appendChild(Element("div").apply {
+                                    classNames(setOf("col-last", rowColor))
+                                    append("<div class=\"block\">${clazz.comment.header()}</div>")
+                                })
+
+                                even = !even
+                            }
+                        })
+
                     })
                 })
         })
@@ -248,11 +335,11 @@ object DocGenerator {
 
     fun generateClass(info: ClassDocumentation): Document {
         val clazz = startDocument("${info.simpleName}.html", if (info.type == "record") "class" else info.type, info.simpleName, when (info.type) {
-            "interface" -> "Interface ${info.simpleName}"
-            "enum" -> "Enum Class ${info.simpleName}"
-            "record" -> "Record Class ${info.simpleName}"
-            "annotation" -> "Annotation Interface ${info.simpleName}"
-            else -> "Class ${info.simpleName}"
+            "interface" -> "Interface ${info.docName}"
+            "enum" -> "Enum Class ${info.docName}"
+            "record" -> "Record Class ${info.docName}"
+            "annotation" -> "Annotation Interface ${info.docName}"
+            else -> "Class ${info.docName}"
         }, "declaration: package: ${info.pkg}; ${info.type} ${info.simpleName}")
         val main = clazz.main()
 
@@ -301,14 +388,187 @@ object DocGenerator {
                 addClass("summary-list")
             }
 
+            fun item(element: Element): Element = Element("li").appendChild(element)
+
+            val enums = generateEnumSummary(info)
+            if (enums != null)
+                list.appendChild(item(enums))
+
+            val fields = generateFieldSummary(info)
+            if (fields != null)
+                list.appendChild(item(fields))
+
+            val constructors = generateConstructorSummary(info)
+            if (constructors != null)
+                list.appendChild(item(constructors))
+
             val methods = generateMethodSummary(info)
             if (methods != null)
-                list.appendChild(methods)
+                list.appendChild(item(methods))
 
             appendChild(list)
         })
 
         return clazz
+    }
+
+    // Class Generators - Summary
+
+    fun generateEnumSummary(info: ClassDocumentation): Element? {
+        if (info.type != "enum") return null
+
+        val enums = info.enumerations?.enums ?: return null
+        val summary = Element("section").apply {
+            addClass("constants-summary")
+            id("constants-summary")
+        }
+
+        summary.append("<h2>Enum Constant Summary</h2>")
+        summary.append("<div class=\"caption\"><span>Enum Constants</span></div>")
+        summary.appendChild(Element("div").apply {
+            classNames(setOf("summary-table two-column-summary"))
+
+            append("<div class=\"table-header col-first\">Enum Constant</div>")
+            append("<div class=\"table-header col-last\">Description</div>")
+
+            var even = true
+            for (enum in enums) {
+                val rowColor = "${if (even) "even" else "odd"}-row-color"
+
+                appendChild(Element("div").apply {
+                    classNames(setOf("col-first", rowColor))
+                    append("<code><a href=\"#${enum.name}\" class=\"member-name-link\">${enum.name}</a></code>")
+                })
+
+                appendChild(Element("div").apply {
+                    classNames(setOf("col-last", rowColor))
+                    append("<div class=\"block\">${enum.comment}</div>")
+                })
+                even = !even
+            }
+        })
+
+        return summary
+    }
+
+    fun generateFieldSummary(info: ClassDocumentation): Element? {
+        val fields = info.fields?.fields ?: return null
+        val summary = Element("section").apply {
+            addClass("field-summary")
+            id("field-summary")
+        }
+        summary.append("<h2>Field Summary</h2>")
+        summary.append("<div class=\"caption\"><span>Fields</span></div>")
+
+        summary.appendChild(Element("div").apply {
+            classNames(setOf("summary-table three-column-summary"))
+
+            append("<div class=\"table-header col-first\">Modifier and Type</div>")
+            append("<div class=\"table-header col-second\">Field</div>")
+            append("<div class=\"table-header col-last\">Description</div>")
+
+            var even = true
+            for (field in fields) {
+                val rowColor = "${if (even) "even" else "odd"}-row-color"
+
+                appendChild(Element("div").apply {
+                    classNames(setOf("col-first", rowColor))
+
+                    appendChild(Element("code").apply {
+                        val builder = StringBuilder()
+                        if (field.visibility != "public")
+                            builder.append("${field.visibility} ")
+
+                        if (field.mods.isNotEmpty())
+                            builder.append("${field.mods.joinString(" ")} ")
+
+                        builder.append(link(info.name, field.type))
+
+                        append(builder.toString())
+                    })
+                })
+
+                appendChild(Element("div").apply {
+                    classNames(setOf("col-second", rowColor))
+
+                    appendChild(Element("code").apply {
+                        append("<a href=\"#${field.name}\" class=\"member-name-link\">${field.name}</a>")
+                    })
+                })
+
+                appendChild(Element("div").apply {
+                    classNames(setOf("col-last", rowColor))
+                    append("<div class=\"block\">${field.comment}</div>")
+                })
+
+                even = !even
+            }
+        })
+
+        return summary
+    }
+
+    fun generateConstructorSummary(info: ClassDocumentation): Element? {
+        val constructors = info.constructors?.constructors ?: return null
+        val summary = Element("section").apply {
+            addClass("constructor-summary")
+            id("constructor-summary")
+        }
+        summary.append("<h2>Constructor Summary</h2>")
+        summary.append("<div class=\"caption\"><span>Constructors</span></div>")
+
+        val anyVisibility = constructors.any { it.visibility != "public" }
+        summary.appendChild(Element("div").apply {
+            classNames(setOf("summary-table ${if (anyVisibility) "three" else "two"}-column-summary"))
+
+            if (anyVisibility)
+                append("<div class=\"table-header col-first\">Modifier</div>")
+
+            append("<div class=\"table-header col-${if (anyVisibility) "second" else "first"}\">Constructor</div>")
+            append("<div class=\"table-header col-last\">Description</div>")
+
+            var even = true
+            for (constructor in constructors) {
+                val rowColor = "${if (even) "even" else "odd"}-row-color"
+
+                if (anyVisibility)
+                    appendChild(Element("div").apply {
+                        classNames(setOf("col-first", rowColor))
+
+                        appendChild(Element("code").apply {
+                            val builder = StringBuilder()
+                            builder.append("${constructor.visibility} ")
+
+                            append(builder.toString())
+                        })
+                    })
+
+                appendChild(Element("div").apply {
+                    classNames(setOf("col-constructor-name", rowColor))
+
+                    appendChild(Element("code").apply {
+                        val builder = StringBuilder()
+
+                        builder.append("<a href=\"#%3Cinit%3E(${constructor.parameters.map { it.name }.joinString(",")})\" class=\"member-name-link\">${info.simpleName}</a><wbr>")
+                        if (constructor.parameters.isNotEmpty())
+                            builder.append("(${constructor.parameters.joinToString { param -> "${link(info.name, param.type)}&nbsp;${param.name}" }})")
+                        else
+                            builder.append("()")
+
+                        append(builder.toString())
+                    })
+                })
+
+                appendChild(Element("div").apply {
+                    classNames(setOf("col-last", rowColor))
+                    append("<div class=\"block\">${constructor.comment}</div>")
+                })
+
+                even = !even
+            }
+        })
+
+        return summary
     }
 
     fun generateMethodSummary(info: ClassDocumentation): Element? {
@@ -329,11 +589,11 @@ object DocGenerator {
             addClass(if (id == 0) "active-table-tab" else "table-tab")
 
             attr("role", "tab")
-            attr("aria-selected", id == 0)
+            attr("aria-selected", (id == 0).toString())
             attr("aria-controls", "method-summary-table.tabpanel")
             attr("tab-index", if (id == 0) "0" else "-1")
             attr("onkeydown", "switchTab(event)")
-            attr("onclick", "show('method-summary-table', 'method-summary-table${if (id == 0) "" else id}', 3)")
+            attr("onclick", "show('method-summary-table', 'method-summary-table${if (id == 0) "" else "-tab$id"}', 3)")
         }
 
         val table = Element("div").apply {
@@ -375,7 +635,6 @@ object DocGenerator {
             append("<div class=\"table-header col-last\">Description</div>")
 
             var even = true
-
             for (method in methods) {
                 val rowColor = "${if (even) "even" else "odd"}-row-color"
                 val categories = mutableSetOf<Int>().apply {
@@ -437,25 +696,28 @@ object DocGenerator {
         return summary
     }
 
+    // Class Generators - Detail
+
     // Utility Methods
 
     private val REPOSITORIES = listOf(
         "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/",
-        "https://hub.spigotmc.org/javadocs/spigot/"
+        "https://hub.spigotmc.org/javadocs/spigot/",
+        "https://www.slf4j.org/apidocs/"
     )
 
-    fun link(self: String, clazz: String): String {
-        var finalClass = clazz
-        for (child in clazz.split("[<>,]".toRegex()).filter { it.isNotBlank() }) {
-            val newClass = ClassDocumentation.processType(self, child)
-            if (!newClass.contains(".")) continue
+    fun link(self: String, type: String): String {
+        var finalType = type
+        for (child in type.split("[<>,]".toRegex()).filter { it.isNotBlank() }) {
+            val newType = ClassDocumentation.processType(self, child)
+            if (!newType.contains(".")) continue
 
-            val pkg = newClass.substring(0, newClass.lastIndexOf('.'))
-            val simpleName = newClass.substring(newClass.lastIndexOf('.') + 1)
-            val docUrl = newClass.replace('.', '/') + ".html"
+            val pkg = newType.substring(0, newType.lastIndexOf('.'))
+            val simpleName = newType.substring(newType.lastIndexOf('.') + 1)
+            val docUrl = newType.replace('.', '/') + ".html"
 
-            if (Util.getClassDocumentation().any { it.name == newClass })
-                finalClass = finalClass.replace(child, "<a href=\"/${docUrl}\" title=\"member in $pkg\">${simpleName}</a>")
+            if (Util.getClassDocumentation().any { it.name == newType })
+                finalType = finalType.replace(child, "<a href=\"/${docUrl}\" title=\"member in $pkg\">${simpleName}</a>")
 
             for (repo in REPOSITORIES) {
                 val url = URL(repo + docUrl)
@@ -465,14 +727,38 @@ object DocGenerator {
                         requestMethod = "GET"
 
                         if (responseCode == 200)
-                            finalClass = finalClass.replace(child, "<a href=\"${repo + docUrl}\" title=\"member in $pkg\">${simpleName}</a>")
+                            finalType = finalType.replace(child, "<a href=\"${repo + docUrl}\" title=\"member in $pkg\">${simpleName}</a>")
                     }
                 } catch (ignored: UnknownHostException) { // Offline
                 }
             }
         }
 
-        return finalClass
+        return finalType
+    }
+
+    fun generics(clazz: ClassDocumentation): String {
+        val generics = clazz.generics
+        if (generics.isEmpty()) return ""
+
+        val builder = StringBuilder()
+        builder.append("&lt;")
+        for ((i, generic) in generics.withIndex()) {
+            builder.append(generic.name)
+
+            if (generic.extends.isNotEmpty())
+                builder.append(" extends ${generic.extends.joinToString { link(clazz.name, it) }}")
+
+            if (generic.supers.isNotEmpty())
+                builder.append(" super ${generic.supers.joinToString { link(clazz.name, it) }}")
+
+            if (i != generics.size - 1)
+                builder.append(", ")
+        }
+
+        builder.append("&gt;")
+
+        return builder.toString()
     }
 
 }
