@@ -48,15 +48,24 @@
   },
   "methods": {
     "getId": {
-      "return": "int",
+      "return": {
+        "type": "int",
+        "comment": "The numerical id of this difficulty."
+      },
       "comment": "Returns the numerical id of this difficulty."
     },
     "getDisplayName": {
-      "return": "component",
+      "return": {
+        "type": "component",
+        "comment": "The display name of this difficulty as a Translatable Component."
+      },
       "comment": "Returns the display name of this difficulty as a Translatable Component."
     },
     "getInfo": {
-      "return": "component",
+      "return": {
+        "type": "component",
+        "comment": "The info of this difficulty as a Translatable Component."
+      },
       "comment": "Returns the info of this difficulty as a Translatable Component."
     },
     "byId": {
@@ -68,7 +77,10 @@
           "comment": "The numerical id of the difficulty to return."
         }
       ],
-      "return": "net.minecraft.world.Difficulty",
+      "return": {
+        "type": "{this}",
+        "comment": "The difficulty with the given numerical id."
+      },
       "comment": "Returns a difficulty based on its numerical id."
     }
   }

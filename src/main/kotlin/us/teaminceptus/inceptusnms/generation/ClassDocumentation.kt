@@ -74,7 +74,8 @@ data class ClassDocumentation(
         val mods: List<String> = emptyList(),
         val parameters: List<ParameterDocumentation> = emptyList(),
         val returnType: String = "void",
-        val throws: List<String> = emptyList(),
+        val returnComment: String = "",
+        val throws: Map<String, String> = emptyMap(),
         val annotations: List<AnnotationDocumentation> = emptyList(),
         val comment: String
     ) {
@@ -227,8 +228,11 @@ data class ClassDocumentation(
                         obj["visibility"]?.jsonPrimitive?.content ?: "public",
                         obj["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
                         params(name, obj["params"]),
-                        processType(name, obj["return"]?.jsonPrimitive?.content ?: "void"),
-                        obj["throws"]?.jsonArray?.map { processType(name, it.jsonPrimitive.content) } ?: emptyList(),
+                        processType(name, obj["return"]?.jsonObject?.get("type")?.jsonPrimitive?.content ?: "void"),
+                        processComment(name, obj["return"]?.jsonObject?.get("comment")?.jsonPrimitive?.content ?: ""),
+                        obj["throws"]?.jsonArray?.associate {
+                            processType(name, it.jsonObject["type"]!!.jsonPrimitive.content) to processComment(name, it.jsonObject["comment"]!!.jsonPrimitive.content)
+                        } ?: emptyMap(),
                         annotations(name, obj["annotations"]),
                         processComment(name, obj["comment"]!!.jsonPrimitive.content)
                     )

@@ -87,7 +87,10 @@
   "methods": {
     "tryDetectVersion": {
       "mods": ["static"],
-      "return": "net.minecraft.WorldVersion",
+      "return": {
+        "type": "net.minecraft.WorldVersion",
+        "comment": "The detected version, or the built-in version if the version cannot be detected."
+      },
       "comment": "Attempts to detect the version of the server. If the version cannot be detected, the built-in version is returned."
     }
   }

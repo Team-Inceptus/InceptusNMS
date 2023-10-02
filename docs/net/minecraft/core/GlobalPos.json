@@ -56,15 +56,24 @@
           "comment": "The BlockPos position that represents this GlobalPos's coordinates."
         }
       ],
-      "return": "{this}",
+      "return": {
+        "type": "{this}",
+        "comment": "A new GlobalPos."
+      },
       "comment": "Constructs a new GlobalPos."
     },
     "dimension": {
-      "return": "net.minecraft.resources.ResourceKey<net.minecraft.world.level.Level>",
+      "return": {
+        "type": "net.minecraft.resources.ResourceKey<net.minecraft.world.level.Level>",
+        "comment": "The Resource Key of the World this GlobalPos belongs in."
+      },
       "comment": "Fetches the Resource Key of the World this GlobalPos belongs in."
     },
     "pos": {
-      "return": "net.minecraft.core.BlockPos",
+      "return": {
+        "type": "net.minecraft.core.BlockPos",
+        "comment": "The BlockPos position that represents this GlobalPos's coordinates."
+      },
       "comment": "Fetches the BlockPos position that represents this GlobalPos's coordinates."
     }
   }

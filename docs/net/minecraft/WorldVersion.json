@@ -5,19 +5,31 @@
   },
   "methods": {
     "getDataVersion": {
-      "return": "net.minecraft.world.level.storage.DataVersion",
+      "return": {
+        "type": "net.minecraft.level.storage.DataVersion",
+        "comment": "The Data Version of the Server."
+      },
       "comment": "Fetches the Data Version of the Server."
     },
     "getId": {
-      "return": "string",
+      "return": {
+        "type": "string",
+        "comment": "The Unique Identifier of this Server's Version."
+      },
       "comment": "Fetches the Unique Identifier of this Server's Version, as a trimmed UUID string."
     },
     "getName": {
-      "return": "string",
+      "return": {
+        "type": "string",
+        "comment": "The Friendly Name of this Server's Version."
+      },
       "comment": "Fetches the Friendly Name of this Server's Version, such as \"1.20.2\"."
     },
     "getProtocolVersion": {
-      "return": "int",
+      "return": {
+        "type": "int",
+        "comment": "The Protocol Version of this Server."
+      },
       "comment": "Fetches the Protocol Version of this Server."
     },
     "getPackVersion": {
@@ -28,16 +40,25 @@
           "comment": "The type of pack to get the version of."
         }
       ],
-      "return": "int",
-      "comment": "Fetches the Resource or Data Pack Version of this Server, depending on the input type of `PackType`."
+      "return": {
+        "type": "int",
+        "comment": "The Resource or Data Pack Version of this Server, depending on the input type of <code>PackType</code>."
+      },
+      "comment": "Fetches the Resource or Data Pack Version of this Server, depending on the input type of <code>PackType</code>."
     },
     "getBuildTime": {
-      "return": "date",
+      "return": {
+        "type": "date",
+        "comment": "The Time this server version was built from source."
+      },
       "comment": "Fetches the Time this server version was built from source."
     },
     "isStable": {
-      "return": "boolean",
-      "comment": "Whether this Server Version is considered stable."
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this Server Version is considered stable."
+      },
+      "comment": "Fetches whether this Server Version is considered stable."
     }
   }
 }

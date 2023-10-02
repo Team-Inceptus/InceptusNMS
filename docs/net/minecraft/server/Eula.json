@@ -38,11 +38,17 @@
   "methods": {
     "readFile": {
       "visibility": "private",
-      "return": "boolean",
+      "return": {
+        "type": "boolean",
+        "comment": "Whether the user has agreed to the Minecraft EULA."
+      },
       "comment": "Reads the <code>eula.txt</code> file in the default location."
     },
     "hasAgreedToEULA": {
-      "return": "boolean",
+      "return": {
+        "type": "boolean",
+        "comment": "Whether the user has agreed to the Minecraft EULA."
+      },
       "comment": "Fetches whether the user has agreed to the Minecraft EULA."
     },
     "saveDefaults": {

@@ -173,15 +173,43 @@
                     "$ref": "#/definitions/params"
                 },
                 "return": {
-                    "type": "string",
-                    "default": "void",
-                    "description": "The return type of the method"
+                    "type": "object",
+                    "additionalProperties": true,
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "description": "The return type of the method"
+                        },
+                        "comment": {
+                            "$ref": "#/definitions/comment"
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "comment"
+                    ],
+                    "description": "The return information of the method"
                 },
                 "throws": {
                     "type": "array",
                     "additionalItems": true,
                     "items": {
-                        "type": "string"
+                        "type": "object",
+                        "additionalProperties": true,
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "description": "The exception type thrown by the method"
+                            },
+                            "comment": {
+                                "$ref": "#/definitions/comment"
+                            }
+                        },
+                        "description": "An exception thrown by the method",
+                        "required": [
+                            "type",
+                            "comment"
+                        ]
                     },
                     "description": "The exceptions thrown by the method"
                 },
