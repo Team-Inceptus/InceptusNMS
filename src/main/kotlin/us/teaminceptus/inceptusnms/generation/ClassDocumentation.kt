@@ -177,7 +177,7 @@ data class ClassDocumentation(
                 }
             else
                 emptyList()
-            
+
             var enums: EnumsDocumentation? = null
             if (type == "enum" && json.contains("enumerations"))
                 enums = EnumsDocumentation(json["enumerations"]!!.jsonArray.map {
@@ -219,14 +219,11 @@ data class ClassDocumentation(
                 } ?: listOf(ConstructorDocumentation(clazz["comment"]!!.jsonPrimitive.content)))
 
             var methods: MethodsDocumentation? = null
-            if (json.contains("methods"))
-                methods = MethodsDocumentation(json["methods"]!!.jsonObject.map { method ->
-                    val obj = method.value.jsonObject
-
-                    MethodDocumentation(
-                        method.key,
+            if (json.contains("methods")) {
+                fun construct(method: String, obj: JsonObject) = MethodDocumentation(
+                        method,
                         obj["visibility"]?.jsonPrimitive?.content ?: "public",
-                        obj["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
+                        obj["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: (if (type == "interface") listOf("abstract")else emptyList()),
                         params(name, obj["params"]),
                         processType(name, obj["return"]?.jsonObject?.get("type")?.jsonPrimitive?.content ?: "void"),
                         processComment(name, obj["return"]?.jsonObject?.get("comment")?.jsonPrimitive?.content ?: ""),
@@ -236,7 +233,17 @@ data class ClassDocumentation(
                         annotations(name, obj["annotations"]),
                         processComment(name, obj["comment"]!!.jsonPrimitive.content)
                     )
-                })
+
+                methods = MethodsDocumentation(json["methods"]!!.jsonObject.map { method ->
+                    try {
+                        val obj = method.value.jsonArray
+                        obj.map { construct(method.key, it.jsonObject) }
+                    } catch (ignored: IllegalArgumentException) {
+                        val obj = method.value.jsonObject
+                        listOf(construct(method.key, obj))
+                    }
+                }.flatten())
+            }
 
             return ClassDocumentation(
                 type,

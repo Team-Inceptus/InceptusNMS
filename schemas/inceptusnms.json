@@ -85,7 +85,8 @@
                     "final",
                     "strictfp",
                     "volatile",
-                    "transient"
+                    "transient",
+                    "default"
                 ]
             },
             "description": "The java modifiers of an element"
@@ -159,7 +160,7 @@
             ],
             "description": "Constructor definition"
         },
-        "method": {
+        "method-single": {
             "type": "object",
             "additionalProperties": true,
             "properties": {
@@ -221,6 +222,80 @@
                 }
             },
             "required": [
+                "return",
+                "comment"
+            ]
+        },
+        "method": {
+            "type": [
+                "object",
+                "array"
+            ],
+            "additionalProperties": true,
+            "additionalItems": true,
+            "properties": {
+                "visibility": {
+                    "$ref": "#/definitions/visibility"
+                },
+                "mods": {
+                    "$ref": "#/definitions/mods"
+                },
+                "params": {
+                    "$ref": "#/definitions/params"
+                },
+                "return": {
+                    "type": "object",
+                    "additionalProperties": true,
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "description": "The return type of the method"
+                        },
+                        "comment": {
+                            "$ref": "#/definitions/comment"
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "comment"
+                    ],
+                    "description": "The return information of the method"
+                },
+                "throws": {
+                    "type": "array",
+                    "additionalItems": true,
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": true,
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "description": "The exception type thrown by the method"
+                            },
+                            "comment": {
+                                "$ref": "#/definitions/comment"
+                            }
+                        },
+                        "description": "An exception thrown by the method",
+                        "required": [
+                            "type",
+                            "comment"
+                        ]
+                    },
+                    "description": "The exceptions thrown by the method"
+                },
+                "annotations": {
+                    "$ref": "#/definitions/annotations"
+                },
+                "comment": {
+                    "$ref": "#/definitions/comment"
+                }
+            },
+            "items": {
+                "$ref": "#/definitions/method-single"
+            },
+            "required": [
+                "return",
                 "comment"
             ],
             "description": "Method definition"
