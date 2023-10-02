@@ -63,21 +63,6 @@ object Util {
         return filePath.substring(0, filePath.length - (file.name.length + 1))
     }
 
-    fun getJavaPackages(dir: File): Set<String> {
-        assert(dir.isDirectory) { "File is not a directory!" }
-        assert(dir.exists()) { "File does not exist!" }
-
-        val packages = mutableSetOf<String>()
-
-        dir.walk().forEach {
-            if (it.isFile && it.name.endsWith(".json")) {
-                packages.add(getJavaPackage(it))
-            }
-        }
-
-        return packages
-    }
-
     fun getJavaName(file: File): String {
         assert(file.isFile) { "File is not a file!" }
         assert(file.exists()) { "File does not exist!" }
@@ -88,8 +73,8 @@ object Util {
         return "$pkg.$name"
     }
 
-    fun getClassDocumentation(input: File? = null): Set<ClassDocumentation> {
-        if (LOADED_DOCUMENTATION.isEmpty() && input != null) {
+    fun getClassDocumentation(input: File? = null): List<ClassDocumentation> {
+        if (LOADED_DOCUMENTATION.isEmpty() && input != null)
             input.walkTopDown().filter { it.isFile && it.name.endsWith(".json") }.forEach { file ->
                 LOADED_DOCUMENTATION.add(
                     ClassDocumentation.fromJson(
@@ -98,9 +83,8 @@ object Util {
                     )
                 )
             }
-        }
 
-        return LOADED_DOCUMENTATION.toSet()
+        return LOADED_DOCUMENTATION.toList()
     }
     
     // Logging
