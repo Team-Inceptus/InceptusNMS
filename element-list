@@ -1,6 +1,9 @@
 net.minecraft.network.chat
+net.minecraft.network
+net.minecraft.commands
 net.minecraft.util
 net.minecraft
 net.minecraft.server
+net.minecraft.world.entity
 net.minecraft.world
 net.minecraft.core
