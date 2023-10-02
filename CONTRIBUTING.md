@@ -62,6 +62,7 @@ We document all fields and methods, regardless of visibility. This includes pack
 - `type` should always be the first line in the object.
 - `extends`, if provided, should be after `type`.
 - `implements`, if provided, should be after `extends` or `type`.
+  - For an interface that extends interfaces, this should be used in place of `extends`.
 - `generics`, if provided, should be after `implements`, `extends`, or `type`.
 - `enclosing`, if provided, should be after `generics`, `implements`, `extends`, or `type`. This is only necessary for subclasses.
 - `visibility`, if provided, should be after `generics`, `enclosing`, `implements`, `extends`, or `type`. If not provided, it is implied to be `public`.
