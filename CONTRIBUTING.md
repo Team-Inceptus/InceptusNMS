@@ -40,6 +40,7 @@ In order for the parser to successfully generate JavaDocs, we need to input all 
 | `component`  | `net.minecraft.network.chat.Component` |
 | `codec`      | `com.mojang.serialization.Codec`       |
 | `deprecated` | `java.lang.Deprecated`                 |
+| `bytebuf`    | `io.netty.buffer.ByteBuf`              |
 
 #### Generics
 
@@ -90,7 +91,9 @@ We document all fields and methods, regardless of visibility. This includes pack
   - `mods`, if provided, should be after `visibility` or `type`.
     - This array must be in the order that the modifiers are declared. For example: `public static final` should be `["static", "final"]`. 
     - The array must be declared on one line.
-  - `annotations`, if provided, should be before `comment`.
+  - `annotations`, if provided, should be before `value` or `comment`.
+  - `value`, if provided, should be before `comment`.
+    - The purpose of this field is to document constant values. This only applies to primitive values (`int`, `short`, `long`, `boolean`, etc.) and other values referred as constants (e.g. `String`)
   - `comment` should always be the last line in the object.
 
 ### `constructors` array

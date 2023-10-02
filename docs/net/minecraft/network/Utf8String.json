@@ -1,0 +1,48 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Represents a wrapper around a UTF-8 String to be transferred through a Byte Buffer."
+  },
+  "methods": {
+    "read": {
+      "params": [
+        {
+          "type": "bytebuf",
+          "name": "bytes",
+          "comment": "The byte buffer to read."
+        },
+        {
+          "type": "int",
+          "name": "length",
+          "comment": "The maximum string length to read."
+        }
+      ],
+      "return": {
+        "type": "string",
+        "comment": "The string represented by the Byte Buffer."
+      },
+      "comment": "Reads a UTF-8 string from a byte buffer."
+    },
+    "write": {
+      "params": [
+        {
+          "type": "bytebuf",
+          "name": "bytes",
+          "comment": "The byte buffer to write to."
+        },
+        {
+          "type": "java.lang.CharSequence",
+          "name": "string",
+          "comment": "The CharSequence to write."
+        },
+        {
+          "type": "int",
+          "name": "length",
+          "comment": "The maximum string length to write."
+        }
+      ],
+      "comment": "Writes a UTF-8 string to a byte buffer."
+    }
+  }
+
+}

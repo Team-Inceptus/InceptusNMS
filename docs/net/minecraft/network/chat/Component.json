@@ -90,6 +90,32 @@
         "comment": "The plain text contained within this component, in the visual order."
       },
       "comment": "Gets the plain text contained within this component, in the visual order."
-    }
+    },
+    "toFlatList": [
+      {
+        "mods": ["default"],
+        "return": {
+          "type": "java.util.List<{this}>",
+          "comment": "Returns this Component and all of its siblings as a flat list with no style."
+        },
+        "comment": "Gets this Component and its siblings as a flat list with no style."
+      },
+      {
+        "mods": ["default"],
+        "params": [
+          {
+            "type": "net.minecraft.network.chat.Style",
+            "name": "chatmodifier",
+            "comment": "The style to format the components applied."
+          }
+        ],
+        "return": {
+          "type": "java.util.List<{this}>",
+          "comment": "Returns this Component and all of its siblings formatted according to the style."
+        },
+        "comment": "Gets this Component and its siblings as a flat list."
+      }
+    ]
+
   }
 }

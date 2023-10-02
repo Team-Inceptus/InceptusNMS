@@ -1,0 +1,69 @@
+{
+  "class": {
+    "type": "enum",
+    "comment": "Represents a Pose that a Mob is using."
+  },
+  "enumerations": [
+    {
+      "name": "STANDING",
+      "comment": "The standing, or default pose."
+    },
+    {
+      "name": "FALL_FLYING",
+      "comment": "Falling while flying."
+    },
+    {
+      "name": "SLEEPING",
+      "comment": "Sleeping on a bed."
+    },
+    {
+      "name": "SWIMMING",
+      "comment": "Swimming in water or another liquid."
+    },
+    {
+      "name": "SPIN_ATTACK",
+      "comment": "Spinning and attacking."
+    },
+    {
+      "name": "CROUCHING",
+      "comment": "Sneaking or crouching."
+    },
+    {
+      "name": "LONG_JUMPING",
+      "comment": "Jumping a long distance."
+    },
+    {
+      "name": "DYING",
+      "comment": "Dying animation."
+    },
+    {
+      "name": "CROAKING",
+      "comment": "@(org.bukkit.entity.Frog) Croaking Animation."
+    },
+    {
+      "name": "USING_TONGUE",
+      "comment": "@(org.bukkit.entity.Frog) Tongue Animation."
+    },
+    {
+      "name": "SITTING",
+      "comment": "Sitting on a block or entity."
+    },
+    {
+      "name": "ROARING",
+      "comment": "@(org.bukkit.entity.Warden) Roar Animation."
+    },
+    {
+      "name": "SNIFFING",
+      "comment": "@(org.bukkit.entity.Warden) Sniffing Animation."
+    },
+    {
+      "name": "EMERGING",
+      "comment": "@(org.bukkit.entity.Warden) Emerging Animation."
+    },
+    {
+      "name": "DIGGING",
+      "comment": "@(org.bukkit.entity.Warden) Digging Animation."
+    }
+  ]
+  
+}

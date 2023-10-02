@@ -1,0 +1,364 @@
+{
+  "class": {
+    "type": "class",
+    "implements": [
+      "com.mojang.brigadier.exceptions.BuiltInExceptionProvider"
+    ],
+    "comment": "Utility class for supplying Brigadier Exceptions parsed as Translatable Components."
+  },
+  "fields": {
+    "DOUBLE_TOO_SMALL": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
+      "comment": "<code>argument.double.low</code>"
+    },
+    "DOUBLE_TOO_BIG": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
+      "comment": "<code>argument.double.big</code>"
+    },
+    "FLOAT_TOO_SMALL": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
+      "comment": "<code>argument.float.low</code>"
+    },
+    "FLOAT_TOO_BIG": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
+      "comment": "<code>argument.float.big</code>"
+    },
+    "INTEGER_TOO_SMALL": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
+      "comment": "<code>argument.integer.low</code>"
+    },
+    "INTEGER_TOO_BIG": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
+      "comment": "<code>argument.integer.big</code>"
+    },
+    "LONG_TOO_SMALL": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
+      "comment": "<code>argument.long.low</code>"
+    },
+    "LONG_TOO_BIG": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
+      "comment": "<code>argument.long.big</code>"
+    },
+    "LITERAL_INCORRECT": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
+      "comment": "<code>argument.literal.incorrect</code>"
+    },
+    "READER_EXPECTED_START_OF_QUOTE": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+      "comment": "<code>parsing.quote.expected.start</code>"
+    },
+    "READER_EXPECTED_END_OF_QUOTE": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+      "comment": "<code>parsing.quote.expected.end</code>"
+    },
+    "READER_INVALID_ESCAPE": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
+      "comment": "<code>parsing.quote.escape</code>"
+    },
+    "READER_INVALID_BOOL": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
+      "comment": "<code>parsing.bool.invalid</code>"
+    },
+    "READER_INVALID_INT": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
+      "comment": "<code>parsing.int.invalid</code>"
+    },
+    "READER_EXPECTED_INT": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+      "comment": "<code>parsing.int.expected</code>"
+    },
+    "READER_INVALID_LONG": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
+      "comment": "<code>parsing.long.invalid</code>"
+    },
+    "READER_EXPECTED_LONG": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+      "comment": "<code>parsing.long.expected</code>"
+    },
+    "READER_INVALID_DOUBLE": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
+      "comment": "<code>parsing.double.invalid</code>"
+    },
+    "READER_EXPECTED_DOUBLE": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+      "comment": "<code>parsing.double.expected</code>"
+    },
+    "READER_INVALID_FLOAT": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
+      "comment": "<code>parsing.float.invalid</code>"
+    },
+    "READER_EXPECTED_FLOAT": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+      "comment": "<code>parsing.float.expected</code>"
+    },
+    "READER_EXPECTED_BOOL": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+      "comment": "<code>parsing.bool.expected</code>"
+    },
+    "READER_EXPECTED_SYMBOL": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
+      "comment": "<code>parsing.expected</code>"
+    },
+    "DISPATCHER_UNKNOWN_COMMAND": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+      "comment": "<code>command.unknown.command</code>"
+    },
+    "DISPATCHER_UNKNOWN_ARGUMENT": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+      "comment": "<code>command.unknown.argument</code>"
+    },
+    "DISPATCHER_EXPECTED_ARGUMENT_SEPARATOR": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+      "comment": "<code>command.expected.separator</code>"
+    },
+    "DISPATCHER_PARSE_EXCEPTION": {
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
+      "comment": "<code>command.exception</code>"
+    }
+  },
+  "methods": {
+    "doubleTooLow": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
+        "comment": "@(#DOUBLE_TOO_SMALL)"
+      },
+      "comment": "Returns @(#DOUBLE_TOO_SMALL)"
+    },
+    "doubleTooHigh": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
+        "comment": "@(#DOUBLE_TOO_HIGH)"
+      },
+      "comment": "Returns @(#DOUBLE_TOO_HIGH)"
+    },
+    "floatTooLow": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
+        "comment": "@(#FLOAT_TOO_SMALL)"
+      },
+      "comment": "Returns @(#FLOAT_TOO_SMALL)"
+    },
+    "floatTooHigh": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
+        "comment": "@(#FLOAT_TOO_HIGH)"
+      },
+      "comment": "Returns @(#FLOAT_TOO_HIGH)"
+    },
+    "integerTooLow": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
+        "comment": "@(#INTEGER_TOO_SMALL)"
+      },
+      "comment": "Returns @(#INTEGER_TOO_SMALL)"
+    },
+    "integerTooHigh": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
+        "comment": "@(#INTEGER_TOO_HIGH)"
+      },
+      "comment": "Returns @(#INTEGER_TOO_HIGH)"
+    },
+    "longTooLow": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
+        "comment": "@(#LONG_TOO_SMALL)"
+      },
+      "comment": "Returns @(#LONG_TOO_SMALL)"
+    },
+    "longTooHigh": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
+        "comment": "@(#LONG_TOO_HIGH)"
+      },
+      "comment": "Returns @(#LONG_TOO_HIGH)"
+    },
+    "literalIncorrect": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
+        "comment": "@(#LITERAL_INCORRECT)"
+      },
+      "comment": "Returns @(#LITERAL_INCORRECT)"
+    },
+    "readerExpectedStartOfQuote": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+        "comment": "@(#READER_EXPECTED_START_OF_QUOTE)"
+      },
+      "comment": "Returns @(#READER_EXPECTED_START_OF_QUOTE)"
+    },
+    "readerExpectedEndOfQuote": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+        "comment": "@(#READER_EXPECTED_END_OF_QUOTE)"
+      },
+      "comment": "Returns @(#READER_EXPECTED_END_OF_QUOTE)"
+    },
+    "readerInvalidEscape": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
+        "comment": "@(#READER_INVALID_ESCAPE)"
+      },
+      "comment": "Returns @(#READER_INVALID_ESCAPE)"
+    },
+    "readerInvalidBool": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
+        "comment": "@(#READER_INVALID_BOOL)"
+      },
+      "comment": "Returns @(#READER_INVALID_BOOL)"
+    },
+    "readerInvalidInt": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
+        "comment": "@(#READER_INVALID_INT)"
+      },
+      "comment": "Returns @(#READER_INVALID_INT)"
+    },
+    "readerExpectedInt": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+        "comment": "@(#READER_EXPECTED_INT)"
+      },
+      "comment": "Returns @(#READER_EXPECTED_INT)"
+    },
+    "readerInvalidLong": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
+        "comment": "@(#READER_INVALID_LONG)"
+      },
+      "comment": "Returns @(#READER_INVALID_LONG)"
+    },
+    "readerExpectedLong": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+        "comment": "@(#READER_EXPECTED_DOUBLE)"
+      },
+      "comment": "Returns @(#READER_EXPECTED_DOUBLE)"
+    },
+    "readerInvalidDouble": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
+        "comment": "@(#READER_INVALID_DOUBLE)"
+      },
+      "comment": "Returns @(#READER_INVALID_DOUBLE)"
+    },
+    "readerExpectedDouble": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+        "comment": "@(#READER_EXPECTED_DOUBLE)"
+      },
+      "comment": "Returns @(#READER_EXPECTED_DOUBLE)"
+    },
+    "readerInvalidFloat": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
+        "comment": "@(#READER_INVALID_FLOAT)"
+      },
+      "comment": "Returns @(#READER_INVALID_FLOAT)"
+    },
+    "readerExpectedFloat": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+        "comment": "@(#READER_EXPECTED_FLOAT)"
+      },
+      "comment": "Returns @(#READER_EXPECTED_FLOAT`)"
+    },
+    "readerExpectedBool": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+        "comment": "@(#READER_EXPECTED_BOOL)"
+      },
+      "comment": "Returns @(#READER_EXPECTED_BOOL)"
+    },
+    "readerExpectedSymbol": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
+        "comment": "@(#READER_EXPECTED_SYMBOL)"
+      },
+      "comment": "Returns @(#READER_EXPECTED_SYMBOL)"
+    },
+    "dispatcherUnknownCommand": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+        "comment": "@(#DISPATCHER_UNKNOWN_COMMAND)"
+      },
+      "comment": "Returns @(#DISPATCHER_UNKNOWN_COMMAND)"
+    },
+    "dispatcherUnknownArgument": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+        "comment": "@(#DISPATCHER_UNKNOWN_ARGUMENT)"
+      },
+      "comment": "Returns @(#DISPATCHER_UNKNOWN_ARGUMENT)"
+    },
+    "dispatcherExpectedArgumentSeparator": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+        "comment": "@(#DISPATCHER_EXPECTED_ARGUMENT_SEPARATOR)"
+      },
+      "comment": "Returns @(#DISPATCHER_EXPECTED_ARGUMENT_SEPARATOR)"
+    },
+    "dispatcherParseException": {
+      "return": {
+        "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
+        "comment": "@(#DISPATCHER_PARSE_EXCEPTION)"
+      },
+      "comment": "Returns @(#DISPATCHER_PARSE_EXCEPTION)"
+    }
+  }
+}

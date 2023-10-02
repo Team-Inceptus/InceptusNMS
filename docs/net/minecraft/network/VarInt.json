@@ -1,0 +1,103 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Represents a wrapper around an @(wint) to be transferred through a Byte Buffer."
+  },
+  "fields": {
+    "MAX_VARINT_SIZE": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "5",
+      "comment": "The maximum amount of bytes in a VarInt."
+    },
+    "DATA_BITS_MASK": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "127",
+      "comment": "The amount of bits used to mask read bytes and integers written to a byte buffer."
+    },
+    "CONTINUATION_BIT_MASK": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "128",
+      "comment": "The amount of bits used to mask integers written to a byte buffer."
+    },
+    "DATA_BITS_PER_BYTE": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "7",
+      "comment": "The maximum amount of bits expected to be present per read byte."
+    }
+  },
+  "methods": {
+    "getByteSize": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "int",
+          "name": "integer",
+          "comment": "The integer to read."
+        }
+      ],
+      "return": {
+        "type": "int",
+        "comment": "The fetched size of bytes from the inputted integer, or @(#MAX_VARINT_SIZE) if not applicable."
+      },
+      "comment": "Fetches the size of bytes of an integer."
+    },
+    "hasContinuationBit": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "byte",
+          "name": "b",
+          "comment": "The byte to read."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this byte has @(#CONTINUATION_BIT_MASK)."
+      },
+      "comment": "Fetches whether a byte has @(#CONTINUATION_BIT_MASK)."
+    },
+    "read": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "bytebuf",
+          "name": "bytes",
+          "comment": "The byte buffer to read."
+        }
+      ],
+      "return": {
+        "type": "int",
+        "comment": "The integer read from the byte buffer."
+      },
+      "comment": "Reads a Byte Buffer's contents, transforming it into a Java @(wint)."
+    },
+    "write": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "bytebuf",
+          "name": "bytes",
+          "comment": "The byte buffer to write to."
+        },
+        {
+          "type": "int",
+          "name": "i",
+          "comment": "The integer to write."
+        }
+      ],
+      "return": {
+        "type": "bytebuf",
+        "comment": "The inputted byte buffer."
+      },
+      "comment": "Writes an @(wint) to a byte buffer."
+    }
+  }
+}

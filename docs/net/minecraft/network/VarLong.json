@@ -1,0 +1,103 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Represents a wrapper around a @(wlong) to be transferred through a Byte Buffer."
+  },
+  "fields": {
+    "MAX_VARINT_SIZE": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "10",
+      "comment": "The maximum amount of bytes in a VarLong."
+    },
+    "DATA_BITS_MASK": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "127",
+      "comment": "The amount of bits used to mask read bytes and longs written to a byte buffer."
+    },
+    "CONTINUATION_BIT_MASK": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "128",
+      "comment": "The amount of bits used to mask longs written to a byte buffer."
+    },
+    "DATA_BITS_PER_BYTE": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "7",
+      "comment": "The maximum amount of bits expected to be present per read byte."
+    }
+  },
+  "methods": {
+    "getByteSize": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "long",
+          "name": "integer",
+          "comment": "The long to read."
+        }
+      ],
+      "return": {
+        "type": "long",
+        "comment": "The fetched size of bytes from the inputted long, or @(#MAX_VARINT_SIZE) if not applicable."
+      },
+      "comment": "Fetches the size of bytes of an long."
+    },
+    "hasContinuationBit": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "byte",
+          "name": "b",
+          "comment": "The byte to read."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this byte has @(#CONTINUATION_BIT_MASK)."
+      },
+      "comment": "Fetches whether a byte has @(#CONTINUATION_BIT_MASK)."
+    },
+    "read": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "bytebuf",
+          "name": "bytes",
+          "comment": "The byte buffer to read."
+        }
+      ],
+      "return": {
+        "type": "int",
+        "comment": "The long read from the byte buffer."
+      },
+      "comment": "Reads a Byte Buffer's contents, transforming it into a Java @(wlong)."
+    },
+    "write": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "bytebuf",
+          "name": "bytes",
+          "comment": "The byte buffer to write to."
+        },
+        {
+          "type": "int",
+          "name": "i",
+          "comment": "The long to write."
+        }
+      ],
+      "return": {
+        "type": "bytebuf",
+        "comment": "The inputted byte buffer."
+      },
+      "comment": "Writes a @(wlong) to a byte buffer."
+    }
+  }
+}

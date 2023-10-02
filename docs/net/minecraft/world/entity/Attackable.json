@@ -1,0 +1,20 @@
+{
+  "class": {
+    "type": "interface",
+    "comment": "Represents an Entity that can be damaged."
+  },
+  "methods": {
+    "getLastAttacker": {
+      "annotations": [
+        {
+          "type": "javax.annotation.Nullable"
+        }
+      ],
+      "return": {
+        "type": "net.minecraft.world.entity.LivingEntity",
+        "comment": "The last entity that damaged this entity."
+      },
+      "comment": "Fetches the last entity that damaged this entity."
+    }
+  }
+}

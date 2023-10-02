@@ -1,0 +1,73 @@
+{
+  "class": {
+    "type": "interface",
+    "comment": "Represents a sender of a command."
+  },
+  "fields": {
+    "NULL": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "Represents a CommandSource with null information."
+    }
+  },
+  "methods": {
+    "sendSystemMessage": {
+      "mods": ["abstract"],
+      "params": [
+        {
+          "type": "component",
+          "name": "message",
+          "comment": "The message to send."
+        }
+      ],
+      "comment": "Sends the server a component message."
+    },
+    "acceptsSuccess": {
+      "mods": ["abstract"],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this command source accepts success messages."
+      },
+      "comment": "Fetches whether this command source accepts success messages."
+    },
+    "acceptsFailure": {
+      "mods": ["abstract"],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this command source accepts failure messages."
+      },
+      "comment": "Fetches whether this command source accepts failure messages."
+    },
+    "shouldInformAdmins": {
+      "mods": ["abstract"],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether messages sent to this command source are forwarded to other admins."
+      },
+      "comment": "Fetches whether messages sent to this command source are forwarded to other admins."
+    },
+    "alwaysAccepts": {
+      "mods": ["default"],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this command source always accepts messages."
+      },
+      "comment": "Fetches whether this command source always accepts messages."
+    },
+    "getBukkitSender": {
+      "mods": ["abstract"],
+      "params": [
+        {
+          "type": "net.minecraft.commands.CommandSourceStack",
+          "name": "stack",
+          "comment": "The source of the command."
+        }
+      ],
+      "return": {
+        "type": "org.bukkit.command.CommandSender",
+        "comment": "The Bukkit CommandSender that represents this CommandSource."
+      },
+      "comment": "Fetches the Bukkit CommandSender that represents this CommandSource."
+    }
+  }
+}

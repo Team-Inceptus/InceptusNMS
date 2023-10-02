@@ -128,6 +128,10 @@
                 "annotations": {
                     "$ref": "#/definitions/annotations"
                 },
+                "value": {
+                  "type": "string",
+                  "description": "The value of this field, used for documenting constant values."
+                },
                 "comment": {
                     "$ref": "#/definitions/comment"
                 }
@@ -222,7 +226,6 @@
                 }
             },
             "required": [
-                "return",
                 "comment"
             ]
         },
