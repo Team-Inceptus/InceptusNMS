@@ -1,0 +1,95 @@
+{
+  "_": "UNFINISHED",
+  "class": {
+    "type": "interface",
+    "implements": [
+      "com.mojang.brigadier.Message",
+      "net.minecraft.network.chat.FormattedText",
+      "java.lang.Iterable<{this}>"
+    ],
+    "comment": "Represents a serialized message that can be sent to players or written to the console."
+  },
+  "methods": {
+    "stream": {
+      "mods": ["default"],
+      "return": {
+        "type": "java.util.stream.Stream<{this}>",
+        "comment": "The stream of the component and all of its children."
+      },
+      "comment": "Gets a stream of the component and all of its children."
+    },
+    "iterator": {
+      "mods": ["default"],
+      "return": {
+        "type": "java.util.Iterator<{this}>",
+        "comment": "An iterator over the component and all of its children."
+      },
+      "comment": "Gets an iterator over the component and all of its children."
+    },
+    "getStyle": {
+      "return": {
+        "type": "net.minecraft.network.chat.Style",
+        "comment": "The style of this component. Returns a direct reference; changes to this style will modify the style of this component."
+      },
+      "comment": "Gets the style of this component. Returns a direct reference; changes to this style will modify the style of this component."
+    },
+    "getContents": {
+      "return": {
+        "type": "net.minecraft.network.chat.ComponentContents",
+        "comment": "The contents of this component."
+      },
+      "comment": "Gets the contents of this component."
+    },
+    "getString": [
+      {
+        "return": {
+          "type": "java.lang.String",
+          "comment": "The plain text contained within this component."
+        },
+        "comment": "Gets the plain text contained within this component."
+      },
+      {
+        "params": [
+          {
+            "type": "int",
+            "name": "endIndex",
+            "comment": "The index to stop at."
+          }
+        ],
+        "return": {
+          "type": "string",
+          "comment": "The plain text contained within this component."
+        },
+        "comment": "Gets the plain text substring contained within this component with a specified stop index."
+      }
+    ],
+    "getSiblings": {
+      "return": {
+        "type": "java.util.List<{this}>",
+        "comment": "All Components in this Component."
+      },
+      "comment": "Gets the components that this Component contains."
+    },
+    "plainCopy": {
+      "return": {
+        "type": "net.minecraft.network.chat.MutableComponent",
+        "comment": "A mutable copy of this component with all style removed."
+      },
+      "comment": "Creates a mutable copy of this component with all style removed."
+    },
+    "copy": {
+      "return": {
+        "type": "net.minecraft.network.chat.MutableComponent",
+        "comment": "A mutable copy of this component."
+      },
+      "comment": "Creates a muable copy of this component."
+    },
+    "getVisualOrderText": {
+      "return": {
+        "type": "net.minecraft.util.FormattedCharSequence",
+        "comment": "The plain text contained within this component, in the visual order."
+      },
+      "comment": "Gets the plain text contained within this component, in the visual order."
+    }
+  }
+}
