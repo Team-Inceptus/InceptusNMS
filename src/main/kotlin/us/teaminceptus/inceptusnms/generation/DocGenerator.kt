@@ -358,7 +358,7 @@ object DocGenerator {
             addClass("class-signature")
             id("class-description")
 
-            if (info.implements.isNotEmpty()) {
+            if (info.implements.isNotEmpty() && info.type != "interface") {
                 appendChild(Element("dl").apply {
                     addClass("notes")
                     append("<dt>Implemented Interfaces:</dt>")
@@ -380,7 +380,7 @@ object DocGenerator {
                             builder.append("\nextends ${info.extends}")
 
                         if (info.implements.isNotEmpty())
-                            builder.append("\nimplements ${info.implements.map { link(info.name, it) }.joinString(", ")}")
+                            builder.append("\n${if (info.type == "interface") "extends" else "implements"} ${info.implements.map { link(info.name, it) }.joinString(", ")}")
 
                         append(builder.toString())
                     })
