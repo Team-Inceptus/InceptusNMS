@@ -30,13 +30,17 @@ object Util {
     )
 
     fun mapTypeAliases(type: String): String {
-        var newType = type
+        var newType = type.replace("[\\[\\]]".toRegex(), "")
         val classes = type.split("[<>,]".toRegex()).filterNot { it.isEmpty() }
 
         for (clazz in classes)
             newType = newType.replace(clazz, TYPE_ALIASES[clazz] ?: continue)
 
-        return newType
+        val arrayBuilder = StringBuilder()
+        for (i in 0 until type.count { it == '[' })
+            arrayBuilder.append("[]")
+
+        return newType + arrayBuilder.toString()
     }
 
     fun getAllJavaPackages(root: File): List<String> {
@@ -102,11 +106,13 @@ object Util {
     // Logging
     
     fun log(message: String) {
-        println("[${Thread.currentThread().name.uppercase()} ${SimpleDateFormat("MMM dd, YYYY hh:mm:ss a").format(Date())}] $message")
+        println("[${Thread.currentThread().name.uppercase()
+            .replace("DEFAULTDISPATCHER-", "")} ${SimpleDateFormat("MMM dd, YYYY hh:mm:ss a").format(Date())}] $message")
     }
 
     fun error(message: String) {
-        System.err.println("[${Thread.currentThread().name.uppercase()} ${SimpleDateFormat("MMM dd, YYYY hh:mm:ss a").format(Date())}] $message")
+        System.err.println("[${Thread.currentThread().name.uppercase()
+            .replace("DEFAULTDISPATCHER-", "")} ${SimpleDateFormat("MMM dd, YYYY hh:mm:ss a").format(Date())}] $message")
     }
 
 }
