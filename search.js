@@ -347,9 +347,9 @@ $(function() {
                     url += ui.item.u;
                 }
                 if (top !== window) {
-                    parent.classFrame.location = url;
+                    parent.classFrame.location = '/' + url;
                 } else {
-                    window.location.href = url;
+                    window.location.href = '/' + url;
                 }
                 $("#search-input").focus();
             }
