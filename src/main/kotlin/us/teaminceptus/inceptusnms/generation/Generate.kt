@@ -2,15 +2,18 @@
 
 package us.teaminceptus.inceptusnms.generation
 
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import us.teaminceptus.inceptusnms.generation.Util.getJavaPackages
 import us.teaminceptus.inceptusnms.generation.Util.log
 import java.io.File
 import java.nio.file.Paths
 
-fun main(args: Array<String>) {
+suspend fun main(args: Array<String>): Unit = coroutineScope {
     if (args.size != 2) {
         log("Usage: ./gradlew generate -Parg1=<input docs folder> -Parg2=<output directory>")
-        return
+        return@coroutineScope
     }
 
     val input = File(args[0])
@@ -18,34 +21,40 @@ fun main(args: Array<String>) {
 
     if (!input.exists()) {
         log("Input documentation folder does not exist!")
-        return
+        return@coroutineScope
     }
 
     if (!output.exists())
         output.mkdirs()
 
-    // element-list
     val packages = getJavaPackages(input)
+    Util.getClassDocumentation(input) // Load all documentation
 
-    File(output, "element-list").apply {
-        createNewFile()
-        writeText(packages.joinToString("\n"))
+    // element-list
+    launch {
+        File(output, "element-list").apply {
+            createNewFile()
+            writeText(packages.joinToString("\n"))
+        }
+        log("Created element-list...")
     }
-    log("Created element-list...")
 
     // HTML Files
-    log("Generating HTML Pages...")
-    Util.getClassDocumentation(input) // Load all documentation
-    DocGenerator.generatePages(input, output)
+    launch {
+        log("Generating HTML Pages...")
+        DocGenerator.generatePages(input, output)
+    }
 
     // JS Scripts
-    log("Generating JavaScript Files...")
-    JSGenerator.generateScripts(output, packages)
+    launch {
+        log("Generating JavaScript Files...")
+        JSGenerator.generateScripts(output, packages)
+    }
 
     // Copy Resources
-    log("Copying Final Resources...")
-    File(Paths.get("").toAbsolutePath().toString(), "/src/main/resources/javadoc")
-        .copyRecursively(output)
-
-    log("Done!")
+    launch {
+        log("Copying Final Resources...")
+        File(Paths.get("").toAbsolutePath().toString(), "/src/main/resources/javadoc")
+            .copyRecursively(output)
+    }
 }

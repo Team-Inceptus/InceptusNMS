@@ -1,5 +1,7 @@
 package us.teaminceptus.inceptusnms.generation
 
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Document.OutputSettings
@@ -20,7 +22,7 @@ object DocGenerator {
 
     // Util
 
-    fun generatePages(input: File, output: File) {
+    suspend fun generatePages(input: File, output: File) = coroutineScope {
         DocGenerator.input = input
         File(output, "index.html").apply {
             createNewFile()
@@ -28,27 +30,27 @@ object DocGenerator {
         }
         log("Created index.html")
 
-        for (pkg in Util.getAllJavaPackages(input)) {
-            File(output, "${pkg.replace('.', '/')}/package-summary.html").apply {
-                parentFile.mkdirs()
-                createNewFile()
-                writeText(generatePackageSummary(pkg).outerHtml())
+        for (pkg in Util.getAllJavaPackages(input))
+            launch {
+                File(output, "${pkg.replace('.', '/')}/package-summary.html").apply {
+                    parentFile.mkdirs()
+                    createNewFile()
+                    writeText(generatePackageSummary(pkg).outerHtml())
+                }
+
+                log("Created package-summary.html for $pkg")
             }
 
-            log("Created package-summary.html for $pkg")
-        }
+        for (clazz in Util.getClassDocumentation())
+            launch {
+                File(output, "${clazz.name.replace('.', '/')}.html").apply {
+                    parentFile.mkdirs()
+                    createNewFile()
+                    writeText(generateClass(clazz).outerHtml())
+                }
 
-        for (clazz in Util.getClassDocumentation()) {
-            File(output, "${clazz.name.replace('.', '/')}.html").apply {
-                parentFile.mkdirs()
-                createNewFile()
-                writeText(generateClass(clazz).outerHtml())
+                log("Created Documentation for ${clazz.name}")
             }
-
-            log("Created Documentation for ${clazz.name}")
-        }
-
-        log("Finished HTML Page Generation!")
     }
 
     fun template(path: String): Document =
@@ -65,6 +67,8 @@ object DocGenerator {
 
     fun String.header(): String
         = run { if (contains("\n")) substring(0, indexOf("\n")) else this }.take(60)
+
+    fun item(element: Element): Element = Element("li").appendChild(element)
     
     // Generation
 
@@ -97,7 +101,6 @@ object DocGenerator {
         }
 
         doc.body()
-            .addClass("package-index-page")
             .append("""
                 <script type="text/javascript">
                     var evenRowColor = "even-row-color";
@@ -135,6 +138,8 @@ object DocGenerator {
 
     fun generateIndex(): Document {
         val index = startDocument("index.html", "default", "Overview", TITLE)
+        index.body().addClass("package-index-page")
+
         val main = index.main()
 
         main.appendChild(Element("div").apply {
@@ -177,6 +182,8 @@ object DocGenerator {
     fun generatePackageSummary(pkg: String): Document {
         val summary = startDocument("package-summary.html", "package-summary", pkg, "Package $pkg",
             "declaration: package: $pkg")
+        summary.body().addClass("package-index-page")
+
         val main = summary.main()
 
         val classes = Util.getClassDocumentation().filter { it.pkg == pkg }
@@ -341,6 +348,8 @@ object DocGenerator {
             "annotation" -> "Annotation Interface ${info.docName}"
             else -> "Class ${info.docName}"
         }, "declaration: package: ${info.pkg}; ${info.type} ${info.simpleName}")
+        clazz.body().addClass("class-declaration-page")
+
         val main = clazz.main()
 
         // TODO Class Inheritance
@@ -388,8 +397,6 @@ object DocGenerator {
                 addClass("summary-list")
             }
 
-            fun item(element: Element): Element = Element("li").appendChild(element)
-
             val enums = generateEnumSummary(info)
             if (enums != null)
                 list.appendChild(item(enums))
@@ -403,6 +410,24 @@ object DocGenerator {
                 list.appendChild(item(constructors))
 
             val methods = generateMethodSummary(info)
+            if (methods != null)
+                list.appendChild(item(methods))
+
+            appendChild(list)
+        })
+
+        main.appendChild(Element("section").apply {
+            addClass("details")
+
+            val list = Element("ul").apply {
+                addClass("details-list")
+            }
+
+            val enums = generateEnumDetail(info)
+            if (enums != null)
+                list.appendChild(item(enums))
+
+            val methods = generateMethodDetail(info)
             if (methods != null)
                 list.appendChild(item(methods))
 
@@ -698,6 +723,103 @@ object DocGenerator {
 
     // Class Generators - Detail
 
+    fun generateEnumDetail(info: ClassDocumentation): Element? {
+        if (info.type != "enum") return null
+
+        val enums = info.enumerations?.enums ?: return null
+        val detail = Element("section").apply {
+            addClass("constants-details")
+            id("enum-constants-detail")
+        }
+        detail.append("<h2>Enum Constant Detail</h2>")
+
+        detail.appendChild(Element("ul").apply {
+            addClass("member-list")
+
+            for (enum in enums) {
+                appendChild(item(Element("section").apply {
+                    id(enum.name)
+                    addClass("detail")
+
+                    append("<h3>${enum.name}</h3>")
+                    appendChild(Element("div").apply {
+                        addClass("member-signature")
+
+                        append("<span class=\"modifiers\">public static final</span>&nbsp;")
+                        append("<span class=\"return-type\"><a href=\"${info.simpleName}.html\" title=\"enum in ${info.pkg}\">${info.simpleName}</a></span>&nbsp;")
+                        append("<span class=\"element-name\">${enum.name}</span>")
+                    })
+
+                    append("<div class=\"block\">${enum.comment}</div>")
+                }))
+            }
+        })
+
+        return detail
+    }
+
+    fun generateMethodDetail(info: ClassDocumentation): Element? {
+        val methods = info.methods?.methods ?: return null
+        val detail = Element("section").apply {
+            addClass("method-details")
+            id("method-detail")
+        }
+
+        detail.append("<h2>Method Details</h2>")
+        detail.appendChild(Element("ul").apply {
+            addClass("member-list")
+
+            for (method in methods) {
+                appendChild(item(Element("section").apply {
+                    addClass("detail")
+                    id(method.fullName)
+
+                    append("<h3>${method.name}</h3>")
+                    appendChild(Element("div").apply {
+                        addClass("member-signature")
+                        append("<span class=\"modifiers\">${method.visibility} ${method.mods.joinString(" ")}</span>")
+                        append("<span class=\"return-type\">${link(info.name, method.returnType)}</span>&nbsp;")
+
+                        if (method.parameters.isEmpty())
+                            append("<span class=\"element-name\">${method.name}</span>()")
+                        else {
+                            append("<span class=\"element-name\">${method.name}</span>")
+                            append("<wbr>")
+                            append("(${method.parameters.joinToString { param -> "${link(info.name, param.type)}&nbsp;${param.name}" }})")
+                        }
+                    })
+
+                    append("<div class=\"block\">${method.comment}</div>")
+
+                    appendChild(Element("dl").apply {
+                        addClass("notes")
+
+                        // TODO Inherited Methods
+
+                        if (method.parameters.isNotEmpty()) {
+                            append("<dt>Parameters:</dt>")
+                            for (param in method.parameters)
+                                append("<dd><code>${param.name}</code> - ${param.comment}</dd>")
+                        }
+
+                        if (method.returnType != "void") {
+                            append("<dt>Returns:</dt>")
+                            append("<dd>${method.returnComment}</dd>")
+                        }
+
+                        if (method.throws.isNotEmpty()) {
+                            append("<dt>Throws:</dt>")
+                            for ((exception, comment) in method.throws)
+                                append("<dd><code>${link(info.name, exception)}</code> - $comment</ddt>")
+                        }
+                    })
+                }))
+            }
+        })
+
+        return detail
+    }
+
     // Utility Methods
 
     private val REPOSITORIES = listOf(
@@ -708,16 +830,21 @@ object DocGenerator {
 
     fun link(self: String, type: String): String {
         var finalType = type
+
         for (child in type.split("[<>,]".toRegex()).filter { it.isNotBlank() }) {
-            val newType = ClassDocumentation.processType(self, child)
+            val newType = ClassDocumentation.processType(self, child).replace("[\\[\\]]".toRegex(), "")
             if (!newType.contains(".")) continue
 
             val pkg = newType.substring(0, newType.lastIndexOf('.'))
             val simpleName = newType.substring(newType.lastIndexOf('.') + 1)
             val docUrl = newType.replace('.', '/') + ".html"
 
+            val arrayBuilder = StringBuilder()
+            for (i in 0 until child.count { it == '[' })
+                arrayBuilder.append("[]")
+
             if (Util.getClassDocumentation().any { it.name == newType })
-                finalType = finalType.replace(child, "<a href=\"/${docUrl}\" title=\"member in $pkg\">${simpleName}</a>")
+                finalType = finalType.replace(child, "<a href=\"/${docUrl}\" title=\"member in $pkg\">${simpleName}</a>$arrayBuilder")
 
             for (repo in REPOSITORIES) {
                 val url = URL(repo + docUrl)
@@ -727,7 +854,7 @@ object DocGenerator {
                         requestMethod = "GET"
 
                         if (responseCode == 200)
-                            finalType = finalType.replace(child, "<a href=\"${repo + docUrl}\" title=\"member in $pkg\">${simpleName}</a>")
+                            finalType = finalType.replace(child, "<a href=\"${repo + docUrl}\" title=\"member in $pkg\">${simpleName}</a>$arrayBuilder")
                     }
                 } catch (ignored: UnknownHostException) { // Offline
                 }
