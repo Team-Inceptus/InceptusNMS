@@ -26,7 +26,8 @@ object Util {
         "date" to "java.util.Date",
         "component" to "net.minecraft.network.chat.Component",
         "codec" to "com.mojang.serialization.Codec",
-        "deprecated" to "java.lang.Deprecated"
+        "deprecated" to "java.lang.Deprecated",
+        "bytebuf" to "io.netty.buffer.ByteBuf"
     )
 
     fun mapTypeAliases(type: String): String {

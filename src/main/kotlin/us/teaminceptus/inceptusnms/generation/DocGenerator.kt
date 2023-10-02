@@ -825,7 +825,8 @@ object DocGenerator {
     private val REPOSITORIES = listOf(
         "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/",
         "https://hub.spigotmc.org/javadocs/spigot/",
-        "https://www.slf4j.org/apidocs/"
+        "https://www.slf4j.org/apidocs/",
+        "https://repo.karuslabs.com/repository/brigadier/"
     )
 
     fun link(self: String, type: String): String {
