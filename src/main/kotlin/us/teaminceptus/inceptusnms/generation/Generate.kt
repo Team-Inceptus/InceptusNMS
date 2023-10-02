@@ -5,7 +5,6 @@ package us.teaminceptus.inceptusnms.generation
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import us.teaminceptus.inceptusnms.generation.Util.getJavaPackages
 import us.teaminceptus.inceptusnms.generation.Util.log
 import java.io.File
 import java.nio.file.Paths
@@ -27,8 +26,8 @@ suspend fun main(args: Array<String>): Unit = coroutineScope {
     if (!output.exists())
         output.mkdirs()
 
-    val packages = getJavaPackages(input)
     Util.getClassDocumentation(input) // Load all documentation
+    val packages = Util.getClassDocumentation().map { it.pkg }.toSet()
 
     // element-list
     launch {
