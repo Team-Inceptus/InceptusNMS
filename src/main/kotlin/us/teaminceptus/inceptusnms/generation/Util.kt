@@ -92,12 +92,12 @@ object Util {
     
     fun log(message: String) {
         println("[${Thread.currentThread().name.uppercase()
-            .replace("DEFAULTDISPATCHER-", "")} ${SimpleDateFormat("MMM dd, YYYY hh:mm:ss a").format(Date())}] $message")
+            .substringAfter("-")} ${SimpleDateFormat("MMM dd, YYYY hh:mm:ss a").format(Date())}] $message")
     }
 
     fun error(message: String) {
         System.err.println("[${Thread.currentThread().name.uppercase()
-            .replace("DEFAULTDISPATCHER-", "")} ${SimpleDateFormat("MMM dd, YYYY hh:mm:ss a").format(Date())}] $message")
+            .substringAfter("-")} ${SimpleDateFormat("MMM dd, YYYY hh:mm:ss a").format(Date())}] $message")
     }
 
 }
