@@ -23,15 +23,15 @@
   ],
   "fields": {
     "CODEC": {
-      "type": "net.minecraft.util.StringRepresentable.EnumCodec<net.minecraft.world.Difficulty>",
+      "type": "net.minecraft.util.StringRepresentable.EnumCodec<{this}>",
       "mods": ["static", "final"],
       "comment": "The codec for this enum."
     },
     "BY_ID": {
-      "type": "java.util.function.IntFunction<net.minecraft.world.Difficulty>",
+      "type": "java.util.function.IntFunction<{this}>",
       "visibility": "private",
       "mods": ["static", "final"],
-      "comment": "A function that returns a difficulty based on its numerical id."
+      "comment": "A function that returns a Difficulty based on its numerical id."
     },
     "id": {
       "type": "int",
@@ -40,7 +40,7 @@
       "comment": "The numerical id of this difficulty."
     },
     "key": {
-      "type": "java.lang.String",
+      "type": "string",
       "visibility": "private",
       "mods": ["final"],
       "comment": "The human-readable key used to identify this difficulty."

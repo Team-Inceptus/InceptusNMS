@@ -6,7 +6,7 @@
   },
   "fields": {
     "CODEC": {
-      "type": "codec",
+      "type": "codec<{this}>",
       "mods": ["static", "final"],
       "comment": "The Codec for this GlobalPos."
     },

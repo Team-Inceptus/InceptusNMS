@@ -1,0 +1,104 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Utility class for managing animations that entities use."
+  },
+  "fields": {
+    "STOPPED": {
+      "type": "long",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "9.223372036854799561E18",
+      "comment": "Timestamp used to record when an animation has stoppped."
+    },
+    "lastTime": {
+      "type": "long",
+      "visibility": "private",
+      "comment": "The last timestamp that this animation started, in ticks."
+    },
+    "accumulatedTime": {
+      "type": "long",
+      "visibility": "private",
+      "comment": "The amount of ticks that this animation has ran for."
+    }
+  },
+  "methods": {
+    "start": {
+      "params": [
+        {
+          "type": "int",
+          "name": "tickCount",
+          "comment": "The current count of ticks counted.\nUsually the value of @(net.minecraft.world.entity.Entity#tickCount)"
+        }
+      ],
+      "comment": "Starts the animation state."
+    },
+    "startIfStopped": {
+      "params": [
+        {
+          "type": "int",
+          "name": "tickCount",
+          "comment": "The current count of ticks counted.\nUsually the value of @(net.minecraft.world.entity.Entity#tickCount)"
+        }
+      ],
+      "comment": "Starts the animation state, only if it is currently stopped."
+    },
+    "animateWhen": {
+      "params": [
+        {
+          "type": "boolean",
+          "name": "condition",
+          "comment": "The condition for the animation to start."
+        },
+        {
+          "type": "int",
+          "name": "tickCount",
+          "comment": "The current count of ticks counted.\nUsually the value of @(net.minecraft.world.entity.Entity#tickCount)"
+        }
+      ],
+      "comment": "Starts the animation state, only if <code>condition</code> is <code>true</code>. If <code>condition</code> is <code>false</code>, then it stops the animation state."
+    },
+    "stop": {
+      "comment": "Stops the animation state."
+    },
+    "ifStarted": {
+      "params": [
+        {
+          "type": "java.util.function.Consumer<{this}>",
+          "name": "function",
+          "comment": "The consumer to run."
+        }
+      ],
+      "comment": "Runs a @(java.util.function.Consumer) if the animation has started."
+    },
+    "updateTime": {
+      "params": [
+        {
+          "type": "float",
+          "name": "tickCount",
+          "comment": "The current count of ticks counted, as a float.\nUsually the value of @(net.minecraft.world.entity.Entity#tickCount)"
+        },
+        {
+          "type": "float",
+          "name": "accumulatedModifier",
+          "comment": "The multiplicative modifier for <code>@({this}#accumulatedTime) - @({this}#lastTime)<code>."
+        }
+      ],
+      "comment": "Updates the values of @({this}#accumulatedTime) and @({this}#lastTime) according to the current tick time." 
+    },
+    "getAccumulatedTime": {
+      "return": {
+        "type": "long",
+        "comment": "@(#accumulatedTime)"
+      },
+      "comment": "Fetches the value of @({this}#accumulatedTime)."
+    },
+    "isStarted": {
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this Animation State has started."
+      },
+      "comment": "Fetches whether this Animation State has started."
+    }
+  }
+}

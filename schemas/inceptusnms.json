@@ -298,7 +298,6 @@
                 "$ref": "#/definitions/method-single"
             },
             "required": [
-                "return",
                 "comment"
             ],
             "description": "Method definition"

@@ -1,0 +1,98 @@
+{
+  "class": {
+    "type": "enum",
+    "comment": "Represents a Player's Arm, either @({this}#LEFT) or @({this}#RIGHT)."
+  },
+  "enumerations": [
+    {
+      "name": "LEFT",
+      "comment": "Represents the Left Arm."
+    },
+    {
+      "name": "RIGHT",
+      "comment": "Represents the Right Arm."
+    }
+  ],
+  "fields": {
+    "CODEC": {
+      "type": "codec<{this}>",
+      "mods": ["static", "final"],
+      "comment": "The Codec for a @({this})."
+    },
+    "BY_ID": {
+      "type": "java.util.function.IntFunction<{this}>",
+      "mods": ["static", "final"],
+      "comment": "A function that returns a HumanoidArm based on its numerical id."
+    },
+    "id": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The numerical ID of this Arm.\n<code>0</code> for @({this}#LEFT) and <code>1</code> for @({this}#RIGHT)."
+    },
+    "name": {
+      "type": "string",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The human-friendly name of this arm."
+    },
+    "translationKey": {
+      "type": "string",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The Component translation key for representing this Humanoid Arm."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "int",
+          "name": "id",
+          "comment": "The numerical ID of this Arm.\n<code>0</code> for @({this}#LEFT) and <code>1</code> for @({this}#RIGHT)."
+        },
+        {
+          "type": "string",
+          "name": "name",
+          "comment": "The human-friendly name of this arm."
+        },
+        {
+          "type": "string",
+          "name": "translationKey",
+          "comment": "The Component translation key for representing this Humanoid Arm."
+        }
+      ],
+      "comment": "Constructs a new HumanoidArm."
+    }
+  ],
+  "methods": {
+    "getOpposite": {
+      "return": {
+        "type": "{this}",
+        "comment": "The opposite of this Humanoid Arm."
+      },
+      "comment": "Fetches the opposite hand of this humanoid arm."
+    },
+    "getId": {
+      "return": {
+        "type": "int",
+        "comment": "The numerical ID of this Arm."
+      },
+      "comment": "Fetches the numerical ID of this Arm."
+    },
+    "getKey": {
+      "return": {
+        "type": "string",
+        "comment": "The translation key for this Arm."
+      },
+      "comment": "Fetches the translation key for this Arm."
+    },
+    "getSerializedName": {
+      "return": {
+        "type": "string",
+        "comment": "The human-readable english name of this Arm."
+      },
+      "comment": "Fetches the human-readable name of this Arm."
+    }
+  }
+}
