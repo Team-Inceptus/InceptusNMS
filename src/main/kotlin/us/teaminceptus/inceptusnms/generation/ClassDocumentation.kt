@@ -116,13 +116,16 @@ data class ClassDocumentation(
 
         fun processComment(name: String, comment: String): String {
             var newComment = comment
+            val children = comment.split("\\s".toRegex()).filter { it.isNotBlank() }
 
-            for (str in comment.split("\\s".toRegex())) {
-                if (str.contains("@(") && str.contains(")") && !str.startsWith("\\@("))
-                    newComment = newComment.replace(str, link(name, str.substring(str.indexOf("@("), str.indexOf(")"))))
-
-                if (str.contains("\\@("))
-                    newComment = newComment.replace("\\@(", "@(")
+            for (child in children) {
+                when {
+                    child.contains("@(") && !child.contains("\\@(") -> {
+                        val str = child.substring(child.indexOf("@(") + 2, child.indexOf(")"))
+                        newComment = newComment.replace(child, child.replace("@($str)", link(name, str)))
+                    }
+                    child.contains("\\@(") -> child.replace("\\@(", "@(")
+                }
             }
 
             return newComment
