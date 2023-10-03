@@ -174,191 +174,191 @@
     "doubleTooLow": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
-        "comment": "@(#DOUBLE_TOO_SMALL)"
+        "comment": "@({this}#DOUBLE_TOO_SMALL)"
       },
-      "comment": "Returns @(#DOUBLE_TOO_SMALL)"
+      "comment": "Returns @({this}#DOUBLE_TOO_SMALL)"
     },
     "doubleTooHigh": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
-        "comment": "@(#DOUBLE_TOO_HIGH)"
+        "comment": "@({this}#DOUBLE_TOO_HIGH)"
       },
-      "comment": "Returns @(#DOUBLE_TOO_HIGH)"
+      "comment": "Returns @({this}#DOUBLE_TOO_HIGH)"
     },
     "floatTooLow": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
-        "comment": "@(#FLOAT_TOO_SMALL)"
+        "comment": "@({this}#FLOAT_TOO_SMALL)"
       },
-      "comment": "Returns @(#FLOAT_TOO_SMALL)"
+      "comment": "Returns @({this}#FLOAT_TOO_SMALL)"
     },
     "floatTooHigh": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
-        "comment": "@(#FLOAT_TOO_HIGH)"
+        "comment": "@({this}#FLOAT_TOO_HIGH)"
       },
-      "comment": "Returns @(#FLOAT_TOO_HIGH)"
+      "comment": "Returns @({this}#FLOAT_TOO_HIGH)"
     },
     "integerTooLow": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
-        "comment": "@(#INTEGER_TOO_SMALL)"
+        "comment": "@({this}#INTEGER_TOO_SMALL)"
       },
-      "comment": "Returns @(#INTEGER_TOO_SMALL)"
+      "comment": "Returns @({this}#INTEGER_TOO_SMALL)"
     },
     "integerTooHigh": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
-        "comment": "@(#INTEGER_TOO_HIGH)"
+        "comment": "@({this}#INTEGER_TOO_HIGH)"
       },
-      "comment": "Returns @(#INTEGER_TOO_HIGH)"
+      "comment": "Returns @({this}#INTEGER_TOO_HIGH)"
     },
     "longTooLow": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
-        "comment": "@(#LONG_TOO_SMALL)"
+        "comment": "@({this}#LONG_TOO_SMALL)"
       },
-      "comment": "Returns @(#LONG_TOO_SMALL)"
+      "comment": "Returns @({this}#LONG_TOO_SMALL)"
     },
     "longTooHigh": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType",
-        "comment": "@(#LONG_TOO_HIGH)"
+        "comment": "@({this}#LONG_TOO_HIGH)"
       },
-      "comment": "Returns @(#LONG_TOO_HIGH)"
+      "comment": "Returns @({this}#LONG_TOO_HIGH)"
     },
     "literalIncorrect": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
-        "comment": "@(#LITERAL_INCORRECT)"
+        "comment": "@({this}#LITERAL_INCORRECT)"
       },
-      "comment": "Returns @(#LITERAL_INCORRECT)"
+      "comment": "Returns @({this}#LITERAL_INCORRECT)"
     },
     "readerExpectedStartOfQuote": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
-        "comment": "@(#READER_EXPECTED_START_OF_QUOTE)"
+        "comment": "@({this}#READER_EXPECTED_START_OF_QUOTE)"
       },
-      "comment": "Returns @(#READER_EXPECTED_START_OF_QUOTE)"
+      "comment": "Returns @({this}#READER_EXPECTED_START_OF_QUOTE)"
     },
     "readerExpectedEndOfQuote": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
-        "comment": "@(#READER_EXPECTED_END_OF_QUOTE)"
+        "comment": "@({this}#READER_EXPECTED_END_OF_QUOTE)"
       },
-      "comment": "Returns @(#READER_EXPECTED_END_OF_QUOTE)"
+      "comment": "Returns @({this}#READER_EXPECTED_END_OF_QUOTE)"
     },
     "readerInvalidEscape": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
-        "comment": "@(#READER_INVALID_ESCAPE)"
+        "comment": "@({this}#READER_INVALID_ESCAPE)"
       },
-      "comment": "Returns @(#READER_INVALID_ESCAPE)"
+      "comment": "Returns @({this}#READER_INVALID_ESCAPE)"
     },
     "readerInvalidBool": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
-        "comment": "@(#READER_INVALID_BOOL)"
+        "comment": "@({this}#READER_INVALID_BOOL)"
       },
-      "comment": "Returns @(#READER_INVALID_BOOL)"
+      "comment": "Returns @({this}#READER_INVALID_BOOL)"
     },
     "readerInvalidInt": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
-        "comment": "@(#READER_INVALID_INT)"
+        "comment": "@({this}#READER_INVALID_INT)"
       },
-      "comment": "Returns @(#READER_INVALID_INT)"
+      "comment": "Returns @({this}#READER_INVALID_INT)"
     },
     "readerExpectedInt": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
-        "comment": "@(#READER_EXPECTED_INT)"
+        "comment": "@({this}#READER_EXPECTED_INT)"
       },
-      "comment": "Returns @(#READER_EXPECTED_INT)"
+      "comment": "Returns @({this}#READER_EXPECTED_INT)"
     },
     "readerInvalidLong": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
-        "comment": "@(#READER_INVALID_LONG)"
+        "comment": "@({this}#READER_INVALID_LONG)"
       },
-      "comment": "Returns @(#READER_INVALID_LONG)"
+      "comment": "Returns @({this}#READER_INVALID_LONG)"
     },
     "readerExpectedLong": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
-        "comment": "@(#READER_EXPECTED_DOUBLE)"
+        "comment": "@({this}#READER_EXPECTED_DOUBLE)"
       },
-      "comment": "Returns @(#READER_EXPECTED_DOUBLE)"
+      "comment": "Returns @({this}#READER_EXPECTED_DOUBLE)"
     },
     "readerInvalidDouble": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
-        "comment": "@(#READER_INVALID_DOUBLE)"
+        "comment": "@({this}#READER_INVALID_DOUBLE)"
       },
-      "comment": "Returns @(#READER_INVALID_DOUBLE)"
+      "comment": "Returns @({this}#READER_INVALID_DOUBLE)"
     },
     "readerExpectedDouble": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
-        "comment": "@(#READER_EXPECTED_DOUBLE)"
+        "comment": "@({this}#READER_EXPECTED_DOUBLE)"
       },
-      "comment": "Returns @(#READER_EXPECTED_DOUBLE)"
+      "comment": "Returns @({this}#READER_EXPECTED_DOUBLE)"
     },
     "readerInvalidFloat": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
-        "comment": "@(#READER_INVALID_FLOAT)"
+        "comment": "@({this}#READER_INVALID_FLOAT)"
       },
-      "comment": "Returns @(#READER_INVALID_FLOAT)"
+      "comment": "Returns @({this}#READER_INVALID_FLOAT)"
     },
     "readerExpectedFloat": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
-        "comment": "@(#READER_EXPECTED_FLOAT)"
+        "comment": "@({this}#READER_EXPECTED_FLOAT)"
       },
-      "comment": "Returns @(#READER_EXPECTED_FLOAT`)"
+      "comment": "Returns @({this}#READER_EXPECTED_FLOAT`)"
     },
     "readerExpectedBool": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
-        "comment": "@(#READER_EXPECTED_BOOL)"
+        "comment": "@({this}#READER_EXPECTED_BOOL)"
       },
-      "comment": "Returns @(#READER_EXPECTED_BOOL)"
+      "comment": "Returns @({this}#READER_EXPECTED_BOOL)"
     },
     "readerExpectedSymbol": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
-        "comment": "@(#READER_EXPECTED_SYMBOL)"
+        "comment": "@({this}#READER_EXPECTED_SYMBOL)"
       },
-      "comment": "Returns @(#READER_EXPECTED_SYMBOL)"
+      "comment": "Returns @({this}#READER_EXPECTED_SYMBOL)"
     },
     "dispatcherUnknownCommand": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
-        "comment": "@(#DISPATCHER_UNKNOWN_COMMAND)"
+        "comment": "@({this}#DISPATCHER_UNKNOWN_COMMAND)"
       },
-      "comment": "Returns @(#DISPATCHER_UNKNOWN_COMMAND)"
+      "comment": "Returns @({this}#DISPATCHER_UNKNOWN_COMMAND)"
     },
     "dispatcherUnknownArgument": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
-        "comment": "@(#DISPATCHER_UNKNOWN_ARGUMENT)"
+        "comment": "@({this}#DISPATCHER_UNKNOWN_ARGUMENT)"
       },
-      "comment": "Returns @(#DISPATCHER_UNKNOWN_ARGUMENT)"
+      "comment": "Returns @({this}#DISPATCHER_UNKNOWN_ARGUMENT)"
     },
     "dispatcherExpectedArgumentSeparator": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
-        "comment": "@(#DISPATCHER_EXPECTED_ARGUMENT_SEPARATOR)"
+        "comment": "@({this}#DISPATCHER_EXPECTED_ARGUMENT_SEPARATOR)"
       },
-      "comment": "Returns @(#DISPATCHER_EXPECTED_ARGUMENT_SEPARATOR)"
+      "comment": "Returns @({this}#DISPATCHER_EXPECTED_ARGUMENT_SEPARATOR)"
     },
     "dispatcherParseException": {
       "return": {
         "type": "com.mojang.brigadier.exceptions.DynamicCommandExceptionType",
-        "comment": "@(#DISPATCHER_PARSE_EXCEPTION)"
+        "comment": "@({this}#DISPATCHER_PARSE_EXCEPTION)"
       },
-      "comment": "Returns @(#DISPATCHER_PARSE_EXCEPTION)"
+      "comment": "Returns @({this}#DISPATCHER_PARSE_EXCEPTION)"
     }
   }
 }
