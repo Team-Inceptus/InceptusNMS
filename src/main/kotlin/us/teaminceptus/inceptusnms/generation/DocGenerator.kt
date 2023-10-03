@@ -239,88 +239,93 @@ object DocGenerator {
                     appendChild(Element("div").apply {
                         id("class-summary")
 
-                        fun classSummaryButton(id: Int, text: String): Element =
-                            Element("button").apply {
-                                id("class-summary-tab$id")
-                                addClass("table-tab")
-
-                                attr("role", "tab")
-                                attr("aria-selected", (id == 0).toString())
-                                attr("aria-controls", "class-summary.tabpanel")
-                                attr("tabindex", if (id == 0) "0" else "-1")
-                                attr("onkeydown", "switchTab(event)")
-                                attr("onclick", "show('class-summary', 'class-summary${if (id == 0) "" else "-tab$id"}', 2)")
-
-                                text(text)
-                            }
-
-                        when {
-                            classes.all { it.type == "class" } -> {
-                                append("<div class=\"caption\"><span>Classes</span></div>")
-                            }
-                            classes.all { it.type == "interface" } -> {
-                                append("<div class=\"caption\"><span>Interfaces</span></div>")
-                            }
-                            classes.all { it.type == "enum" } -> {
-                                append("<div class=\"caption\"><span>Enum Classes</span></div>")
-                            }
-                            classes.all { it.type == "record" } -> {
-                                append("<div class=\"caption\"><span>Record Classes</span></div>")
-                            }
-                            classes.all { it.type == "annotation" } -> {
-                                append("<div class=\"caption\"><span>Annotation Interfaces</span></div>")
-                            }
-                            else -> {
-                                appendChild(classSummaryButton(0, "All Classes and Interfaces"))
-
-                                if (classes.any { it.type == "interface" })
-                                    appendChild(classSummaryButton(1, "Interfaces"))
-
-                                if (classes.any { it.type == "class" })
-                                    appendChild(classSummaryButton(2, "Classes"))
-
-                                if (classes.any { it.type == "enum" })
-                                    appendChild(classSummaryButton(3, "Enum Classes"))
-
-                                if (classes.any { it.type == "record" })
-                                    appendChild(classSummaryButton(4, "Record Classes"))
-
-                                if (classes.any { it.type == "annotation" })
-                                    appendChild(classSummaryButton(7, "Annotation Interfaces"))
-                            }
-                        }
-
                         appendChild(Element("div").apply {
-                            classNames(setOf("summary-table", "two-column-summary"))
+                            addClass("table-tabs")
+                            attr("role", "tablist")
+                            attr("aria-orientation", "horizontal")
 
-                            append("<div class=\"table-header col-first\">Class</div>")
-                            append("<div class=\"table-header col-last\">Description</div>")
+                            fun classSummaryButton(id: Int, text: String): Element =
+                                Element("button").apply {
+                                    id("class-summary-tab$id")
+                                    addClass("table-tab")
 
-                            var even = true
-                            for (clazz in classes) {
-                                val rowColor = "${if (even) "even" else "odd"}-row-color"
+                                    attr("role", "tab")
+                                    attr("aria-selected", (id == 0).toString())
+                                    attr("aria-controls", "class-summary.tabpanel")
+                                    attr("tabindex", if (id == 0) "0" else "-1")
+                                    attr("onkeydown", "switchTab(event)")
+                                    attr("onclick", "show('class-summary', 'class-summary${if (id == 0) "" else "-tab$id"}', 2)")
 
-                                appendChild(Element("div").apply {
-                                    classNames(setOf("col-first", rowColor))
+                                    text(text)
+                                }
 
-                                    val builder = StringBuilder()
-                                    builder.append("<a href=\"${clazz.simpleName}.html\" title=\"${clazz.type} in $pkg\">${clazz.simpleName}</a>")
+                            when {
+                                classes.all { it.type == "class" } -> {
+                                    append("<div class=\"caption\"><span>Classes</span></div>")
+                                }
+                                classes.all { it.type == "interface" } -> {
+                                    append("<div class=\"caption\"><span>Interfaces</span></div>")
+                                }
+                                classes.all { it.type == "enum" } -> {
+                                    append("<div class=\"caption\"><span>Enum Classes</span></div>")
+                                }
+                                classes.all { it.type == "record" } -> {
+                                    append("<div class=\"caption\"><span>Record Classes</span></div>")
+                                }
+                                classes.all { it.type == "annotation" } -> {
+                                    append("<div class=\"caption\"><span>Annotation Interfaces</span></div>")
+                                }
+                                else -> {
+                                    appendChild(classSummaryButton(0, "All Classes and Interfaces"))
 
-                                    if (clazz.generics.isNotEmpty())
-                                        builder.append(generics(clazz))
+                                    if (classes.any { it.type == "interface" })
+                                        appendChild(classSummaryButton(1, "Interfaces"))
 
-                                    append(builder.toString())
-                                })
+                                    if (classes.any { it.type == "class" })
+                                        appendChild(classSummaryButton(2, "Classes"))
 
-                                appendChild(Element("div").apply {
-                                    classNames(setOf("col-last", rowColor))
-                                    append("<div class=\"block\">${clazz.comment.header()}</div>")
-                                })
+                                    if (classes.any { it.type == "enum" })
+                                        appendChild(classSummaryButton(3, "Enum Classes"))
 
-                                even = !even
+                                    if (classes.any { it.type == "record" })
+                                        appendChild(classSummaryButton(4, "Record Classes"))
+
+                                    if (classes.any { it.type == "annotation" })
+                                        appendChild(classSummaryButton(7, "Annotation Interfaces"))
+                                }
                             }
-                        })
 
+                            appendChild(Element("div").apply {
+                                classNames(setOf("summary-table", "two-column-summary"))
+
+                                append("<div class=\"table-header col-first\">Class</div>")
+                                append("<div class=\"table-header col-last\">Description</div>")
+
+                                var even = true
+                                for (clazz in classes) {
+                                    val rowColor = "${if (even) "even" else "odd"}-row-color"
+
+                                    appendChild(Element("div").apply {
+                                        classNames(setOf("col-first", rowColor))
+
+                                        val builder = StringBuilder()
+                                        builder.append("<a href=\"${clazz.simpleName}.html\" title=\"${clazz.type} in $pkg\">${clazz.simpleName}</a>")
+
+                                        if (clazz.generics.isNotEmpty())
+                                            builder.append(generics(clazz))
+
+                                        append(builder.toString())
+                                    })
+
+                                    appendChild(Element("div").apply {
+                                        classNames(setOf("col-last", rowColor))
+                                        append("<div class=\"block\">${clazz.comment.header()}</div>")
+                                    })
+
+                                    even = !even
+                                }
+                            })
+                        })
                     })
                 })
         })
@@ -606,7 +611,13 @@ object DocGenerator {
 
         fun methodSummaryButton(id: Int): Element = Element("button").apply {
             text(when (id) {
-                0 -> "All Methods"; 1 -> "Static Methods"; 2 -> "Instance Methods"; 3 -> "Abstract Methods"; 4 -> "Concrete Methods"; 5 -> "Deprecated Methods"
+                0 -> "All Methods"
+                1 -> "Static Methods"
+                2 -> "Instance Methods"
+                3 -> "Abstract Methods"
+                4 -> "Concrete Methods"
+                5 -> "Default Methods"
+                6 -> "Deprecated Methods"
                 else -> throw IllegalArgumentException("Invalid ID: $id")
             })
 
@@ -643,8 +654,11 @@ object DocGenerator {
             if (methods.any { !it.mods.contains("abstract") })
                 appendChild(methodSummaryButton(4))
 
-            if (methods.any { method -> method.annotations.any { it.type == "deprecated" } })
+            if (methods.any { it.mods.contains("default") })
                 appendChild(methodSummaryButton(5))
+
+            if (methods.any { method -> method.annotations.any { it.type == "deprecated" } })
+                appendChild(methodSummaryButton(6))
         })
         summary.appendChild(table)
 
@@ -831,14 +845,15 @@ object DocGenerator {
 
     fun link(self: String, type: String): String {
         var finalType = type
+        val processed = type.split("#")[0]
 
-        for (child in type.split("[<>,]".toRegex()).filter { it.isNotBlank() }) {
+        for (child in processed.split("[<>,]".toRegex()).filter { it.isNotBlank() }) {
             val newType = ClassDocumentation.processType(self, child).replace("[\\[\\]]".toRegex(), "")
             if (!newType.contains(".")) continue
 
             val pkg = newType.substring(0, newType.lastIndexOf('.'))
             val simpleName = newType.substring(newType.lastIndexOf('.') + 1)
-            val docUrl = newType.replace('.', '/') + ".html"
+            val docUrl = newType.replace('.', '/') + ".html" + (if (type.contains("#")) "#${type.split("#")[1]}" else "")
 
             val arrayBuilder = StringBuilder()
             for (i in 0 until child.count { it == '[' })
