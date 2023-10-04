@@ -24,11 +24,30 @@ object DocGenerator {
 
     suspend fun generatePages(input: File, output: File) = coroutineScope {
         DocGenerator.input = input
-        File(output, "index.html").apply {
-            createNewFile()
-            writeText(generateIndex().outerHtml())
+
+        launch {
+            File(output, "index.html").apply {
+                createNewFile()
+                writeText(generateIndex().outerHtml())
+            }
+            log("Created index.html")
         }
-        log("Created index.html")
+
+        launch {
+            File(output, "allpackages-index.html").apply {
+                createNewFile()
+                writeText(generateAllPackages().outerHtml())
+            }
+            log("Created allpackages-index.html")
+        }
+
+        launch {
+            File(output, "allclasses-index.html").apply {
+                createNewFile()
+                writeText(generateAllClasses().outerHtml())
+            }
+            log("Created allclasses-index.html")
+        }
 
         for (pkg in Util.getAllJavaPackages(input))
             launch {
@@ -66,9 +85,24 @@ object DocGenerator {
         = body().selectFirst("main")!!
 
     fun String.header(): String
-        = run { if (contains("\n")) substring(0, indexOf("\n")) else this }.take(60)
+        = substringAfter("\n").take(60)
 
     fun item(element: Element): Element = Element("li").appendChild(element)
+
+    fun classSummaryButton(id: Int, text: String, prefix: String = "class-summary"): Element =
+        Element("button").apply {
+            id("$prefix-tab$id")
+            addClass(if (id == 0) "active-table-tab" else "table-tab")
+
+            attr("role", "tab")
+            attr("aria-selected", (id == 0).toString())
+            attr("aria-controls", "class-summary.tabpanel")
+            attr("tabindex", if (id == 0) "0" else "-1")
+            attr("onkeydown", "switchTab(event)")
+            attr("onclick", "show('$prefix', '$prefix${if (id == 0) "" else "-tab$id"}', 2)")
+
+            text(text)
+        }
     
     // Generation
 
@@ -76,7 +110,7 @@ object DocGenerator {
         name: String,
         navbar: String,
         title: String,
-        textTitle: String,
+        textTitle: String? = null,
         description: String = ""
     ): Document {
         val doc = Document(name).apply {
@@ -123,13 +157,14 @@ object DocGenerator {
                 })
             })
 
-        main.appendChild(Element("div").apply {
-            addClass("header")
-        }.appendChild(Element("h1").apply {
-            addClass("title")
-            attr("title", textTitle)
-            text(textTitle)
-        }))
+        if (textTitle != null)
+            main.appendChild(Element("div").apply {
+                addClass("header")
+            }.appendChild(Element("h1").apply {
+                addClass("title")
+                attr("title", textTitle)
+                text(textTitle)
+            }))
 
         return doc
     }
@@ -244,21 +279,6 @@ object DocGenerator {
                             attr("role", "tablist")
                             attr("aria-orientation", "horizontal")
 
-                            fun classSummaryButton(id: Int, text: String): Element =
-                                Element("button").apply {
-                                    id("class-summary-tab$id")
-                                    addClass("table-tab")
-
-                                    attr("role", "tab")
-                                    attr("aria-selected", (id == 0).toString())
-                                    attr("aria-controls", "class-summary.tabpanel")
-                                    attr("tabindex", if (id == 0) "0" else "-1")
-                                    attr("onkeydown", "switchTab(event)")
-                                    attr("onclick", "show('class-summary', 'class-summary${if (id == 0) "" else "-tab$id"}', 2)")
-
-                                    text(text)
-                                }
-
                             when {
                                 classes.all { it.type == "class" } -> {
                                     append("<div class=\"caption\"><span>Classes</span></div>")
@@ -331,6 +351,107 @@ object DocGenerator {
         })
 
         return summary
+    }
+
+    fun generateAllClasses(): Document {
+        val doc = startDocument("allclasses-index.html", "default", "All Classes", "All Classes and Interfaces", description = "class index")
+        val classes = Util.getClassDocumentation().sortedBy { it.simpleName }
+        val main = doc.main().appendChild(Element("div").apply { id("all-classes-table") })
+
+        main.appendChild(Element("div").apply {
+            addClass("table-tabs")
+            attr("role", "tablist")
+            attr("aria-orientation", "horizontal")
+
+            appendChild(classSummaryButton(0, "All Classes and Interfaces", "all-classes-table"))
+
+            if (classes.any { it.type == "interface" })
+                appendChild(classSummaryButton(1, "Interfaces", "all-classes-table"))
+
+            if (classes.any { it.type == "class" })
+                appendChild(classSummaryButton(2, "Classes", "all-classes-table"))
+
+            if (classes.any { it.type == "enum" })
+                appendChild(classSummaryButton(3, "Enum Classes", "all-classes-table"))
+
+            if (classes.any { it.type == "record" })
+                appendChild(classSummaryButton(4, "Record Classes", "all-classes-table"))
+
+            if (classes.any { it.type == "annotation" })
+                appendChild(classSummaryButton(7, "Annotation Interfaces", "all-classes-table"))
+        })
+
+        main.appendChild(Element("div").apply {
+            id("all-classes-table.tabpanel")
+            attr("role", "tabpanel")
+
+            appendChild(Element("div").apply {
+                classNames(setOf("summary-table", "two-column-summary"))
+                attr("aria-labelledby", "all-classes-tabe-tab0")
+
+                append("<div class=\"table-header col-first\">Class</div>")
+                append("<div class=\"table-header col-last\">Description</div>")
+
+                var even = true
+                val types = mapOf<Int, (ClassDocumentation) -> Boolean>(
+                    1 to { it.type == "interface" },
+                    2 to { it.type == "class" },
+                    3 to { it.type == "enum" },
+                    4 to { it.type == "record" },
+                    7 to { it.type == "annotation" }
+                )
+                for (clazz in classes) {
+                    val rowColor = "${if (even) "even" else "odd"}-row-color"
+                    val clazzes = types.filterValues { it(clazz) }.keys.map { "all-classes-table-tab$it" }
+
+                    appendChild(Element("div").apply {
+                        classNames(setOf("col-first", rowColor, "all-classes-table") + clazzes)
+                        append("<a href=\"/${clazz.pkg.replace('.', '/')}/${clazz.simpleName}.html\" title=\"${clazz.type} in ${clazz.pkg}\">${clazz.simpleName}</a>")
+                    })
+
+                    appendChild(Element("div").apply {
+                        classNames(setOf("col-last", rowColor, "all-classes-table") + clazzes)
+                        append("<div class=\"block\">${clazz.comment.header()}</div>")
+                    })
+
+                    even = !even
+                }
+            })
+        })
+
+        return doc
+    }
+
+    fun generateAllPackages(): Document {
+        val doc = startDocument("allpackages-index.html", "default", "All Packages", "All Packages", description = "package index")
+        val packages = Util.getAllJavaPackages(input)
+        val main = doc.main()
+
+        main.append("<div class=\"caption\"><span>Package Summary</span></div>")
+        main.appendChild(Element("div").apply {
+            classNames(setOf("summary-table", "two-column-summary"))
+            append("<div class=\"table-header col-first\">Package</div>")
+            append("<div class=\"table-header col-last\">Description</div>")
+
+            var even = true
+            for (pkg in packages) {
+                val rowColor = "${if (even) "even" else "odd"}-row-color"
+
+                appendChild(Element("div").apply {
+                    classNames(setOf("col-first", rowColor))
+                    append("<a href=\"${pkg.replace('.', '/')}/package-summary.html\">$pkg</a>")
+                })
+
+                appendChild(Element("div").apply {
+                    classNames(setOf("col-last", rowColor))
+                    append("<div class=\"block\">${packageInfo(pkg)}</div>")
+                })
+
+                even = !even
+            }
+        })
+
+        return doc
     }
 
     // Class Generators
@@ -431,6 +552,14 @@ object DocGenerator {
             val enums = generateEnumDetail(info)
             if (enums != null)
                 list.appendChild(item(enums))
+
+            val fields = generateFieldDetail(info)
+            if (fields != null)
+                list.appendChild(item(fields))
+
+            val constructors = generateConstructorDetail(info)
+            if (constructors != null)
+                list.appendChild(item(constructors))
 
             val methods = generateMethodDetail(info)
             if (methods != null)
@@ -772,6 +901,82 @@ object DocGenerator {
         return detail
     }
 
+    fun generateFieldDetail(info: ClassDocumentation): Element? {
+        val fields = info.fields?.fields ?: return null
+        val detail = Element("section").apply {
+            addClass("field-details")
+            id("field-detail")
+        }
+
+        detail.append("<h2>Field Detail</h2>")
+        detail.appendChild(Element("ul").apply {
+            addClass("member-list")
+
+            for (field in fields) {
+                appendChild(item(Element("section").apply {
+                    addClass("detail")
+                    id(field.name)
+
+                    append("<h3>${field.name}</h3>")
+                    appendChild(Element("div").apply {
+                        addClass("member-signature")
+
+                        val builder = StringBuilder()
+                        if (field.visibility != "public")
+                            builder.append("${field.visibility} ")
+
+                        if (field.mods.isNotEmpty())
+                            builder.append("${field.mods.joinString(" ")} ")
+
+                        builder.append(link(info.name, field.type))
+
+                        append("<span class=\"modifiers\">$builder</span>&nbsp;")
+                        append("<span class=\"element-name\">${field.name}</span>")
+                    })
+
+                    append("<div class=\"block\">${field.comment}</div>")
+                }))
+            }
+        })
+
+        return detail
+    }
+
+    fun generateConstructorDetail(info: ClassDocumentation): Element? {
+        val constructors = info.constructors?.constructors ?: return null
+        val detail = Element("section").apply {
+            addClass("constructor-details")
+            id("constructor-detail")
+        }
+
+        detail.append("<h2>Constructor Detail</h2>")
+        detail.appendChild(Element("ul").apply {
+            addClass("member-list")
+
+            for (constructor in constructors) {
+                appendChild(item(Element("section").apply {
+                    addClass("detail")
+                    id("&lt;init&gt;(${constructor.parameters.map { it.type }.joinString(",")})")
+
+                    append("<h3>${info.simpleName}</h3>")
+                    appendChild(Element("div").apply {
+                        addClass("member-signature")
+
+                        append("<span class=\"modifiers\">${constructor.visibility}</span>&nbsp;")
+                        append("<span class=\"element-name\">${info.simpleName}</span>")
+                        append("<wbr>")
+                        appendChild(Element("span").apply {
+                            addClass("parameters")
+                            text("(${constructor.parameters.joinToString { param -> "${link(info.name, param.type)}&nbsp;${param.name}" }})")
+                        })
+                    })
+                }))
+            }
+        })
+
+        return detail
+    }
+
     fun generateMethodDetail(info: ClassDocumentation): Element? {
         val methods = info.methods?.methods ?: return null
         val detail = Element("section").apply {
@@ -840,12 +1045,14 @@ object DocGenerator {
         "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/",
         "https://hub.spigotmc.org/javadocs/spigot/",
         "https://www.slf4j.org/apidocs/",
-        "https://repo.karuslabs.com/repository/brigadier/"
+        "https://repo.karuslabs.com/repository/brigadier/",
+        "https://kvverti.github.io/Documented-DataFixerUpper/snapshot/"
     )
 
     fun link(self: String, type: String): String {
         var finalType = type
         val processed = type.split("#")[0]
+        val suffix = (if (type.contains("#")) "#${type.split("#")[1]}" else "")
 
         for (child in processed.split("[<>,]".toRegex()).filter { it.isNotBlank() }) {
             val newType = ClassDocumentation.processType(self, child).replace("[\\[\\]]".toRegex(), "")
@@ -853,13 +1060,13 @@ object DocGenerator {
 
             val pkg = newType.substring(0, newType.lastIndexOf('.'))
             val simpleName = newType.substring(newType.lastIndexOf('.') + 1)
-            val docUrl = newType.replace('.', '/') + ".html" + (if (type.contains("#")) "#${type.split("#")[1]}" else "")
+            val docUrl = newType.replace('.', '/') + ".html$suffix"
 
             val arrayBuilder = StringBuilder()
             for (i in 0 until child.count { it == '[' })
                 arrayBuilder.append("[]")
 
-            if (Util.getClassDocumentation().any { it.name == newType })
+            if (Util.getClassDocumentation().any { it.name == newType } || self == newType)
                 finalType = finalType.replace(child, "<a href=\"/${docUrl}\" title=\"member in $pkg\">${simpleName}</a>$arrayBuilder")
 
             for (repo in REPOSITORIES) {
@@ -870,7 +1077,7 @@ object DocGenerator {
                         requestMethod = "GET"
 
                         if (responseCode == 200)
-                            finalType = finalType.replace(child, "<a href=\"${repo + docUrl}\" title=\"member in $pkg\">${simpleName}</a>$arrayBuilder")
+                            finalType = finalType.replace(child, "<a href=\"${repo + docUrl}\" title=\"member in $pkg\">$simpleName$suffix</a>$arrayBuilder")
                     }
                 } catch (ignored: UnknownHostException) { // Offline
                 }
