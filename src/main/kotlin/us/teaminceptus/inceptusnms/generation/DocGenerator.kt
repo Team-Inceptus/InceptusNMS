@@ -926,7 +926,7 @@ object DocGenerator {
                             builder.append("${field.visibility} ")
 
                         if (field.mods.isNotEmpty())
-                            builder.append("${field.mods.joinString(" ")} ")
+                            builder.append(field.mods.joinString(" "))
 
                         builder.append(link(info.name, field.type))
 
