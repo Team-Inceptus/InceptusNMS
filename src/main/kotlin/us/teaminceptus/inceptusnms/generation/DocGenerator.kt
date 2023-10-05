@@ -492,6 +492,15 @@ object DocGenerator {
                 })
             }
 
+            val children = Util.getSubclasses(info)
+            if (children.isNotEmpty()) {
+                appendChild(Element("dl").apply {
+                    addClass("notes")
+                    append("<dt>Direct Known Subclasses:</dt>")
+                    append("<dd>${children.map { "<code>${link(info.name, it.name)}</code>" }.joinString(", ")}/dd>")
+                })
+            }
+
             append("<hr>")
 
             appendChild(Element("div").apply {
@@ -731,7 +740,7 @@ object DocGenerator {
     }
 
     fun generateMethodSummary(info: ClassDocumentation): Element? {
-        val methods = info.methods?.methods ?: return null
+        val methods = info.methods?.methods?.sortedBy { it.name } ?: return null
         val summary = Element("section").apply {
             addClass("method-summary")
             id("method-summary")
@@ -818,11 +827,14 @@ object DocGenerator {
                     if (!method.mods.contains("abstract"))
                         add(4)
 
-                    if (method.annotations.any { it.type == "deprecated" })
+                    if (method.mods.contains("default"))
                         add(5)
+
+                    if (method.annotations.any { it.type == "deprecated" })
+                        add(6)
                 }
 
-                val paramString = if (method.parameters.isEmpty()) "()" else "(" + method.parameters.joinToString { it.name } + ")"
+                val paramString = if (method.parameters.isEmpty()) "()" else "(" + method.parameters.joinToString { it.type }.replace(" ", "") + ")"
 
                 val classes = setOf(rowColor, "method-summary-table") + categories.map { "method-summary-table-tab$it" }
 
@@ -833,6 +845,9 @@ object DocGenerator {
                         val builder = StringBuilder()
                         if (method.visibility != "public")
                             builder.append("${method.visibility} ")
+
+                        if (method.generics.isNotEmpty())
+                            builder.append("&lt;${method.generics.map { it.name }.joinString(", ")}&gt; ")
 
                         if (method.mods.isNotEmpty())
                             builder.append("${method.mods.joinString(" ")} ")
@@ -996,6 +1011,10 @@ object DocGenerator {
                     append("<h3>${method.name}</h3>")
                     appendChild(Element("div").apply {
                         addClass("member-signature")
+
+                        if (method.generics.isNotEmpty())
+                            append("<span class=\"type-parameters\">&lt;${method.generics.map { it.name }.joinString(", ")}&gt;</span>")
+
                         append("<span class=\"modifiers\">${method.visibility} ${method.mods.joinString(" ")}</span>")
                         append("<span class=\"return-type\">${link(info.name, method.returnType)}</span>&nbsp;")
 
@@ -1004,7 +1023,7 @@ object DocGenerator {
                         else {
                             append("<span class=\"element-name\">${method.name}</span>")
                             append("<wbr>")
-                            append("(${method.parameters.joinToString { param -> "${link(info.name, param.type)}&nbsp;${param.name}" }})")
+                            append("(${method.parameters.joinToString { param -> "${param.annotations.map { "@${it.type.substringAfterLast('.')}" }.joinString(" ")}${link(info.name, param.type)}&nbsp;${param.name}" }})")
                         }
                     })
 
@@ -1014,6 +1033,12 @@ object DocGenerator {
                         addClass("notes")
 
                         // TODO Inherited Methods
+
+                        if (method.generics.isNotEmpty()) {
+                            append("<dt>Type Parameters:</dt>")
+                            for (generic in method.generics)
+                                append("<dd><code>${generic.name}</code> - ${generic.comment}</dd>")
+                        }
 
                         if (method.parameters.isNotEmpty()) {
                             append("<dt>Parameters:</dt>")
@@ -1067,7 +1092,7 @@ object DocGenerator {
                 arrayBuilder.append("[]")
 
             if (Util.getClassDocumentation().any { it.name == newType } || self == newType)
-                finalType = finalType.replace(child, "<a href=\"/${docUrl}\" title=\"member in $pkg\">${simpleName}</a>$arrayBuilder")
+                finalType = finalType.replace(suffix, "").replace(child, "<a href=\"/${docUrl}\" title=\"member in $pkg\">$simpleName$suffix</a>$arrayBuilder")
 
             for (repo in REPOSITORIES) {
                 val url = URL(repo + docUrl)
@@ -1077,7 +1102,7 @@ object DocGenerator {
                         requestMethod = "GET"
 
                         if (responseCode == 200)
-                            finalType = finalType.replace(child, "<a href=\"${repo + docUrl}\" title=\"member in $pkg\">$simpleName$suffix</a>$arrayBuilder")
+                            finalType = finalType.replace(suffix, "").replace(child, "<a href=\"${repo + docUrl}\" title=\"member in $pkg\">$simpleName$suffix</a>$arrayBuilder")
                     }
                 } catch (ignored: UnknownHostException) { // Offline
                 }

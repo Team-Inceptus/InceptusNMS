@@ -36,6 +36,7 @@ data class ClassDocumentation(
     data class ParameterDocumentation(
         val type: String,
         val name: String,
+        val annotations: List<AnnotationDocumentation> = emptyList(),
         val comment: String,
     )
 
@@ -146,6 +147,7 @@ data class ClassDocumentation(
                 ParameterDocumentation(
                     processType(name, param["type"]!!.jsonPrimitive.content),
                     param["name"]!!.jsonPrimitive.content,
+                    annotations(name, param["annotations"]),
                     processComment(name, param["comment"]!!.jsonPrimitive.content)
                 )
             }
