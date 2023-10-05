@@ -50,6 +50,9 @@
                         "type": "string",
                         "description": "The case-sensitive name of the parameter"
                     },
+                    "annotations": {
+                        "$ref": "#/definitions/annotations"
+                    },
                     "comment": {
                         "$ref": "#/definitions/comment"
                     }
