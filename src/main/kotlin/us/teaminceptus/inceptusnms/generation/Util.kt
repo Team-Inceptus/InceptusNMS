@@ -87,6 +87,24 @@ object Util {
 
         return LOADED_DOCUMENTATION.toList()
     }
+
+    fun getSubclasses(info: ClassDocumentation): List<ClassDocumentation> {
+        val subclasses = mutableListOf<ClassDocumentation>()
+        for (clazz in getClassDocumentation())
+            if (info.type == "interface") {
+                if (clazz.implements.contains(info.name)) {
+                    subclasses.add(clazz)
+                    subclasses.addAll(getSubclasses(clazz))
+                }
+            } else {
+                if (clazz.extends == info.name) {
+                    subclasses.add(clazz)
+                    subclasses.addAll(getSubclasses(clazz))
+                }
+            }
+
+        return subclasses
+    }
     
     // Logging
     
