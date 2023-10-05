@@ -115,7 +115,98 @@
         },
         "comment": "Gets this Component and its siblings as a flat list."
       }
-    ]
-
+    ],
+    "visit": [
+      {
+        "mods": ["default"],
+        "params": [
+          {
+            "type": "net.minecraft.network.chat.FormattedText.StyledContentConsumer<T>",
+            "name": "format",
+            "comment": "The format consumer to use."
+          },
+          {
+            "type": "net.minecraft.network.chat.Style",
+            "name": "style",
+            "comment": "The style to format the components applied."
+          }
+        ],
+        "generics": {
+          "T": {
+            "comment": "The type of the format consumer."
+          }
+        },
+        "return": {
+          "type": "java.util.Optional<T>",
+          "comment": "An Optional containing the result of the visit."
+        },
+        "comment": "Visits this Component and its siblings with the given consumer to a specific format."
+      },
+      {
+        "mods": ["default"],
+        "params": [
+          {
+            "type": "net.minecraft.network.chat.FormattedText.ContentConsumer<T>",
+            "name": "format",
+            "comment": "The format consumer to use."
+          }
+        ],
+        "generics": {
+          "T": {
+            "comment": "The type of the format consumer."
+          }
+        },
+        "return": {
+          "type": "java.util.Optional<T>",
+          "comment": "An Optional containing the result of the visit."
+        },
+        "comment": "Visits this Component and its siblings with the given consumer."
+      }
+    ],
+    "contains": {
+      "mods": ["default"],
+      "params": [
+        {
+        "type": "{this}",
+        "name": "component",
+        "comment": "The predicate to check."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if this Component contains the given Component."
+      },
+      "comment": "Checks if this Component contains the given Component."
+    },
+    "nullToEmpty": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "string",
+          "name": "text",
+          "comment": "The text to use."
+        }
+      ],
+      "return": {
+        "type": "net.minecraft.network.chat.MutableComponent",
+        "comment": "A MutableComponent representing the text."
+      },
+      "comment": "An alias of @({this}#literal(string)) that returns an empty Component if the input is null."
+    },
+    "literal": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "string",
+          "name": "text",
+          "comment": "The text to use."
+        }
+      ],
+      "return": {
+        "type": "net.minecraft.network.chat.MutableComponent",
+        "comment": "A MutableComponent representing the text."
+      },
+      "comment": "Creates a MutableComponent from the given text."
+    }
   }
 }
