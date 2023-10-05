@@ -33,7 +33,7 @@ suspend fun main(args: Array<String>): Unit = coroutineScope {
     launch {
         File(output, "element-list").apply {
             createNewFile()
-            writeText(packages.joinToString("\n"))
+            writeText(packages.sorted().joinToString("\n"))
         }
         log("Created element-list...")
     }
