@@ -1,0 +1,78 @@
+{
+  "_": "UNFINISHED",
+  "class": {
+    "type": "class",
+    "implements": [
+      "net.minecraft.world.flag.FeatureElement",
+      "net.minecraft.world.level.entity.EntityTypeTest<net.minecraft.world.entity.Entity, T>"
+    ],
+    "generics": {
+      "T": {
+        "extends": [
+          "net.minecraft.world.entity.Entity"
+        ],
+        "comment": "The class that represents the type of Entity."
+      }
+    },
+    "comment": "Represents a specific type of Entity."
+  },
+  "fields": {
+    "LOGGER": {
+      "type": "org.slf4j.Logger",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The Logger for this class."
+    },
+    "ENTITY_TAG": {
+      "type": "string",
+      "mods": ["static", "final"],
+      "value": "EntityTag",
+      "comment": "The NBT Tag for an Entity's type."
+    },
+    "builtInRegistryHolder": {
+      "type": "net.minecraft.core.Holder$Reference",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The registry for entity types."
+    },
+    "MAGIC_HORSE_WIDTH": {
+      "type": "float",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "1.3964844F",
+      "comment": "The width or a horse in Minecraft."
+    },
+    "DISPLAY_TRACKING_RANGE": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "10",
+      "comment": "The range of blocks for an entity to have its display tracked by the client."
+    },
+    "ALLAY": {
+      "type": "{this}<net.minecraft.world.entity.animal.allay.Allay>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.allay.Allay) entity type."
+    },
+    "AREA_EFFECT_CLOUD": {
+      "type": "{this}<net.minecraft.world.entity.AreaEffectCloud>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.AreaEffectCloud) entity type."
+    },
+    "ARMOR_STAND": {
+      "type": "{this}<net.minecraft.world.entity.decoration.ArmorStand>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.decoration.ArmorStand) entity type."
+    },
+    "ARROW": {
+      "type": "{this}<net.minecraft.world.entity.projectile.Arrow>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.projectile.Arrow) entity type."
+    },
+    "AXOLOTL": {
+      "type": "{this}<net.minecraft.world.entity.animal.axolotl.Axolotl>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.axolotl.Axolotl) entity type."
+    }
+  }
+}
