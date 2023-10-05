@@ -1,0 +1,29 @@
+{
+  "class": {
+    "type": "interface",
+    "comment": "Represents something that can hold an X, Y, and Z position."
+  },
+  "methods": {
+    "x": {
+      "return": {
+        "type": "double",
+        "comment": "The X position."
+      },
+      "comment": "Gets the X position."
+    },
+    "y": {
+      "return": {
+        "type": "double",
+        "comment": "The Y position."
+      },
+      "comment": "Gets the Y position."
+    },
+    "z": {
+      "return": {
+        "type": "double",
+        "comment": "The Z position."
+      },
+      "comment": "Gets the Z position."
+    }
+  }
+}

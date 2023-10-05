@@ -1,0 +1,97 @@
+{
+  "class": {
+    "type": "interface",
+    "comment": "Represents contents inside of a @(component)."
+  },
+  "fields": {
+    "EMPTY": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "Empty component contents."
+    }
+  },
+  "methods": {
+    "visit": [
+      {
+        "mods": ["default"],
+        "params": [
+          {
+            "type": "net.minecraft.network.chat.FormattedText.StyledContentConsumer<T>",
+            "name": "consumer",
+            "comment": "The consumer for the content."
+          },
+          {
+            "type": "net.minecraft.network.chat.Style",
+            "name": "style",
+            "comment": "The style to use."
+          }
+        ],
+        "generics": {
+          "T": {
+            "comment": "The return type of the visitor."
+          }
+        },
+        "return": {
+          "type": "java.util.Optional<T>",
+          "comment": "The result of the visit."
+        },
+        "comment": "Visits this component contents."
+      },
+      {
+        "mods": ["default"],
+        "params": [
+          {
+            "type": "et.minecraft.network.chat.FormattedText.ContentConsumer<T>",
+            "name": "consumer",
+            "comment": "The consumer for the content."
+          }
+        ],
+        "generics": {
+          "T": {
+            "comment": "The return type of the visitor."
+          }
+        },
+        "return": {
+          "type": "java.util.Optional<T>",
+          "comment": "The result of the visit."
+        },
+        "comment": "Visits this component contents."
+      }
+    ],
+    "resolve": {
+      "params": [
+        {
+          "type": "net.minecraft.commands.CommandSourceStack",
+          "name": "source",
+          "comment": "The source to parse from."
+        },
+        {
+          "type": "net.minecraft.world.Entity",
+          "name": "entity",
+          "annotations": [
+            {
+              "type": "javax.annotation.Nullable"
+            }
+          ],
+          "comment": "The entity to use as a parameter. Can be null."
+        },
+        {
+          "type": "int",
+          "name": "depth",
+          "comment": "The depth to resolve to."
+        }
+      ],
+      "return": {
+        "type": "net.minecraft.network.chat.MutableComponent",
+        "comment": "The resolved component."
+      },
+      "throws": [
+        {
+          "type": "com.mojang.brigadier.exceptions.CommandSyntaxException",
+          "comment": "If a parsing error occurs."
+        }
+      ],
+      "comment": "Resolves a MutableComponent from a CommandSourceStack."
+    }
+  }
+}

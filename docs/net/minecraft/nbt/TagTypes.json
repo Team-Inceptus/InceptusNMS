@@ -1,0 +1,30 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Utility class for all NBT Tag Types."
+  },
+  "fields": {
+    "TYPES": {
+      "type": "net.minecraft.nbt.TagType<?>[]",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "Array of all Tag Types."
+    }
+  },
+  "methods": {
+    "getType": {
+      "params": [
+        {
+          "type": "int",
+          "name": "id",
+          "comment": "The ID of the TagType to get."
+        }
+      ],
+      "return": {
+        "type": "net.minecraft.nbt.TagType<?>",
+        "comment": "The TagType for the given ID."
+      },
+      "comment": "Returns the TagType for the given ID."
+    }
+  }
+}
