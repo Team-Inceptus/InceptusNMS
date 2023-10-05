@@ -246,6 +246,15 @@
                 "params": {
                     "$ref": "#/definitions/params"
                 },
+                "generics": {
+                    "type": "object",
+                    "additionalProperties": true,
+                    "patternProperties": {
+                        "[\\s\\S]*": {
+                            "$ref": "#/definitions/generic"
+                        }
+                    }
+                },
                 "return": {
                     "type": "object",
                     "additionalProperties": true,

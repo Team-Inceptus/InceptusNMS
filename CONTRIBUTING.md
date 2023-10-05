@@ -118,8 +118,9 @@ We document all fields and methods, regardless of visibility. This includes pack
     - The array must be declared on one line.
   - `params`, if provided, should be after `mods` or `visibility` .
     - This array must be in the order that the parameters are declared. For example: `int a, int b` should be `[{"type": "int", "name": "a"}, {"type": "int", "name": "b"}]`. If a parameter has a generic or undescriptive name (e.g. `arg1`), it can be renamed to a more descriptive one, such as the field name it is being mapped to.
-  - `return` should be after `params`, `mods`, or `visibility`. If none are provided, it should be the first line in the object. This is also optional if the method returns `void`.
-  - `throws` should be after `return`, `params`, `mods`, or `visibility`. If none are provided, it should be the first line in the object. This is also optional if the method does not throw any exceptions.
+  - `generics`, if provided, should be after `params`, `mods`, or `visbility`.
+  - `return` should be after `generics`, `params`, `mods`, or `visibility`. If none are provided, it should be the first line in the object. This is also optional if the method returns `void`.
+  - `throws` should be after `return`, `generics`, `params`, `mods`, or `visibility`. If none are provided, it should be the first line in the object. This is also optional if the method does not throw any exceptions.
     - This array must be in the order that the exceptions are declared. For example: `throws IOException, IllegalArgumentException` should be `["java.lang.IOException", "java.lang.IllegalArgumentException"]`.
   - `annotations`, if provided, should be before `comment`.
   - `comment` should always be the last line in the object.
