@@ -73,6 +73,146 @@
       "type": "{this}<net.minecraft.world.entity.animal.axolotl.Axolotl>",
       "mods": ["static", "final"],
       "comment": "Represents the @(net.minecraft.world.entity.animal.axolotl.Axolotl) entity type."
+    },
+    "BAT": {
+      "type": "{this}<net.minecraft.world.entity.ambient.Bat>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.ambient.Bat) entity type."
+    },
+    "BEE": {
+      "type": "{this}<net.minecraft.world.entity.animal.Bee>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.Bee) entity type."
+    },
+    "BLAZE": {
+      "type": "{this}<net.minecraft.world.entity.monster.Blaze>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Blaze) entity type."
+    },
+    "BLOCK_DISPLAY": {
+      "type": "{this}<net.minecraft.world.entity.Display$BlockDisplay>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.Display$BlockDisplay) entity type."
+    },
+    "BOAT": {
+      "type": "{this}<net.minecraft.world.entity.vehicle.Boat>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.vehicle.Boat) entity type."
+    },
+    "CAMEL": {
+      "type": "{this}<net.minecraft.world.entity.animal.camel.Camel>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.camel.Camel) entity type."
+    },
+    "CAT": {
+      "type": "{this}<net.minecraft.world.entity.animal.Cat>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.Cat) entity type."
+    },
+    "CAVE_SPIDER": {
+      "type": "{this}<net.minecraft.world.entity.monster.CaveSpider>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.CaveSpider) entity type."
+    },
+    "CHEST_BOAT": {
+      "type": "{this}<net.minecraft.world.entity.vehicle.ChestBoat>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.vehicle.ChestBoat) entity type."
+    },
+    "CHEST_MINECART": {
+      "type": "{this}<net.minecraft.world.entity.vehicle.MinecartChest>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.vehicle.MinecartChest) entity type."
+    },
+    "CHICKEN": {
+      "type": "{this}<net.minecraft.world.entity.animal.Chicken>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.Chicken) entity type."
+    },
+    "COD": {
+      "type": "{this}<net.minecraft.world.entity.animal.Cod>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.Cod) entity type."
+    },
+    "COMMAND_BLOCK_MINECART": {
+      "type": "{this}<net.minecraft.world.entity.vehicle.MinecartCommandBlock>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.vehicle.MinecartCommandBlock) entity type."
+    },
+    "COW": {
+      "type": "{this}<net.minecraft.world.entity.animal.Cow>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.Cow) entity type."
+    },
+    "CREEPER": {
+      "type": "{this}<net.minecraft.world.entity.monster.Creeper>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Creeper) entity type."
+    },
+    "DOLPHIN": {
+      "type": "{this}<net.minecraft.world.entity.animal.Dolphin>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.Dolphin) entity type."
+    },
+    "DONKEY": {
+      "type": "{this}<net.minecraft.world.entity.animal.horse.Donkey>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.horse.Donkey) entity type."
+    },
+    "DRAGON_FIREBALL": {
+      "type": "{this}<net.minecraft.world.entity.projectile.DragonFireball>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.projectile.DragonFireball) entity type."
+    },
+    "DROWNED": {
+      "type": "{this}<net.minecraft.world.entity.monster.Drowned>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Drowned) entity type."
+    },
+    "EGG": {
+      "type": "{this}<net.minecraft.world.entity.projectile.ThrownEgg>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.projectile.ThrownEgg) entity type."
+    },
+    "ELDER_GUARDIAN": {
+      "type": "{this}<net.minecraft.world.entity.monster.ElderGuardian>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.ElderGuardian) entity type."
+    },
+    "ENDER_CRYSTAL": {
+      "type": "{this}<net.minecraft.world.entity.item.EnderCrystal>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.item.EnderCrystal) entity type."
+    },
+    "ENDERMAN": {
+      "type": "{this}<net.minecraft.world.entity.monster.EnderMan>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.EnderMan) entity type."
+    },
+    "ENDERMITE": {
+      "type": "{this}<net.minecraft.world.entity.monster.Endermite>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Endermite) entity type."
+    },
+    "EVOKER": {
+      "type": "{this}<net.minecraft.world.entity.monster.Evoker>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Evoker) entity type."
+    },
+    "EVOKER_FANGS": {
+      "type": "{this}<net.minecraft.world.entity.projectile.EvokerFangs>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.projectile.EvokerFangs) entity type."
+    },
+    "EXPERIENCE_BOTTLE": {
+      "type": "{this}<net.minecraft.world.entity.projectile.ThrownExperienceBottle>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.projectile.ThrownExperienceBottle) entity type."
+    },
+    "EXPERIENCE_ORB": {
+      "type": "{this}<net.minecraft.world.entity.ExperienceOrb>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.ExperienceOrb) entity type."
     }
   }
 }
