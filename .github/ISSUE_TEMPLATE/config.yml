@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discord
+    url: https://discord.gg/WVFNWEvuqX
+    about: Report an issue on our official Discord!
+  - name: Site
+    url: https://nms.teaminceptus.us
+    about: Visit the Mappings Browser.

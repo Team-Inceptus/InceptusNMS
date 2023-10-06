@@ -79,8 +79,6 @@ object Util {
     }
 
     fun getClassDocumentation(): List<ClassDocumentation> {
-        if (LOADED_DOCUMENTATION.isEmpty()) throw IllegalStateException("Documentation has not been loaded!")
-
         return LOADED_DOCUMENTATION.toList()
     }
 
