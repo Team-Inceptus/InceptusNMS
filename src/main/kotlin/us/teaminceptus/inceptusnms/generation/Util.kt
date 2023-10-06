@@ -1,5 +1,9 @@
 package us.teaminceptus.inceptusnms.generation
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import java.io.File
@@ -74,9 +78,17 @@ object Util {
         return "$pkg.$name"
     }
 
-    fun getClassDocumentation(input: File? = null): List<ClassDocumentation> {
-        if (LOADED_DOCUMENTATION.isEmpty() && input != null)
-            input.walkTopDown().filter { it.isFile && it.name.endsWith(".json") }.forEach { file ->
+    fun getClassDocumentation(): List<ClassDocumentation> {
+        if (LOADED_DOCUMENTATION.isEmpty()) throw IllegalStateException("Documentation has not been loaded!")
+
+        return LOADED_DOCUMENTATION.toList()
+    }
+
+    suspend fun loadDocumentation(input: File) = withContext(Dispatchers.IO) {
+        val files = input.walkTopDown().filter { it.isFile && it.name.endsWith(".json") }
+
+        files.forEach { file ->
+            launch {
                 LOADED_DOCUMENTATION.add(
                     ClassDocumentation.fromJson(
                         getJavaName(file),
@@ -84,8 +96,7 @@ object Util {
                     )
                 )
             }
-
-        return LOADED_DOCUMENTATION.toList()
+        }
     }
 
     fun getSubclasses(info: ClassDocumentation): List<ClassDocumentation> {
