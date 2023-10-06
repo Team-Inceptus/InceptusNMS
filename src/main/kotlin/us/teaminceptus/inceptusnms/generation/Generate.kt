@@ -26,7 +26,9 @@ suspend fun main(args: Array<String>): Unit = coroutineScope {
     if (!output.exists())
         output.mkdirs()
 
-    Util.getClassDocumentation(input) // Load all documentation
+    runBlocking {
+        Util.loadDocumentation(input)
+    }
     val packages = Util.getClassDocumentation().map { it.pkg }.toSet()
 
     // element-list
