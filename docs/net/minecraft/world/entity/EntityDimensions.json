@@ -1,0 +1,162 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Represents the dimensions of an @(net.minecraft.world.entity.Entity)."
+  },
+  "fields": {
+    "width": {
+      "type": "float",
+      "mods": ["final"],
+      "comment": "The width of the entity."
+    },
+    "height": {
+      "type": "float",
+      "mods": ["final"],
+      "comment": "The height of the entity."
+    },
+    "fixed": {
+      "type": "boolean",
+      "mods": ["final"],
+      "comment": "Whether the entity is fixed in place, meaning that they cannot be scaled."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "float",
+          "name": "width",
+          "comment": "The width of the entity."
+        },
+        {
+          "type": "float",
+          "name": "height",
+          "comment": "The height of the entity."
+        },
+        {
+          "type": "boolean",
+          "name": "fixed",
+          "comment": "Whether the entity dimensions are fixed, meaning that they cannot be scaled."
+        }
+      ],
+      "comment": "Constructs a new EntityDimensions with the given width, height, and fixed state."
+    }
+  ],
+  "methods": {
+    "makeBoundingBox": [
+      {
+        "params": [
+          {
+            "type": "net.minecraft.world.phys.Vec3",
+            "name": "center",
+            "comment": "The center of the bounding box."
+          }
+        ],
+        "return": {
+          "type": "net.minecraft.world.phys.AABB",
+          "comment": "The bounding box."
+        },
+        "comment": "Creates a new bounding box with the given center."
+      },
+      {
+        "params": [
+          {
+            "type": "double",
+            "name": "x",
+            "comment": "The x coordinate of the center of the bounding box."
+          },
+          {
+            "type": "double",
+            "name": "y",
+            "comment": "The y coordinate of the center of the bounding box."
+          },
+          {
+            "type": "double",
+            "name": "z",
+            "comment": "The z coordinate of the center of the bounding box."
+          }
+        ],
+        "return": {
+          "type": "net.minecraft.world.phys.AABB",
+          "comment": "The bounding box."
+        },
+        "comment": "Creates a new bounding box with the given center."
+      }
+    ],
+    "scale": [
+      {
+        "params": [
+          {
+            "type": "float",
+            "name": "scale",
+            "comment": "The scale to apply."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "The scaled dimensions."
+        },
+        "comment": "Scales the dimensions by the given scale."
+      },
+      {
+        "params": [
+          {
+            "type": "float",
+            "name": "widthScale",
+            "comment": "The scale to apply to the width."
+          },
+          {
+            "type": "float",
+            "name": "heightScale",
+            "comment": "The scale to apply to the height."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "The scaled dimensions."
+        },
+        "comment": "Scales the dimensions by the given scale."
+      }
+    ],
+    "scalable": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "float",
+          "name": "width",
+          "comment": "The width of the entity."
+        },
+        {
+          "type": "float",
+          "name": "height",
+          "comment": "The height of the entity."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "Constructed EntityDimensions."
+      },
+      "comment": "Constructs a Scalable EntityDimensions."
+    },
+    "fixed": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "float",
+          "name": "width",
+          "comment": "The width of the entity."
+        },
+        {
+          "type": "float",
+          "name": "height",
+          "comment": "The height of the entity."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "Constructed EntityDimensions."
+      },
+      "comment": "Constructs a fixed EntityDimensions."
+    }
+  }
+}
