@@ -213,6 +213,604 @@
       "type": "{this}<net.minecraft.world.entity.ExperienceOrb>",
       "mods": ["static", "final"],
       "comment": "Represents the @(net.minecraft.world.entity.ExperienceOrb) entity type."
+    },
+    "EYE_OF_ENDER": {
+      "type": "{this}<net.minecraft.world.entity.projectile.EyeOfEnder>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.projectile.EyeOfEnder) entity type."
+    },
+    "FALLING_BLOCK": {
+      "type": "{this}<net.minecraft.world.entity.item.FallingBlockEntity>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.item.FallingBlockEntity) entity type."
+    },
+    "FIREWORK_ROCKET": {
+      "type": "{this}<net.minecraft.world.entity.projectile.FireworkRocketEntity>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.projectile.FireworkRocketEntity) entity type."
+    },
+    "FOX": {
+      "type": "{this}<net.minecraft.world.entity.animal.Fox>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.Fox) entity type."
+    },
+    "FROG": {
+      "type": "{this}<net.minecraft.world.entity.animal.Frog>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.Frog) entity type."
+    },
+    "FURNACE_MINECART": {
+      "type": "{this}<net.minecraft.world.entity.vehicle.MinecartFurnace>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.vehicle.MinecartFurnace) entity type."
+    },
+    "GHAST": {
+      "type": "{this}<net.minecraft.world.entity.monster.Ghast>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Ghast) entity type."
+    },
+    "GIANT": {
+      "type": "{this}<net.minecraft.world.entity.monster.Giant>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Giant) entity type."
+    },
+    "GLOW_ITEM_FRAME": {
+      "type": "{this}<net.minecraft.world.entity.decoration.GlowItemFrame>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.decoration.GlowItemFrame) entity type."
+    },
+    "GLOW_SQUID": {
+      "type": "{this}<net.minecraft.world.entity.animal.GlowSquid>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.GlowSquid) entity type."
+    },
+    "GOAT": {
+      "type": "{this}<net.minecraft.world.entity.animal.goat.Goat>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.goat.Goat) entity type."
+    },
+    "GUARDIAN": {
+      "type": "{this}<net.minecraft.world.entity.monster.Guardian>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Guardian) entity type."
+    },
+    "HOGLIN": {
+      "type": "{this}<net.minecraft.world.entity.monster.hoglin.Hoglin>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.hoglin.Hoglin) entity type."
+    },
+    "HOPPER_MINECART": {
+      "type": "{this}<net.minecraft.world.entity.vehicle.MinecartHopper>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.vehicle.MinecartHopper) entity type."
+    },
+    "HORSE": {
+      "type": "{this}<net.minecraft.world.entity.animal.horse.Horse>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.horse.Horse) entity type."
+    },
+    "HUSK": {
+      "type": "{this}<net.minecraft.world.entity.monster.Husk>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Husk) entity type."
+    },
+    "ILLUSIONER": {
+      "type": "{this}<net.minecraft.world.entity.monster.Illusioner>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Illusioner) entity type."
+    },
+    "INTERACTION": {
+      "type": "{this}<net.minecraft.world.entity.Interaction>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.Interaction) entity type."
+    },
+    "IRON_GOLEM": {
+      "type": "{this}<net.minecraft.world.entity.animal.IronGolem>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.IronGolem) entity type."
+    },
+    "ITEM": {
+      "type": "{this}<net.minecraft.world.entity.item.ItemEntity>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.item.ItemEntity) entity type."
+    },
+    "ITEM_DISPLAY": {
+      "type": "{this}<net.minecraft.world.entity.Display$ItemDisplay>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.Display$ItemDisplay) entity type."
+    },
+    "ITEM_FRAME": {
+      "type": "{this}<net.minecraft.world.entity.decoration.ItemFrame>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.decoration.ItemFrame) entity type."
+    },
+    "FIREBALL": {
+      "type": "{this}<net.minecraft.world.entity.projectile.LargeFireball>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.projectile.LargeFireball) entity type."
+    },
+    "LEASH_KNOT": {
+      "type": "{this}<net.minecraft.world.entity.decoration.LeashFenceKnotEntity>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.decoration.LeashFenceKnotEntity) entity type."
+    },
+    "LIGHTNING_BOLT": {
+      "type": "{this}<net.minecraft.world.entity.LightningBolt>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.LightningBolt) entity type."
+    },
+    "LLAMA": {
+      "type": "{this}<net.minecraft.world.entity.animal.horse.Llama>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.horse.Llama) entity type."
+    },
+    "LLAMA_SPIT": {
+      "type": "{this}<net.minecraft.world.entity.projectile.LlamaSpit>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.projectile.LlamaSpit) entity type."
+    },
+    "MAGMA_CUBE": {
+      "type": "{this}<net.minecraft.world.entity.monster.MagmaCube>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.MagmaCube) entity type."
+    },
+    "MARKER": {
+      "type": "{this}<net.minecraft.world.entity.Marker>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.Marker) entity type."
+    },
+    "MINECART": {
+      "type": "{this}<net.minecraft.world.entity.vehicle.Minecart>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.vehicle.Minecart) entity type."
+    },
+    "MOOSHROOM": {
+      "type": "{this}<net.minecraft.world.entity.animal.MushroomCow>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.MushroomCow) entity type."
+    },
+    "MULE": {
+      "type": "{this}<net.minecraft.world.entity.animal.horse.Mule>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.horse.Mule) entity type."
+    },
+    "OCELOT": {
+      "type": "{this}<net.minecraft.world.entity.animal.Ocelot>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.Ocelot) entity type."
+    },
+    "PAINTING": {
+      "type": "{this}<net.minecraft.world.entity.decoration.Painting>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.decoration.Painting) entity type."
+    },
+    "PANDA": {
+      "type": "{this}<net.minecraft.world.entity.animal.Panda>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.Panda) entity type."
+    },
+    "PARROT": {
+      "type": "{this}<net.minecraft.world.entity.animal.Parrot>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.Parrot) entity type."
+    },
+    "PHANTOM": {
+      "type": "{this}<net.minecraft.world.entity.monster.Phantom>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Phantom) entity type."
+    },
+    "PIG": {
+      "type": "{this}<net.minecraft.world.entity.animal.Pig>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.Pig) entity type."
+    },
+    "PIGLIN": {
+      "type": "{this}<net.minecraft.world.entity.monster.piglin.Piglin>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.piglin.Piglin) entity type."
+    },
+    "PIGLIN_BRUTE": {
+      "type": "{this}<net.minecraft.world.entity.monster.piglin.PiglinBrute>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.piglin.PiglinBrute) entity type."
+    },
+    "PILLAGER": {
+      "type": "{this}<net.minecraft.world.entity.monster.Pillager>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Pillager) entity type."
+    },
+    "POLAR_BEAR": {
+      "type": "{this}<net.minecraft.world.entity.animal.PolarBear>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.PolarBear) entity type."
+    },
+    "POTION": {
+      "type": "{this}<net.minecraft.world.entity.projectile.ThrownPotion>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.projectile.ThrownPotion) entity type."
+    },
+    "PUFFERFISH": {
+      "type": "{this}<net.minecraft.world.entity.animal.Pufferfish>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.Pufferfish) entity type."
+    },
+    "RABBIT": {
+      "type": "{this}<net.minecraft.world.entity.animal.Rabbit>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.Rabbit) entity type."
+    },
+    "RAVAGER": {
+      "type": "{this}<net.minecraft.world.entity.monster.Ravager>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Ravager) entity type."
+    },
+    "SALMON": {
+      "type": "{this}<net.minecraft.world.entity.animal.Salmon>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.Salmon) entity type."
+    },
+    "SHEEP": {
+      "type": "{this}<net.minecraft.world.entity.animal.Sheep>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.Sheep) entity type."
+    },
+    "SHULKER": {
+      "type": "{this}<net.minecraft.world.entity.monster.Shulker>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Shulker) entity type."
+    },
+    "SHULKER_BULLET": {
+      "type": "{this}<net.minecraft.world.entity.projectile.ShulkerBullet>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.projectile.ShulkerBullet) entity type."
+    },
+    "SILVERFISH": {
+      "type": "{this}<net.minecraft.world.entity.monster.Silverfish>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Silverfish) entity type."
+    },
+    "SKELETON": {
+      "type": "{this}<net.minecraft.world.entity.monster.Skeleton>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Skeleton) entity type."
+    },
+    "SKELETON_HORSE": {
+      "type": "{this}<net.minecraft.world.entity.animal.horse.SkeletonHorse>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.horse.SkeletonHorse) entity type."
+    },
+    "SLIME": {
+      "type": "{this}<net.minecraft.world.entity.monster.Slime>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Slime) entity type."
+    },
+    "SMALL_FIREBALL": {
+      "type": "{this}<net.minecraft.world.entity.projectile.SmallFireball>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.projectile.SmallFireball) entity type."
+    },
+    "SNIFFER": {
+      "type": "{this}<net.minecraft.world.entity.animal.sniffer.Sniffer>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.sniffer.Sniffer) entity type."
+    },
+    "SNOW_GOLEM": {
+      "type": "{this}<net.minecraft.world.entity.animal.SnowGolem>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.SnowGolem) entity type."
+    },
+    "SNOWBALL": {
+      "type": "{this}<net.minecraft.world.entity.projectile.Snowball>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.projectile.Snowball) entity type."
+    },
+    "SPECTRAL_ARROW": {
+      "type": "{this}<net.minecraft.world.entity.projectile.SpectralArrow>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.projectile.SpectralArrow) entity type."
+    },
+    "SPIDER": {
+      "type": "{this}<net.minecraft.world.entity.monster.Spider>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Spider) entity type."
+    },
+    "SQUID": {
+      "type": "{this}<net.minecraft.world.entity.animal.Squid>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.Squid) entity type."
+    },
+    "STRAY": {
+      "type": "{this}<net.minecraft.world.entity.monster.Stray>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Stray) entity type."
+    },
+    "STRIDER": {
+      "type": "{this}<net.minecraft.world.entity.monster.Strider>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Strider) entity type."
+    },
+    "TADPOLE": {
+      "type": "{this}<net.minecraft.world.entity.animal.Tadpole>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.Tadpole) entity type."
+    },
+    "TEXT_DISPLAY": {
+      "type": "{this}<net.minecraft.world.entity.Display$TextDisplay>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.Display$TextDisplay) entity type."
+    },
+    "TNT": {
+      "type": "{this}<net.minecraft.world.entity.item.PrimedTnt>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.item.PrimedTnt) entity type."
+    },
+    "TNT_MINECART": {
+      "type": "{this}<net.minecraft.world.entity.vehicle.MinecartTNT>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.vehicle.MinecartTNT) entity type."
+    },
+    "TRADER_LLAMA": {
+      "type": "{this}<net.minecraft.world.entity.animal.horse.TraderLlama>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.horse.TraderLlama) entity type."
+    },
+    "TRIDENT": {
+      "type": "{this}<net.minecraft.world.entity.projectile.ThrownTrident>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.projectile.ThrownTrident) entity type."
+    },
+    "TROPICAL_FISH": {
+      "type": "{this}<net.minecraft.world.entity.animal.TropicalFish>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.TropicalFish) entity type."
+    },
+    "TURTLE": {
+      "type": "{this}<net.minecraft.world.entity.animal.Turtle>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.Turtle) entity type."
+    },
+    "VEX": {
+      "type": "{this}<net.minecraft.world.entity.monster.Vex>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Vex) entity type."
+    },
+    "VILLAGER": {
+      "type": "{this}<net.minecraft.world.entity.npc.Villager>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.npc.Villager) entity type."
+    },
+    "VINDICATOR": {
+      "type": "{this}<net.minecraft.world.entity.monster.Vindicator>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Vindicator) entity type."
+    },
+    "WANDERING_TRADER": {
+      "type": "{this}<net.minecraft.world.entity.npc.WanderingTrader>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.npc.WanderingTrader) entity type."
+    },
+    "WARDEN": {
+      "type": "{this}<net.minecraft.world.entity.monster.Warden>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Warden) entity type."
+    },
+    "WITCH": {
+      "type": "{this}<net.minecraft.world.entity.monster.Witch>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Witch) entity type."
+    },
+    "WITHER": {
+      "type": "{this}<net.minecraft.world.entity.boss.wither.WitherBoss>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.boss.wither.WitherBoss) entity type."
+    },
+    "WITHER_SKELETON": {
+      "type": "{this}<net.minecraft.world.entity.monster.WitherSkeleton>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.WitherSkeleton) entity type."
+    },
+    "WITHER_SKULL": {
+      "type": "{this}<net.minecraft.world.entity.projectile.WitherSkull>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.projectile.WitherSkull) entity type."
+    },
+    "WOLF": {
+      "type": "{this}<net.minecraft.world.entity.animal.Wolf>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.Wolf) entity type."
+    },
+    "ZOGLIN": {
+      "type": "{this}<net.minecraft.world.entity.monster.Zoglin>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Zoglin) entity type."
+    },
+    "ZOMBIE": {
+      "type": "{this}<net.minecraft.world.entity.monster.Zombie>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.Zombie) entity type."
+    },
+    "ZOMBIE_HORSE": {
+      "type": "{this}<net.minecraft.world.entity.animal.horse.ZombieHorse>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.animal.horse.ZombieHorse) entity type."
+    },
+    "ZOMBIE_VILLAGER": {
+      "type": "{this}<net.minecraft.world.entity.monster.ZombieVillager>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.ZombieVillager) entity type."
+    },
+    "ZOMBIFIED_PIGLIN": {
+      "type": "{this}<net.minecraft.world.entity.monster.ZombifiedPiglin>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.monster.ZombifiedPiglin) entity type."
+    },
+    "PLAYER": {
+      "type": "{this}<net.minecraft.world.entity.player.Player>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.player.Player) entity type."
+    },
+    "FISHING_BOBBER": {
+      "type": "{this}<net.minecraft.world.entity.projectile.FishingHook>",
+      "mods": ["static", "final"],
+      "comment": "Represents the @(net.minecraft.world.entity.projectile.FishingHook) entity type."
+    },
+    "factory": {
+      "type": "{this}$EntityFactory<T>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The factory for creating entities of this type."
+    },
+    "category": {
+      "type": "net.minecraft.world.entity.MobCategory",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The category of this entity type."
+    },
+    "immuneTo": {
+      "type": "com.google.common.collect.ImmutableSet<net.minecraft.world.level.Block>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "A list of materials this entity type is immune to."
+    },
+    "serialize": {
+      "type": "boolean",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "Whether this entity type should be serialized."
+    },
+    "summon": {
+      "type": "boolean",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "Whether this entity type can be summoned."
+    },
+    "fireImmune": {
+      "type": "boolean",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "Whether this entity type is immune to fire."
+    },
+    "canSpawnFarFromPlayer": {
+      "type": "boolean",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "Whether this entity type can spawn far from players."
+    },
+    "clientTrackingRange": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The maximum tracking range that a player client will use."
+    },
+    "updateInterval": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The interval between entity updates."
+    },
+    "descriptionId": {
+      "type": "string",
+      "visibility": "private",
+      "annotations": [
+        {
+          "type": "javax.annotation.Nullable"
+        }
+      ],
+      "comment": "The description ID of this entity type."
+    },
+    "description": {
+      "type": "component",
+      "visibility": "private",
+      "annotations": [
+        {
+          "type": "javax.annotation.Nullable"
+        }
+      ],
+      "comment": "The human-readable description of this entity type."
+    },
+    "lootTable": {
+      "type": "net.minecraft.resources.ResourceLocation",
+      "visibility": "private",
+      "annotations": [
+        {
+          "type": "javax.annotation.nullable"
+        }
+      ],
+      "comment": "The loot table of this entity type, if applicable."
+    },
+    "dimensions": {
+      "type": "net.minecraft.world.entity.EntityDimensions",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The dimensions of this entity type."
+    },
+    "requiredFeatures": {
+      "type": "net.minecraft.world.flag.FeatureFlagSet",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The built-in features required for this entity type, used for preview entities."
     }
-  }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "{this}$EntityFactory<T>",
+          "name": "factory",
+          "comment": "The factory for creating entities of this type."
+        },
+        {
+          "type": "net.minecraft.world.entity.MobCategory",
+          "name": "category",
+          "comment": "The category of this entity type."
+        },
+        {
+          "type": "boolean",
+          "name": "serialize",
+          "comment": "Whether this entity type should be serialized."
+        },
+        {
+          "type": "boolean",
+          "name": "summonable",
+          "comment": "Whether this entity type is summonable."
+        },
+        {
+          "type": "boolean",
+          "name": "fireImmune",
+          "comment": "Whether this entity type is immune to fire."
+        },
+        {
+          "type": "boolean",
+          "name": "canSpawnFarFromPlayer",
+          "comment": "Whether this entity type can spawn far from players."
+        },
+        {
+          "type": "com.google.common.collect.ImmutableSet<net.minecraft.world.level.Block>",
+          "name": "immuneTo",
+          "comment": "A list of materials this entity type is immune to."
+        },
+        {
+          "type": "net.minecraft.world.entity.EntityDimensions",
+          "name": "dimensions",
+          "comment": "The dimensions of this entity type."
+        },
+        {
+          "type": "int",
+          "name": "clientTrackingRange",
+          "comment": "The maximum tracking range that a player client will use."
+        },
+        {
+          "type": "int",
+          "name": "updateInterval",
+          "comment": "The interval between entity updates."
+        },
+        {
+          "type": "net.minecraft.world.flag.FeatureFlagSet",
+          "name": "requiredFeatures",
+          "comment": "The built-in features required for this entity type, used for preview entities."
+        }
+      ],
+      "comment": "Creates a new entity type."
+    }
+  ]
 }
