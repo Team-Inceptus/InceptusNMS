@@ -1086,7 +1086,7 @@ object DocGenerator {
 
         for (child in processed.split("[<>,]".toRegex()).filter { it.isNotBlank() }.map { it.replace(" ", "") }) {
             if (generics.contains(child)) {
-                finalType = finalType.replace(suffix, "").replace(child, "<a href=\"/${self.replace('.', '/')}.html$suffix\" title=\"member in $self\">$child$suffix</a>")
+                finalType = finalType.replace(suffix, "").replace("\b$child\b".toRegex(), "<a href=\"/${self.replace('.', '/')}.html$suffix\" title=\"member in $self\">$child$suffix</a>")
                 continue
             }
 
