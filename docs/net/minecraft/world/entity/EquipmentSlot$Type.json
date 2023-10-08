@@ -1,0 +1,17 @@
+{
+  "class": {
+    "type": "enum",
+    "enclosing": "net.minecraft.world.entity.EquipmentSlot",
+    "comment": "The type of equipment slot this is."
+  },
+  "enumerations": [
+    {
+      "name": "HAND",
+      "comment": "An equipment slot for your main hand or offhand."
+    },
+    {
+      "name": "ARMOR",
+      "comment": "An equipment slot for your head, chest, legs, or feet."
+    }
+  ]
+}

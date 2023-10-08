@@ -1,0 +1,36 @@
+{
+  "class": {
+    "type": "interface",
+    "enclosing": "net.minecraft.world.entity.EntityType",
+    "generics": {
+      "T": {
+        "extends": [
+          "net.minecraft.world.entity.Entity"
+        ],
+        "comment": "The type of entity that can be created."
+      }
+    },
+    "comment": "An interface factory for creating entity instances of @(net.minecraft.world.entity.EntityType)."
+  },
+  "methods": {
+    "create": {
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.EntityType<T>",
+          "name": "type",
+          "comment": "The type of entity to create."
+        },
+        {
+          "type": "net.minecraft.world.level.Level",
+          "name": "level",
+          "comment": "The level to create the entity in."
+        }
+      ],
+      "return": {
+        "type": "T",
+        "comment": "The created entity instance."
+      },
+      "comment": "Creates a new entity instance of the specified type."
+    }
+  }
+}

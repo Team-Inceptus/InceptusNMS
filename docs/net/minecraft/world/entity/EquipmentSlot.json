@@ -1,0 +1,177 @@
+{
+  "class": {
+    "type": "enum",
+    "implements": [
+      "net.minecraft.util.StringRepresentable"
+    ],
+    "comment": "Represents a slot that an item can be equipped into."
+  },
+  "enumerations": [
+    {
+      "name": "MAINHAND",
+      "comment": "The main hand of the entity."
+    },
+    {
+      "name": "OFFHAND",
+      "comment": "The off hand of the entity."
+    },
+    {
+      "name": "FEET",
+      "comment": "The feet of the entity."
+    },
+    {
+      "name": "LEGS",
+      "comment": "The legs of the entity."
+    },
+    {
+      "name": "CHEST",
+      "comment": "The chest of the entity."
+    },
+    {
+      "name": "HEAD",
+      "comment": "The head of the entity."
+    }
+  ],
+  "fields": {
+    "CODEC": {
+      "type": "net.minecraft.util.StringRepresentable.EnumCodec<{this}>",
+      "mods": ["static", "final"],
+      "comment": "A codec that can decode a slot from a packet."
+    },
+    "type": {
+      "type": "{this}$Type",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The type of slot."
+    },
+    "index": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The index of the slot.\nThis is usually correlated with the ordinal of the enum, split by @({this}#type). For example, the main hand slot has an index of 0, and the feet has an index of 0."
+    },
+    "filterFlag": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The filter flag of the slot.\nThis is used to determine what items can be placed into the slot."
+    },
+    "name": {
+      "type": "String",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The name of the slot."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "{this}$Type",
+          "name": "type",
+          "comment": "The type of slot."
+        },
+        {
+          "type": "int",
+          "name": "index",
+          "comment": "The index of the slot."
+        },
+        {
+          "type": "int",
+          "name": "filterFlag",
+          "comment": "The filter flag of the slot."
+        },
+        {
+          "type": "string",
+          "name": "name",
+          "comment": "The name of the slot."
+        }
+      ],
+      "comment": "Creates a new EquipmentSlot."
+    }
+  ],
+  "methods": {
+    "getType": {
+      "$getter": "type"
+    },
+    "getIndex": [
+      {
+        "$getter": "index"
+      },
+      {
+        "params": [
+          {
+            "type": "int",
+            "name": "add",
+            "comment": "The number to be added to the index."
+          }
+        ],
+        "return": {
+          "type": "int",
+          "comment": "The index of the slot, with the specified number added to it."
+        },
+        "comment": "Gets the index of the slot, with the specified number added to it."
+      }
+    ],
+    "getFilterFlag": {
+      "$getter": "filterFlag"
+    },
+    "getName": {
+      "$getter": "name"
+    },
+    "isArmor": {
+      "return": {
+        "type": "boolean",
+        "comment": "Whether or not the slot is an armor slot."
+      },
+      "comment": "Fetches whether or not the slot is an armor slot type."
+    },
+    "byName": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "string",
+          "name": "name",
+          "comment": "The name of the slot."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The slot with the specified name."
+      },
+      "throws": [
+        {
+          "type": "java.lang.IllegalArgumentException",
+          "comment": "If the slot with the specified name does not exist."
+        }
+      ],
+      "comment": "Gets the slot with the specified name."
+    },
+    "byTypeAndIndex": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "{this}$Type",
+          "name": "type",
+          "comment": "The type of slot."
+        },
+        {
+          "type": "int",
+          "name": "index",
+          "comment": "The index of the slot."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The slot with the specified type and index."
+      },
+      "throws": [
+        {
+          "type": "java.lang.IllegalArgumentException",
+          "comment": "If the slot with the specified type and index does not exist."
+        }
+      ],
+      "comment": "Gets the slot with the specified type and index."
+    }
+  }
+}
