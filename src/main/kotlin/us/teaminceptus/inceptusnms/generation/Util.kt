@@ -87,13 +87,11 @@ object Util {
         val files = input.walkTopDown().filter { it.isFile && it.name.endsWith(".json") }
 
         files.forEach { file ->
-            launch {
-                LOADED_DOCUMENTATION.add(
-                    ClassDocumentation.fromJson(
-                        getJavaName(file),
-                        Json.parseToJsonElement(file.readText()).jsonObject
-                    )
-                )
+            launch(Dispatchers.IO) {
+                val name = getJavaName(file)
+                val obj = Json.parseToJsonElement(file.readText()).jsonObject
+
+                ClassDocumentation.fromJson(name, obj, LOADED_DOCUMENTATION::add)
             }
         }
     }
