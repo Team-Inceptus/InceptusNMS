@@ -26,6 +26,7 @@ data class ClassDocumentation(
     val pkg: String = name.substring(0, name.lastIndexOf('.'))
     val simpleName: String = name.substring(name.lastIndexOf('.') + 1).replace("$", ".")
     val docName: String = "$simpleName${generics(this)}"
+    val fullDocName: String = "$name${generics(this)}"
 
     // Definitions
     
@@ -253,6 +254,7 @@ data class ClassDocumentation(
             val methods = async {
                 if (json.contains("methods")) {
                     fun construct(method: String, obj: JsonObject): MethodDocumentation {
+                        //<editor-fold desc="Construct">
                         if (obj["\$getter"] != null && fieldsV != null)
                             return fieldsV.fields.first { it.name == obj["\$getter"]!!.jsonPrimitive.content }.let { field ->
                                 MethodDocumentation(
@@ -318,6 +320,7 @@ data class ClassDocumentation(
                             annotations(name, obj["annotations"]),
                             processComment(name, obj["comment"]!!.jsonPrimitive.content)
                         )
+                        //</editor-fold>
                     }
 
                     MethodsDocumentation(json["methods"]!!.jsonObject.map { method ->
