@@ -1,0 +1,386 @@
+{
+  "class": {
+    "type": "enum",
+    "implements": [
+      "net.minecraft.util.StringRepresentable"
+    ],
+    "comment": "Represents a @(org.bukkit.ChatColor)."
+  },
+  "enumerations": [
+    {
+      "name": "BLACK",
+      "comment": "Represents black."
+    },
+    {
+      "name": "DARK_BLUE",
+      "comment": "Represents dark blue."
+    },
+    {
+      "name": "DARK_GREEN",
+      "comment": "Represents dark green."
+    },
+    {
+      "name": "DARK_AQUA",
+      "comment": "Represents dark aqua."
+    },
+    {
+      "name": "DARK_RED",
+      "comment": "Represents dark red."
+    },
+    {
+      "name": "DARK_PURPLE",
+      "comment": "Represents dark purple."
+    },
+    {
+      "name": "GOLD",
+      "comment": "Represents gold."
+    },
+    {
+      "name": "GRAY",
+      "comment": "Represents gray."
+    },
+    {
+      "name": "DARK_GRAY",
+      "comment": "Represents dark gray."
+    },
+    {
+      "name": "BLUE",
+      "comment": "Represents blue."
+    },
+    {
+      "name": "GREEN",
+      "comment": "Represents green."
+    },
+    {
+      "name": "AQUA",
+      "comment": "Represents aqua."
+    },
+    {
+      "name": "RED",
+      "comment": "Represents red."
+    },
+    {
+      "name": "LIGHT_PURPLE",
+      "comment": "Represents light purple."
+    },
+    {
+      "name": "YELLOW",
+      "comment": "Represents yellow."
+    },
+    {
+      "name": "WHITE",
+      "comment": "Represents white."
+    },
+    {
+      "name": "MAGIC",
+      "comment": "Represents magical characters that change around randomly."
+    },
+    {
+      "name": "BOLD",
+      "comment": "Makes the text bold."
+    },
+    {
+      "name": "STRIKETHROUGH",
+      "comment": "Makes a line appear through the text."
+    },
+    {
+      "name": "UNDERLINE",
+      "comment": "Makes the text appear underlined."
+    },
+    {
+      "name": "ITALIC",
+      "comment": "Makes the text italic."
+    },
+    {
+      "name": "RESET",
+      "comment": "Resets all previous chat colors or formats."
+    }
+  ],
+  "fields": {
+    "CODEC": {
+      "type": "codec<{this}>",
+      "mods": ["static", "final"],
+      "comment": "A codec that converts between strings and @{this}."
+    },
+    "PREFIX_CODE": {
+      "type": "char",
+      "mods": ["static", "final"],
+      "value": "§",
+      "comment": "The character that represents a prefix."
+    },
+    "FORMATTING_BY_NAME": {
+      "type": "java.util.Map<String, {this}>",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "A map of the names of the formattings to the formattings."
+    },
+    "STRIP_FORMATTING_PATTERN": {
+      "type": "java.util.regex.Pattern",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "A pattern that matches all formatting codes."
+    },
+    "name": {
+      "type": "string",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The name of this formatting."
+    },
+    "code": {
+      "type": "char",
+      "mods": ["final"],
+      "comment": "The char character that represents this formatting."
+    },
+    "isFormat": {
+      "type": "boolean",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "Whether this formatting is a format and not a color."
+    },
+    "toString": {
+      "type": "string",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "Returns the string representation of this formatting.\nThis string matches the mojang-mapped enumeration, since the actual name will change on remapping. Use for reflection purposes."
+    },
+    "id": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The id of this formatting.\nThis is usually a reflection of the enum's ordinal, but is -1 for non-colors."
+    },
+    "color": {
+      "type": "wint",
+      "visibility": "private",
+      "mods": ["final"],
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "The RGB color of this formatting, as a hexadecimal integer."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "string",
+          "name": "name",
+          "comment": "The name of this formatting."
+        },
+        {
+          "type": "char",
+          "name": "code",
+          "comment": "The char character that represents this formatting."
+        },
+        {
+          "type": "int",
+          "name": "id",
+          "comment": "The id of this formatting."
+        },
+        {
+          "type": "wint",
+          "name": "color",
+          "comment": "The RGB color of this formatting, as a hexadecimal integer."
+        }
+      ],
+      "comment": "Creates a new formatting with @({this}#isFormat) set to false."
+    },
+    {
+      "params": [
+        {
+          "type": "string",
+          "name": "name",
+          "comment": "The name of this formatting."
+        },
+        {
+          "type": "char",
+          "name": "code",
+          "comment": "The char character that represents this formatting."
+        },
+        {
+          "type": "boolean",
+          "name": "isFormat",
+          "comment": "Whether this formatting is a format and not a color."
+        }
+      ],
+      "comment": "Creates a new formatting with @({this}#id) set to -1 and @({this}#color) set to null."
+    },
+    {
+      "params": [
+        {
+          "type": "string",
+          "name": "name",
+          "comment": "The name of this formatting."
+        },
+        {
+          "type": "char",
+          "name": "code",
+          "comment": "The char character that represents this formatting."
+        },
+        {
+          "type": "boolean",
+          "name": "isFormat",
+          "comment": "Whether this formatting is a format and not a color."
+        },
+        {
+          "type": "int",
+          "name": "id",
+          "comment": "The id of this formatting."
+        },
+        {
+          "type": "wint",
+          "name": "color",
+          "comment": "The RGB color of this formatting, as a hexadecimal integer."
+        }
+      ],
+      "comment": "Creates a new formatting with @({this}#id) set to -1 and @({this}#color) set to null."
+    }
+  ],
+  "methods": {
+    "cleanName": {
+      "visibility": "private",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "string",
+          "name": "name",
+          "comment": "The name to clean."
+        }
+      ],
+      "return": {
+        "type": "string",
+        "comment": "The cleaned name."
+      },
+      "comment": "Cleans the name of a formatting."
+    },
+    "getChar": {
+      "$getter": "code"
+    },
+    "getId": {
+      "$getter": "id"
+    },
+    "isFormat": {
+      "$getter": "isFormat"
+    },
+    "isColor": {
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this formatting is a color."
+      },
+      "comment": "Gets whether this formatting is a color."
+    },
+    "getColor": {
+      "$getter": "color"
+    },
+    "getName": {
+      "$getter": "name"
+    },
+    "stripFormatting": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "string",
+          "name": "string",
+          "annotations": [
+            {
+              "type": "nullable"
+            }
+          ],
+          "comment": "The string to strip formatting from."
+        }
+      ],
+      "return": {
+        "type": "string",
+        "comment": "The string without formatting."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Strips all formatting from a string."
+    },
+    "getByName": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "string",
+          "name": "name",
+          "comment": "The name of the formatting."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The formatting with the given name, or null if not found."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Gets the formatting with the given name."
+    },
+    "getById": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "int",
+          "name": "id",
+          "comment": "The id of the formatting."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The formatting with the given id, or null if not found."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Gets the formatting with the given id."
+    },
+    "getByCode": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "char",
+          "name": "code",
+          "comment": "The code of the formatting."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The formatting with the given code, or null if not found."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Gets the formatting with the given code."
+    },
+    "getNames": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "boolean",
+          "name": "includeFormats",
+          "comment": "Whether to include formats in the list."
+        },
+        {
+          "type": "boolean",
+          "name": "includeColors",
+          "comment": "Whether to include colors in the list."
+        }
+      ],
+      "return": {
+        "type": "java.util.Collection<string>",
+        "comment": "The names of all formattings."
+      },
+      "comment": "Gets the names of all formattings matching the filters."
+    }
+  }
+}
