@@ -130,7 +130,7 @@ Methods that are overrided should have updated documentation (if necessary). Imp
 
 ##### `methods` object operators
 
-If the method is a getter or setter of a documented field, you can use the `$getter` or `$setter` operator accordingly. The documentation will copy its visibility and mods from the field. For example:
+If the method is a getter or setter of a documented field, you can use the `$getter` or `$setter` operator accordingly. The documentation will copy its mods from the field, and will assume it is `public`. For example:
 ```json
 {
   "fields": {
@@ -159,6 +159,7 @@ Fields such as `comment` and `annotations` can be overriden as necessary. Operat
   "methods": {
     "getFoo": {
       "$getter": "foo",
+      "visibility": "protected",
       "comment": "Gets the foo value. This also calls a counter that increments the foo value."
     }
   }
