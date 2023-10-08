@@ -100,7 +100,7 @@
     "CODEC": {
       "type": "codec<{this}>",
       "mods": ["static", "final"],
-      "comment": "A codec that converts between strings and @{this}."
+      "comment": "A codec that converts between strings and @({this})."
     },
     "PREFIX_CODE": {
       "type": "char",
