@@ -6,6 +6,7 @@ import org.jsoup.nodes.Document
 import org.jsoup.nodes.Document.OutputSettings
 import org.jsoup.nodes.DocumentType
 import org.jsoup.nodes.Element
+import us.teaminceptus.inceptusnms.generation.DocGenerator.url
 import us.teaminceptus.inceptusnms.generation.Util.log
 import java.io.File
 import java.net.HttpURLConnection
@@ -82,8 +83,8 @@ object DocGenerator {
             }
     }
 
-    fun template(path: String): Document =
-        Jsoup.parse(File(Paths.get("").toAbsolutePath().toString(), "/src/main/resources/templates/$path"))
+    fun template(path: String): String =
+       File(Paths.get("").toAbsolutePath().toString(), "/src/main/resources/templates/$path").readText()
 
     fun document(path: String): String
         = File(input, path).readText()
@@ -92,7 +93,7 @@ object DocGenerator {
         = document("/${pkg.url()}/package-info.html")
 
     fun Document.main(): Element
-        = body().selectFirst("main")!!
+        = select("main").first()!!
 
     fun String.header(): String
         = substringAfter("\n").take(120)
@@ -101,6 +102,9 @@ object DocGenerator {
 
     fun String.url(): String
         = replace('.', '/').replace('$', '.')
+
+    fun String.serialize(): String
+        = replace("<", "&lt;").replace(">", "&gt;")
 
     fun classSummaryButton(id: Int, text: String, prefix: String = "class-summary"): Element =
         Element("button").apply {
@@ -137,7 +141,7 @@ object DocGenerator {
             attr("lang", "en")
         }
         doc.head().apply {
-            append(template("head.html").head().html())
+            append(template("head.html"))
 
             selectFirst("title")?.text("$title ($TITLE)")
             append("<meta name=\"description\" content=\"$description\">")
@@ -163,7 +167,7 @@ object DocGenerator {
             .appendChild(Element("div").apply {
                 addClass("flex-box")
 
-                append(template("navbar/$navbar.html").html())
+                append(template("navbar/$navbar.html"))
                 appendChild(Element("div").apply {
                     addClass("flex-content")
                     appendChild(main)
@@ -593,14 +597,23 @@ object DocGenerator {
         // TODO Class Inheritance
 
         main.appendChild(Element("section").apply {
-            addClass("class-signature")
+            addClass("class-description")
             id("class-description")
 
-            if (info.implements.isNotEmpty() && info.type != "interface") {
+            if (info.generics.isNotEmpty())
                 appendChild(Element("dl").apply {
                     addClass("notes")
-                    append("<dt>Implemented Interfaces:</dt>")
-                    append("<dd><code>${info.implements.map { clazz -> link(info.name, clazz, info.generics.map { it.name }) }.joinString(", ", "")}</code></dd>")
+                    append("<dt>Type Parameters:</dt>")
+                    for (generic in info.generics)
+                        append("<dd><code>${generic.name}</code> - ${generic.comment.header()}</dd>")
+                })
+
+            val implements = Util.getImplements(info)
+            if (implements.isNotEmpty() && info.type != "interface") {
+                appendChild(Element("dl").apply {
+                    addClass("notes")
+                    append("<dt>All Implemented Interfaces:</dt>")
+                    append("<dd><code>${implements.map { clazz -> link(info.name, clazz, info.generics.map { it.name }) }.joinString(", ", "")}</code></dd>")
                 })
             }
 
@@ -729,7 +742,8 @@ object DocGenerator {
 
                 appendChild(Element("div").apply {
                     classNames(setOf("col-second", rowColor))
-                    append("<code><a class=\"type-name-link\" href=\"/${clazz.name.url()}.html\" class=\"member-name-link\">${clazz.docName}</a></code>")
+
+                    append("<code>${link(clazz.name, clazz.fullDocName, clazz.generics.map { it.name })}</code>")
                 })
 
                 appendChild(Element("div").apply {
@@ -1004,7 +1018,7 @@ object DocGenerator {
                             builder.append("${method.visibility} ")
 
                         if (method.generics.isNotEmpty())
-                            builder.append("<${method.generics.map { it.name }.joinString(", ", "")}> ")
+                            builder.append("&lt;${method.generics.map { it.name }.joinString(", ", "")}&gt; ")
 
                         if (method.mods.isNotEmpty())
                             builder.append("${method.mods.joinString(" ")} ")
@@ -1230,17 +1244,18 @@ object DocGenerator {
         "https://hub.spigotmc.org/javadocs/spigot/",
         "https://www.slf4j.org/apidocs/",
         "https://repo.karuslabs.com/repository/brigadier/",
-        "https://kvverti.github.io/Documented-DataFixerUpper/snapshot/"
+        "https://kvverti.github.io/Documented-DataFixerUpper/snapshot/",
+        "https://javadoc.scijava.org/Guava/"
     )
 
     fun link(self: String, type: String, generics: List<String> = emptyList()): String {
-        var finalType = type.replace("<", "&lt;").replace(">", "&gt;")
+        var finalType = type.serialize()
         val processed = type.split("#")[0]
         val suffix = (if (type.contains("#")) "#${type.split("#")[1]}" else "")
 
-        for (child in processed.split("[<>,]".toRegex()).filter { it.isNotBlank() }.map { it.replace(" ", "") }) {
+        for (child in processed.split("[<>,\\s]".toRegex()).filter { it.isNotBlank() }.map { it.replace("(\\.{3}|\\s)".toRegex(), "") }) {
             if (generics.contains(child)) {
-                val regex = "(&lt;|<[\\s,]*)(T)([\\s,]*&gt;|>)".toRegex()
+                val regex = "(.*)($child)(.*)".toRegex()
 
                 finalType = finalType.replace(suffix, "")
                 finalType = regex.replace(finalType) {
@@ -1262,20 +1277,21 @@ object DocGenerator {
 
             if (Util.getClassDocumentation().any { it.name == newType } || self == newType)
                 finalType = finalType.replace(suffix, "").replace(child, "<a href=\"/${docUrl}\" title=\"member in $pkg\">$simpleName$suffix</a>$arrayBuilder")
-            else
-                for (repo in REPOSITORIES) {
-                    val url = URL(repo + docUrl)
+            else {
+                fun externalLink(repo: String, str: String)
+                    = str.replace(suffix, "").replace(child, "<a href=\"${repo + docUrl}\" title=\"member in $pkg\">$simpleName$suffix</a>$arrayBuilder")
 
-                    try {
-                        with(url.openConnection() as HttpURLConnection) {
-                            requestMethod = "GET"
-
-                            if (responseCode == 200)
-                                finalType = finalType.replace(suffix, "").replace(child, "<a href=\"${repo + docUrl}\" title=\"member in $pkg\">$simpleName$suffix</a>$arrayBuilder")
-                        }
-                    } catch (ignored: UnknownHostException) { // Offline
-                    }
+                finalType = when {
+                    child.startsWith("net.minecraft") || child.startsWith("org.bukkit.craftbukkit") -> finalType
+                    child.startsWith("java") -> externalLink(REPOSITORIES[0], finalType)
+                    child.startsWith("org.bukkit") -> externalLink(REPOSITORIES[1], finalType)
+                    child.startsWith("org.slf4j") -> externalLink(REPOSITORIES[2], finalType)
+                    child.startsWith("com.mojang.brigadier") -> externalLink(REPOSITORIES[3], finalType)
+                    child.startsWith("com.mojang.datafixers") || child.startsWith("com.mojang.serialization") -> externalLink(REPOSITORIES[4], finalType)
+                    child.startsWith("com.google.common") -> externalLink(REPOSITORIES[5], finalType)
+                    else -> finalType
                 }
+            }
         }
 
         return finalType.replace('$', '.')
