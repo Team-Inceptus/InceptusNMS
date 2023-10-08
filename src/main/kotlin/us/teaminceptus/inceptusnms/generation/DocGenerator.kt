@@ -50,6 +50,14 @@ object DocGenerator {
             log("Created allclasses-index.html")
         }
 
+        launch {
+            File(output, "constant-values.html").apply {
+                createNewFile()
+                writeText(generateConstantValues().outerHtml())
+            }
+            log("Created constant-values.html")
+        }
+
         for (pkg in Util.getAllJavaPackages(input))
             launch {
                 File(output, "${pkg.replace('.', '/')}/package-summary.html").apply {
@@ -63,7 +71,7 @@ object DocGenerator {
 
         for (clazz in Util.getClassDocumentation())
             launch {
-                File(output, "${clazz.name.replace('.', '/')}.html").apply {
+                File(output, "${clazz.name.replace('.', '/').replace('$', '.')}.html").apply {
                     parentFile.mkdirs()
                     createNewFile()
                     writeText(generateClass(clazz).outerHtml())
@@ -86,7 +94,7 @@ object DocGenerator {
         = body().selectFirst("main")!!
 
     fun String.header(): String
-        = substringAfter("\n").take(60)
+        = substringAfter("\n").take(120)
 
     fun item(element: Element): Element = Element("li").appendChild(element)
 
@@ -161,6 +169,7 @@ object DocGenerator {
         if (textTitle != null)
             main.appendChild(Element("div").apply {
                 addClass("header")
+                id("inceptusnms:header")
             }.appendChild(Element("h1").apply {
                 addClass("title")
                 attr("title", textTitle)
@@ -462,6 +471,97 @@ object DocGenerator {
         return doc
     }
 
+    fun generateConstantValues(): Document {
+        val doc = startDocument("constant-values.html", "default", "Constant Field Values", "Constant Field Values", description = "summary of constants")
+        val main = doc.main()
+
+        val classes = Util.getClassDocumentation().filter { clazz ->
+            clazz.fields?.fields?.any { it.value != null } == true
+        }
+        val packages = classes.map { it.pkg }.toSet()
+
+        doc.getElementById("inceptusnms:header")!!.appendChild(Element("section").apply {
+            addClass("packages")
+
+            append("<h2 title=\"Contents\">Contents</h2>")
+
+            appendChild(Element("ul").apply {
+                for (pkg in packages)
+                    appendChild(item(Element("a").apply {
+                        attr("href", "#$pkg")
+                        text("$pkg.*")
+                    }))
+            })
+        })
+
+
+        for (pkg in packages) {
+            main.appendChild(Element("section").apply {
+                addClass("constants-summary")
+                id(pkg)
+
+                append("<h2 title=\"$pkg\">$pkg.*</h2>")
+                appendChild(Element("ul").apply {
+                    addClass("block-list")
+
+                    for (clazz in classes.filter { it.pkg == pkg }) {
+                        val generics = clazz.generics.map { it.name }
+
+                        appendChild(Element("li").apply {
+                            append("<div class=\"caption\"><span>${clazz.pkg}.${link(clazz.name, clazz.docName, generics)}</span></div>")
+
+                            appendChild(Element("div").apply {
+                                classNames(setOf("summary-table", "three-column-summary"))
+
+                                append("<div class=\"table-header col-first\">Modifier and Type</div>")
+                                append("<div class=\"table-header col-second\">Constant Field</div>")
+                                append("<div class=\"table-header col-third\">Value</div>")
+
+                                var even = true
+                                for (field in clazz.fields!!.fields.filter { it.value != null }) {
+                                    val rowColor = "${if (even) "even" else "odd"}-row-color"
+
+                                    appendChild(Element("div").apply {
+                                        classNames(setOf("col-first", rowColor))
+                                        append("<code id=\"${clazz.name}.${field.name}\">${field.visibility} ${field.mods.joinString(" ")} ${link(clazz.name, field.type, generics)}</code>")
+                                    })
+
+                                    appendChild(Element("div").apply {
+                                        classNames(setOf("col-second", rowColor))
+                                        append("<code><a href=\"${clazz.name.replace('.', '/')}#${field.name}\">${field.name}</a></code>")
+                                    })
+
+                                    appendChild(Element("div").apply {
+                                        classNames(setOf("col-third", rowColor))
+
+                                        val value = when (field.type) {
+                                            "float" -> "${field.value}f"
+                                            "long" -> "${field.value}L"
+                                            "double" -> "${field.value}d"
+                                            "char" -> "'${field.value}'"
+                                            "java.lang.String" -> "\"${field.value}\""
+                                            "byte" -> "0x${field.value!!.toByte().toString(16)}"
+                                            else -> field.value
+                                        }
+
+                                        append("<code>$value</code>")
+                                    })
+
+                                    even = !even
+                                }
+                            })
+                        })
+                    }
+
+                })
+
+
+            })
+        }
+
+        return doc
+    }
+
     // Class Generators
 
     fun Iterable<String>.joinString(separator: CharSequence, suffix: String = " "): String {
@@ -674,7 +774,7 @@ object DocGenerator {
 
                 appendChild(Element("div").apply {
                     classNames(setOf("col-last", rowColor))
-                    append("<div class=\"block\">${field.comment}</div>")
+                    append("<div class=\"block\">${field.comment.header()}</div>")
                 })
 
                 even = !even
@@ -1086,7 +1186,12 @@ object DocGenerator {
 
         for (child in processed.split("[<>,]".toRegex()).filter { it.isNotBlank() }.map { it.replace(" ", "") }) {
             if (generics.contains(child)) {
-                finalType = finalType.replace(suffix, "").replace("\b$child\b".toRegex(), "<a href=\"/${self.replace('.', '/')}.html$suffix\" title=\"member in $self\">$child$suffix</a>")
+                val regex = "([<,\\s])($child)([,\\s>])".toRegex()
+
+                finalType = finalType.replace(suffix, "")
+                finalType = regex.replace(finalType) {
+                     "${it.groupValues[1]}<a href=\"/${self.replace('.', '/')}.html$suffix\" title=\"member in $self\">$child$suffix</a>${it.groupValues[3]}"
+                }
                 continue
             }
 
