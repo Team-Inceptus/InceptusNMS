@@ -57,6 +57,7 @@ data class ClassDocumentation(
         val visibility: String = "public",
         val mods: List<String> = emptyList(),
         val annotations: List<AnnotationDocumentation> = emptyList(),
+        val value: String? = null,
         val comment: String
     )
 
@@ -207,6 +208,7 @@ data class ClassDocumentation(
                         obj["visibility"]?.jsonPrimitive?.content ?: "public",
                         obj["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
                         annotations(name, obj["annotations"]),
+                        obj["value"]?.jsonPrimitive?.content,
                         processComment(name, obj["comment"]!!.jsonPrimitive.content)
                     )
                 })
@@ -228,13 +230,13 @@ data class ClassDocumentation(
             if (json.contains("methods")) {
                 fun construct(method: String, obj: JsonObject): MethodDocumentation {
                     if (obj["\$getter"] != null && fields != null)
-                        return fields.fields.first { it.name == obj["\$setter"]!!.jsonPrimitive.content }.let { field ->
+                        return fields.fields.first { it.name == obj["\$getter"]!!.jsonPrimitive.content }.let { field ->
                             MethodDocumentation(
                                 method,
-                                field.visibility,
+                                obj["visibility"]?.jsonPrimitive?.content ?: "public",
                                 field.mods,
                                 emptyList(),
-                                listOf(ParameterDocumentation(field.type, "value", emptyList(), field.comment)),
+                                emptyList(),
                                 field.type,
                                 field.comment,
                                 obj["throws"]?.jsonArray?.associate {
@@ -252,7 +254,7 @@ data class ClassDocumentation(
                         return fields.fields.first { it.name == obj["\$setter"]!!.jsonPrimitive.content }.let { field ->
                             MethodDocumentation(
                                 method,
-                                field.visibility,
+                                obj["visibility"]?.jsonPrimitive?.content ?: "public",
                                 field.mods,
                                 emptyList(),
                                 listOf(ParameterDocumentation(field.type, "value", emptyList(), field.comment)),
