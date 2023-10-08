@@ -40,7 +40,7 @@ fun validateClass(file: File, json: JsonObject) {
     assert(json.contains("class") && json["class"]?.jsonObject?.contains("type") == true) { "Class must have a type!" }
 
     val classType = json["class"]!!.jsonObject["type"]!!.jsonPrimitive.content
-    assert(classType == "interface" || classType == "class" || classType == "enum" || classType == "record") { "Class type must be either interface, class, enum, or record!" }
+    assert(classType == "interface" || classType == "class" || classType == "enum" || classType == "record" || classType == "annotation") { "Class type must be either interface, class, enum, annotation, or record!" }
 
     if (classType == "enum")
         assert(json.contains("enumerations")) { "Enum must have enumerations!" }
