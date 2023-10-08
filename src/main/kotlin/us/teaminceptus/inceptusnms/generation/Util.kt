@@ -113,6 +113,25 @@ object Util {
 
         return subclasses
     }
+
+    fun getImplements(info: ClassDocumentation): Set<String> {
+        val implements = mutableSetOf<String>()
+        val classes = getClassDocumentation()
+
+        if (info.implements.isNotEmpty()) {
+            implements.addAll(info.implements)
+
+            val extends = classes.firstOrNull { it.name == info.extends }
+            if (extends != null)
+                implements.addAll(getImplements(extends))
+
+            for (implement in info.implements.filter { clazz -> classes.map { it.name }.contains(clazz) })
+                implements.addAll(getImplements(classes.first { it.name == implement }))
+
+        }
+
+        return implements
+    }
     
     // Logging
     
