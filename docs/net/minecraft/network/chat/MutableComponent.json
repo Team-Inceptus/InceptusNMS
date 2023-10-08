@@ -1,0 +1,168 @@
+{
+  "class": {
+    "type": "class",
+    "implements": [
+      "component"
+    ],
+    "comment": "Represents a @(component) that contains mutable content."
+  },
+  "fields": {
+    "contents": {
+      "type": "net.minecraft.network.chat.ComponentContents",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The contents of this component."
+    },
+    "siblings": {
+      "type": "java.util.List<component>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The siblings of this component."
+    },
+    "style": {
+      "type": "net.minecraft.network.chat.Style",
+      "visibility": "private",
+      "comment": "The style of this component."
+    },
+    "visualOrderText": {
+      "type": "net.minecraft.util.FormattedCharSequence",
+      "visibility": "private",
+      "comment": "The visual order text of this component."
+    },
+    "decomposedWith": {
+      "type": "net.minecraft.locale.Language",
+      "visibility": "private",
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "The language that this component was decomposed with."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "package",
+      "params": [
+        {
+          "type": "net.minecraft.network.chat.ComponentContents",
+          "name": "contents",
+          "comment": "The contents of this component."
+        },
+        {
+          "type": "java.util.List<component>",
+          "name": "siblings",
+          "comment": "The siblings of this component."
+        },
+        {
+          "type": "net.minecraft.network.chat.Style",
+          "name": "style",
+          "comment": "The style of this component."
+        }
+      ],
+      "comment": "Creates a new component with the given contents, siblings, and style."
+    }
+  ],
+  "methods": {
+    "create": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.network.chat.ComponentContents",
+          "name": "contents",
+          "comment": "The contents of the component."
+        }
+      ],
+      "comment": "Creates a new component with the given contents."
+    },
+    "getContents": {
+      "$getter": "contents"
+    },
+    "getSiblings": {
+      "$getter": "siblings"
+    },
+    "setStyle": {
+      "$setter": "style"
+    },
+    "getStyle": {
+      "$getter": "style"
+    },
+    "append": [
+      {
+        "params": [
+          {
+            "type": "component",
+            "name": "component",
+            "comment": "The component to append."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "This component, for chaining."
+        },
+        "comment": "Appends the given component to this component."
+      },
+      {
+        "params": [
+          {
+            "type": "string",
+            "name": "contents",
+            "comment": "The contents of the component to append."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "This component, for chaining."
+        },
+        "comment": "Appends the given string to this component."
+      }
+    ],
+    "withStyle": [
+      {
+        "params": [
+          {
+            "type": "java.util.function.UnaryOperator<net.minecraft.network.chat.Style>",
+            "name": "style",
+            "comment": "The style to apply."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "This component, for chaining."
+        },
+        "comment": "Applies the given style to this component."
+      },
+      {
+        "params": [
+          {
+            "type": "net.minecraft.ChatFormatting...",
+            "name": "formats",
+            "comment": "The formats to apply."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "This component, for chaining."
+        },
+        "comment": "Applies the given formats to this component."
+      },
+      {
+        "params": [
+          {
+            "type": "net.minecraft.ChatFormatting",
+            "name": "formats",
+            "comment": "The format to apply."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "This component, for chaining."
+        },
+        "comment": "Applies the given format to this component."
+      }
+    ],
+    "getVisualOrderText": {
+      "$getter": "visualOrderText"
+    }
+  }
+}
