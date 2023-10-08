@@ -313,14 +313,19 @@
                 },
                 "comment": {
                     "$ref": "#/definitions/comment"
+                },
+                "$getter": {
+                    "type": "string",
+                    "description": "The field that represents this getter."
+                },
+                "$setter": {
+                    "type": "string",
+                    "description": "The field that represents this setter."
                 }
             },
             "items": {
                 "$ref": "#/definitions/method-single"
             },
-            "required": [
-                "comment"
-            ],
             "description": "Method definition"
         },
         "generic": {

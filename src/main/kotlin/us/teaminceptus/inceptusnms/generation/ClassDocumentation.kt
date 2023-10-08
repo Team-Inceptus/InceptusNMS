@@ -226,29 +226,73 @@ data class ClassDocumentation(
 
             var methods: MethodsDocumentation? = null
             if (json.contains("methods")) {
-                fun construct(method: String, obj: JsonObject) = MethodDocumentation(
-                    method,
-                    obj["visibility"]?.jsonPrimitive?.content ?: "public",
-                    obj["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: (if (type == "interface") listOf("abstract") else emptyList()),
-                    obj["generics"]?.jsonObject?.map { generic ->
-                        val g = generic.value.jsonObject
+                fun construct(method: String, obj: JsonObject): MethodDocumentation {
+                    if (obj["\$getter"] != null && fields != null)
+                        return fields.fields.first { it.name == obj["\$setter"]!!.jsonPrimitive.content }.let { field ->
+                            MethodDocumentation(
+                                method,
+                                field.visibility,
+                                field.mods,
+                                emptyList(),
+                                listOf(ParameterDocumentation(field.type, "value", emptyList(), field.comment)),
+                                field.type,
+                                field.comment,
+                                obj["throws"]?.jsonArray?.associate {
+                                    processType(name, it.jsonObject["type"]!!.jsonPrimitive.content) to processComment(name, it.jsonObject["comment"]!!.jsonPrimitive.content)
+                                } ?: emptyMap(),
+                                annotations(name, obj["annotations"]),
+                                when {
+                                    obj["comment"] != null -> processComment(name, obj["comment"]!!.jsonPrimitive.content)
+                                    else -> "Gets ${field.comment.replaceFirstChar { it.lowercase() }}"
+                                }
+                            )
+                        }
 
-                        GenericDocumentation(
-                            generic.key,
-                            g["extends"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
-                            g["supers"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
-                            processComment(name, g["comment"]!!.jsonPrimitive.content)
-                        )
-                    } ?: emptyList(),
-                    params(name, obj["params"]),
-                    processType(name, obj["return"]?.jsonObject?.get("type")?.jsonPrimitive?.content ?: "void"),
-                    processComment(name, obj["return"]?.jsonObject?.get("comment")?.jsonPrimitive?.content ?: ""),
-                    obj["throws"]?.jsonArray?.associate {
-                        processType(name, it.jsonObject["type"]!!.jsonPrimitive.content) to processComment(name, it.jsonObject["comment"]!!.jsonPrimitive.content)
-                    } ?: emptyMap(),
-                    annotations(name, obj["annotations"]),
-                    processComment(name, obj["comment"]!!.jsonPrimitive.content)
-                )
+                    if (obj["\$setter"] != null && fields != null)
+                        return fields.fields.first { it.name == obj["\$setter"]!!.jsonPrimitive.content }.let { field ->
+                            MethodDocumentation(
+                                method,
+                                field.visibility,
+                                field.mods,
+                                emptyList(),
+                                listOf(ParameterDocumentation(field.type, "value", emptyList(), field.comment)),
+                                "void",
+                                "",
+                                obj["throws"]?.jsonArray?.associate {
+                                    processType(name, it.jsonObject["type"]!!.jsonPrimitive.content) to processComment(name, it.jsonObject["comment"]!!.jsonPrimitive.content)
+                                } ?: emptyMap(),
+                                annotations(name, obj["annotations"]),
+                                when {
+                                    obj["comment"] != null -> processComment(name, obj["comment"]!!.jsonPrimitive.content)
+                                    else -> "Sets ${field.comment.replaceFirstChar { it.lowercase() }}"
+                                }
+                            )
+                        }
+
+                    return MethodDocumentation(
+                        method,
+                        obj["visibility"]?.jsonPrimitive?.content ?: "public",
+                        obj["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: (if (type == "interface") listOf("abstract") else emptyList()),
+                        obj["generics"]?.jsonObject?.map { generic ->
+                            val g = generic.value.jsonObject
+
+                            GenericDocumentation(
+                                generic.key,
+                                g["extends"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
+                                g["supers"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
+                                processComment(name, g["comment"]!!.jsonPrimitive.content)
+                            )
+                        } ?: emptyList(),
+                        params(name, obj["params"]),
+                        processType(name, obj["return"]?.jsonObject?.get("type")?.jsonPrimitive?.content ?: "void"),
+                        processComment(name, obj["return"]?.jsonObject?.get("comment")?.jsonPrimitive?.content ?: ""),
+                        obj["throws"]?.jsonArray?.associate {
+                            processType(name, it.jsonObject["type"]!!.jsonPrimitive.content) to processComment(name, it.jsonObject["comment"]!!.jsonPrimitive.content)
+                        } ?: emptyMap(),
+                        annotations(name, obj["annotations"]),
+                        processComment(name, obj["comment"]!!.jsonPrimitive.content)
+                    )
+                }
 
                 methods = MethodsDocumentation(json["methods"]!!.jsonObject.map { method ->
                     try {

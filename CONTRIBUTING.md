@@ -41,6 +41,7 @@ In order for the parser to successfully generate JavaDocs, we need to input all 
 | `codec`      | `com.mojang.serialization.Codec`       |
 | `deprecated` | `java.lang.Deprecated`                 |
 | `bytebuf`    | `io.netty.buffer.ByteBuf`              |
+| `nullable`   | `javax.annotation.Nullable`            |
 
 #### Generics
 
@@ -126,6 +127,43 @@ We document all fields and methods, regardless of visibility. This includes pack
   - `comment` should always be the last line in the object.
 
 Methods that are overrided should have updated documentation (if necessary). Implementing methods for interfaces are optional to document. The documentation for the private field in use for a getter on an interface should have (near) identical documentation to the getter.
+
+##### `methods` object operators
+
+If the method is a getter or setter of a documented field, you can use the `$getter` or `$setter` operator accordingly. The documentation will copy its visibility and mods from the field. For example:
+```json
+{
+  "fields": {
+    "foo": {
+      "type": "int",
+      "comment": "The foo value."
+    }
+  },
+  "methods": {
+    "getFoo": {
+      "$getter": "foo"
+    }
+  }
+}
+```
+
+Fields such as `comment` and `annotations` can be overriden as necessary. Operators should be the first line in the object. For example:
+```json
+{
+  "fields": {
+    "foo": {
+      "type": "int",
+      "comment": "The foo value."
+    }
+  },
+  "methods": {
+    "getFoo": {
+      "$getter": "foo",
+      "comment": "Gets the foo value. This also calls a counter that increments the foo value."
+    }
+  }
+}
+```
 
 #### Package Info Documentation
 

@@ -713,7 +713,7 @@
       "visibility": "private",
       "annotations": [
         {
-          "type": "javax.annotation.Nullable"
+          "type": "nullable"
         }
       ],
       "comment": "The description ID of this entity type."
@@ -723,7 +723,7 @@
       "visibility": "private",
       "annotations": [
         {
-          "type": "javax.annotation.Nullable"
+          "type": "nullable"
         }
       ],
       "comment": "The human-readable description of this entity type."
@@ -733,7 +733,7 @@
       "visibility": "private",
       "annotations": [
         {
-          "type": "javax.annotation.nullable"
+          "type": "nullable"
         }
       ],
       "comment": "The loot table of this entity type, if applicable."

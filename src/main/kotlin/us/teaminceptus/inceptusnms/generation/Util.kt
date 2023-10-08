@@ -31,7 +31,8 @@ object Util {
         "component" to "net.minecraft.network.chat.Component",
         "codec" to "com.mojang.serialization.Codec",
         "deprecated" to "java.lang.Deprecated",
-        "bytebuf" to "io.netty.buffer.ByteBuf"
+        "bytebuf" to "io.netty.buffer.ByteBuf",
+        "nullable" to "javax.annotation.Nullable",
     )
 
     fun mapTypeAliases(type: String): String {

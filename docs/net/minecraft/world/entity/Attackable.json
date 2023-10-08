@@ -7,7 +7,7 @@
     "getLastAttacker": {
       "annotations": [
         {
-          "type": "javax.annotation.Nullable"
+          "type": "nullable"
         }
       ],
       "return": {
