@@ -1,8 +1,6 @@
 package us.teaminceptus.inceptusnms.generation
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Document.OutputSettings
@@ -26,7 +24,7 @@ object DocGenerator {
     suspend fun generatePages(input: File, output: File) = withContext(Dispatchers.IO) {
         DocGenerator.input = input
 
-        launch {
+        withContext(Dispatchers.IO) {
             File(output, "index.html").apply {
                 createNewFile()
                 writeText(generateIndex().outerHtml())
@@ -34,7 +32,7 @@ object DocGenerator {
             log("Created index.html")
         }
 
-        launch {
+        withContext(Dispatchers.IO) {
             File(output, "allpackages-index.html").apply {
                 createNewFile()
                 writeText(generateAllPackages().outerHtml())
@@ -42,7 +40,7 @@ object DocGenerator {
             log("Created allpackages-index.html")
         }
 
-        launch {
+        withContext(Dispatchers.IO) {
             File(output, "allclasses-index.html").apply {
                 createNewFile()
                 writeText(generateAllClasses().outerHtml())
@@ -50,7 +48,7 @@ object DocGenerator {
             log("Created allclasses-index.html")
         }
 
-        launch {
+        withContext(Dispatchers.IO) {
             File(output, "constant-values.html").apply {
                 createNewFile()
                 writeText(generateConstantValues().outerHtml())
@@ -59,8 +57,8 @@ object DocGenerator {
         }
 
         for (pkg in Util.getAllJavaPackages(input))
-            launch {
-                File(output, "${pkg.replace('.', '/')}/package-summary.html").apply {
+            withContext(Dispatchers.IO) {
+                File(output, "${pkg.url()}/package-summary.html").apply {
                     parentFile.mkdirs()
                     createNewFile()
                     writeText(generatePackageSummary(pkg).outerHtml())
@@ -70,11 +68,14 @@ object DocGenerator {
             }
 
         for (clazz in Util.getClassDocumentation())
-            launch {
-                File(output, "${clazz.name.replace('.', '/').replace('$', '.')}.html").apply {
+            withContext(Dispatchers.IO) {
+                File(output, "${clazz.name.url()}.html").apply {
                     parentFile.mkdirs()
                     createNewFile()
-                    writeText(generateClass(clazz).outerHtml())
+
+                    generateClass(clazz) {
+                        writeText(it.outerHtml())
+                    }
                 }
 
                 log("Created Documentation for ${clazz.name}")
@@ -88,7 +89,7 @@ object DocGenerator {
         = File(input, path).readText()
 
     fun packageInfo(pkg: String): String
-        = document("${pkg.replace('.', '/')}/package-info.html")
+        = document("/${pkg.url()}/package-info.html")
 
     fun Document.main(): Element
         = body().selectFirst("main")!!
@@ -97,6 +98,9 @@ object DocGenerator {
         = substringAfter("\n").take(120)
 
     fun item(element: Element): Element = Element("li").appendChild(element)
+
+    fun String.url(): String
+        = replace('.', '/').replace('$', '.')
 
     fun classSummaryButton(id: Int, text: String, prefix: String = "class-summary"): Element =
         Element("button").apply {
@@ -210,7 +214,7 @@ object DocGenerator {
         for (pkg in Util.getAllJavaPackages(input)) {
             list.appendChild(Element("div").apply {
                 classNames(setOf("col-first", "${if (even) "even" else "odd"}-row-color", "all-packages-table", "all-packages-table-tab1"))
-                append("<a href=\"/${pkg.replace('.', '/')}/package-summary.html\">$pkg</a>")
+                append("<a href=\"/${pkg.url()}/package-summary.html\">$pkg</a>")
             })
 
             list.appendChild(Element("div").apply {
@@ -267,7 +271,7 @@ object DocGenerator {
                             for (related in packages) {
                                 appendChild(Element("div").apply {
                                     classNames(setOf("col-first", "${if (even) "even" else "odd"}-row-color"))
-                                    append("<a href=\"/${related.replace('.', '/')}/package-summary.html\">$related</a>")
+                                    append("<a href=\"/${related.url()}/package-summary.html\">$related</a>")
                                 })
 
                                 appendChild(Element("div").apply {
@@ -423,7 +427,7 @@ object DocGenerator {
 
                     appendChild(Element("div").apply {
                         classNames(setOf("col-first", rowColor, "all-classes-table") + clazzes)
-                        append("<a href=\"/${clazz.pkg.replace('.', '/')}/${clazz.simpleName}.html\" title=\"${clazz.type} in ${clazz.pkg}\">${clazz.simpleName}</a>")
+                        append("<a href=\"/${clazz.pkg.url()}/${clazz.simpleName}.html\" title=\"${clazz.type} in ${clazz.pkg}\">${clazz.simpleName}</a>")
                     })
 
                     appendChild(Element("div").apply {
@@ -456,7 +460,7 @@ object DocGenerator {
 
                 appendChild(Element("div").apply {
                     classNames(setOf("col-first", rowColor))
-                    append("<a href=\"${pkg.replace('.', '/')}/package-summary.html\">$pkg</a>")
+                    append("<a href=\"/${pkg.url()}/package-summary.html\">$pkg</a>")
                 })
 
                 appendChild(Element("div").apply {
@@ -528,7 +532,7 @@ object DocGenerator {
 
                                     appendChild(Element("div").apply {
                                         classNames(setOf("col-second", rowColor))
-                                        append("<code><a href=\"${clazz.name.replace('.', '/')}#${field.name}\">${field.name}</a></code>")
+                                        append("<code><a href=\"/${clazz.name.url()}.html#${field.name}\">${field.name}</a></code>")
                                     })
 
                                     appendChild(Element("div").apply {
@@ -574,7 +578,7 @@ object DocGenerator {
         return joinToString(separator) + suffix
     }
 
-    fun generateClass(info: ClassDocumentation): Document {
+    suspend fun generateClass(info: ClassDocumentation, callback: (Document) -> Unit) = coroutineScope {
         val clazz = startDocument("${info.simpleName}.html", if (info.type == "record") "class" else info.type, info.simpleName, when (info.type) {
             "interface" -> "Interface ${info.docName}"
             "enum" -> "Enum Class ${info.docName}"
@@ -609,6 +613,14 @@ object DocGenerator {
                 })
             }
 
+            if (info.enclosing != null) {
+                appendChild(Element("dl").apply {
+                    addClass("notes")
+                    append("<dt>Enclosing Class:</dt>")
+                    append("<dd>${link(info.name, info.enclosing, info.generics.map { it.name })}</dd>")
+                })
+            }
+
             append("<hr>")
 
             appendChild(Element("div").apply {
@@ -640,21 +652,16 @@ object DocGenerator {
                 addClass("summary-list")
             }
 
-            val enums = generateEnumSummary(info)
-            if (enums != null)
-                list.appendChild(item(enums))
+            val elements = listOf(
+                async { generateNestedSummary(info) },
+                async { generateEnumSummary(info) },
+                async { generateFieldSummary(info) },
+                async { generateConstructorSummary(info) },
+                async { generateMethodSummary(info) }
+            ).awaitAll().filterNotNull()
 
-            val fields = generateFieldSummary(info)
-            if (fields != null)
-                list.appendChild(item(fields))
-
-            val constructors = generateConstructorSummary(info)
-            if (constructors != null)
-                list.appendChild(item(constructors))
-
-            val methods = generateMethodSummary(info)
-            if (methods != null)
-                list.appendChild(item(methods))
+            for (element in elements)
+                list.appendChild(item(element))
 
             appendChild(list)
         })
@@ -666,29 +673,76 @@ object DocGenerator {
                 addClass("details-list")
             }
 
-            val enums = generateEnumDetail(info)
-            if (enums != null)
-                list.appendChild(item(enums))
+            val elements = listOf(
+                async { generateEnumDetail(info) },
+                async { generateFieldDetail(info) },
+                async { generateConstructorDetail(info) },
+                async { generateMethodDetail(info) }
+            ).awaitAll().filterNotNull()
 
-            val fields = generateFieldDetail(info)
-            if (fields != null)
-                list.appendChild(item(fields))
-
-            val constructors = generateConstructorDetail(info)
-            if (constructors != null)
-                list.appendChild(item(constructors))
-
-            val methods = generateMethodDetail(info)
-            if (methods != null)
-                list.appendChild(item(methods))
+            for (element in elements)
+                list.appendChild(item(element))
 
             appendChild(list)
         })
 
-        return clazz
+        callback(clazz)
     }
 
     // Class Generators - Summary
+
+    fun generateNestedSummary(info: ClassDocumentation): Element? {
+        val nestedClasses = Util.getClassDocumentation().filter { it.enclosing == info.name }
+        if (nestedClasses.isEmpty()) return null
+
+        val summary = Element("section").apply {
+            addClass("nested-class-summary")
+            id("nested-class-summary")
+        }
+
+        summary.append("<h2>Nested Class Summary</h2>")
+        summary.append("<div class=\"caption\"><span>Nested Classes</span></div>")
+        summary.appendChild(Element("div").apply {
+            classNames(setOf("summary-table three-column-summary"))
+
+            append("<div class=\"table-header col-first\">Modifier and Type</div>")
+            append("<div class=\"table-header col-second\">Class</div>")
+            append("<div class=\"table-header col-last\">Description</div>")
+
+            var even = true
+            for (clazz in nestedClasses) {
+                val rowColor = "${if (even) "even" else "odd"}-row-color"
+
+                appendChild(Element("div").apply {
+                    classNames(setOf("col-first", rowColor))
+
+                    val builder = StringBuilder()
+                    if (clazz.visibility != "public")
+                        builder.append("${clazz.visibility} ")
+
+                    if (clazz.mods.isNotEmpty())
+                        builder.append("${clazz.mods.joinString(" ")} ")
+
+                    builder.append(clazz.type)
+                    append("<code>$builder</code>")
+                })
+
+                appendChild(Element("div").apply {
+                    classNames(setOf("col-second", rowColor))
+                    append("<code><a class=\"type-name-link\" href=\"/${clazz.name.url()}.html\" class=\"member-name-link\">${clazz.docName}</a></code>")
+                })
+
+                appendChild(Element("div").apply {
+                    classNames(setOf("col-last", rowColor))
+                    append("<div class=\"block\">${clazz.comment.header()}</div>")
+                })
+
+                even = !even
+            }
+        })
+
+        return summary
+    }
 
     fun generateEnumSummary(info: ClassDocumentation): Element? {
         if (info.type != "enum") return null
@@ -1121,7 +1175,7 @@ object DocGenerator {
                             append("<span class=\"type-parameters\"><${generics.joinString(", ", "")}></span>")
 
                         append("<span class=\"modifiers\">${method.visibility} ${method.mods.joinString(" ")}</span>")
-                        append("<span class=\"return-type\">${link(info.name, method.returnType)}</span>&nbsp;")
+                        append("<span class=\"return-type\">${link(info.name, method.returnType, info.generics.map { it.name })}</span>&nbsp;")
 
                         if (method.parameters.isEmpty())
                             append("<span class=\"element-name\">${method.name}</span>()")
@@ -1159,7 +1213,7 @@ object DocGenerator {
                         if (method.throws.isNotEmpty()) {
                             append("<dt>Throws:</dt>")
                             for ((exception, comment) in method.throws)
-                                append("<dd><code>${link(info.name, exception)}</code> - $comment</ddt>")
+                                append("<dd><code>${link(info.name, exception, info.generics.map { it.name })}</code> - $comment</ddt>")
                         }
                     })
                 }))
@@ -1186,11 +1240,11 @@ object DocGenerator {
 
         for (child in processed.split("[<>,]".toRegex()).filter { it.isNotBlank() }.map { it.replace(" ", "") }) {
             if (generics.contains(child)) {
-                val regex = "([<,\\s])($child)([,\\s>])".toRegex()
+                val regex = "(&lt;|<[\\s,]*)(T)([\\s,]*&gt;|>)".toRegex()
 
                 finalType = finalType.replace(suffix, "")
                 finalType = regex.replace(finalType) {
-                     "${it.groupValues[1]}<a href=\"/${self.replace('.', '/')}.html$suffix\" title=\"member in $self\">$child$suffix</a>${it.groupValues[3]}"
+                     "${it.groupValues[1]}<a href=\"/${self.url()}.html$suffix\" title=\"member in $self\">$child$suffix</a>${it.groupValues[3]}"
                 }
                 continue
             }
@@ -1200,7 +1254,7 @@ object DocGenerator {
 
             val pkg = newType.substring(0, newType.lastIndexOf('.'))
             val simpleName = newType.substring(newType.lastIndexOf('.') + 1)
-            val docUrl = newType.replace('.', '/') + ".html$suffix"
+            val docUrl = "${newType.url()}.html$suffix"
 
             val arrayBuilder = StringBuilder()
             for (i in 0 until child.count { it == '[' })
@@ -1224,7 +1278,7 @@ object DocGenerator {
                 }
         }
 
-        return finalType
+        return finalType.replace('$', '.')
     }
 
     fun generics(clazz: ClassDocumentation): String {
@@ -1237,10 +1291,10 @@ object DocGenerator {
             builder.append(generic.name)
 
             if (generic.extends.isNotEmpty())
-                builder.append(" extends ${generic.extends.joinToString { link(clazz.name, it) }}")
+                builder.append(" extends ${generic.extends.joinToString { g -> link(clazz.name, g, generics.map { it.name }) }}")
 
             if (generic.supers.isNotEmpty())
-                builder.append(" super ${generic.supers.joinToString { link(clazz.name, it) }}")
+                builder.append(" super ${generic.supers.joinToString { g -> link(clazz.name, g, generics.map { it.name }) }}")
 
             if (i != generics.size - 1)
                 builder.append(", ")
