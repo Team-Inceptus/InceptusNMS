@@ -235,11 +235,16 @@
                 },
                 "comment": {
                     "$ref": "#/definitions/comment"
+                },
+                "$getter": {
+                    "type": "string",
+                    "description": "The field that represents this getter."
+                },
+                "$setter": {
+                    "type": "string",
+                    "description": "The field that represents this setter."
                 }
-            },
-            "required": [
-                "comment"
-            ]
+            }
         },
         "method": {
             "type": [
