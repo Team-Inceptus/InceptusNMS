@@ -1,0 +1,621 @@
+{
+  "class": {
+    "type": "enum",
+    "implements": [
+      "net.minecraft.util.StringRepresentable"
+    ],
+    "comment": "Represents any direction in 3D space."
+  },
+  "enumerations": [
+    {
+      "name": "DOWN",
+      "comment": "The negative y direction."
+    },
+    {
+      "name": "UP",
+      "comment": "The positive y direction."
+    },
+    {
+      "name": "NORTH",
+      "comment": "The negative z direction."
+    },
+    {
+      "name": "SOUTH",
+      "comment": "The positive z direction."
+    },
+    {
+      "name": "WEST",
+      "comment": "The negative x direction."
+    },
+    {
+      "name": "EAST",
+      "comment": "The positive x direction."
+    }
+  ],
+  "fields": {
+    "CODEC": {
+      "type": "net.minecraft.util.StringRepresentable$EnumCodec<{this}>",
+      "mods": ["static", "final"],
+      "comment": "A codec that can decode a Direction."
+    },
+    "VERTICAL_CODEC": {
+      "type": "codec<{this}>",
+      "mods": ["static", "final"],
+      "comment": "A codec that can decode a Direction, only for vertical directions."
+    },
+    "data3d": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The 3D data value of this Direction.\nThis is identical to the enum's ordinal."
+    },
+    "oppositeIndex": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The index (ordinal) of the opposite Direction."
+    },
+    "data2d": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The 2D data value of this Direction.\nThis will be <code>-1</code> for 3D directions, which include @({this}#UP) and @({this}#DOWN)."
+    },
+    "name": {
+      "type": "string",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The name of this Direction."
+    },
+    "axis": {
+      "type": "{this}$Axis",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The axis of this Direction."
+    },
+    "axisDirection": {
+      "type": "{this}$AxisDirection",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The direction of the axis for this Direction."
+    },
+    "normal": {
+      "type": "net.minecraft.core.Vec3i",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The normal block position for this Direction.\nThis is represented with its direction being <code>1</code> or <code>-1</code> depending on the axis, and all other coordinates set to <code>0</code>."
+    },
+    "VALUES": {
+      "type": "net.minecraft.core.Direction[]",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "An array containing all the Direction values."
+    },
+    "BY_3D_DATA": {
+      "type": "net.minecraft.core.Direction[]",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "An array containing all the Direction values, indexed by their 3D data value."
+    },
+    "BY_2D_DATA": {
+      "type": "net.minecraft.core.Direction[]",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "An array containing all the Direction values, indexed by their 2D data value."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "name": "data3d",
+          "type": "int",
+          "comment": "The 3D data value of this Direction."
+        },
+        {
+          "name": "oppositeIndex",
+          "type": "int",
+          "comment": "The index (ordinal) of the opposite Direction."
+        },
+        {
+          "name": "data2d",
+          "type": "int",
+          "comment": "The 2D data value of this Direction."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "comment": "The name of this Direction."
+        },
+        {
+          "name": "axis",
+          "type": "{this}$Axis",
+          "comment": "The axis of this Direction."
+        },
+        {
+          "name": "axisDirection",
+          "type": "{this}$AxisDirection",
+          "comment": "The direction of the axis for this Direction."
+        },
+        {
+          "name": "normal",
+          "type": "net.minecraft.core.Vec3i",
+          "comment": "The normal block position for this Direction."
+        }
+      ],
+      "comment": "Creates a new Direction."
+    }
+  ],
+  "methods": {
+    "orderedByNearest": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.Entity",
+          "name": "entity",
+          "comment": "The entity to get the nearest Direction to."
+        }
+      ],
+      "return": {
+        "type": "{this}[]",
+        "comment": "An array of Directions ordered by their distance to the entity."
+      },
+      "comment": "Fetches an array of Directions ordered by their distance to the entity."
+    },
+    "makeDirectionArray": {
+      "visibility": "private",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "{this}",
+          "name": "axis1",
+          "comment": "The first direction."
+        },
+        {
+          "type": "{this}",
+          "name": "axis2",
+          "comment": "The second direction."
+        },
+        {
+          "type": "{this}",
+          "name": "axis3",
+          "comment": "The third direction."
+        }
+      ],
+      "return": {
+        "type": "{this}[]",
+        "comment": "An array containing the three directions, followed by the opposite of the three directions."
+      },
+      "comment": "Constructs an array with the first three directions, followed by the opposite of the first three directions."
+    },
+    "rotate": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "org.joml.Matrix4f",
+          "name": "matrix",
+          "comment": "The matrix to use."
+        },
+        {
+          "type": "{this}",
+          "name": "direction",
+          "comment": "The direction to rotate."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The rotated direction."
+      },
+      "comment": "Rotates the given direction by the given matrix."
+    },
+    "allShuffled": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.util.RandomSource",
+          "name": "random",
+          "comment": "The random source to use."
+        }
+      ],
+      "return": {
+        "type": "java.util.Collection<{this}>",
+        "comment": "An array of all directions, shuffled."
+      },
+      "comment": "Returns a collection of all directions, shuffled."
+    },
+    "stream": {
+      "mods": ["static"],
+      "return": {
+        "type": "java.util.stream.Stream<{this}>",
+        "comment": "A stream of all directions."
+      },
+      "comment": "Creates a stream of all directions."
+    },
+    "getRotation": {
+      "return": {
+        "type": "org.joml.Quaternionf",
+        "comment": "The rotation quaternion."
+      },
+      "comment": "Gets the rotation quaternion for this direction."
+    },
+    "get3DDataValue": {
+      "$getter": "data3d"
+    },
+    "get2DDataValue": {
+      "$getter": "data2d"
+    },
+    "getAxisDirection": {
+      "$getter": "axisDirection"
+    },
+    "getFacingAxis": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.Entity",
+          "name": "entity",
+          "comment": "The entity to get the facing direction for."
+        },
+        {
+          "type": "{this}$Axis",
+          "name": "axis",
+          "comment": "The axis to get the facing direction for."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The facing direction."
+      },
+      "comment": "Fetches the direction an entity is facing on the given axis."
+    },
+    "getOpposite": {
+      "return": {
+        "type": "{this}",
+        "comment": "The opposite direction."
+      },
+      "comment": "Gets the opposite direction."
+    },
+    "getClockWise": [
+      {
+        "params": [
+          {
+            "type": "{this}$Axis",
+            "name": "axis",
+            "comment": "The axis to get the clockwise direction for."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "The clockwise direction."
+        },
+        "comment": "Gets the clockwise direction on the given axis."
+      },
+      {
+        "return": {
+          "type": "{this}",
+          "comment": "The clockwise direction."
+        },
+        "comment": "Gets the clockwise direction."
+      }
+    ],
+    "getCounterClockWise": [
+      {
+        "params": [
+          {
+            "type": "{this}$Axis",
+            "name": "axis",
+            "comment": "The axis to get the counter-clockwise direction for."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "The counter-clockwise direction."
+        },
+        "comment": "Gets the counter-clockwise direction on the given axis."
+      },
+      {
+        "return": {
+          "type": "{this}",
+          "comment": "The counter-clockwise direction."
+        },
+        "comment": "Gets the counter-clockwise direction."
+      }
+    ],
+    "getClockWiseX": {
+      "visibility": "private",
+      "return": {
+        "type": "{this}",
+        "comment": "The clockwise direction on the x axis."
+      },
+      "comment": "Gets the clockwise direction on the x axis."
+    },
+    "getCounterClockWiseX": {
+      "visibility": "private",
+      "return": {
+        "type": "{this}",
+        "comment": "The counter-clockwise direction on the x axis."
+      },
+      "comment": "Gets the counter-clockwise direction on the x axis."
+    },
+    "getClockWiseZ": {
+      "visibility": "private",
+      "return": {
+        "type": "{this}",
+        "comment": "The clockwise direction on the z axis."
+      },
+      "comment": "Gets the clockwise direction on the z axis."
+    },
+    "getCounterClockWiseZ": {
+      "visibility": "private",
+      "return": {
+        "type": "{this}",
+        "comment": "The counter-clockwise direction on the z axis."
+      },
+      "comment": "Gets the counter-clockwise direction on the z axis."
+    },
+    "getStepX": {
+      "return": {
+        "type": "int",
+        "comment": "The x coordinate for @({this}#normal)."
+      },
+      "comment": "Fetches the X Coordinate for this direction's normal @(net.minecraft.core.Vec3i)."
+    },
+    "getStepY": {
+      "return": {
+        "type": "int",
+        "comment": "The y coordinate for @({this}#normal)."
+      },
+      "comment": "Fetches the Y Coordinate for this direction's normal @(net.minecraft.core.Vec3i)."
+    },
+    "getStepZ": {
+      "return": {
+        "type": "int",
+        "comment": "The z coordinate for @({this}#normal)."
+      },
+      "comment": "Fetches the Z Coordinate for this direction's normal @(net.minecraft.core.Vec3i)."
+    },
+    "step": {
+      "return": {
+        "type": "org.joml.Vector3f",
+        "comment": "The step vector."
+      },
+      "comment": "Fetches the step vector for this Direction's normal."
+    },
+    "getName": {
+      "$getter": "name"
+    },
+    "getAxis": {
+      "$getter": "axis"
+    },
+    "byName": {
+      "mods": ["static"],
+      "return": {
+        "type": "{this}",
+        "comment": "The direction with the given name, or null if not found."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Fetches the direction with the given name, or null if not found."
+    },
+    "from3DDataValue": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "int",
+          "name": "data3d",
+          "comment": "The 3D data value."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The direction with the given 3D data value."
+      },
+      "comment": "Fetches the direction with the given 3D data value."
+    },
+    "from2DDataValue": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "int",
+          "name": "data2d",
+          "comment": "The 2D data value."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The direction with the given 2D data value."
+      },
+      "comment": "Fetches the direction with the given 2D data value."
+    },
+    "fromDelta": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "int",
+          "name": "deltaX",
+          "comment": "The delta x."
+        },
+        {
+          "type": "int",
+          "name": "deltaY",
+          "comment": "The delta y."
+        },
+        {
+          "type": "int",
+          "name": "deltaZ",
+          "comment": "The delta z."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The direction with the given deltas."
+      },
+      "comment": "Fetches the direction with the given deltas."
+    },
+    "fromYRot": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "double",
+          "name": "yRot",
+          "comment": "The T rotation."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The direction by the given Y Rotation."
+      },
+      "comment": "Calculates the direction according to the given y rotation."
+    },
+    "fromAxisAndDirection": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "{this}$Axis",
+          "name": "axis",
+          "comment": "The axis."
+        },
+        {
+          "type": "{this}$AxisDirection",
+          "name": "direction",
+          "comment": "The direction."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The direction matching the given axis and direction."
+      },
+      "comment": "Fetches the direction according to the given axis and direction."
+    },
+    "toYRot": {
+      "return": {
+        "type": "float",
+        "comment": "The Y rotation."
+      },
+      "comment": "Calculates the Y rotation of this direction."
+    },
+    "getRandom": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.util.RandomSource",
+          "name": "random",
+          "comment": "The random source to use."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A random direction."
+      },
+      "comment": "Fetches a random direction."
+    },
+    "getNearest": [
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "double",
+            "name": "x",
+            "comment": "The x coordinate."
+          },
+          {
+            "type": "double",
+            "name": "y",
+            "comment": "The y coordinate."
+          },
+          {
+            "type": "double",
+            "name": "z",
+            "comment": "The z coordinate."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "The nearest direction."
+        },
+        "comment": "Fetches the nearest direction to the given coordinates."
+      },
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "float",
+            "name": "x",
+            "comment": "The x coordinate."
+          },
+          {
+            "type": "float",
+            "name": "y",
+            "comment": "The y coordinate."
+          },
+          {
+            "type": "float",
+            "name": "z",
+            "comment": "The z coordinate."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "The nearest direction."
+        },
+        "comment": "Fetches the nearest direction to the given coordinates."
+      }
+    ],
+    "verifyVertical": {
+      "visibility": "private",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "{this}",
+          "name": "direction",
+          "comment": "The direction to verify."
+        }
+      ],
+      "return": {
+        "type": "com.mojang.serialization.DataResult<{this}>",
+        "comment": "The result."
+      },
+      "comment": "Verifies that the given direction is vertical."
+    },
+    "get": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "{this}$AxisDirection",
+          "name": "direction",
+          "comment": "The axis direction."
+        },
+        {
+          "type": "{this}$Axis",
+          "name": "axis",
+          "comment": "The axis."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The direction according to the parameters."
+      },
+      "comment": "Fetches the first direction matching the given axis direction and axis."
+    },
+    "getNormal": {
+      "$getter": "normal"
+    },
+    "isFacingAngle": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "float",
+          "name": "angle",
+          "comment": "The angle."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if the given angle is facing this direction."
+      },
+      "comment": "Checks if the given angle is facing this direction."
+    }
+  }
+}

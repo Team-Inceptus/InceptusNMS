@@ -1,0 +1,168 @@
+{
+  "class": {
+    "type": "enum",
+    "enclosing": "net.minecraft.core.Direction",
+    "implements": [
+      "net.minecraft.util.StringRepresentable",
+      "java.util.function.Predicate<net.minecraft.core.Direction>"
+    ],
+    "comment": "Represents an Axis in 3D Space."
+  },
+  "enumerations": [
+    {
+      "name": "X",
+      "comment": "The X Axis."
+    },
+    {
+      "name": "Y",
+      "comment": "The Y Axis."
+    },
+    {
+      "name": "Z",
+      "comment": "The Z Axis."
+    }
+  ],
+  "fields": {
+    "VALUES": {
+      "type": "{this}[]",
+      "mods": ["static", "final"],
+      "comment": "An array containing all the values of this enum type, in the order they are declared."
+    },
+    "CODEC": {
+      "type": "net.minecraft.util.StringRepresentable$EnumCodec<{this}>",
+      "mods": ["static", "final"],
+      "comment": "A codec that can decode a @({this})."
+    },
+    "name": {
+      "type": "string",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The name of the axis."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "string",
+          "name": "name",
+          "comment": "The name of the axis."
+        }
+      ],
+      "comment": "Constructs a new Axis."
+    }
+  ],
+  "methods": {
+    "byName": {
+      "static": true,
+      "params": [
+        {
+          "type": "string",
+          "name": "name",
+          "comment": "The name of the axis."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The axis with the given name, or null if not found."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Gets the axis with the given name."
+    },
+    "getName": {
+      "$getter": "name"
+    },
+    "isVertical": {
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this axis is vertical."
+      },
+      "comment": "Returns whether this axis is vertical."
+    },
+    "isHorizontal": {
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this axis is horizontal."
+      },
+      "comment": "Returns whether this axis is horizontal."
+    },
+    "getRandom": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.util.RandomSource",
+          "name": "random",
+          "comment": "The random source."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A random axis."
+      },
+      "comment": "Returns a random axis."
+    },
+    "getPlane": {
+      "return": {
+        "type": "net.minecraft.core.Direction$Plane",
+        "comment": "The plane this axis is on."
+      },
+      "comment": "Returns the plane this axis is on."
+    },
+    "choose": [
+      {
+        "mods": ["abstract"],
+        "params": [
+          {
+            "type": "int",
+            "name": "x",
+            "comment": "The X coordinate."
+          },
+          {
+            "type": "int",
+            "name": "y",
+            "comment": "The Y coordinate."
+          },
+          {
+            "type": "int",
+            "name": "z",
+            "comment": "The Z coordinate."
+          }
+        ],
+        "return": {
+          "type": "int",
+          "comment": "The coordinate chosen."
+        },
+        "comment": "Chooses a coordinate from the given ones on this axis."
+      },
+      {
+        "mods": ["abstract"],
+        "params": [
+          {
+            "type": "double",
+            "name": "x",
+            "comment": "The X coordinate."
+          },
+          {
+            "type": "double",
+            "name": "y",
+            "comment": "The Y coordinate."
+          },
+          {
+            "type": "double",
+            "name": "z",
+            "comment": "The Z coordinate."
+          }
+        ],
+        "return": {
+          "type": "double",
+          "comment": "The coordinate chosen."
+        },
+        "comment": "Chooses a coordinate from the given ones on this axis."
+      }
+    ]
+  }
+}

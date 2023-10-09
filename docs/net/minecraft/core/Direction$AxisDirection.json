@@ -1,0 +1,63 @@
+{
+  "class": {
+    "type": "enum",
+    "enclosing": "net.minecraft.core.Direction",
+    "comment": "Represents a direction of an @(net.minecraft.core.Direction$Axis) in 3D Space."
+  },
+  "enumerations": [
+    {
+      "name": "POSITIVE",
+      "comment": "The positive direction along this axis."
+    },
+    {
+      "name": "NEGATIVE",
+      "comment": "The negative direction along this axis."
+    }
+  ],
+  "fields": {
+    "step": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The step value of this direction."
+    },
+    "name": {
+      "type": "string",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The description of this direction."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "name": "step",
+          "type": "int",
+          "comment": "The step value of this direction."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "comment": "The description of this direction."
+        }
+      ],
+      "comment": "Constructs a new direction with the given step value and description."
+    }
+  ],
+  "methods": {
+    "getStep": {
+      "$getter": "step"
+    },
+    "getName": {
+      "$getter": "name"
+    },
+    "opposite": {
+      "return": {
+        "type": "{this}",
+        "comment": "The opposite axis direction."
+      },
+      "comment": "Returns the opposite direction along this axis."
+    }
+  }
+}

@@ -1,0 +1,541 @@
+{
+  "class": {
+    "type": "class",
+    "implements": [
+      "java.lang.Comparable<{this}>"
+    ],
+    "annotations": [
+      {
+        "type": "javax.annotation.concurrent.Immutable"
+      }
+    ],
+    "comment": "Represents an abstract Block Position. This class is designed to have utility methods for working with Block Positions."
+  },
+  "fields": {
+    "CODEC": {
+      "type": "codec<{this}>",
+      "mods": ["static", "final"],
+      "comment": "A codec for serializing and deserializing a @({this})."
+    },
+    "ZERO": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "A @({this}) with all coordinates set to zero."
+    },
+    "x": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The x coordinate."
+    },
+    "y": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The y coordinate."
+    },
+    "z": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The z coordinate."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "name": "x",
+          "type": "int",
+          "comment": "The x coordinate."
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "comment": "The y coordinate."
+        },
+        {
+          "name": "z",
+          "type": "int",
+          "comment": "The z coordinate."
+        }
+      ],
+      "comment": "Creates a new Vec3i."
+    }
+  ],
+  "methods": {
+    "offsetCodec": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "int",
+          "name": "offset",
+          "comment": "The offset."
+        }
+      ],
+      "return": {
+        "type": "codec<{this}>",
+        "comment": "A codec for serializing and deserializing a @({this}) with the given offset."
+      },
+      "comment": "Creates a codec for serializing and deserializing a @({this}) with the given offset."
+    },
+    "getX": {
+      "$getter": "x"
+    },
+    "getY": {
+      "$getter": "y"
+    },
+    "getZ": {
+      "$getter": "z"
+    },
+    "setX": {
+      "$setter": "x",
+      "visibility": "protected",
+      "return": {
+        "type": "{this}",
+        "comment": "This @({this}), for chaining."
+      }
+    },
+    "setY": {
+      "$setter": "y",
+      "visibility": "protected",
+      "return": {
+        "type": "{this}",
+        "comment": "This @({this}), for chaining."
+      }
+    },
+    "setZ": {
+      "$setter": "z",
+      "visibility": "protected",
+      "return": {
+        "type": "{this}",
+        "comment": "This @({this}), for chaining."
+      }
+    },
+    "offset": [
+      {
+        "params": [
+          {
+            "name": "x",
+            "type": "int",
+            "comment": "The x offset."
+          },
+          {
+            "name": "y",
+            "type": "int",
+            "comment": "The y offset."
+          },
+          {
+            "name": "z",
+            "type": "int",
+            "comment": "The z offset."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new @({this}) with the given offset."
+        },
+        "comment": "Offsets this @({this}) by the given coordinates."
+      },
+      {
+        "params": [
+          {
+            "name": "vec",
+            "type": "{this}",
+            "comment": "The vector to offset by."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new @({this}), with the given offset."
+        },
+        "comment": "Offsets this @({this}) by the given Vec3i."
+      }
+    ],
+    "subtract": {
+      "params": [
+        {
+          "name": "vec",
+          "type": "{this}",
+          "comment": "The vector to subtract."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new @({this}) with the new coordinates."
+      },
+      "comment": "Subtracts the given Vec3i from this @({this})."
+    },
+    "multiply": {
+      "params": [
+        {
+          "name": "vec",
+          "type": "{this}",
+          "comment": "The vector to multiply by."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new @({this}) with the new coordinates."
+      },
+      "comment": "Multiplies this @({this}) by the given Vec3i."
+    },
+    "above": [
+      {
+        "return": {
+          "type": "{this}",
+          "comment": "A new @({this}) with @({this}#y) incremented by 1."
+        },
+        "comment": "Returns a @({this}) with @({this}#y) coordinate incremented by 1."
+      },
+      {
+        "params": [
+          {
+            "name": "up",
+            "type": "int",
+            "comment": "The number of blocks to move up."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new @({this}) with @({this}#y) incremented by the given amount."
+        },
+        "comment": "Returns a @({this}) with @({this}#y) coordinate incremented by the given amount."
+      }
+    ],
+    "below": [
+      {
+        "return": {
+          "type": "{this}",
+          "comment": "A new @({this}) with @({this}#y) decremented by 1."
+        },
+        "comment": "Returns a @({this}) with @({this}#y) coordinate decremented by 1."
+      },
+      {
+        "params": [
+          {
+            "name": "down",
+            "type": "int",
+            "comment": "The number of blocks to move down."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new @({this}) with @({this}#y) decremented by the given amount."
+        },
+        "comment": "Returns a @({this}) with @({this}#y) coordinate decremented by the given amount."
+      }
+    ],
+    "north": [
+      {
+        "return": {
+          "type": "{this}",
+          "comment": "A new @({this}) with @({this}#z) decremented by 1."
+        },
+        "comment": "Returns a @({this}) with @({this}#z) coordinate decremented by 1."
+      },
+      {
+        "params": [
+          {
+            "name": "north",
+            "type": "int",
+            "comment": "The number of blocks to move north."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new @({this}) with @({this}#z) decremented by the given amount."
+        },
+        "comment": "Returns a @({this}) with @({this}#z) coordinate decremented by the given amount."
+      }
+    ],
+    "south": [
+      {
+        "return": {
+          "type": "{this}",
+          "comment": "A new @({this}) with @({this}#z) incremented by 1."
+        },
+        "comment": "Returns a @({this}) with @({this}#z) coordinate incremented by 1."
+      },
+      {
+        "params": [
+          {
+            "name": "south",
+            "type": "int",
+            "comment": "The number of blocks to move south."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new @({this}) with @({this}#z) incremented by the given amount."
+        },
+        "comment": "Returns a @({this}) with @({this}#z) coordinate incremented by the given amount."
+      }
+    ],
+    "west": [
+      {
+        "return": {
+          "type": "{this}",
+          "comment": "A new @({this}) with @({this}#x) decremented by 1."
+        },
+        "comment": "Returns a @({this}) with @({this}#x) coordinate decremented by 1."
+      },
+      {
+        "params": [
+          {
+            "name": "west",
+            "type": "int",
+            "comment": "The number of blocks to move west."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new @({this}) with @({this}#x) decremented by the given amount."
+        },
+        "comment": "Returns a @({this}) with @({this}#x) coordinate decremented by the given amount."
+      }
+    ],
+    "east": [
+      {
+        "return": {
+          "type": "{this}",
+          "comment": "A new @({this}) with @({this}#x) incremented by 1."
+        },
+        "comment": "Returns a @({this}) with @({this}#x) coordinate incremented by 1."
+      },
+      {
+        "params": [
+          {
+            "name": "east",
+            "type": "int",
+            "comment": "The number of blocks to move east."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new @({this}) with @({this}#x) incremented by the given amount."
+        },
+        "comment": "Returns a @({this}) with @({this}#x) coordinate incremented by the given amount."
+      }
+    ],
+    "relative": [
+      {
+        "params": [
+          {
+            "name": "facing",
+            "type": "net.minecraft.core.Direction",
+            "comment": "The direction to move in."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new @({this}) with the given direction applied."
+        },
+        "comment": "Returns a @({this}) with the given direction applied."
+      },
+      {
+        "params": [
+          {
+            "name": "facing",
+            "type": "net.minecraft.core.Direction",
+            "comment": "The direction to move in."
+          },
+          {
+            "name": "n",
+            "type": "int",
+            "comment": "The number of blocks to move."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new @({this}) with the given direction applied."
+        },
+        "comment": "Returns a @({this}) with the given direction applied."
+      },
+      {
+        "params": [
+          {
+            "name": "axis",
+            "type": "net.minecraft.core.Direction$Axis",
+            "comment": "The axis to move along."
+          },
+          {
+            "name": "distance",
+            "type": "int",
+            "comment": "The number of blocks to move."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new @({this}) with the given axis applied."
+        },
+        "comment": "Returns a @({this}) with the given axis applied."
+      }
+    ],
+    "cross": {
+      "params": [
+        {
+          "name": "other",
+          "type": "{this}",
+          "comment": "The other position."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new @({this}) with the cross product of the two positions."
+      },
+      "comment": "Returns a @({this}) with the cross product of the two positions."
+    },
+    "closerThan": {
+      "params": [
+        {
+          "name": "other",
+          "type": "{this}",
+          "comment": "The other position."
+        },
+        {
+          "name": "distance",
+          "type": "double",
+          "comment": "The maximum distance."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if the distance between the two positions is less than the given distance."
+      },
+      "comment": "Returns true if the distance between the two positions is less than the given distance."
+    },
+    "closerToCenterThan": {
+      "params": [
+        {
+          "name": "pos",
+          "type": "net.minecraft.core.Position",
+          "comment": "The other position."
+        },
+        {
+          "name": "distance",
+          "type": "double",
+          "comment": "The maximum distance."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if the distance between the two positions' centers is less than the given distance."
+      },
+      "comment": "Returns true if the distance between the two positions' centers is less than the given distance."
+    },
+    "distSqr": {
+      "params": [
+        {
+          "name": "other",
+          "type": "{this}",
+          "comment": "The other position."
+        }
+      ],
+      "return": {
+        "type": "double",
+        "comment": "The squared distance between the two positions."
+      },
+      "comment": "Returns the squared distance between the two positions."
+    },
+    "distToCenterSqr": [
+      {
+        "params": [
+          {
+            "name": "pos",
+            "type": "net.minecraft.core.Position",
+            "comment": "The other position."
+          }
+        ],
+        "return": {
+          "type": "double",
+          "comment": "The squared distance between the two positions' centers."
+        },
+        "comment": "Returns the squared distance between the two positions' centers."
+      },
+      {
+        "params": [
+          {
+            "name": "x",
+            "type": "double",
+            "comment": "The x coordinate."
+          },
+          {
+            "name": "y",
+            "type": "double",
+            "comment": "The y coordinate."
+          },
+          {
+            "name": "z",
+            "type": "double",
+            "comment": "The z coordinate."
+          }
+        ],
+        "return": {
+          "type": "double",
+          "comment": "The squared distance between the two positions' centers."
+        },
+        "comment": "Returns the squared distance between the two positions' centers."
+      }
+    ],
+    "distToLowerCornerSqr": {
+      "params": [
+        {
+          "name": "x",
+          "type": "double",
+          "comment": "The x coordinate."
+        },
+        {
+          "name": "y",
+          "type": "double",
+          "comment": "The y coordinate."
+        },
+        {
+          "name": "z",
+          "type": "double",
+          "comment": "The z coordinate."
+        }
+      ],
+      "return": {
+        "type": "double",
+        "comment": "The squared distance between the two positions' lower corners."
+      },
+      "comment": "Returns the squared distance between the two positions' lower corners."
+    },
+    "distManhattan": {
+      "params": [
+        {
+          "name": "other",
+          "type": "{this}",
+          "comment": "The other position."
+        }
+      ],
+      "return": {
+        "type": "int",
+        "comment": "The Manhattan distance between the two positions."
+      },
+      "comment": "Returns the Manhattan distance between the two positions."
+    },
+    "get": {
+      "params": [
+        {
+          "type": "net.minecraft.core.Direction$Axis",
+          "name": "axis",
+          "comment": "The axis to get the coordinate for."
+        }
+      ],
+      "return": {
+        "type": "int",
+        "comment": "The coordinate for the given axis."
+      },
+      "comment": "Returns the coordinate for the given axis."
+    },
+    "toShortString": {
+      "return": {
+        "type": "string",
+        "comment": "A short string representation of this @({this})."
+      },
+      "comment": "Returns a short string representation of this @({this})."
+    }
+  }
+}

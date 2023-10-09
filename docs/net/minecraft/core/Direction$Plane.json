@@ -1,0 +1,99 @@
+{
+  "class": {
+    "type": "enum",
+    "enclosing": "net.minecraft.core.Direction",
+    "implements": [
+      "java.lang.Iterable<net.minecraft.core.Direction>",
+      "java.util.function.Predicate<net.minecraft.core.Direction>"
+    ],
+    "comment": "Represents a plane in 3D space."
+  },
+  "enumerations": [
+    {
+      "name": "HORIZONTAL",
+      "comment": "The horizontal plane."
+    },
+    {
+      "name": "VERTICAL",
+      "comment": "The vertical plane."
+    }
+  ],
+  "fields": {
+    "faces": {
+      "type": "net.minecraft.core.Direction[]",
+      "comment": "An array of directions matching this plane."
+    },
+    "axis": {
+      "type": "net.minecraft.core.Direction$Axis[]",
+      "comment": "The axises matching this plane."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "net.minecraft.core.Direction[]",
+          "name": "faces",
+          "comment": "An array of directions matching this plane."
+        },
+        {
+          "type": "net.minecraft.core.Direction$Axis[]",
+          "name": "axis",
+          "comment": "The axises matching this plane."
+        }
+      ],
+      "comment": "Constructs a new plane."
+    }
+  ],
+  "methods": {
+    "getRandomDirection": {
+      "params": [
+        {
+          "type": "net.minecraft.util.RandomSource",
+          "name": "random",
+          "comment": "The random source."
+        }
+      ],
+      "return": {
+        "type": "net.minecraft.core.Direction",
+        "comment": "A random direction from this plane."
+      },
+      "comment": "Gets a random direction from this plane."
+    },
+    "getRandomAxis": {
+      "params": [
+        {
+          "type": "net.minecraft.util.RandomSource",
+          "name": "random",
+          "comment": "The random source."
+        }
+      ],
+      "return": {
+        "type": "net.minecraft.core.Direction$Axis",
+        "comment": "A random axis from this plane."
+      },
+      "comment": "Gets a random axis from this plane."
+    },
+    "stream": {
+      "return": {
+        "type": "java.util.stream.Stream<net.minecraft.core.Direction>",
+        "comment": "A stream of directions from this plane."
+      },
+      "comment": "Creates a stream of directions from this plane."
+    },
+    "shuffledCopy": {
+      "params": [
+        {
+          "type": "net.minecraft.util.RandomSource",
+          "name": "random",
+          "comment": "The random source."
+        }
+      ],
+      "return": {
+        "type": "java.util.List<net.minecraft.core.Direction>",
+        "comment": "A shuffled list of directions from this plane."
+      },
+      "comment": "Creates a shuffled list of directions from this plane."
+    }
+  }
+}
