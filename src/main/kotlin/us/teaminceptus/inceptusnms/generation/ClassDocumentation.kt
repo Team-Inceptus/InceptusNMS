@@ -272,7 +272,7 @@ data class ClassDocumentation(
                                     obj["throws"]?.jsonArray?.associate {
                                         processType(name, it.jsonObject["type"]!!.jsonPrimitive.content) to processComment(name, it.jsonObject["comment"]!!.jsonPrimitive.content)
                                     } ?: emptyMap(),
-                                    annotations(name, obj["annotations"]),
+                                    annotations(name, obj["annotations"]) + field.annotations,
                                     when {
                                         obj["comment"] != null -> processComment(name, obj["comment"]!!.jsonPrimitive.content)
                                         else -> "Gets ${field.comment.replaceFirstChar { it.lowercase() }}"
@@ -364,7 +364,7 @@ data class ClassDocumentation(
                 generics.await(),
                 enclosing,
                 async { clazz["visibility"]?.jsonPrimitive?.content ?: "public" }.await().replace("package", "package-private"),
-                async { clazz["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: if (type == "enum" || type == "interface" && enclosing != null) listOf("static") else emptyList() }.await(),
+                async { clazz["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: if ((type == "enum" || type == "interface") && enclosing != null) listOf("static") else emptyList() }.await(),
                 async { processComment(name, clazz["comment"]!!.jsonPrimitive.content) }.await(),
                 enums.await(),
                 fields.await(),
