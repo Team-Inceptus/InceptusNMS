@@ -96,10 +96,10 @@ data class ClassDocumentation(
                 if (parameters.isEmpty()) return "$name()"
 
                 val params = parameters.map {
-                    if (it.type.contains("."))
+                    (if (it.type.contains("."))
                         it.type.substring(it.type.lastIndexOf('.') + 1)
                     else
-                        it.type
+                        it.type).replace("$", ".")
                 }
 
                 return "$name(${params.joinToString(",")})"
@@ -139,7 +139,7 @@ data class ClassDocumentation(
                 }
             }
 
-            return newComment
+            return newComment.replace("\n", "<br>")
         }
 
         fun processType(name: String, type: String): String =
@@ -248,7 +248,7 @@ data class ClassDocumentation(
                                 processComment(name, obj["comment"]!!.jsonPrimitive.content)
                             )
                         }
-                    }?.awaitAll() ?: listOf(ConstructorDocumentation(clazz["comment"]!!.jsonPrimitive.content)))
+                    }?.awaitAll() ?: listOf(ConstructorDocumentation(processComment(name, clazz["comment"]!!.jsonPrimitive.content))))
                 else
                     null
             }
