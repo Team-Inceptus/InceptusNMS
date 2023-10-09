@@ -35,6 +35,14 @@ object DocGenerator {
         }
 
         withContext(Dispatchers.IO) {
+            File(output, "index-all.html").apply {
+                createNewFile()
+                writeText(generateIndexAll().outerHtml())
+            }
+            log("Created index-all.html")
+        }
+
+        withContext(Dispatchers.IO) {
             File(output, "allpackages-index.html").apply {
                 createNewFile()
                 writeText(generateAllPackages().outerHtml())
@@ -97,7 +105,7 @@ object DocGenerator {
         = select("main").first()!!
 
     fun String.header(): String
-        = substringAfter("\n").take(120)
+        = substringBefore("<br>")
 
     fun item(element: Element): Element = Element("li").appendChild(element)
 
@@ -569,6 +577,86 @@ object DocGenerator {
         }
 
         return doc
+    }
+
+    private val alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray()
+
+    private data class Quadruple<A, B, C, D>(val first: A, val second: B, val third: C, val fourth: D)
+
+    fun generateIndexAll(): Document {
+        val index = startDocument("index-all.html", "index-all", "Index", "Index", description = "index")
+        val main = index.main()
+        val classes = Util.getClassDocumentation()
+        val characters = alphabet.filter { char ->
+            classes.any { clazz ->
+                clazz.name.startsWith(char, true) ||
+                clazz.enumerations?.enums?.any { it.name.startsWith(char, true) } == true ||
+                clazz.fields?.fields?.any { it.name.startsWith(char, true) } == true
+                clazz.methods?.methods?.any { it.name.startsWith(char, true) } == true
+            }
+        }
+
+        for (char in characters)
+            main.append("<a href=\"#I:$char\">$char</a>&nbsp;")
+
+        for (char in characters) {
+            val content =
+                (classes.filter { it.name.startsWith(char, true) }.map { clazz ->
+                    val title = when (clazz.type) {
+                        "interface" -> "Interface in <a href=\"/${clazz.pkg.url()}/package-summary.html\">${clazz.pkg}</a>"
+                        "enum" -> "Enum Class in <a href=\"/${clazz.pkg.url()}/package-summary.html\">${clazz.pkg}</a>"
+                        "record" -> "Record Class in <a href=\"/${clazz.pkg.url()}/package-summary.html\">${clazz.pkg}</a>"
+                        "annotation" -> "Annotation Interface in <a href=\"/${clazz.pkg.url()}/package-summary.html\">${clazz.pkg}</a>"
+                        else -> "Class in <a href=\"/${clazz.pkg.url()}/package-summary.html\">${clazz.pkg}</a>"
+                    }
+
+                    Quadruple(
+                        clazz.name,
+                        clazz.name,
+                        "<a href=\"/${clazz.name.url()}.html\" class=\"type-name-link\" title=\"${clazz.type} in ${clazz.pkg}\">${clazz.simpleName}</a> - $title",
+                        clazz.comment.header()
+                    )
+                } + classes.filter { clazz -> clazz.enumerations?.enums?.any { it.name.startsWith(char, true) } == true }.map { clazz ->
+                    clazz.enumerations!!.enums.filter { it.name.startsWith(char, true) }.map { enum ->
+                        Quadruple(
+                            enum.name,
+                            clazz.name,
+                            "<a href=\"/${clazz.name.url()}.html#${enum.name}\" class=\"member-name-link\">${enum.name}</a> - Enum Constant in ${clazz.type} ${clazz.pkg}.<a href=\"/${clazz.name.url()}\" title=\"${clazz.type} in ${clazz.pkg}\">${clazz.simpleName}</a>",
+                            enum.comment.header()
+                        )
+                    }
+                }.flatten() + classes.filter { clazz -> clazz.fields?.fields?.any { it.name.startsWith(char, true) } == true }.map { clazz ->
+                    clazz.fields!!.fields.filter { it.name.startsWith(char, true) }.map { field ->
+                        Quadruple(
+                            field.name,
+                            clazz.name,
+                            "<a href=\"/${clazz.name.url()}.html#${field.name}\" class=\"member-name-link\" title=\"Field in ${clazz.name}\">${field.name}</a> - Field in ${clazz.type} ${clazz.pkg}.<a href=\"/${clazz.name.url()}\" title=\"${clazz.type} in ${clazz.pkg}\">${clazz.simpleName}</a>",
+                            field.comment.header()
+                        )
+                    }
+                }.flatten() + classes.filter { clazz -> clazz.methods?.methods?.any { it.name.startsWith(char, true) } == true }.map { clazz ->
+                    clazz.methods!!.methods.filter { it.name.startsWith(char, true) }.map { method ->
+                        Quadruple(
+                            method.fullName,
+                            clazz.name,
+                            "<a href=\"/${clazz.name.url()}.html#${method.fullName}\" class=\"member-name-link\">${method.cleanName}</a> - Method in ${clazz.type} ${clazz.pkg}.<a href=\"/${clazz.name.url()}\" title=\"${clazz.type} in ${clazz.pkg}\">${clazz.simpleName}</a>",
+                            method.comment.header()
+                        )
+                    }
+                }.flatten()).sortedWith(compareBy({ it.first }, { it.second }))
+
+            main.append("<h2 class=\"title\" id=\"I:$char\">$char</h2>")
+            main.appendChild(Element("dl").apply {
+                addClass("index")
+
+                for ((_, _, html, comment) in content) {
+                    append("<dt>$html</dt>")
+                    append("<dd><div class=\"block\">$comment</div></dd>")
+                }
+            })
+        }
+
+        return index
     }
 
     // Class Generators
@@ -1166,7 +1254,9 @@ object DocGenerator {
                         append("<wbr>")
                         appendChild(Element("span").apply {
                             addClass("parameters")
-                            append("(${constructor.parameters.joinToString(separator = ", \n") { param -> "${link(info.fullDocName, param.type, info.generics.map { it.name })}&nbsp;${param.name}" }})")
+                            append("(${constructor.parameters.joinToString(separator = ", \n") { 
+                                param -> "${param.annotations.map { annotation -> link(info.fullDocName, annotation.type, info.generics.map { it.name }, true) }.joinString(" ")}${link(info.fullDocName, param.type, info.generics.map { it.name })}&nbsp;${param.name}" 
+                            }})")
                         })
                     })
 
@@ -1223,7 +1313,9 @@ object DocGenerator {
                         else {
                             append("<span class=\"element-name\">${method.name}</span>")
                             append("<wbr>")
-                            append("(${method.parameters.joinToString { param -> "${param.annotations.map { "@${it.type.substringAfterLast('.')}" }.joinString(" ")}${link(info.fullDocName, param.type, generics + info.generics.map { it.name })}&nbsp;${param.name}" }})")
+                            append("(${method.parameters.joinToString { param -> 
+                                "${param.annotations.map { annotation -> link(info.fullDocName, annotation.type, info.generics.map { it.name }, true) }.joinString(" ")}${link(info.fullDocName, param.type, generics + info.generics.map { it.name })}&nbsp;${param.name}" 
+                            }})")
                         }
                     })
 
@@ -1312,15 +1404,15 @@ object DocGenerator {
                     = str.replace(suffix, "").replace(child, "<a href=\"${repo + docUrl}\" title=\"member in $pkg\">$prefix$simpleName$suffix</a>$arrayBuilder")
 
                 finalType = when {
-                    child.startsWith("net.minecraft") || child.startsWith("org.bukkit.craftbukkit") -> finalType
-                    child.startsWith("javax") -> externalLink(REPOSITORIES[6], finalType)
-                    child.startsWith("java") -> externalLink(REPOSITORIES[0], finalType)
-                    child.startsWith("org.bukkit") -> externalLink(REPOSITORIES[1], finalType)
-                    child.startsWith("org.slf4j") -> externalLink(REPOSITORIES[2], finalType)
-                    child.startsWith("com.mojang.brigadier") -> externalLink(REPOSITORIES[3], finalType)
-                    child.startsWith("com.mojang.datafixers") || child.startsWith("com.mojang.serialization") -> externalLink(REPOSITORIES[4], finalType)
-                    child.startsWith("com.google.common") -> externalLink(REPOSITORIES[5], finalType)
-                    child.startsWith("org.joml") -> externalLink(REPOSITORIES[7], finalType)
+                    newType.startsWith("net.minecraft") || child.startsWith("org.bukkit.craftbukkit") -> finalType
+                    newType.startsWith("javax") -> externalLink(REPOSITORIES[6], finalType)
+                    newType.startsWith("java") -> externalLink(REPOSITORIES[0], finalType)
+                    newType.startsWith("org.bukkit") -> externalLink(REPOSITORIES[1], finalType)
+                    newType.startsWith("org.slf4j") -> externalLink(REPOSITORIES[2], finalType)
+                    newType.startsWith("com.mojang.brigadier") -> externalLink(REPOSITORIES[3], finalType)
+                    newType.startsWith("com.mojang.datafixers") || child.startsWith("com.mojang.serialization") -> externalLink(REPOSITORIES[4], finalType)
+                    newType.startsWith("com.google.common") -> externalLink(REPOSITORIES[5], finalType)
+                    newType.startsWith("org.joml") -> externalLink(REPOSITORIES[7], finalType)
                     else -> finalType
                 }
             }
