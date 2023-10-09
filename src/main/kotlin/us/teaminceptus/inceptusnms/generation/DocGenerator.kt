@@ -1,18 +1,12 @@
 package us.teaminceptus.inceptusnms.generation
 
 import kotlinx.coroutines.*
-import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Document.OutputSettings
 import org.jsoup.nodes.DocumentType
 import org.jsoup.nodes.Element
-import us.teaminceptus.inceptusnms.generation.DocGenerator.joinString
-import us.teaminceptus.inceptusnms.generation.DocGenerator.url
 import us.teaminceptus.inceptusnms.generation.Util.log
 import java.io.File
-import java.net.HttpURLConnection
-import java.net.URL
-import java.net.UnknownHostException
 import java.nio.file.Paths
 
 object DocGenerator {
@@ -248,7 +242,7 @@ object DocGenerator {
 
         val main = summary.main()
 
-        val classes = Util.getClassDocumentation().filter { it.pkg == pkg }
+        val classes = Util.getClassDocumentation().filter { it.pkg == pkg }.sortedBy { it.name }
 
         main.append("<hr>")
         main.append("<div class=\"package-signature\">package <span class=\"element-name\">$pkg</span></div>")
@@ -683,7 +677,33 @@ object DocGenerator {
 
         val main = clazz.main()
 
-        // TODO Class Inheritance
+        main.getElementById("inceptusnms:header")!!.apply {
+            prependChild(Element("div").apply {
+                addClass("sub-title")
+
+                append("<span class=\"package-label-in-type\">Package</span>&nbsp;")
+                append("<a href=\"package-summary.html\">${info.pkg}</a>")
+            })
+        }
+
+        if (info.type != "annotation" && info.type != "interface") {
+            val tree = Util.getHierarchyTree(info)
+            main.appendChild(Element("div").apply {
+                addClass("inheritance")
+                attr("title", "Inheritance Tree")
+
+                var current = this
+                for (node in tree) {
+                    current.append(if (node == info.name) node else link(info.name, node, info.generics.map { it.name }, fullName = true))
+
+                    val element = Element("div").apply {
+                        addClass("inheritance")
+                    }
+                    current.appendChild(element)
+                    current = element
+                }
+            })
+        }
 
         main.appendChild(Element("section").apply {
             addClass("class-description")
@@ -711,7 +731,7 @@ object DocGenerator {
                 appendChild(Element("dl").apply {
                     addClass("notes")
                     append("<dt>Direct Known Subclasses:</dt>")
-                    append("<dd>${children.map { child -> "<code>${link(info.fullDocName, child.name, info.generics.map { it.name })}</code>" }.joinString(", ", "")}</dd>")
+                    append("<dd>${children.map { child -> "<code>${link(info.fullDocName, child.name, info.generics.map { it.name })}</code>" }.joinString(",&nbsp;", "")}</dd>")
                 })
             }
 
@@ -1366,7 +1386,7 @@ object DocGenerator {
 
     // Utility Methods
 
-    private val REPOSITORIES = listOf(
+    internal val REPOSITORIES = listOf(
         "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/",
         "https://hub.spigotmc.org/javadocs/spigot/",
         "https://www.slf4j.org/apidocs/",
@@ -1377,7 +1397,7 @@ object DocGenerator {
         "https://joml-ci.github.io/JOML/apidocs/"
     )
 
-    fun link(self: String, type: String, generics: List<String> = emptyList(), annotation: Boolean = false): String {
+    fun link(self: String, type: String, generics: List<String> = emptyList(), annotation: Boolean = false, fullName: Boolean = false): String {
         var finalType = type.serialize()
         val processed = type.split("#")[0]
         val suffix = (if (type.contains("#")) "#${type.split("#")[1]}" else "")
@@ -1398,7 +1418,7 @@ object DocGenerator {
             if (!newType.contains(".")) continue
 
             val pkg = newType.substring(0, newType.lastIndexOf('.'))
-            val simpleName = newType.substring(newType.lastIndexOf('.') + 1)
+            val linkName = if (fullName) newType else newType.substring(newType.lastIndexOf('.') + 1)
             val docUrl = "${newType.url()}.html$suffix"
 
             val arrayBuilder = StringBuilder()
@@ -1406,10 +1426,10 @@ object DocGenerator {
                 arrayBuilder.append("[]")
 
             if (Util.getScheduled().any { it == newType } || self == newType)
-                finalType = finalType.replace(suffix, "").replace(child, "<a href=\"/${docUrl}\" title=\"member in $pkg\">$prefix$simpleName$suffix</a>$arrayBuilder")
+                finalType = finalType.replace(suffix, "").replace(child, "<a href=\"/${docUrl}\" title=\"member in $pkg\">$prefix$linkName$suffix</a>$arrayBuilder")
             else {
                 fun externalLink(repo: String, str: String)
-                    = str.replace(suffix, "").replace(child, "<a href=\"${repo + docUrl}\" title=\"member in $pkg\">$prefix$simpleName$suffix</a>$arrayBuilder")
+                    = str.replace(suffix, "").replace(child, "<a href=\"${repo + docUrl}\" title=\"member in $pkg\">$prefix$linkName$suffix</a>$arrayBuilder")
 
                 finalType = when {
                     newType.startsWith("net.minecraft") || child.startsWith("org.bukkit.craftbukkit") -> finalType
