@@ -16,18 +16,6 @@ The goal of this project is to attempt to emulate a JDK 17 JavaDocs-style Browse
 We use a custom parser to parse JSON files stored in our `docs` folder to emulate a JavaDocs browser. Developed in Kotlin and Java, the parser is able to parse the JSON files and generate a JavaDocs-style browser for the NMS and CraftBukkit Server.
 </details>
 
-## 📒 To-Do List
-
-- [ ] Finish NMS Documentation
-- [ ] Finish CraftBukkit Documentation
-- [ ] Add Constant Fields Page
-- [ ] Add Tree Overview Page
-  - [ ] Add Class Inheritance Tree
-- [ ] Add Direct Known Subclasses Section
-- [ ] Parameter Annotations
-- [ ] Add Deprecated List Page
-- [ ] IntelliJ Plugin for JavaDoc Creation
-
 ## 📝 Contributing
 
 Please see [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
