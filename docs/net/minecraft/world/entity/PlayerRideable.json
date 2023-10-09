@@ -1,0 +1,6 @@
+{
+  "class": {
+    "type": "interface",
+    "comment": "Represents an entity that can be ridden by a Player."
+  }
+}

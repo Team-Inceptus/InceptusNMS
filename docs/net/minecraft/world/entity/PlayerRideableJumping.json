@@ -1,0 +1,49 @@
+{
+  "class": {
+    "type": "interface",
+    "implements": [
+      "net.minecraft.world.entity.PlayerRideable"
+    ],
+    "comment": "Represents an entity that can be ridden by a player, and can jump with the player."
+  },
+  "methods": {
+    "onPlayerJump": {
+      "params": [
+        {
+          "type": "int",
+          "name": "jumpPower",
+          "comment": "The jump power of the player."
+        }
+      ],
+      "comment": "Called when the player jumps while riding this entity."
+    },
+    "canJump": {
+      "return": {
+        "type": "boolean",
+        "comment": "Whether the player can jump while riding this entity."
+      },
+      "comment": "Gets whether the player can jump while riding this entity."
+    },
+    "handleStartJump": {
+      "params": [
+        {
+          "type": "int",
+          "name": "jumpPower",
+          "comment": "The jump power of the player."
+        }
+      ],
+      "comment": "Called when the player starts jumping while riding this entity."
+    },
+    "handleStopJump": {
+      "comment": "Called when the player stops jumping while riding this entity."
+    },
+    "getJumpCooldown": {
+      "mods": ["default"],
+      "return": {
+        "type": "int",
+        "comment": "The cooldown before the player can jump again."
+      },
+      "comment": "Gets the cooldown before the player can jump again."
+    }
+  }
+}
