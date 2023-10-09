@@ -1,0 +1,136 @@
+{
+  "class": {
+    "type": "class",
+    "mods": ["abstract"],
+    "extends": "net.minecraft.world.entity.Mob",
+    "comment": "Represents a @(org.bukkit.entity.Creature) entity."
+  },
+  "fields": {
+    "DEFAULT_WALK_TARGET_VALUE": {
+      "type": "float",
+      "visibility": "protected",
+      "mods": ["static", "final"],
+      "value": "0.0",
+      "comment": "The default value for an entity's walking target."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.EntityType<? extends net.minecraft.world.entity.PathfinderMob>",
+          "name": "type",
+          "comment": "The entity type."
+        },
+        {
+          "type": "net.minecraft.world.level.Level",
+          "name": "world",
+          "comment": "The world this entity spawns in."
+        }
+      ],
+      "comment": "Constructs a new @({this}) entity. This does not spawn the entity."
+    }
+  ],
+  "methods": {
+    "getWalkTargetValue": [
+      {
+        "params": [
+          {
+            "type": "net.minecraft.core.BlockPos",
+            "name": "pos",
+            "comment": "The position to get the value at."
+          }
+        ],
+        "return": {
+          "type": "float",
+          "comment": "The value at the given position."
+        },
+        "comment": "Gets the walking target value of the given position."
+      },
+      {
+        "params": [
+          {
+            "type": "net.minecraft.core.BlockPos",
+            "name": "pos",
+            "comment": "The position to get the value at."
+          },
+          {
+            "type": "net.minecraft.world.level.LevelReader",
+            "name": "reader",
+            "comment": "The level reader to get the value from."
+          }
+        ],
+        "return": {
+          "type": "float",
+          "comment": "The value at the given position."
+        },
+        "comment": "Gets the walking target value of the given position."
+      }
+    ],
+    "checkSpawnRules": {
+      "params": [
+        {
+          "type": "net.minecraft.world.level.LevelAccessor",
+          "name": "level",
+          "comment": "The level to check spawn rules in."
+        },
+        {
+          "type": "net.minecraft.world.entity.MobSpawnType",
+          "name": "type",
+          "comment": "The type of spawning to check."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether the entity can spawn."
+      },
+      "comment": "Checks if this entity can spawn according to the inputted spawn type."
+    },
+    "isPathFinding": {
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this entity is path finding."
+      },
+      "comment": "Gets whether this entity is currently using its @(net.minecraft.world.entity.ai.navigation.PathNavigation)."
+    },
+    "isPanicking": {
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this entity is panicking."
+      },
+      "comment": "Gets whether this entity is currently panicking."
+    },
+    "tickLeash": {
+      "visibility": "protected",
+      "comment": "A <a href=\"https://minecraft.wiki/w/Tick\">tick function</a> that checks if the entity is currently leached."
+    },
+    "shouldStayCloseToLeashHolder": {
+      "visibility": "protected",
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this entity should stay close to its leash holder."
+      },
+      "comment": "Gets whether this entity should stay close to its leash holder."
+    },
+    "followLeashSpeed": {
+      "visibility": "protected",
+      "return": {
+        "type": "double",
+        "comment": "The speed to follow the leash holder at."
+      },
+      "comment": "Gets the speed to follow the leash holder at."
+    },
+    "onLeashDistance": {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "float",
+          "name": "distance",
+          "comment": "The distance to the leash holder."
+        }
+      ],
+      "comment": "Called every tick reporting the distance this entity is from its leash holder."
+    }
+  }
+}
