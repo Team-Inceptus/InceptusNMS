@@ -765,7 +765,7 @@ object DocGenerator {
         val enums = info.enumerations?.enums ?: return null
         val summary = Element("section").apply {
             addClass("constants-summary")
-            id("constants-summary")
+            id("enum-constant-summary")
         }
 
         summary.append("<h2>Enum Constant Summary</h2>")
@@ -889,7 +889,7 @@ object DocGenerator {
                     appendChild(Element("code").apply {
                         val builder = StringBuilder()
 
-                        builder.append("<a href=\"#%3Cinit%3E(${constructor.parameters.map { it.type }.joinString(",")})\" class=\"member-name-link\">${info.simpleName}</a><wbr>")
+                        builder.append("<a href=\"#%3Cinit%3E(${constructor.parameters.map { it.type }.joinString(",", "")})\" class=\"member-name-link\">${info.simpleName}</a><wbr>")
                         if (constructor.parameters.isNotEmpty())
                             builder.append("(${constructor.parameters.joinToString { param -> "${link(info.fullDocName, param.type, info.generics.map { it.name })}&nbsp;${param.name}" }})")
                         else
@@ -1059,7 +1059,7 @@ object DocGenerator {
         val enums = info.enumerations?.enums ?: return null
         val detail = Element("section").apply {
             addClass("constants-details")
-            id("enum-constants-detail")
+            id("enum-constant-detail")
         }
         detail.append("<h2>Enum Constant Detail</h2>")
 
@@ -1151,7 +1151,7 @@ object DocGenerator {
             for (constructor in constructors) {
                 appendChild(item(Element("section").apply {
                     addClass("detail")
-                    id("<init>(${constructor.parameters.map { it.type }.joinString(",")})")
+                    id("<init>(${constructor.parameters.map { it.type }.joinString(",", "")})")
 
                     append("<h3>${info.simpleName}</h3>")
                     appendChild(Element("div").apply {
@@ -1273,7 +1273,8 @@ object DocGenerator {
         "https://repo.karuslabs.com/repository/brigadier/",
         "https://kvverti.github.io/Documented-DataFixerUpper/snapshot/",
         "https://javadoc.scijava.org/Guava/",
-        "https://www.javadoc.io/static/com.google.code.findbugs/jsr305/3.0.2/"
+        "https://www.javadoc.io/static/com.google.code.findbugs/jsr305/3.0.2/",
+        "https://joml-ci.github.io/JOML/apidocs/"
     )
 
     fun link(self: String, type: String, generics: List<String> = emptyList(), annotation: Boolean = false): String {
@@ -1304,7 +1305,7 @@ object DocGenerator {
             for (i in 0 until child.count { it == '[' })
                 arrayBuilder.append("[]")
 
-            if (Util.getClassDocumentation().any { it.name == newType } || self == newType)
+            if (Util.getScheduled().any { it == newType } || self == newType)
                 finalType = finalType.replace(suffix, "").replace(child, "<a href=\"/${docUrl}\" title=\"member in $pkg\">$prefix$simpleName$suffix</a>$arrayBuilder")
             else {
                 fun externalLink(repo: String, str: String)
@@ -1319,6 +1320,7 @@ object DocGenerator {
                     child.startsWith("com.mojang.brigadier") -> externalLink(REPOSITORIES[3], finalType)
                     child.startsWith("com.mojang.datafixers") || child.startsWith("com.mojang.serialization") -> externalLink(REPOSITORIES[4], finalType)
                     child.startsWith("com.google.common") -> externalLink(REPOSITORIES[5], finalType)
+                    child.startsWith("org.joml") -> externalLink(REPOSITORIES[7], finalType)
                     else -> finalType
                 }
             }

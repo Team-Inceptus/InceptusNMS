@@ -83,8 +83,14 @@ object Util {
         return LOADED_DOCUMENTATION.toList()
     }
 
+    private val SCHEDULED = mutableListOf<String>()
+
+    fun getScheduled(): List<String> = SCHEDULED.toList()
+
     suspend fun loadDocumentation(input: File) = withContext(Dispatchers.IO) {
         val files = input.walkTopDown().filter { it.isFile && it.name.endsWith(".json") }
+
+        files.forEach { file -> SCHEDULED.add(getJavaName(file)) }
 
         files.forEach { file ->
             launch(Dispatchers.IO) {
