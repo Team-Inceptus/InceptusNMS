@@ -199,7 +199,7 @@ object DocGenerator {
     // Page Generators
 
     fun generateIndex(): Document {
-        val index = startDocument("index.html", "default", "Overview", TITLE)
+        val index = startDocument("index.html", "default", "Overview", TITLE, "overview")
         index.body().addClass("package-index-page")
 
         val main = index.main()
@@ -360,7 +360,7 @@ object DocGenerator {
                                     ).filterValues { it(clazz) }.keys.map { "class-summary-tab$it" }
 
                                     appendChild(Element("div").apply {
-                                        classNames(setOf("col-first", rowColor) + types)
+                                        classNames(setOf("col-first", rowColor, "class-summary") + types)
 
                                         val builder = StringBuilder()
                                         builder.append("<a href=\"${clazz.simpleName}.html\" title=\"${clazz.type} in $pkg\">${clazz.simpleName}</a>")
@@ -372,7 +372,7 @@ object DocGenerator {
                                     })
 
                                     appendChild(Element("div").apply {
-                                        classNames(setOf("col-last", rowColor) + types)
+                                        classNames(setOf("col-last", rowColor, "class-summary") + types)
                                         append("<div class=\"block\">${clazz.comment.header()}</div>")
                                     })
 
@@ -711,7 +711,7 @@ object DocGenerator {
                 appendChild(Element("dl").apply {
                     addClass("notes")
                     append("<dt>Direct Known Subclasses:</dt>")
-                    append("<dd>${children.map { child -> "<code>${link(info.fullDocName, child.name, info.generics.map { it.name })}</code>" }.joinString(", ", "")}/dd>")
+                    append("<dd>${children.map { child -> "<code>${link(info.fullDocName, child.name, info.generics.map { it.name })}</code>" }.joinString(", ", "")}</dd>")
                 })
             }
 
@@ -850,7 +850,7 @@ object DocGenerator {
     fun generateEnumSummary(info: ClassDocumentation): Element? {
         if (info.type != "enum") return null
 
-        val enums = info.enumerations?.enums ?: return null
+        val enums = info.enumerations?.enums?.sortedBy { it.name } ?: return null
         val summary = Element("section").apply {
             addClass("constants-summary")
             id("enum-constant-summary")
@@ -1049,7 +1049,7 @@ object DocGenerator {
             if (methods.any { it.mods.contains("abstract") })
                 appendChild(methodSummaryButton(3))
 
-            if (methods.any { !it.mods.contains("abstract") })
+            if (methods.any { !it.mods.contains("abstract") && info.type != "interface" })
                 appendChild(methodSummaryButton(4))
 
             if (methods.any { it.mods.contains("default") })
@@ -1144,7 +1144,7 @@ object DocGenerator {
     fun generateEnumDetail(info: ClassDocumentation): Element? {
         if (info.type != "enum") return null
 
-        val enums = info.enumerations?.enums ?: return null
+        val enums = info.enumerations?.enums?.sortedBy { it.name } ?: return null
         val detail = Element("section").apply {
             addClass("constants-details")
             id("enum-constant-detail")
@@ -1218,6 +1218,14 @@ object DocGenerator {
                     })
 
                     append("<div class=\"block\">${field.comment}</div>")
+
+                    if (field.value != null)
+                        appendChild(Element("dl").apply {
+                            addClass("notes")
+
+                            append("<dt>See Also:</dt>")
+                            append("<dd><ul class=\"see-list\"><li><a href=\"/constant-values.html#${info.name}.${field.name}\">Constant Field Values</a></li></ul></dd>")
+                        })
                 }))
             }
         })
