@@ -1,0 +1,81 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Utility class for common Predicates used on an @(net.minecraft.world.entity.Entity)."
+  },
+  "fields": {
+    "ENTITY_STILL_ALIVE": {
+      "type": "java.util.function.Predicate<net.minecraft.world.entity.Entity>",
+      "mods": ["static", "final"],
+      "comment": "Predicate that returns true if the entity is alive."
+    },
+    "LIVING_ENTITY_STILL_ALIVE": {
+      "type": "java.util.function.Predicate<net.minecraft.world.entity.Entity>",
+      "mods": ["static", "final"],
+      "comment": "Predicate that returns true if the entity is alive and an instance of a @(net.minecraft.world.entity.LivingEntity)."
+    },
+    "ENTITY_NOT_BEING_RIDDEN": {
+      "type": "java.util.function.Predicate<net.minecraft.world.entity.Entity>",
+      "mods": ["static", "final"],
+      "comment": "Predicate that returns true if the entity is not being ridden."
+    },
+    "CONTAINER_ENTITY_SELECTOR": {
+      "type": "java.util.function.Predicate<net.minecraft.world.entity.Entity>",
+      "mods": ["static", "final"],
+      "comment": "Predicate that returns true if the entity is an instance of a @(net.minecraft.world.Container)."
+    },
+    "NO_CREATIVE_OR_SPECTATOR": {
+      "type": "java.util.function.Predicate<net.minecraft.world.entity.Entity>",
+      "mods": ["static", "final"],
+      "comment": "Predicate that returns true if a player is not in creative or spectator mode."
+    },
+    "NO_SPECTATORS": {
+      "type": "java.util.function.Predicate<net.minecraft.world.entity.Entity>",
+      "mods": ["static", "final"],
+      "comment": "Predicate that returns true if the entity is not a spectator."
+    },
+    "CAN_BE_COLLIDED_WITH": {
+      "type": "java.util.function.Predicate<net.minecraft.world.entity.Entity>",
+      "mods": ["static", "final"],
+      "comment": "Predicate that returns true if the entity can be collided with."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "private",
+      "comment": "Private constructor to prevent instantiation."
+    }
+  ],
+  "methods": {
+    "pushableBy": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.Entity",
+          "name": "entity",
+          "comment": "The entity that is attempting to push."
+        }
+      ],
+      "return": {
+        "type": "java.util.function.Predicate<net.minecraft.world.entity.Entity>",
+        "comment": "Predicate that returns true if the entity can be pushed by the given entity."
+      },
+      "comment": "Returns a predicate that returns true if the entity can be pushed by the given entity."
+    },
+    "notRiding": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.Entity",
+          "name": "entity",
+          "comment": "The entity that is attempting to ride."
+        }
+      ],
+      "return": {
+        "type": "java.util.function.Predicate<net.minecraft.world.entity.Entity>",
+        "comment": "Predicate that returns true if the entity is not riding the given entity."
+      },
+      "comment": "Returns a predicate that returns true if the entity is not riding the given entity."
+    }
+  }
+}
