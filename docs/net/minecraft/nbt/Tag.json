@@ -133,7 +133,7 @@
     },
     "getType": {
       "return": {
-        "type": "net.minecraft.nbt.TagType",
+        "type": "net.minecraft.nbt.TagType<?>",
         "comment": "The type of the NBT Tag."
       },
       "comment": "Fetches the type of the NBT Tag."
@@ -174,7 +174,7 @@
       {
         "params": [
           {
-            "type": "net.minecraft.nbt.TagVisitor",
+            "type": "net.minecraft.nbt.StreamTagVisitor",
             "name": "visitor",
             "comment": "The visitor to accept."
           }

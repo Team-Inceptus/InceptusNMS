@@ -1,0 +1,34 @@
+{
+  "class": {
+    "type": "class",
+    "implements": [
+      "net.minecraft.nbt.Tag"
+    ],
+    "comment": "A NBT Tag that symbolizes the end of the CompoundTag."
+  },
+  "fields": {
+    "SELF_SIZE_IN_BYTES": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "8",
+      "comment": "The size of the EndTag in bytes."
+    },
+    "TYPE": {
+      "type": "net.minecraft.nbt.TagType<{this}>",
+      "mods": ["static", "final"],
+      "comment": "The TagType of an EndTag."
+    },
+    "INSTANCE": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "The singleton instance of an EndTag."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "private",
+      "comment": "Creates a new EndTag. This class is designed to be a singleton via @({this}#INSTANCE) and should not be instantiated."
+    }
+  ]
+}

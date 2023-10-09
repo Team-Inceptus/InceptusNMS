@@ -1,0 +1,74 @@
+{
+  "class": {
+    "type": "class",
+    "mods": ["abstract"],
+    "implements": [
+      "net.minecraft.nbt.Tag"
+    ],
+    "comment": "Represents a NBT Tag that holds a type of number."
+  },
+  "constructors": [
+    {
+      "visibility": "protected",
+      "comment": "Creates a new NumberTag."
+    }
+  ],
+  "methods": {
+    "getAsLong": {
+      "mods": ["abstract"],
+      "return": {
+        "type": "long",
+        "comment": "The value of this tag as a @(wlong)."
+      },
+      "comment": "Returns the value of this tag as a @(wlong)."
+    },
+    "getAsInt": {
+      "mods": ["abstract"],
+      "return": {
+        "type": "int",
+        "comment": "The value of this tag as a @(wint)."
+      },
+      "comment": "Returns the value of this tag as a @(wint)."
+    },
+    "getAsShort": {
+      "mods": ["abstract"],
+      "return": {
+        "type": "short",
+        "comment": "The value of this tag as a @(wshort)."
+      },
+      "comment": "Returns the value of this tag as a @(wshort)."
+    },
+    "getAsByte": {
+      "mods": ["abstract"],
+      "return": {
+        "type": "byte",
+        "comment": "The value of this tag as a @(wbyte)."
+      },
+      "comment": "Returns the value of this tag as a @(wbyte)."
+    },
+    "getAsDouble": {
+      "mods": ["abstract"],
+      "return": {
+        "type": "double",
+        "comment": "The value of this tag as a @(wdouble)."
+      },
+      "comment": "Returns the value of this tag as a @(wdouble)."
+    },
+    "getAsFloat": {
+      "mods": ["abstract"],
+      "return": {
+        "type": "float",
+        "comment": "The value of this tag as a @(wfloat)."
+      },
+      "comment": "Returns the value of this tag as a @(wfloat)."
+    },
+    "getAsNumber": {
+      "mods": ["abstract"],
+      "return": {
+        "type": "java.lang.Number",
+        "comment": "The value of this tag as a @(java.lang.Number) object."
+      },
+      "comment": "Returns the value of this tag as a @(java.lang.Number) object."
+    }
+  }
+}

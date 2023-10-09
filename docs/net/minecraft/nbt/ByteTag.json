@@ -1,0 +1,84 @@
+{
+  "class": {
+    "type": "class",
+    "extends": "net.minecraft.nbt.NumericTag",
+    "comment": "Represents a NBT Tag for a standard @(wbyte)."
+  },
+  "fields": {
+    "SELF_SIZE_IN_BYTES": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "9",
+      "comment": "The size in bytes of a @(wbyte) tag."
+    },
+    "TYPE": {
+      "type": "net.minecraft.nbt.TagType<{this}>",
+      "mods": ["static", "final"],
+      "comment": "The type of tag this class represents."
+    },
+    "ZERO": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "A @({this}) with a value of <code>0</code>."
+    },
+    "ONE": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "A @({this}) with a value of <code>1</code>."
+    },
+    "data": {
+      "type": "byte",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The value of this tag as a byte."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "package",
+      "params": [
+        {
+          "type": "byte",
+          "name": "data",
+          "comment": "The value of this tag as a byte."
+        }
+      ],
+      "comment": "Creates a new @(wbyte) tag with the given value."
+    }
+  ],
+  "methods": {
+    "valueOf": [
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "byte",
+            "name": "data",
+            "comment": "The value of this tag as a byte."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new @(wbyte) tag with the given value."
+        },
+        "comment": "Returns a new @(wbyte) tag with the given value."
+      },
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "boolean",
+            "name": "value",
+            "comment": "The value of this tag as a boolean."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new @(wbyte) tag with the given value."
+        },
+        "comment": "Returns a new @(wbyte) tag with <code>1</code> if true or <code>0</code> if false."
+      }
+    ]
+  }
+}

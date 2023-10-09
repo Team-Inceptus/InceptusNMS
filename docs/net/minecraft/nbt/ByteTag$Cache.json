@@ -1,0 +1,23 @@
+{
+  "class": {
+    "type": "class",
+    "enclosing": "net.minecraft.nbt.ByteTag",
+    "visibility": "package",
+    "mods": ["static"],
+    "comment": "Utility class for the cache of loaded @(net.minecraft.nbt.ByteTag)s."
+  },
+  "fields": {
+    "cache": {
+      "type": "net.minecraft.nbt.ByteTag[]",
+      "visibility": "package",
+      "mods": ["static", "final"],
+      "comment": "The Cache of a series @(net.minecraft.nbt.ByteTag)."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "private",
+      "comment": "Private constructor to prevent instantiation."
+    }
+  ]
+}
