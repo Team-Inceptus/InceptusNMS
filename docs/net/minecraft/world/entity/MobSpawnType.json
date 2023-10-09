@@ -1,0 +1,72 @@
+{
+  "class": {
+    "type": "enum",
+    "comment": "Represents a method of spawning an Entity."
+  },
+  "enumerations": [
+    {
+      "name": "NATURAL",
+      "comment": "The Entity was spawned naturally."
+    },
+    {
+      "name": "CHUNK_GENERATION",
+      "comment": "The Entity was spawned as part of chunk generation."
+    },
+    {
+      "name": "SPAWNER",
+      "comment": "The Entity was spawned by a spawner."
+    },
+    {
+      "name": "STRUCTURE",
+      "comment": "The Entity was spawned as part of a structure."
+    },
+    {
+      "name": "BREEDING",
+      "comment": "The Entity was breeded by two entities of the same type.."
+    },
+    {
+      "name": "MOB_SUMMONED",
+      "comment": "The Entity was summoned."
+    },
+    {
+      "name": "JOCKEY",
+      "comment": "The Entity was spawned riding or is being ridden by another Entity."
+    },
+    {
+      "name": "EVENT",
+      "comment": "The Entity was spawned because of a world event."
+    },
+    {
+      "name": "CONVERSION",
+      "comment": "The Entity was converted from another entity."
+    },
+    {
+      "name": "REINFORCEMENT",
+      "comment": "The Entity was spawned because another entity of its same type called for reinforcements. See <a href=\"https://minecraft.wiki/w/Zombie#Reinforcements\">the minecraft wiki</a> for more."
+    },
+    {
+      "name": "TRIGGERED",
+      "comment": "A trigger caused this entity to spawn."
+    },
+    {
+      "name": "BUCKET",
+      "comment": "The Entity was spawned by a bucket containing itself being placed down."
+    },
+    {
+      "name": "SPAWN_EGG",
+      "comment": "The Entity was created by a spawn egg."
+    },
+    {
+      "name": "COMMAND",
+      "comment": "The Entity was spawned by a command."
+    },
+    {
+      "name": "DISPENSER",
+      "comment": "The Entity was created by a dispenser block."
+    },
+    {
+      "name": "PATROL",
+      "comment": "The Entity was a part of a pillager patrol."
+    }
+  ]
+}

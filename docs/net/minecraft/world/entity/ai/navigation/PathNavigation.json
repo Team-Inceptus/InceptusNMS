@@ -1,0 +1,718 @@
+{
+  "class": {
+    "type": "class",
+    "mods": ["abstract"],
+    "comment": "The base class for an entity's Navigation system."
+  },
+  "fields": {
+    "MAX_TIME_RECOMPUTE": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "20",
+      "comment": "The maximum time between path recomputations."
+    },
+    "STUCK_CHECK_INTERVAL": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "100",
+      "comment": "The interval between checks for being stuck."
+    },
+    "STUCK_THRESHOLD_DISTANCE_FACTOR": {
+      "type": "float",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "0.25",
+      "comment": "The factor of the path distance that must be traversed to be considered not stuck."
+    },
+    "mob": {
+      "type": "net.minecraft.world.entity.Mob",
+      "visibility": "protected",
+      "mods": ["final"],
+      "comment": "The mob that this Navigation system is for."
+    },
+    "level": {
+      "type": "net.minecraft.world.level.Level",
+      "visibility": "protected",
+      "mods": ["final"],
+      "comment": "The level that the mob is in."
+    },
+    "path": {
+      "type": "net.minecraft.world.level.pathfinder.Path",
+      "visibility": "protected",
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "The current path that the mob is following."
+    },
+    "speedModifier": {
+      "type": "double",
+      "visibility": "protected",
+      "comment": "The speed modifier for the mob."
+    },
+    "tick": {
+      "type": "int",
+      "visibility": "protected",
+      "comment": "The amount of ticks this Navigation has ran for."
+    },
+    "lastStuckCheck": {
+      "type": "int",
+      "visibility": "protected",
+      "comment": "The last time that the stuck check was ran."
+    },
+    "lastStuckCheckPos": {
+      "type": "net.minecraft.world.phys.Vec3",
+      "visibility": "protected",
+      "comment": "The last position that the stuck check was ran at."
+    },
+    "timeoutCachedNode": {
+      "type": "net.minecraft.core.Vec3i",
+      "visibility": "protected",
+      "comment": "The last node that was timed out."
+    },
+    "timeoutTimer": {
+      "type": "long",
+      "visibility": "protected",
+      "comment": "The timer for the timeout."
+    },
+    "lastTimeoutCheck": {
+      "type": "long",
+      "visibility": "protected",
+      "comment": "The last time that the timeout check was ran."
+    },
+    "timeoutLimit": {
+      "type": "double",
+      "visibility": "protected",
+      "comment": "The limit of how much this Navigation can time out."
+    },
+    "maxDistanceToWaypoint": {
+      "type": "float",
+      "visibility": "protected",
+      "comment": "The maximum distance to a specific waypoint."
+    },
+    "hasDelayedRecomputation": {
+      "type": "boolean",
+      "visibility": "protected",
+      "comment": "Whether or not the path's recomputing has been delayed."
+    },
+    "timeLastRecompute": {
+      "type": "long",
+      "visibility": "protected",
+      "comment": "The last time that the path was recomputed."
+    },
+    "nodeEvaluator": {
+      "type": "net.minecraft.world.level.pathfinder.NodeEvaluator",
+      "visibility": "protected",
+      "comment": "The node evaluator for this Navigation."
+    },
+    "targetPos": {
+      "type": "net.minecraft.core.BlockPos",
+      "visibility": "private",
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "The target position for this Navigation."
+    },
+    "reachRange": {
+      "type": "int",
+      "visibility": "private",
+      "comment": "The reach range for this Navigation in blocks."
+    },
+    "maxVisitedNodesMultiplier": {
+      "type": "float",
+      "visibility": "private",
+      "comment": "The maximum visited nodes multiplier for this Navigation."
+    },
+    "pathFinder": {
+      "type": "net.minecraft.world.level.pathfinder.PathFinder",
+      "visibility": "private",
+      "comment": "The path finder handle for this Navigation."
+    },
+    "isStuck": {
+      "type": "boolean",
+      "visibility": "private",
+      "comment": "Whether or not the mob is stuck in its Navigation."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.Mob",
+          "name": "mob",
+          "comment": "The mob that this Navigation system is for."
+        },
+        {
+          "type": "net.minecraft.world.level.Level",
+          "name": "level",
+          "comment": "The level that the mob is in."
+        }
+      ],
+      "comment": "Constructs a new Navigation system for the given mob in the given level."
+    }
+  ],
+  "methods": {
+    "resetMaxVisitedNodesMultiplier": {
+      "comment": "Resets the maximum visited nodes multiplier to <code>1.0F</code>."
+    },
+    "setMaxVisitedNodesMultiplier": {
+      "$setter": "maxVisitedNodesMultiplier"
+    },
+    "getTargetPos": {
+      "$getter": "targetPos"
+    },
+    "createPathfinder": {
+      "params": [
+        {
+          "type": "int",
+          "name": "range",
+          "comment": "The range of the pathfinder."
+        }
+      ],
+      "return": {
+        "type": "net.minecraft.world.level.pathfinder.PathFinder",
+        "comment": "A new pathfinder with the given range."
+      },
+      "comment": "Creates a new pathfinder with the given range."
+    },
+    "setSpeedModifier": {
+      "$setter": "speedModifier"
+    },
+    "recomputePath": {
+      "comment": "Reclaculates the values of the Path attached to this Navigation according to the current tick."
+    },
+    "createPath": [
+      {
+        "mods": ["final"],
+        "params": [
+          {
+            "type": "double",
+            "name": "x",
+            "comment": "The x coordinate of the target position."
+          },
+          {
+            "type": "double",
+            "name": "y",
+            "comment": "The y coordinate of the target position."
+          },
+          {
+            "type": "double",
+            "name": "z",
+            "comment": "The z coordinate of the target position."
+          },
+          {
+            "type": "int",
+            "name": "range",
+            "comment": "The range of the pathfinder."
+          }
+        ],
+        "return": {
+          "type": "net.minecraft.world.level.pathfinder.Path",
+          "comment": "A new path to the given position, or null if it cannot pathfinder to the target position."
+        },
+        "annotations": [
+          {
+            "type": "nullable"
+          }
+        ],
+        "comment": "Creates a new path to the given position."
+      },
+      {
+        "params": [
+          {
+            "type": "java.util.stream.Stream<net.minecraft.core.BlockPos>",
+            "name": "targets",
+            "comment": "The targets to create a path to."
+          },
+          {
+            "type": "int",
+            "name": "range",
+            "comment": "The range of the pathfinder."
+          }
+        ],
+        "return": {
+          "type": "net.minecraft.world.level.pathfinder.Path",
+          "comment": "A new path to the given position, or null if it cannot pathfinder to the target position."
+        },
+        "annotations": [
+          {
+            "type": "nullable"
+          }
+        ],
+        "comment": "Creates a new path to the given position."
+      },
+      {
+        "params": [
+          {
+            "type": "java.util.Set<net.minecraft.core.BlockPos>",
+            "name": "targets",
+            "comment": "The targets to create a path to."
+          },
+          {
+            "type": "int",
+            "name": "range",
+            "comment": "The range of the pathfinder."
+          }
+        ],
+        "return": {
+          "type": "net.minecraft.world.level.pathfinder.Path",
+          "comment": "A new path to the given position, or null if it cannot pathfinder to the target position."
+        },
+        "annotations": [
+          {
+            "type": "nullable"
+          }
+        ],
+        "comment": "Creates a new path to the given position."
+      },
+      {
+        "params": [
+          {
+            "type": "net.minecraft.core.BlockPos",
+            "name": "target",
+            "comment": "The target to create a path to."
+          },
+          {
+            "type": "int",
+            "name": "range",
+            "comment": "The range of the pathfinder."
+          }
+        ],
+        "return": {
+          "type": "net.minecraft.world.level.pathfinder.Path",
+          "comment": "A new path to the given position, or null if it cannot pathfinder to the target position."
+        },
+        "annotations": [
+          {
+            "type": "nullable"
+          }
+        ],
+        "comment": "Creates a new path to the given position."
+      },
+      {
+        "params": [
+          {
+            "type": "net.minecraft.core.BlockPos",
+            "name": "target",
+            "comment": "The target to create a path to."
+          },
+          {
+            "type": "int",
+            "name": "range",
+            "comment": "The range of the pathfinder."
+          },
+          {
+            "type": "int",
+            "name": "followRange",
+            "comment": "The distance to the target. Usually an input of @(org.bukkit.attribute.Attribute#GENERIC_FOLLOW_RANGE)"
+          }
+        ],
+        "return": {
+          "type": "net.minecraft.world.level.pathfinder.Path",
+          "comment": "A new path to the given position, or null if it cannot pathfinder to the target position."
+        },
+        "annotations": [
+          {
+            "type": "nullable"
+          }
+        ],
+        "comment": "Creates a new path to the given position."
+      },
+      {
+        "params": [
+          {
+            "type": "net.minecraft.world.entity.Entity",
+            "name": "target",
+            "comment": "The target to create a path to."
+          },
+          {
+            "type": "int",
+            "name": "range",
+            "comment": "The range of the pathfinder."
+          }
+        ],
+        "return": {
+          "type": "net.minecraft.world.level.pathfinder.Path",
+          "comment": "A new path to the given position, or null if it cannot pathfinder to the target position."
+        },
+        "annotations": [
+          {
+            "type": "nullable"
+          }
+        ],
+        "comment": "Creates a new path to the given position."
+      },
+      {
+        "visibility": "protected",
+        "params": [
+          {
+            "type": "java.util.Set<net.minecraft.core.BlockPos>",
+            "name": "targets",
+            "comment": "The targets to create a path to."
+          },
+          {
+            "type": "int",
+            "name": "bounds",
+            "comment": "The base radius of the bounds for this Path."
+          },
+          {
+            "type": "boolean",
+            "name": "above",
+            "comment": "Whether or not the pathfinder should start on the block directly above the starting position."
+          },
+          {
+            "type": "int",
+            "name": "range",
+            "comment": "The range of the pathfinder."
+          }
+        ],
+        "return": {
+          "type": "net.minecraft.world.level.pathfinder.Path",
+          "comment": "A new path to the given position, or null if it cannot pathfinder to the target position."
+        },
+        "annotations": [
+          {
+            "type": "nullable"
+          }
+        ],
+        "comment": "Creates a new path to the given position."
+      },
+      {
+        "visibility": "protected",
+        "params": [
+          {
+            "type": "java.util.Set<net.minecraft.core.BlockPos>",
+            "name": "targets",
+            "comment": "The targets to create a path to."
+          },
+          {
+            "type": "int",
+            "name": "bounds",
+            "comment": "The base radius of the bounds for this Path."
+          },
+          {
+            "type": "boolean",
+            "name": "above",
+            "comment": "Whether or not the pathfinder should start on the block directly above the starting position."
+          },
+          {
+            "type": "int",
+            "name": "range",
+            "comment": "The range of the pathfinder."
+          },
+          {
+            "type": "float",
+            "name": "followRange",
+            "comment": "The distance to the target. Usually an input of @(org.bukkit.attribute.Attribute#GENERIC_FOLLOW_RANGE)"
+          }
+        ],
+        "return": {
+          "type": "net.minecraft.world.level.pathfinder.Path",
+          "comment": "A new path to the given position, or null if it cannot pathfinder to the target position."
+        },
+        "annotations": [
+          {
+            "type": "nullable"
+          }
+        ],
+        "comment": "Creates a new path to the given position."
+      }
+    ],
+    "moveTo": [
+      {
+        "params": [
+          {
+            "type": "double",
+            "name": "x",
+            "comment": "The x coordinate of the target position."
+          },
+          {
+            "type": "double",
+            "name": "y",
+            "comment": "The y coordinate of the target position."
+          },
+          {
+            "type": "double",
+            "name": "z",
+            "comment": "The z coordinate of the target position."
+          },
+          {
+            "type": "double",
+            "name": "speedModifier",
+            "comment": "The speed modifier for the mob."
+          }
+        ],
+        "return": {
+          "type": "boolean",
+          "comment": "Whether or not the mob can pathfind to the target position."
+        },
+        "comment": "Moves the mob to the given position."
+      },
+      {
+        "params": [
+          {
+            "type": "net.minecraft.world.entity.Entity",
+            "name": "target",
+            "comment": "The target to move to."
+          },
+          {
+            "type": "double",
+            "name": "speedModifier",
+            "comment": "The speed modifier for the mob."
+          }
+        ],
+        "return": {
+          "type": "boolean",
+          "comment": "Whether or not the mob can pathfind to the target position."
+        },
+        "comment": "Moves the mob to the given position."
+      },
+      {
+        "params": [
+          {
+            "type": "net.minecraft.world.level.pathfinder.Path",
+            "name": "path",
+            "annotations": [
+              {
+                "type": "nullable"
+              }
+            ],
+            "comment": "The path to move to."
+          },
+          {
+            "type": "double",
+            "name": "speedModifier",
+            "comment": "The speed modifier for the mob."
+          }
+        ],
+        "return": {
+          "type": "boolean",
+          "comment": "Whether or not the mob can pathfind to the target position."
+        },
+        "comment": "Moves the mob to the given position."
+      }
+    ],
+    "getPath": {
+      "$getter": "path"
+    },
+    "tick": {
+      "comment": "A <a href=\"https://minecraft.wiki/w/Tick\">tick function</a> that moves the mob along the current path."
+    },
+    "getGroundY": {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "net.minecraft.world.phys.Vec3",
+          "name": "vector",
+          "comment": "The vector to get the ground Y level for."
+        }
+      ],
+      "return": {
+        "type": "double",
+        "comment": "The ground Y level for the given vector."
+      },
+      "comment": "Gets the ground Y level for the given vector."
+    },
+    "followThePath": {
+      "visibility": "protected",
+      "comment": "Follows the current path."
+    },
+    "shouldTargetNextNodeInDirection": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "net.minecraft.world.phys.Vec3",
+          "name": "direction",
+          "comment": "The current vector direction of the mob."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if the mob should target the next node in the given direction."
+      },
+      "comment": "Whether or not the mob should target the next node in the given direction."
+    },
+    "doStuckDetection": {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "net.minecraft.world.phys.Vec3",
+          "name": "vector",
+          "comment": "The vector to do stuck detection for."
+        }
+      ],
+      "comment": "Does Navigation stuck detection according to the given vector."
+    },
+    "timeoutPath": {
+      "visibility": "private",
+      "comment": "Times out the current path, stopping all Navigation."
+    },
+    "resetStuckTimeout": {
+      "visibility": "private",
+      "comment": "Resets the stuck timeout."
+    },
+    "isDone": {
+      "return": {
+        "type": "boolean",
+        "comment": "Whether or not the Navigation is done."
+      },
+      "comment": "Fetches whether or not the Navigation is done."
+    },
+    "isInProgress": {
+      "return": {
+        "type": "boolean",
+        "comment": "Whether or not the Navigation is currently running."
+      },
+      "comment": "Fetches whether or not the Navigation is in progress."
+    },
+    "stop": {
+      "comment": "Stops the Navigation, setting @({this}#path) to <code>null</code>."
+    },
+    "getTempMobPos": {
+      "visibility": "protected",
+      "mods": ["abstract"],
+      "return": {
+        "type": "net.minecraft.world.phys.Vec3",
+        "comment": "The temporary position of the mob."
+      },
+      "comment": "Gets the temporary position of the mob."
+    },
+    "canUpdatePath": {
+      "visibility": "protected",
+      "mods": ["abstract"],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether or not the path can be updated."
+      },
+      "comment": "Fetches whether the current path can be updated."
+    },
+    "trimPath": {
+      "visibility": "protected",
+      "comment": "Trims the current path."
+    },
+    "canMoveDirectly": {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "net.minecraft.world.phys.Vec3",
+          "name": "pos1",
+          "comment": "The first position to check."
+        },
+        {
+          "type": "net.minecraft.world.phys.Vec3",
+          "name": "pos2",
+          "comment": "The second position to check."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether or not the mob can move directly between both positions."
+      },
+      "comment": "Fetches whether or not the mob can move directly between the given positions."
+    },
+    "canCutCorner": {
+      "params": [
+        {
+          "type": "net.minecraft.world.level.pathfinder.BlockPathTypes",
+          "name": "type",
+          "comment": "The path type to check."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether or not the mob can cut corners with the given path type."
+      },
+      "comment": "Fetches whether or not the mob can cut corners with the given path type."
+    },
+    "isClearForMovementBetween": {
+      "visibility": "protected",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.Mob",
+          "name": "mob",
+          "comment": "The mob to check."
+        },
+        {
+          "type": "net.minecraft.world.phys.Vec3",
+          "name": "pos1",
+          "comment": "The first position to check."
+        },
+        {
+          "type": "net.minecraft.world.phys.Vec3",
+          "name": "pos2",
+          "comment": "The second position to check."
+        },
+        {
+          "type": "boolean",
+          "name": "allowFluids",
+          "comment": "Whether or not fluids are allowed."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether or not a mob can move directly between both positions."
+      },
+      "comment": "Fetches whether or not a mob can move directly between the given positions."
+    },
+    "isStableDestination": {
+      "params": [
+        {
+          "type": "net.minecraft.core.BlockPos",
+          "name": "pos",
+          "comment": "The position to check."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether or not the given position is a stable destination."
+      },
+      "comment": "Fetches whether the given position is a stable destination."
+    },
+    "getNodeEvaluator": {
+      "$getter": "nodeEvaluator"
+    },
+    "setCanFloat": {
+      "params": [
+        {
+          "type": "boolean",
+          "name": "value",
+          "comment": "Whether or not the mob can float on fluids."
+        }
+      ],
+      "comment": "Sets whether or not the mob can float on fluids."
+    },
+    "canFloat": {
+      "return": {
+        "type": "boolean",
+        "comment": "Whether or not the mob can float on fluids."
+      },
+      "comment": "Gets whether or not the mob can float on fluids."
+    },
+    "shouldRecomputePath": {
+      "params": [
+        {
+          "type": "net.minecraft.core.BlockPos",
+          "name": "center",
+          "comment": "The position to use as the center."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether or not the path should be recomputed."
+      },
+      "comment": "Fetches whether or not the path should be recomputed according to the inputted position."
+    },
+    "getMaxDistanceToWaypoint": {
+      "$getter": "maxDistanceToWaypoint"
+    },
+    "isStuck": {
+      "$getter": "isStuck"
+    }
+  }
+}
