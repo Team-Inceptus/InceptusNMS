@@ -1,0 +1,201 @@
+{
+  "class": {
+    "type": "interface",
+    "comment": "Interface for all supported NBT Tags."
+  },
+  "fields": {
+    "OBJECT_HEADER": {
+      "type": "int",
+      "value": "8",
+      "comment": "The header of the NBT Tag that identifies an object type."
+    },
+    "ARRAY_HEADER": {
+      "type": "int",
+      "value": "12",
+      "comment": "The header of the NBT Tag that identifies an array type."
+    },
+    "OBJECT_REFERENCE": {
+      "type": "int",
+      "value": "4",
+      "comment": "The header of the NBT Tag that identifies an object reference type."
+    },
+    "STRING_SIZE": {
+      "type": "int",
+      "value": "28",
+      "comment": "The size of the string header."
+    },
+    "TAG_END": {
+      "type": "byte",
+      "value": "0",
+      "comment": "The id of the NBT Tag that identifies the end of a compound."
+    },
+    "TAG_BYTE": {
+      "type": "byte",
+      "value": "1",
+      "comment": "The id of a NBT Tag that identifies a byte."
+    },
+    "TAG_SHORT": {
+      "type": "byte",
+      "value": "2",
+      "comment": "The id of a NBT Tag that identifies a short."
+    },
+    "TAG_INT": {
+      "type": "byte",
+      "value": "3",
+      "comment": "The id of a NBT Tag that identifies an int."
+    },
+    "TAG_LONG": {
+      "type": "byte",
+      "value": "4",
+      "comment": "The id of a NBT Tag that identifies a long."
+    },
+    "TAG_FLOAT": {
+      "type": "byte",
+      "value": "5",
+      "comment": "The id of a NBT Tag that identifies a float."
+    },
+    "TAG_DOUBLE": {
+      "type": "byte",
+      "value": "6",
+      "comment": "The id of a NBT Tag that identifies a double."
+    },
+    "TAG_BYTE_ARRAY": {
+      "type": "byte",
+      "value": "7",
+      "comment": "The id of a NBT Tag that identifies a byte array."
+    },
+    "TAG_STRING": {
+      "type": "byte",
+      "value": "8",
+      "comment": "The id of a NBT Tag that identifies a string."
+    },
+    "TAG_LIST": {
+      "type": "byte",
+      "value": "9",
+      "comment": "The id of a NBT Tag that identifies a list."
+    },
+    "TAG_COMPOUND": {
+      "type": "byte",
+      "value": "10",
+      "comment": "The id of a NBT Tag that identifies a compound."
+    },
+    "TAG_INT_ARRAY": {
+      "type": "byte",
+      "value": "11",
+      "comment": "The id of a NBT Tag that identifies an int array."
+    },
+    "TAG_LONG_ARRAY": {
+      "type": "byte",
+      "value": "12",
+      "comment": "The id of a NBT Tag that identifies a long array."
+    },
+    "TAG_ANY_NUMERIC": {
+      "type": "byte",
+      "value": "13",
+      "comment": "The id of a NBT Tag that identifies any numeric type."
+    },
+    "MAX_DEPTH": {
+      "type": "int",
+      "value": "512",
+      "comment": "The maximum depth of a NBT Tag."
+    }
+  },
+  "methods": {
+    "write": {
+      "params": [
+        {
+          "type": "java.io.DataOutput",
+          "name": "output",
+          "comment": "The output to write to."
+        }
+      ],
+      "throws": [
+        {
+          "type": "java.io.IOException",
+          "comment": "If an I/O error occurs."
+        }
+      ],
+      "comment": "Writes the NBT Tag to the data output."
+    },
+    "toString": {
+      "return": {
+        "type": "string",
+        "comment": "The string representation of the NBT Tag."
+      },
+      "comment": "Returns the string representation of the NBT Tag."
+    },
+    "getId": {
+      "return": {
+        "type": "byte",
+        "comment": "The id of the NBT Tag."
+      },
+      "comment": "Fetches the id of the NBT Tag."
+    },
+    "getType": {
+      "return": {
+        "type": "net.minecraft.nbt.TagType",
+        "comment": "The type of the NBT Tag."
+      },
+      "comment": "Fetches the type of the NBT Tag."
+    },
+    "copy": {
+      "return": {
+        "type": "{this}",
+        "comment": "A copy of the NBT Tag."
+      },
+      "comment": "Creates a copy of the NBT Tag."
+    },
+    "sizeInBytes": {
+      "return": {
+        "type": "int",
+        "comment": "The size of the NBT Tag in bytes."
+      },
+      "comment": "Calculates the size of the NBT Tag in bytes."
+    },
+    "getAsString": {
+      "mods": ["default"],
+      "return": {
+        "type": "string",
+        "comment": "The string representation of the NBT Tag's value."
+      },
+      "comment": "Returns the string representation of the NBT Tag's value."
+    },
+    "accept": [
+      {
+        "params": [
+          {
+            "type": "net.minecraft.nbt.TagVisitor",
+            "name": "visitor",
+            "comment": "The visitor to accept."
+          }
+        ],
+        "comment": "Accepts the visitor."
+      },
+      {
+        "params": [
+          {
+            "type": "net.minecraft.nbt.TagVisitor",
+            "name": "visitor",
+            "comment": "The visitor to accept."
+          }
+        ],
+        "return": {
+          "type": "net.minecraft.nbt.StreamTagVisitor$ValueResult",
+          "comment": "The result of the visit."
+        },
+        "comment": "Accepts the visitor."
+      }
+    ],
+    "acceptAsRoot": {
+      "mods": ["default"],
+      "params": [
+        {
+          "type": "net.minecraft.nbt.StreamTagVisitor",
+          "name": "visitor",
+          "comment": "The visitor to accept."
+        }
+      ],
+      "comment": "Accepts the visitor as root."
+    }
+  }
+}
