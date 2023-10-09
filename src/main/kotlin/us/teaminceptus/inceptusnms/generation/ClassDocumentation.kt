@@ -26,7 +26,11 @@ data class ClassDocumentation(
     val pkg: String = name.substring(0, name.lastIndexOf('.'))
     val simpleName: String = name.substring(name.lastIndexOf('.') + 1).replace("$", ".")
     val docName: String = "$simpleName${generics(this)}"
-    val fullDocName: String = "$name${generics(this)}"
+    val fullDocName: String
+        get() {
+            return if (generics.isEmpty()) name
+            else "$name${generics(this)}"
+        }
 
     // Definitions
     
@@ -219,8 +223,8 @@ data class ClassDocumentation(
                             FieldDocumentation(
                                 processType(name, obj["type"]!!.jsonPrimitive.content),
                                 field.key,
-                                obj["visibility"]?.jsonPrimitive?.content ?: "public",
-                                obj["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
+                                (obj["visibility"]?.jsonPrimitive?.content ?: "public").replace("package", "package-private"),
+                                obj["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: if (type == "interface") listOf("static", "final") else emptyList(),
                                 annotations(name, obj["annotations"]),
                                 obj["value"]?.jsonPrimitive?.content,
                                 processComment(name, obj["comment"]!!.jsonPrimitive.content)
@@ -238,7 +242,7 @@ data class ClassDocumentation(
                             val obj = it.jsonObject
 
                             ConstructorDocumentation(
-                                obj["visibility"]?.jsonPrimitive?.content ?: (if (type == "enum") "private" else "public"),
+                                (obj["visibility"]?.jsonPrimitive?.content ?: (if (type == "enum") "private" else "public")).replace("package", "package-private"),
                                 params(name, obj["params"]),
                                 annotations(name, obj["annotations"]),
                                 processComment(name, obj["comment"]!!.jsonPrimitive.content)
@@ -259,7 +263,7 @@ data class ClassDocumentation(
                             return fieldsV.fields.first { it.name == obj["\$getter"]!!.jsonPrimitive.content }.let { field ->
                                 MethodDocumentation(
                                     method,
-                                    obj["visibility"]?.jsonPrimitive?.content ?: "public",
+                                    (obj["visibility"]?.jsonPrimitive?.content ?: "public").replace("package", "package-private"),
                                     field.mods,
                                     emptyList(),
                                     emptyList(),
@@ -280,7 +284,7 @@ data class ClassDocumentation(
                             return fieldsV.fields.first { it.name == obj["\$setter"]!!.jsonPrimitive.content }.let { field ->
                                 MethodDocumentation(
                                     method,
-                                    obj["visibility"]?.jsonPrimitive?.content ?: "public",
+                                    (obj["visibility"]?.jsonPrimitive?.content ?: "public").replace("package", "package-private"),
                                     field.mods,
                                     emptyList(),
                                     listOf(ParameterDocumentation(field.type, "value", emptyList(), field.comment)),
@@ -299,7 +303,7 @@ data class ClassDocumentation(
 
                         return MethodDocumentation(
                             method,
-                            obj["visibility"]?.jsonPrimitive?.content ?: "public",
+                            (obj["visibility"]?.jsonPrimitive?.content ?: "public").replace("package", "package-private"),
                             obj["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: (if (type == "interface") listOf("abstract") else emptyList()),
                             obj["generics"]?.jsonObject?.map { generic ->
                                 val g = generic.value.jsonObject
@@ -341,15 +345,26 @@ data class ClassDocumentation(
                 } else null
             }
 
+            val enclosing = async { clazz["enclosing"]?.jsonPrimitive?.content }.await()
+
             val info = ClassDocumentation(
                 type,
                 name,
-                async { clazz["extends"]?.jsonPrimitive?.content }.await(),
-                async { clazz["implements"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList() }.await(),
+                async {
+                    val extends = clazz["extends"]?.jsonPrimitive?.content ?: when (type) {
+                        "class" -> "java.lang.Object"
+                        "record" -> "java.lang.Record"
+                        "enum" -> "java.lang.Enum<{this}>"
+                        else -> null
+                    }
+
+                    if (extends != null) processType(name, extends) else null
+                }.await(),
+                async { clazz["implements"]?.jsonArray?.map { processType(name, it.jsonPrimitive.content) } ?: emptyList() }.await(),
                 generics.await(),
-                async { clazz["enclosing"]?.jsonPrimitive?.content }.await(),
-                async { clazz["visibility"]?.jsonPrimitive?.content ?: "public" }.await(),
-                async { clazz["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: if (type == "enum" || type == "interface") listOf("static") else emptyList() }.await(),
+                enclosing,
+                async { clazz["visibility"]?.jsonPrimitive?.content ?: "public" }.await().replace("package", "package-private"),
+                async { clazz["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: if (type == "enum" || type == "interface" && enclosing != null) listOf("static") else emptyList() }.await(),
                 async { processComment(name, clazz["comment"]!!.jsonPrimitive.content) }.await(),
                 enums.await(),
                 fields.await(),
