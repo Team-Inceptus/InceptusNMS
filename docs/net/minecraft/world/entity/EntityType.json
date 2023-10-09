@@ -39,7 +39,7 @@
       "type": "float",
       "visibility": "private",
       "mods": ["static", "final"],
-      "value": "1.3964844F",
+      "value": "1.3964844",
       "comment": "The width or a horse in Minecraft."
     },
     "DISPLAY_TRACKING_RANGE": {
