@@ -388,6 +388,18 @@
     },
     "byName": {
       "mods": ["static"],
+      "params": [
+        {
+          "type": "string",
+          "name": "name",
+          "annotations": [
+            {
+              "type": "nullable"
+            }
+          ],
+          "comment": "The name."
+        }
+      ],
       "return": {
         "type": "{this}",
         "comment": "The direction with the given name, or null if not found."
