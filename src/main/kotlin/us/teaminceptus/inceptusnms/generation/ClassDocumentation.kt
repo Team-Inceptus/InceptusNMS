@@ -264,11 +264,11 @@ data class ClassDocumentation(
                                 MethodDocumentation(
                                     method,
                                     (obj["visibility"]?.jsonPrimitive?.content ?: "public").replace("package", "package-private"),
-                                    field.mods,
+                                    field.mods - "final",
                                     emptyList(),
                                     emptyList(),
                                     field.type,
-                                    field.comment,
+                                    processComment(name, obj["return"]?.jsonObject?.get("comment")?.jsonPrimitive?.content ?: field.comment),
                                     obj["throws"]?.jsonArray?.associate {
                                         processType(name, it.jsonObject["type"]!!.jsonPrimitive.content) to processComment(name, it.jsonObject["comment"]!!.jsonPrimitive.content)
                                     } ?: emptyMap(),
@@ -285,11 +285,11 @@ data class ClassDocumentation(
                                 MethodDocumentation(
                                     method,
                                     (obj["visibility"]?.jsonPrimitive?.content ?: "public").replace("package", "package-private"),
-                                    field.mods,
+                                    field.mods - "final",
                                     emptyList(),
                                     listOf(ParameterDocumentation(field.type, "value", emptyList(), field.comment)),
-                                    "void",
-                                    "",
+                                    processType(name, obj["return"]?.jsonObject?.get("type")?.jsonPrimitive?.content ?: "void"),
+                                    processComment(name, obj["return"]?.jsonObject?.get("comment")?.jsonPrimitive?.content ?: ""),
                                     obj["throws"]?.jsonArray?.associate {
                                         processType(name, it.jsonObject["type"]!!.jsonPrimitive.content) to processComment(name, it.jsonObject["comment"]!!.jsonPrimitive.content)
                                     } ?: emptyMap(),
@@ -322,7 +322,7 @@ data class ClassDocumentation(
                                 processType(name, it.jsonObject["type"]!!.jsonPrimitive.content) to processComment(name, it.jsonObject["comment"]!!.jsonPrimitive.content)
                             } ?: emptyMap(),
                             annotations(name, obj["annotations"]),
-                            processComment(name, obj["comment"]!!.jsonPrimitive.content)
+                            processComment(name, obj["comment"]?.jsonPrimitive?.content ?: throw IllegalArgumentException("Missing comment for method '$method' in '$name'"))
                         )
                         //</editor-fold>
                     }
