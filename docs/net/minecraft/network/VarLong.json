@@ -45,7 +45,7 @@
       ],
       "return": {
         "type": "long",
-        "comment": "The fetched size of bytes from the inputted long, or @(#MAX_VARINT_SIZE) if not applicable."
+        "comment": "The fetched size of bytes from the inputted long, or @({this}#MAX_VARINT_SIZE) if not applicable."
       },
       "comment": "Fetches the size of bytes of an long."
     },
@@ -60,9 +60,9 @@
       ],
       "return": {
         "type": "boolean",
-        "comment": "Whether this byte has @(#CONTINUATION_BIT_MASK)."
+        "comment": "Whether this byte has @({this}#CONTINUATION_BIT_MASK)."
       },
-      "comment": "Fetches whether a byte has @(#CONTINUATION_BIT_MASK)."
+      "comment": "Fetches whether a byte has @({this}#CONTINUATION_BIT_MASK)."
     },
     "read": {
       "mods": ["static"],
