@@ -6,8 +6,6 @@ git fetch origin gh-pages
 
 git switch -f gh-pages
 
-version=$(cat version.txt)
-
 for dir in ./*
 do
   if [ "$dir" == "./generated" ]; then
