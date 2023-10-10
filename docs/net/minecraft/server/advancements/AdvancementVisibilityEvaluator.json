@@ -1,0 +1,108 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Utility class for evaluating the visibility of Advancements to players."
+  },
+  "fields": {
+    "VISIBILITY_DEPTH": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "2",
+      "comment": "The maximum depth of the advancement tree to check for visibility."
+    }
+  },
+  "methods": {
+    "evaluateVisibilityRule": {
+      "visibility": "private",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.advancements.Advancement",
+          "name": "advancement",
+          "comment": "The advancement to evaluate."
+        },
+        {
+          "type": "boolean",
+          "name": "isRoot",
+          "comment": "Whether the advancement is a root advancement, and should always be shown."
+        }
+      ],
+      "return": {
+        "type": "{this}$VisibilityRule",
+        "comment": "The result of the evaluation."
+      },
+      "comment": "Evaluates whether an Advancement is visible depending on its Display options."
+    },
+    "evaluateVisibilityForUnfinishedNode": {
+      "visibility": "private",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "it.unimi.dsi.fastutil.Stack<{this}$VisibilityRule>",
+          "name": "ruleStack",
+          "comment": "The stack of rules to evaluate."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether the advancement is visible."
+      },
+      "comment": "Evaluates whether a stack of Advancement is visible"
+    },
+    "evaluateVisibility": [
+      {
+        "visibility": "private",
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "net.minecraft.advancements.AdvancementNode",
+            "name": "node",
+            "comment": "The Advancement to evaluate."
+          },
+          {
+            "type": "it.unimi.dsi.fastutil.Stack<{this}$VisibilityRule>",
+            "name": "ruleStack",
+            "comment": "The stack of rules to evaluate."
+          },
+          {
+            "type": "java.util.function.Predicate<net.minecraft.advancements.AdvancementNode>",
+            "name": "predicate",
+            "comment": "The predicate to use against the Advancement."
+          },
+          {
+            "type": "{this}$Output",
+            "name": "callback",
+            "comment": "The callback to use to output the result of the evaluation."
+          }
+        ],
+        "return": {
+          "type": "boolean",
+          "comment": "Whether the Advancement is visible."
+        },
+        "comment": "Evaluates whether an Advancement is visible."
+      },
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "net.minecraft.advancements.AdvancementNode",
+            "name": "node",
+            "comment": "The Advancement to evaluate."
+          },
+          {
+            "type": "java.util.function.Predicate<net.minecraft.advancements.AdvancementNode>",
+            "name": "predicate",
+            "comment": "The predicate to use against the Advancement."
+          },
+          {
+            "type": "{this}$Output",
+            "name": "callback",
+            "comment": "The callback to use to output the result of the evaluation."
+          }
+        ],
+        "comment": "Evaluates whether an Advancement is visible."
+      }
+    ]
+  }
+}

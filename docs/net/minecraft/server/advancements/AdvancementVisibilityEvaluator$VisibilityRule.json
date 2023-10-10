@@ -1,0 +1,22 @@
+{
+  "class": {
+    "type": "enum",
+    "enclosing": "net.minecraft.server.advancements.AdvancementVisibilityEvaluator",
+    "visibility": "package",
+    "comment": "Represents a rule for determining whether an advancement is visible to a player."
+  },
+  "enumerations": [
+    {
+      "name": "SHOW",
+      "comment": "The advancement is always visible."
+    },
+    {
+      "name": "HIDE",
+      "comment": "The advancement is never visible."
+    },
+    {
+      "name": "NO_CHANGE",
+      "comment": "The advancemen's default visibility doesn't change."
+    }
+  ]
+}

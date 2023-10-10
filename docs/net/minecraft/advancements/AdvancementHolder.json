@@ -1,0 +1,58 @@
+{
+  "class": {
+    "type": "record",
+    "comment": "Utility class for holding an Advancement Object and its ID."
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "net.minecraft.resources.ResourceLocation",
+          "name": "id",
+          "comment": "The ID of the advancement."
+        },
+        {
+          "type": "net.minecraft.advancements.Advancement",
+          "name": "value",
+          "comment": "The advancement object."
+        }
+      ],
+      "comment": "Creates a new AdvancementHolder."
+    }
+  ],
+  "methods": {
+    "write": {
+      "params": [
+        {
+          "type": "net.minecraft.network.FriendlyByteBuf",
+          "name": "buffer",
+          "comment": "The buffer to write to."
+        }
+      ],
+      "comment": "Writes this AdvancementHolder to a Byte Buffer."
+    },
+    "read": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.network.FriendlyByteBuf",
+          "name": "buffer",
+          "comment": "The buffer to read from."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The read AdvancementHolder."
+      },
+      "comment": "Reads an AdvancementHolder from a Byte Buffer."
+    },
+    "toBukkit": {
+      "mods": ["final"],
+      "return": {
+        "type": "org.bukkit.advancement.Advancement",
+        "comment": "The Bukkit Advancement."
+      },
+      "comment": "Converts this AdvancementHolder to a Bukkit Advancement."
+    }
+  }
+}

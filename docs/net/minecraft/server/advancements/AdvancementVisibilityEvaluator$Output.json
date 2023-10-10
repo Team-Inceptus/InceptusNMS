@@ -1,0 +1,29 @@
+{
+  "class": {
+    "type": "interface",
+    "enclosing": "net.minecraft.server.advancements.AdvancementVisibilityEvaluator",
+    "annotations": [
+      {
+        "type": "java.lang.FunctionalInterface"
+      }
+    ],
+    "comment": "A Functional interface for the output of its visibility."
+  },
+  "methods": {
+    "accept": {
+      "params": [
+        {
+          "type": "net.minecraft.advancements.AdvancementNode",
+          "name": "advancement",
+          "comment": "The advancement that was evaluated."
+        },
+        {
+          "type": "boolean",
+          "name": "visible",
+          "comment": "The visibility of the advancement."
+        }
+      ],
+      "comment": "Accepts the visibility of an advancement."
+    }
+  }
+}

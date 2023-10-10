@@ -1,0 +1,117 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Utility class for representing an Advancement on a tree."
+  },
+  "fields": {
+    "holder": {
+      "type": "net.minecraft.advancements.AdvancementHolder",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The holder of this advancement."
+    },
+    "parent": {
+      "type": "{this}",
+      "visibility": "private",
+      "mods": ["final"],
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "The parent of this advancement node (if applicable)."
+    },
+    "children": {
+      "type": "java.util.Set<{this}>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The children of this advancement node."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "net.minecraft.advancements.AdvancementHolder",
+          "name": "holder",
+          "comment": "The holder of this advancement."
+        },
+        {
+          "type": "{this}",
+          "name": "parent",
+          "annotations": [
+            {
+              "type": "nullable"
+            }
+          ],
+          "comment": "The parent of this advancement node (if applicable)."
+        }
+      ],
+      "annotations": [
+        {
+          "type": "com.google.common.annotations.VisibleForTesting"
+        }
+      ],
+      "comment": "Creates a new advancement node."
+    }
+  ],
+  "methods": {
+    "advancement": {
+      "return": {
+        "type": "net.minecraft.advancements.Advancement",
+        "comment": "The advancement object represented by this node."
+      },
+      "comment": "Gets the advancement object represented by this node."
+    },
+    "holder": {
+      "$getter": "holder"
+    },
+    "parent": {
+      "$getter": "parent"
+    },
+    "root": {
+      "return": {
+        "type": "{this}",
+        "comment": "The root advancement node."
+      },
+      "comment": "Gets the root advancement node."
+    },
+    "getRoot": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "{this}",
+          "name": "advancement",
+          "comment": "The advancement node to get the root of."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The root advancement node."
+      },
+      "comment": "Gets the root advancement node."
+    },
+    "children": {
+      "$getter": "children",
+      "return": {
+        "type": "java.lang.Iterable<{this}>",
+        "comment": "The children of this advancement node."
+      }
+    },
+    "addChild": {
+      "params": [
+        {
+          "type": "{this}",
+          "name": "child",
+          "comment": "The child advancement node to add."
+        }
+      ],
+      "annotations": [
+        {
+          "type": "com.google.common.annotations.VisibleForTesting"
+        }
+      ],
+      "comment": "Adds a child advancement node."
+    }
+  }
+}
