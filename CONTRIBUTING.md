@@ -85,6 +85,8 @@ We document all fields and methods, regardless of visibility. This includes pack
 
 #### `fields` object
 
+Record Classes will automatically generate fields for you according to the constructor with the most parameters.
+
 - This object should always be the third object (for enums) or second object (for non-enums) in the JSON file.
 - The objects in this object should have their keys be the field name as case sensitive, and must be in the order declared on the class file.
   - `type` should always be the first line in the object.
@@ -110,6 +112,8 @@ We document all fields and methods, regardless of visibility. This includes pack
   - `comment` should always be the last line in the object.
 
 #### `methods` object
+
+Record Classes will automatically generate methods for you according to the constructor with the most parameters.
 
 - This object should always be the fifth object (for enums) or fourth object (for non-enums) in the JSON file. If not provided, no methods will be generated.
 - The objects in this object should have their keys be the method name as case sensitive, and must be in the order declared on the class file.
