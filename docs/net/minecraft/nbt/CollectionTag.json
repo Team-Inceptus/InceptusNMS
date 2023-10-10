@@ -1,0 +1,69 @@
+{
+  "class": {
+    "type": "class",
+    "mods": ["abstract"],
+    "extends": "java.util.AbstractList<T>",
+    "implements": [
+      "net.minecraft.nbt.Tag"
+    ],
+    "generics": {
+      "T": {
+        "extends": [
+          "net.minecraft.nbt.Tag"
+        ],
+        "comment": "The tag that this CollectionTag contains."
+      }
+    },
+    "comment": "Represents a NBT Tag that represents a Collection of another tag."
+  },
+  "methods": {
+    "setTag": {
+      "mods": ["abstract"],
+      "params": [
+        {
+          "type": "int",
+          "name": "index",
+          "comment": "The index to set."
+        },
+        {
+          "type": "net.minecraft.nbt.Tag",
+          "name": "tag",
+          "comment": "The tag to add."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether setting was successful."
+      },
+      "comment": "Sets a NBT Tag at the specified index."
+    },
+    "addTag": {
+      "mods": ["abstract"],
+      "params": [
+        {
+          "type": "int",
+          "name": "index",
+          "comment": "The index to add at."
+        },
+        {
+          "type": "net.minecraft.nbt.Tag",
+          "name": "tag",
+          "comment": "The tag to add."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether adding was successful."
+      },
+      "comment": "Adds a NBT Tag at the specified index."
+    },
+    "getElementType": {
+      "mods": ["abstract"],
+      "return": {
+        "type": "byte",
+        "comment": "The byte representing the Tag Type this CollectionTag holds."
+      },
+      "comment": "Fetches the tag type that this CollectionTag holds."
+    }
+  }
+}

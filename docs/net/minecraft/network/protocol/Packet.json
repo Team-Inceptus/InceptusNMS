@@ -1,0 +1,57 @@
+{
+  "class": {
+    "type": "interface",
+    "generics": {
+      "T": {
+        "extends": [
+          "net.minecraft.network.PacketListener"
+        ],
+        "comment": "The packet listener type that can process this packet."
+      }
+    },
+    "comment": "Represents an abstract Packet type. All packet objects descend from this interface."
+  },
+  "methods": {
+    "write": {
+      "params": [
+        {
+          "type": "net.minecraft.network.FriendlyByteBuf",
+          "name": "buffer",
+          "comment": "The byte buffer to write this packet's contents to."
+        }
+      ],
+      "comment": "Wries this Packet's Contents to a Byte Buffer."
+    },
+    "handle": {
+      "params": [
+        {
+          "type": "T",
+          "name": "handler",
+          "comment": "The handler to use."
+        }
+      ],
+      "comment": "Handles this Packet using a Packet Listener."
+    },
+    "isSkippable": {
+      "mods": ["default"],
+      "return": {
+        "type": "boolean",
+        "comment": "True if this Packet can be skipped."
+      },
+      "comment": "Fetches whether this Packet can be skipped."
+    },
+    "nextProtocol": {
+      "mods": ["default"],
+      "return": {
+        "type": "net.minecraft.network.ConnectionProtocol",
+        "comment": "The next ConnectionProtocl this Packet will use, or null if not applicable."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Fetches the next ConnectionProtocol that this Packet uses."
+    }
+  }
+}

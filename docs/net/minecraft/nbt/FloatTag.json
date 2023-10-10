@@ -1,0 +1,64 @@
+{
+  "class": {
+    "type": "class",
+    "extends": "net.minecraft.nbt.NumericTag",
+    "comment": "Represents a NBT Tag for a standard @(wfloat)."
+  },
+  "fields": {
+    "SELF_SIZE_IN_BYTES": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "12",
+      "comment": "The size in bytes of a @(wfloat) tag."
+    },
+    "TYPE": {
+      "type": "net.minecraft.nbt.TagType<{this}>",
+      "mods": ["static", "final"],
+      "comment": "The type of tag this class represents."
+    },
+    "ZERO": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "A @({this}) with a value of <code>0.0</code>."
+    },
+    "data": {
+      "type": "float",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The value of this tag as a float."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "package",
+      "params": [
+        {
+          "type": "float",
+          "name": "data",
+          "comment": "The value of this tag as a float."
+        }
+      ],
+      "comment": "Creates a new @(wfloat) tag with the given value."
+    }
+  ],
+  "methods": {
+    "valueOf": [
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "float",
+            "name": "data",
+            "comment": "The value of this tag as a float."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new @(wfloat) tag with the given value."
+        },
+        "comment": "Returns a new @(wfloat) tag with the given value."
+      }
+    ]
+  }
+}

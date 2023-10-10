@@ -1,0 +1,37 @@
+{
+  "class": {
+    "type": "class",
+    "enclosing": "net.minecraft.nbt.ShortTag",
+    "visibility": "package",
+    "mods": ["static"],
+    "comment": "Utility class for the cache of loaded @(net.minecraft.nbt.ShortTag)s."
+  },
+  "fields": {
+    "HIGH": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "1024",
+      "comment": "The maximum value of a short to be cached."
+    },
+    "LOW": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "-128",
+      "comment": "The minimum value of a short to be cached."
+    },
+    "cache": {
+      "type": "net.minecraft.nbt.ShortTag[]",
+      "visibility": "package",
+      "mods": ["static", "final"],
+      "comment": "The Cache of a series @(net.minecraft.nbt.ShortTag)."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "private",
+      "comment": "Private constructor to prevent instantiation."
+    }
+  ]
+}

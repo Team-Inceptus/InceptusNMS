@@ -1,0 +1,24 @@
+{
+  "class": {
+    "type": "interface",
+    "comment": "Represents a handler for handling Protocol Flow state swapping."
+  },
+  "methods": {
+    "swapProtocolIfNeeded": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "io.netty.util.AttributeKey<net.minecraft.network.ConnectionProtocol$CodecData>",
+          "name": "codecKey",
+          "comment": "The codec key to use."
+        },
+        {
+          "type": "net.minecraft.network.protocol.Packet",
+          "name": "packet",
+          "comment": "Packet to use."
+        }
+      ],
+      "comment": "Swaps the protocol flow state, if necessary, of a Packet."
+    }
+  }
+}

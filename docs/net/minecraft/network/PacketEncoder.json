@@ -1,0 +1,60 @@
+{
+  "class": {
+    "type": "class",
+    "extends": "io.netty.handler.codec.MessageToByteEncoder<net.minecraft.network.Packet<?>>",
+    "comment": "Utility class for encoding the contents of a Packet."
+  },
+  "fields": {
+    "LOGGER": {
+      "type": "org.slf4j.Logger",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The logger for this class."
+    },
+    "codecKey": {
+      "type": "io.netty.util.AttributeKey<net.minecraft.network.ConnectionProtocol$CodecData>",
+      "comment": "The codec key to use."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "io.netty.util.AttributeKey<net.minecraft.network.ConnectionProtocol$CodecData>",
+          "name": "codecKey",
+          "comment": "The codec key to use."
+        }
+      ],
+      "comment": "Constructs a new PacketEncoder."
+    }
+  ],
+  "methods":{
+    "encode": {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "io.netty.channel.ChannelHandlerContext",
+          "name": "context",
+          "comment": "The handler context to use."
+        },
+        {
+          "type": "net.minecraft.network.Packet<?>",
+          "name": "packet",
+          "comment": "The Packet to encode."
+        }
+        {
+          "type": "io.netty.buffer.ByteBuf",
+          "name": "buffer",
+          "comment": "The Byte Buffer to use."
+        },
+      ],
+      "throws": [
+        {
+          "type": "java.lang.Exception",
+          "comment": "if the packet is invalid"
+        }
+      ],
+      "comment": "Encodes a Packet into a ByteBuf."
+    }
+  }
+}

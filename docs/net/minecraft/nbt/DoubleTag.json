@@ -1,0 +1,64 @@
+{
+  "class": {
+    "type": "class",
+    "extends": "net.minecraft.nbt.NumericTag",
+    "comment": "Represents a NBT Tag for a standard @(wdouble)."
+  },
+  "fields": {
+    "SELF_SIZE_IN_BYTES": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "16",
+      "comment": "The size in bytes of a @(wdouble) tag."
+    },
+    "TYPE": {
+      "type": "net.minecraft.nbt.TagType<{this}>",
+      "mods": ["static", "final"],
+      "comment": "The type of tag this class represents."
+    },
+    "ZERO": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "A @({this}) with a value of <code>0.0</code>."
+    },
+    "data": {
+      "type": "double",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The value of this tag as a double."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "package",
+      "params": [
+        {
+          "type": "double",
+          "name": "data",
+          "comment": "The value of this tag as a double."
+        }
+      ],
+      "comment": "Creates a new @(wdouble) tag with the given value."
+    }
+  ],
+  "methods": {
+    "valueOf": [
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "double",
+            "name": "data",
+            "comment": "The value of this tag as a double."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new @(wdouble) tag with the given value."
+        },
+        "comment": "Returns a new @(wdouble) tag with the given value."
+      }
+    ]
+  }
+}

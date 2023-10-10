@@ -1,0 +1,64 @@
+{
+  "class": {
+    "type": "class",
+    "extends": "net.minecraft.nbt.NumericTag",
+    "comment": "Represents a NBT Tag for a standard @(wshort)."
+  },
+  "fields": {
+    "SELF_SIZE_IN_BYTES": {
+      "type": "short",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "10",
+      "comment": "The size in bytes of a @(wshort) tag."
+    },
+    "TYPE": {
+      "type": "net.minecraft.nbt.TagType<{this}>",
+      "mods": ["static", "final"],
+      "comment": "The type of tag this class represents."
+    },
+    "ZERO": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "A @({this}) with a value of <code>0</code>."
+    },
+    "data": {
+      "type": "short",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The value of this tag as an short."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "package",
+      "params": [
+        {
+          "type": "short",
+          "name": "data",
+          "comment": "The value of this tag as an short."
+        }
+      ],
+      "comment": "Creates a new @(wshort) tag with the given value."
+    }
+  ],
+  "methods": {
+    "valueOf": [
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "short",
+            "name": "data",
+            "comment": "The value of this tag as an short."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new @(wshort) tag with the given value."
+        },
+        "comment": "Returns a new @(wshort) tag with the given value."
+      }
+    ]
+  }
+}

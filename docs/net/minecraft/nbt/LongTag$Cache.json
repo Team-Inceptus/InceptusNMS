@@ -1,0 +1,37 @@
+{
+  "class": {
+    "type": "class",
+    "enclosing": "net.minecraft.nbt.LongTag",
+    "visibility": "package",
+    "mods": ["static"],
+    "comment": "Utility class for the cache of loaded @(net.minecraft.nbt.LongTag)s."
+  },
+  "fields": {
+    "HIGH": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "1024",
+      "comment": "The maximum value of a long to be cached."
+    },
+    "LOW": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "-128",
+      "comment": "The minimum value of a long to be cached."
+    },
+    "cache": {
+      "type": "net.minecraft.nbt.LongTag[]",
+      "visibility": "package",
+      "mods": ["static", "final"],
+      "comment": "The Cache of a series @(net.minecraft.nbt.LongTag)."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "private",
+      "comment": "Private constructor to prevent instantiation."
+    }
+  ]
+}

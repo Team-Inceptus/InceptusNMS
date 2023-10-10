@@ -1,0 +1,63 @@
+{
+  "class": {
+    "type": "class",
+    "extends": "io.netty.handler.codec.ByteToMessageDecoder",
+    "implements": [
+      "net.minecraft.network.ProtocolSwampHandler"
+    ],
+    "comment": "Utility class for decoding the contents of a Packet."
+  },
+  "fields": {
+    "LOGGER": {
+      "type": "org.slf4j.Logger",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The logger for this class."
+    },
+    "codecKey": {
+      "type": "io.netty.util.AttributeKey<net.minecraft.network.ConnectionProtocol$CodecData>",
+      "comment": "The codec key to use."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "io.netty.util.AttributeKey<net.minecraft.network.ConnectionProtocol$CodecData>",
+          "name": "codecKey",
+          "comment": "The codec key to use."
+        }
+      ],
+      "comment": "Constructs a new PacketDecoder."
+    }
+  ],
+  "methods":{
+    "decode": {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "io.netty.channel.ChannelHandlerContext",
+          "name": "context",
+          "comment": "The handler context to use."
+        },
+        {
+          "type": "io.netty.buffer.ByteBuf",
+          "name": "buffer",
+          "comment": "The Byte Buffer to use."
+        },
+        {
+          "type": "java.util.List<obj>",
+          "name": "list",
+          "comment": "The list to add the decoded object to."
+        }
+      ],
+      "throws": [
+        {
+          "type": "java.lang.Exception",
+          "comment": "if the packet is invalid"
+        }
+      ],
+      "comment": "Decodes a ByteBuf into a Packet."
+    }
+  }
+}
