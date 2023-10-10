@@ -1,10 +1,12 @@
 net.minecraft
+net.minecraft.advancements
 net.minecraft.commands
 net.minecraft.core
 net.minecraft.nbt
 net.minecraft.network
 net.minecraft.network.chat
 net.minecraft.server
+net.minecraft.server.advancements
 net.minecraft.util
 net.minecraft.world
 net.minecraft.world.entity
