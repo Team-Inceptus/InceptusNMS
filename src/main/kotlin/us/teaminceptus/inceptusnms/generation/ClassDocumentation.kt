@@ -16,6 +16,7 @@ data class ClassDocumentation(
     val enclosing: String? = null,
     val visibility: String = "public",
     val mods: List<String> = emptyList(),
+    val annotations: List<AnnotationDocumentation> = emptyList(),
     val comment: String,
     val enumerations: EnumsDocumentation? = null,
     val fields: FieldsDocumentation? = null,
@@ -28,6 +29,8 @@ data class ClassDocumentation(
     val docName: String = "$simpleName${generics(this)}"
     val fullDocName: String
         get() {
+            val name = this.name.replace("$", ".")
+
             return if (generics.isEmpty()) name
             else "$name${generics(this)}"
         }
@@ -112,6 +115,44 @@ data class ClassDocumentation(
 
                 return "$name(${params.joinToString(",")})"
             }
+
+        companion object {
+            val VALUES = buildJsonObject {
+                put("mods", buildJsonArray { add("static") })
+                put("return", buildJsonObject {
+                    put("type", "{this}[]")
+                    put("comment", "an array containing the constants of this enum type, in the order they are declared.")
+                })
+                put("comment", JsonPrimitive("Returns an array containing the constants of this enum class, in the order they are declared."))
+            }
+
+            val VALUE_OF = buildJsonObject {
+                put("mods", buildJsonArray { add("static") })
+                put("params", buildJsonArray {
+                    add(buildJsonObject {
+                        put("type", "string")
+                        put("name", "name")
+                        put("comment", "the name of the constant to returned.")
+                    })
+                })
+                put("return", buildJsonObject {
+                    put("type", "{this}")
+                    put("comment", "the enum constant with the specified name")
+                })
+                put("throws", buildJsonArray {
+                    add(buildJsonObject {
+                        put("type", "java.lang.IllegalArgumentException")
+                        put("comment", "if this enum class has no constant with the specified name")
+                    })
+
+                    add(buildJsonObject {
+                        put("type", "java.lang.NullPointerException")
+                        put("comment", "if the argument is null")
+                    })
+                })
+                put("comment", JsonPrimitive("Returns the enum constant of this class with the specified name. The string must match <i>exactly</li> an identifier used to declare an enum constant in this class. (Extraneous whitespace characters are not permitted.)"))
+            }
+        }
     }
 
     // Properties
@@ -214,27 +255,6 @@ data class ClassDocumentation(
                     null
             }
 
-            val fields = async {
-                if (json.contains("fields"))
-                    FieldsDocumentation(json["fields"]!!.jsonObject.map { field ->
-                        async {
-                            val obj = field.value.jsonObject
-
-                            FieldDocumentation(
-                                processType(name, obj["type"]!!.jsonPrimitive.content),
-                                field.key,
-                                (obj["visibility"]?.jsonPrimitive?.content ?: "public").replace("package", "package-private"),
-                                obj["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: if (type == "interface") listOf("static", "final") else emptyList(),
-                                annotations(name, obj["annotations"]),
-                                obj["value"]?.jsonPrimitive?.content,
-                                processComment(name, obj["comment"]!!.jsonPrimitive.content)
-                            )
-                        }
-                    }.awaitAll())
-                else
-                    null
-            }
-
             val constructors = async {
                 if (type != "interface")
                     ConstructorsDocumentation(json["constructors"]?.jsonArray?.map {
@@ -253,81 +273,128 @@ data class ClassDocumentation(
                     null
             }
 
+            val constructorsV = constructors.await()
+
+            val fields = async {
+                val list = mutableListOf<FieldDocumentation>()
+
+                if (json.contains("fields"))
+                    list.addAll(json["fields"]!!.jsonObject.map { field ->
+                        async {
+                            val obj = field.value.jsonObject
+
+                            FieldDocumentation(
+                                processType(name, obj["type"]!!.jsonPrimitive.content),
+                                field.key,
+                                (obj["visibility"]?.jsonPrimitive?.content ?: "public").replace("package", "package-private"),
+                                obj["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: if (type == "interface") listOf("static", "final") else emptyList(),
+                                annotations(name, obj["annotations"]),
+                                obj["value"]?.jsonPrimitive?.content,
+                                processComment(name, obj["comment"]!!.jsonPrimitive.content)
+                            )
+                        }
+                    }.awaitAll())
+
+                if (type == "record") {
+                    val constr = constructorsV?.constructors?.maxByOrNull { it.parameters.size }
+                    if (constr != null)
+                        for (param in constr.parameters)
+                            list.add(
+                                FieldDocumentation(
+                                    param.type,
+                                    param.name,
+                                    "private",
+                                    listOf("final"),
+                                    emptyList(),
+                                    null,
+                                    param.comment
+                                )
+                            )
+                }
+
+                if (list.isNotEmpty())
+                    FieldsDocumentation(list)
+                else
+                    null
+            }
+
             val fieldsV = fields.await()
 
             val methods = async {
-                if (json.contains("methods")) {
-                    fun construct(method: String, obj: JsonObject): MethodDocumentation {
-                        //<editor-fold desc="Construct">
-                        if (obj["\$getter"] != null && fieldsV != null)
-                            return fieldsV.fields.first { it.name == obj["\$getter"]!!.jsonPrimitive.content }.let { field ->
-                                MethodDocumentation(
-                                    method,
-                                    (obj["visibility"]?.jsonPrimitive?.content ?: "public").replace("package", "package-private"),
-                                    field.mods - "final",
-                                    emptyList(),
-                                    emptyList(),
-                                    field.type,
-                                    processComment(name, obj["return"]?.jsonObject?.get("comment")?.jsonPrimitive?.content ?: field.comment),
-                                    obj["throws"]?.jsonArray?.associate {
-                                        processType(name, it.jsonObject["type"]!!.jsonPrimitive.content) to processComment(name, it.jsonObject["comment"]!!.jsonPrimitive.content)
-                                    } ?: emptyMap(),
-                                    annotations(name, obj["annotations"]) + field.annotations,
-                                    when {
-                                        obj["comment"] != null -> processComment(name, obj["comment"]!!.jsonPrimitive.content)
-                                        else -> "Gets ${field.comment.replaceFirstChar { it.lowercase() }}"
-                                    }
-                                )
-                            }
+                val list = mutableListOf<MethodDocumentation>()
 
-                        if (obj["\$setter"] != null && fieldsV != null)
-                            return fieldsV.fields.first { it.name == obj["\$setter"]!!.jsonPrimitive.content }.let { field ->
-                                MethodDocumentation(
-                                    method,
-                                    (obj["visibility"]?.jsonPrimitive?.content ?: "public").replace("package", "package-private"),
-                                    field.mods - "final",
-                                    emptyList(),
-                                    listOf(ParameterDocumentation(field.type, "value", emptyList(), field.comment)),
-                                    processType(name, obj["return"]?.jsonObject?.get("type")?.jsonPrimitive?.content ?: "void"),
-                                    processComment(name, obj["return"]?.jsonObject?.get("comment")?.jsonPrimitive?.content ?: ""),
-                                    obj["throws"]?.jsonArray?.associate {
-                                        processType(name, it.jsonObject["type"]!!.jsonPrimitive.content) to processComment(name, it.jsonObject["comment"]!!.jsonPrimitive.content)
-                                    } ?: emptyMap(),
-                                    annotations(name, obj["annotations"]),
-                                    when {
-                                        obj["comment"] != null -> processComment(name, obj["comment"]!!.jsonPrimitive.content)
-                                        else -> "Sets ${field.comment.replaceFirstChar { it.lowercase() }}"
-                                    }
-                                )
-                            }
+                fun construct(method: String, obj: JsonObject): MethodDocumentation {
+                    //<editor-fold desc="Construct">
+                    if (obj["\$getter"] != null && fieldsV != null)
+                        return fieldsV.fields.first { it.name == obj["\$getter"]!!.jsonPrimitive.content }.let { field ->
+                            MethodDocumentation(
+                                method,
+                                (obj["visibility"]?.jsonPrimitive?.content ?: "public").replace("package", "package-private"),
+                                field.mods - "final",
+                                emptyList(),
+                                emptyList(),
+                                obj["return"]?.jsonObject?.get("type")?.jsonPrimitive?.content ?: field.type,
+                                processComment(name, obj["return"]?.jsonObject?.get("comment")?.jsonPrimitive?.content ?: field.comment),
+                                obj["throws"]?.jsonArray?.associate {
+                                    processType(name, it.jsonObject["type"]!!.jsonPrimitive.content) to processComment(name, it.jsonObject["comment"]!!.jsonPrimitive.content)
+                                } ?: emptyMap(),
+                                annotations(name, obj["annotations"]) + field.annotations,
+                                when {
+                                    obj["comment"] != null -> processComment(name, obj["comment"]!!.jsonPrimitive.content)
+                                    else -> "Gets ${field.comment.replaceFirstChar { it.lowercase() }}"
+                                }
+                            )
+                        }
 
-                        return MethodDocumentation(
-                            method,
-                            (obj["visibility"]?.jsonPrimitive?.content ?: "public").replace("package", "package-private"),
-                            obj["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: (if (type == "interface") listOf("abstract") else emptyList()),
-                            obj["generics"]?.jsonObject?.map { generic ->
-                                val g = generic.value.jsonObject
+                    if (obj["\$setter"] != null && fieldsV != null)
+                        return fieldsV.fields.first { it.name == obj["\$setter"]!!.jsonPrimitive.content }.let { field ->
+                            MethodDocumentation(
+                                method,
+                                (obj["visibility"]?.jsonPrimitive?.content ?: "public").replace("package", "package-private"),
+                                field.mods - "final",
+                                emptyList(),
+                                listOf(ParameterDocumentation(field.type, "value", emptyList(), field.comment)),
+                                processType(name, obj["return"]?.jsonObject?.get("type")?.jsonPrimitive?.content ?: "void"),
+                                processComment(name, obj["return"]?.jsonObject?.get("comment")?.jsonPrimitive?.content ?: ""),
+                                obj["throws"]?.jsonArray?.associate {
+                                    processType(name, it.jsonObject["type"]!!.jsonPrimitive.content) to processComment(name, it.jsonObject["comment"]!!.jsonPrimitive.content)
+                                } ?: emptyMap(),
+                                annotations(name, obj["annotations"]),
+                                when {
+                                    obj["comment"] != null -> processComment(name, obj["comment"]!!.jsonPrimitive.content)
+                                    else -> "Sets ${field.comment.replaceFirstChar { it.lowercase() }}"
+                                }
+                            )
+                        }
 
-                                GenericDocumentation(
-                                    generic.key,
-                                    g["extends"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
-                                    g["supers"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
-                                    processComment(name, g["comment"]!!.jsonPrimitive.content)
-                                )
-                            } ?: emptyList(),
-                            params(name, obj["params"]),
-                            processType(name, obj["return"]?.jsonObject?.get("type")?.jsonPrimitive?.content ?: "void"),
-                            processComment(name, obj["return"]?.jsonObject?.get("comment")?.jsonPrimitive?.content ?: ""),
-                            obj["throws"]?.jsonArray?.associate {
-                                processType(name, it.jsonObject["type"]!!.jsonPrimitive.content) to processComment(name, it.jsonObject["comment"]!!.jsonPrimitive.content)
-                            } ?: emptyMap(),
-                            annotations(name, obj["annotations"]),
-                            processComment(name, obj["comment"]?.jsonPrimitive?.content ?: throw IllegalArgumentException("Missing comment for method '$method' in '$name'"))
-                        )
-                        //</editor-fold>
-                    }
+                    return MethodDocumentation(
+                        method,
+                        (obj["visibility"]?.jsonPrimitive?.content ?: "public").replace("package", "package-private"),
+                        obj["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: (if (type == "interface") listOf("abstract") else emptyList()),
+                        obj["generics"]?.jsonObject?.map { generic ->
+                            val g = generic.value.jsonObject
 
-                    MethodsDocumentation(json["methods"]!!.jsonObject.map { method ->
+                            GenericDocumentation(
+                                generic.key,
+                                g["extends"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
+                                g["supers"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
+                                processComment(name, g["comment"]!!.jsonPrimitive.content)
+                            )
+                        } ?: emptyList(),
+                        params(name, obj["params"]),
+                        processType(name, obj["return"]?.jsonObject?.get("type")?.jsonPrimitive?.content ?: "void"),
+                        processComment(name, obj["return"]?.jsonObject?.get("comment")?.jsonPrimitive?.content ?: ""),
+                        obj["throws"]?.jsonArray?.associate {
+                            processType(name, it.jsonObject["type"]!!.jsonPrimitive.content) to processComment(name, it.jsonObject["comment"]!!.jsonPrimitive.content)
+                        } ?: emptyMap(),
+                        annotations(name, obj["annotations"]),
+                        processComment(name, obj["comment"]?.jsonPrimitive?.content ?: throw IllegalArgumentException("Missing comment for method '$method' in '$name'"))
+                    )
+                    //</editor-fold>
+                }
+
+                if (json.contains("methods"))
+                    list.addAll(json["methods"]!!.jsonObject.map { method ->
                         try {
                             val obj = method.value.jsonArray
                             obj.map {
@@ -342,7 +409,36 @@ data class ClassDocumentation(
                             }.await()
                         }
                     }.flatten())
-                } else null
+
+                if (type == "enum") {
+                    list.add(construct("values", MethodDocumentation.VALUES))
+                    list.add(construct("valueOf", MethodDocumentation.VALUE_OF))
+                }
+
+                if (type == "record") {
+                    val constr = constructorsV?.constructors?.maxByOrNull { it.parameters.size }
+                    if (constr != null)
+                        for (param in constr.parameters)
+                            list.add(
+                                MethodDocumentation(
+                                    param.name,
+                                    "public",
+                                    emptyList(),
+                                    emptyList(),
+                                    emptyList(),
+                                    param.type,
+                                    param.comment,
+                                    emptyMap(),
+                                    emptyList(),
+                                    "Gets ${param.comment.replaceFirstChar { it.lowercase() }}"
+                                )
+                            )
+                }
+
+                if (list.isNotEmpty())
+                    MethodsDocumentation(list)
+                else
+                    null
             }
 
             val enclosing = async { clazz["enclosing"]?.jsonPrimitive?.content }.await()
@@ -365,10 +461,11 @@ data class ClassDocumentation(
                 enclosing,
                 async { clazz["visibility"]?.jsonPrimitive?.content ?: "public" }.await().replace("package", "package-private"),
                 async { clazz["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: if ((type == "enum" || type == "interface") && enclosing != null) listOf("static") else emptyList() }.await(),
+                async { annotations(name, clazz["annotations"]) }.await(),
                 async { processComment(name, clazz["comment"]!!.jsonPrimitive.content) }.await(),
                 enums.await(),
-                fields.await(),
-                constructors.await(),
+                fieldsV,
+                constructorsV,
                 methods.await()
             )
 
