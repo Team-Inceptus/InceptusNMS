@@ -8,7 +8,6 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import us.teaminceptus.inceptusnms.generation.DocGenerator.REPOSITORIES
 import us.teaminceptus.inceptusnms.generation.DocGenerator.link
 import us.teaminceptus.inceptusnms.generation.DocGenerator.url
 import java.io.File
@@ -142,6 +141,18 @@ object Util {
         return implements.distinct()
     }
 
+    internal val REPOSITORIES = listOf(
+        "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/",
+        "https://hub.spigotmc.org/javadocs/spigot/",
+        "https://www.slf4j.org/apidocs/",
+        "https://repo.karuslabs.com/repository/brigadier/",
+        "https://kvverti.github.io/Documented-DataFixerUpper/snapshot/",
+        "https://javadoc.scijava.org/Guava/",
+        "https://www.javadoc.io/static/com.google.code.findbugs/jsr305/3.0.2/",
+        "https://joml-ci.github.io/JOML/apidocs/",
+        "https://fastutil.di.unimi.it/docs/"
+    )
+
     fun repository(name: String): String = when {
             name.startsWith("javax") -> REPOSITORIES[6]
             name.startsWith("java") -> REPOSITORIES[0]
@@ -151,6 +162,7 @@ object Util {
             name.startsWith("com.mojang.datafixers") || name.startsWith("com.mojang.serialization") -> REPOSITORIES[4]
             name.startsWith("com.google.common") -> REPOSITORIES[5]
             name.startsWith("org.joml") -> REPOSITORIES[7]
+            name.startsWith("it.unimi.dsi.fastutil") -> REPOSITORIES[8]
             else -> throw IllegalArgumentException("Could not find Exteral Repository for $name")
         }
 
@@ -160,19 +172,16 @@ object Util {
             .get()
     }
 
-    fun getExternalExtends(self: ClassDocumentation, name: String): List<String> {
+    fun getExternalExtends(name: String): List<String> {
         if (name.contains("net.minecraft") || name.contains("org.bukkit.craftbukkit")) return listOf("java.lang.Object") // Undocumented
 
         val repository = repository(name)
-        println(name)
         val doc = Jsoup.connect("$repository${name.substringBefore("<").url()}.html").get()
         val inheritance = doc.select("div.inheritance")
 
         return inheritance.mapNotNull {
             it.select("a").first()?.text()
-        }.map { type ->
-            link(self.name, type, self.generics.map { it.name }, fullName = true)
-        }
+        }.reversed()
     }
 
     fun getHierarchyTree(info: ClassDocumentation): List<String> {
@@ -187,10 +196,10 @@ object Util {
             if (extends != null)
                 tree.addAll(getHierarchyTree(extends))
             else
-                tree.addAll(getExternalExtends(info, info.extends))
+                tree.addAll(getExternalExtends(info.extends))
         }
 
-        tree.add(info.name)
+        tree.add(info.fullDocName)
 
         return tree.distinct()
     }
