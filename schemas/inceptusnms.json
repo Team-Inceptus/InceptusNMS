@@ -133,7 +133,7 @@
                 },
                 "value": {
                   "type": "string",
-                  "description": "The value of this field, used for documenting constant values."
+                  "description": "The value of this field, used for documenting constant values. Use as a string literal, regardless of type."
                 },
                 "comment": {
                     "$ref": "#/definitions/comment"
