@@ -18,6 +18,8 @@ done
 cp -Rfv ./generated/* ./
 rm -rf ./generated
 
+zip -rq javadoc.jar ./*
+
 echo "nms.teaminceptus.us" > CNAME
 
 git add .
