@@ -5,6 +5,7 @@ import org.jsoup.nodes.Document
 import org.jsoup.nodes.Document.OutputSettings
 import org.jsoup.nodes.DocumentType
 import org.jsoup.nodes.Element
+import us.teaminceptus.inceptusnms.generation.DocGenerator.joinString
 import us.teaminceptus.inceptusnms.generation.Util.log
 import java.io.File
 import java.nio.file.Paths
@@ -694,7 +695,7 @@ object DocGenerator {
 
                 var current = this
                 for (node in tree) {
-                    current.append(if (node == info.name) node else link(info.name, node, info.generics.map { it.name }, fullName = true))
+                    current.append(if (node == info.fullDocName) node else link(info.name, node, info.generics.map { it.name }, fullName = true))
 
                     val element = Element("div").apply {
                         addClass("inheritance")
@@ -747,8 +748,25 @@ object DocGenerator {
 
             appendChild(Element("div").apply {
                 addClass("type-signature")
+
+                val annotations = info.annotations.map { annotation -> link(info.name, annotation.type, info.generics.map { it.name }, true) }
+                if (annotations.isNotEmpty())
+                    append("<span class=\"annotations\">${annotations.joinString(" ", "")}</span><br>")
+
+                val constructors = info.constructors?.constructors
                 append("<span class=\"modifiers\">${info.visibility} ${info.mods.joinString(" ")}${info.type} </span>")
-                append("<span class=\"element-name type-name-label\">${info.simpleName}${if (info.generics.isNotEmpty()) "<${info.generics.map { it.name }.joinString(", ")}>" else ""}</span>")
+
+                val clazzBuilder = StringBuilder()
+                clazzBuilder.append("<span class=\"element-name type-name-label\">${info.simpleName}")
+
+                if (info.generics.isNotEmpty())
+                    clazzBuilder.append("<${info.generics.map { it.name }.joinString(", ")}>")
+
+                clazzBuilder.append("</span>")
+                if (info.type == "record" && !constructors.isNullOrEmpty())
+                    clazzBuilder.append("(${constructors.maxBy { it.parameters.size }.parameters.joinToString { param -> "${link(info.name, param.type, info.generics.map { it.name })}&nbsp;${param.name}" }})")
+
+                append(clazzBuilder.toString())
 
                 if (info.implements.isNotEmpty() || info.extends != null) {
                     appendChild(Element("span").apply {
@@ -1386,17 +1404,6 @@ object DocGenerator {
 
     // Utility Methods
 
-    internal val REPOSITORIES = listOf(
-        "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/",
-        "https://hub.spigotmc.org/javadocs/spigot/",
-        "https://www.slf4j.org/apidocs/",
-        "https://repo.karuslabs.com/repository/brigadier/",
-        "https://kvverti.github.io/Documented-DataFixerUpper/snapshot/",
-        "https://javadoc.scijava.org/Guava/",
-        "https://www.javadoc.io/static/com.google.code.findbugs/jsr305/3.0.2/",
-        "https://joml-ci.github.io/JOML/apidocs/"
-    )
-
     fun link(self: String, type: String, generics: List<String> = emptyList(), annotation: Boolean = false, fullName: Boolean = false): String {
         var finalType = type.serialize()
         val processed = type.split("#")[0]
@@ -1431,18 +1438,10 @@ object DocGenerator {
                 fun externalLink(repo: String, str: String)
                     = str.replace(suffix, "").replace(child, "<a href=\"${repo + docUrl}\" title=\"member in $pkg\">$prefix$linkName$suffix</a>$arrayBuilder")
 
-                finalType = when {
-                    newType.startsWith("net.minecraft") || child.startsWith("org.bukkit.craftbukkit") -> finalType
-                    newType.startsWith("javax") -> externalLink(REPOSITORIES[6], finalType)
-                    newType.startsWith("java") -> externalLink(REPOSITORIES[0], finalType)
-                    newType.startsWith("org.bukkit") -> externalLink(REPOSITORIES[1], finalType)
-                    newType.startsWith("org.slf4j") -> externalLink(REPOSITORIES[2], finalType)
-                    newType.startsWith("com.mojang.brigadier") -> externalLink(REPOSITORIES[3], finalType)
-                    newType.startsWith("com.mojang.datafixers") || child.startsWith("com.mojang.serialization") -> externalLink(REPOSITORIES[4], finalType)
-                    newType.startsWith("com.google.common") -> externalLink(REPOSITORIES[5], finalType)
-                    newType.startsWith("org.joml") -> externalLink(REPOSITORIES[7], finalType)
-                    else -> finalType
-                }
+                try {
+                    val repo = Util.repository(newType)
+                    finalType = externalLink(repo, finalType)
+                } catch (ignored: IllegalArgumentException) {}
             }
         }
 
