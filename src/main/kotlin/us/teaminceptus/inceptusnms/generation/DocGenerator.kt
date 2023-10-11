@@ -62,7 +62,7 @@ object DocGenerator {
         }
 
         for (pkg in Util.getAllJavaPackages(input))
-            withContext(Dispatchers.IO) {
+            launch {
                 File(output, "${pkg.url()}/package-summary.html").apply {
                     parentFile.mkdirs()
                     createNewFile()
@@ -73,7 +73,7 @@ object DocGenerator {
             }
 
         for (clazz in Util.getClassDocumentation())
-            withContext(Dispatchers.IO) {
+            launch {
                 File(output, "${clazz.name.url()}.html").apply {
                     parentFile.mkdirs()
                     createNewFile()
@@ -178,15 +178,16 @@ object DocGenerator {
                 })
             })
 
+        main.appendChild(Element("div").apply {
+            addClass("header")
+            id("inceptusnms:header")
+        })
+
         if (textTitle != null)
-            main.appendChild(Element("div").apply {
-                addClass("header")
-                id("inceptusnms:header")
-            }.appendChild(Element("h1").apply {
+            main.getElementById("inceptusnms:header")!!.appendChild(Element("h1").apply {
                 addClass("title")
-                attr("title", textTitle)
-                text(textTitle)
-            }))
+                append(textTitle)
+            })
 
         return doc
     }
@@ -489,7 +490,7 @@ object DocGenerator {
 
         val classes = Util.getClassDocumentation().filter { clazz ->
             clazz.fields?.fields?.any { it.value != null } == true
-        }
+        }.sortedBy { it.name }
         val packages = classes.map { it.pkg }.toSet().sorted()
 
         doc.getElementById("inceptusnms:header")!!.appendChild(Element("section").apply {
@@ -689,21 +690,21 @@ object DocGenerator {
 
         if (info.type != "annotation" && info.type != "interface") {
             val tree = Util.getHierarchyTree(info)
-            main.appendChild(Element("div").apply {
-                addClass("inheritance")
-                attr("title", "Inheritance Tree")
 
-                var current = this
-                for (node in tree) {
-                    current.append(if (node == info.fullDocName) node else link(info.name, node, info.generics.map { it.name }, fullName = true))
-
-                    val element = Element("div").apply {
-                        addClass("inheritance")
+            var current = main
+            var first = true
+            for (node in tree) {
+                val element = current.appendElement("div").apply {
+                    addClass("inheritance")
+                    if (first) {
+                        attr("title", "Inheritance Tree")
+                        first = false
                     }
-                    current.appendChild(element)
-                    current = element
+
+                    append(if (node == info.fullDocName) node else link(info.name, node, info.generics.map { it.name }, fullName = true))
                 }
-            })
+                current = element
+            }
         }
 
         main.appendChild(Element("section").apply {
@@ -772,7 +773,7 @@ object DocGenerator {
                     appendChild(Element("span").apply {
                         val builder = StringBuilder()
                         if (info.extends != null)
-                            builder.append("\nextends ${link(info.fullDocName, info.extends, info.generics.map { it.name })}")
+                            builder.append("\nextends ${link(info.fullDocName, info.extends)}")
 
                         if (info.implements.isNotEmpty())
                             builder.append("\n${if (info.type == "interface") "extends" else "implements"} ${info.implements.map { clazz -> link(info.fullDocName, clazz, info.generics.map { it.name }) }.joinString(", ")}")
@@ -1132,8 +1133,6 @@ object DocGenerator {
                         add(6)
                 }
 
-                val paramString = if (method.parameters.isEmpty()) "()" else "(" + method.parameters.joinToString { it.type }.replace(" ", "") + ")"
-
                 val classes = setOf(rowColor, "method-summary-table") + categories.map { "method-summary-table-tab$it" }
 
                 appendChild(Element("div").apply {
@@ -1159,7 +1158,7 @@ object DocGenerator {
                 appendChild(Element("div").apply {
                     classNames(classes + "col-second")
                     appendChild(Element("code").apply {
-                        append("<a href=\"#${method.name}${paramString}\" class=\"member-name-link\">${method.name}</a>${
+                        append("<a href=\"#${method.name}${method.paramString}\" class=\"member-name-link\">${method.name}</a>${
                             if (method.parameters.isEmpty()) "()" else "(" + method.parameters.joinToString { param -> "${link(info.fullDocName, param.type, info.generics.map { it.name })} ${param.name}" } + ")"
                         }")
                     })
@@ -1173,6 +1172,23 @@ object DocGenerator {
                 even = !even
             }
         }))
+
+        val inheritedMethods = Util.getInheritedMethods(info)
+
+        for ((type, map) in inheritedMethods)
+            for ((name, inherited) in map) {
+                if (inherited.isEmpty()) continue
+                summary.appendChild(Element("div").apply {
+                    addClass("inherited-list")
+
+                    appendChild(Element("h3").apply {
+                        id("methods-inherited-from-class-$name")
+                        append("Methods inherited from $type ${name.substringBeforeLast('.')}.${link(info.fullDocName, name)}")
+                    })
+
+                    append("<code>${inherited.joinToString()}</code>")
+                })
+            }
 
         return summary
     }
@@ -1411,6 +1427,7 @@ object DocGenerator {
         val prefix = if (annotation) "@" else ""
 
         for (child in processed.split("[<>,\\s]".toRegex()).filter { it.isNotBlank() }.map { it.replace("(\\.{3}|\\s)".toRegex(), "") }) {
+            if (child == "?") continue
             if (generics.contains(child)) {
                 val regex = "(.*)($child)(.*)".toRegex()
 
@@ -1453,7 +1470,7 @@ object DocGenerator {
         if (generics.isEmpty()) return ""
 
         val builder = StringBuilder()
-        builder.append("<")
+        builder.append("&lt;")
         for ((i, generic) in generics.withIndex()) {
             builder.append(generic.name)
 
@@ -1467,7 +1484,7 @@ object DocGenerator {
                 builder.append(", ")
         }
 
-        builder.append(">")
+        builder.append("&gt;")
 
         return builder.toString()
     }

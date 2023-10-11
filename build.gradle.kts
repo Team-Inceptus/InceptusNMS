@@ -20,7 +20,7 @@ dependencies {
 }
 
 group = "us.teaminceptus.inceptusnms"
-version = file("version.txt").readText()
+version = "0.0.2"
 
 val jvmVersion = JavaVersion.VERSION_17
 java {

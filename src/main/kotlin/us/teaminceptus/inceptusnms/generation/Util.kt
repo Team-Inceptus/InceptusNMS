@@ -2,13 +2,11 @@ package us.teaminceptus.inceptusnms.generation
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import us.teaminceptus.inceptusnms.generation.DocGenerator.link
 import us.teaminceptus.inceptusnms.generation.DocGenerator.url
 import java.io.File
 import java.text.SimpleDateFormat
@@ -150,21 +148,23 @@ object Util {
         "https://javadoc.scijava.org/Guava/",
         "https://www.javadoc.io/static/com.google.code.findbugs/jsr305/3.0.2/",
         "https://joml-ci.github.io/JOML/apidocs/",
-        "https://fastutil.di.unimi.it/docs/"
+        "https://fastutil.di.unimi.it/docs/",
+        "https://netty.io/4.1/api/"
     )
 
     fun repository(name: String): String = when {
-            name.startsWith("javax") -> REPOSITORIES[6]
-            name.startsWith("java") -> REPOSITORIES[0]
-            name.startsWith("org.bukkit") -> REPOSITORIES[1]
-            name.startsWith("org.slf4j") -> REPOSITORIES[2]
-            name.startsWith("com.mojang.brigadier") -> REPOSITORIES[3]
-            name.startsWith("com.mojang.datafixers") || name.startsWith("com.mojang.serialization") -> REPOSITORIES[4]
-            name.startsWith("com.google.common") -> REPOSITORIES[5]
-            name.startsWith("org.joml") -> REPOSITORIES[7]
-            name.startsWith("it.unimi.dsi.fastutil") -> REPOSITORIES[8]
-            else -> throw IllegalArgumentException("Could not find Exteral Repository for $name")
-        }
+        name.startsWith("javax") -> REPOSITORIES[6]
+        name.startsWith("java") -> REPOSITORIES[0]
+        name.startsWith("org.bukkit") -> REPOSITORIES[1]
+        name.startsWith("org.slf4j") -> REPOSITORIES[2]
+        name.startsWith("com.mojang.brigadier") -> REPOSITORIES[3]
+        name.startsWith("com.mojang.datafixers") || name.startsWith("com.mojang.serialization") -> REPOSITORIES[4]
+        name.startsWith("com.google.common") -> REPOSITORIES[5]
+        name.startsWith("org.joml") -> REPOSITORIES[7]
+        name.startsWith("it.unimi.dsi.fastutil") -> REPOSITORIES[8]
+        name.startsWith("io.netty") -> REPOSITORIES[9]
+        else -> throw IllegalArgumentException("Could not find Exteral Repository for $name")
+    }
 
     internal fun connect(url: String): Document {
         return Jsoup.connect(url)
@@ -172,38 +172,96 @@ object Util {
             .get()
     }
 
+    private fun String.noGenerics() = this
+        .substringBefore("<")
+        .substringBefore("&lt;")
+
     fun getExternalExtends(name: String): List<String> {
         if (name.contains("net.minecraft") || name.contains("org.bukkit.craftbukkit")) return listOf("java.lang.Object") // Undocumented
 
         val repository = repository(name)
-        val doc = Jsoup.connect("$repository${name.substringBefore("<").url()}.html").get()
-        val inheritance = doc.select("div.inheritance")
+        val doc = connect("$repository${name.substringBefore("<").url()}.html")
+        val inheritance = doc.select("div.inheritance") + doc.select("ul.inheritance > li")
 
-        return inheritance.mapNotNull {
-            it.select("a").first()?.text()
-        }.reversed()
+        return inheritance.map {
+            (it.selectFirst("a")?.text() ?: it.text()).noGenerics()
+        }.filter { it.isNotEmpty() }.reversed().distinct()
     }
 
-    fun getHierarchyTree(info: ClassDocumentation): List<String> {
-        if (info.extends == null) throw IllegalArgumentException("Invalid Class ${info.name}")
+    fun getHierarchyTree(info: ClassDocumentation, includeSelf: Boolean = true): List<String> {
+        if (info.extends == null || info.type == "interface" || info.type == "annotation")
+            return if (includeSelf) listOf(info.name) else emptyList()
 
         val tree = mutableListOf("java.lang.Object")
         val classes = getClassDocumentation()
 
         if (info.extends != "java.lang.Object") {
-            tree.add(info.extends)
             val extends = classes.firstOrNull { it.name == info.extends }
             if (extends != null)
                 tree.addAll(getHierarchyTree(extends))
             else
                 tree.addAll(getExternalExtends(info.extends))
+
+            tree.add(info.extends)
         }
 
-        tree.add(info.fullDocName)
+        if (includeSelf)
+            tree.add(info.fullDocName)
 
         return tree.distinct()
     }
-    
+
+    fun getExternalMethods(name: String): List<String> {
+        if (name.contains("net.minecraft") || name.contains("org.bukkit.craftbukkit")) return listOf() // Undocumented
+
+        val repository = repository(name)
+        val url = "$repository${name.url()}.html"
+        val doc = connect(url)
+
+        val methods8 = doc.selectFirst("a[name=\"method.summary\"] ~ table.memberSummary > tbody")?.select("tr")?.mapNotNull {
+            val text = it.selectFirst("td.colLast > code > span.memberNameLink")?.text() ?: return@mapNotNull null
+            val href = ("#" + it.selectFirst("td.colLast > code > span.memberNameLink")?.attr("href")?.substringAfterLast('#'))
+
+            text to href
+        } ?: emptyList()
+
+        val methods11 = (doc.select("div.col-second.method-summary-table")
+            .mapNotNull { it.selectFirst("code") }
+            .mapNotNull { it.selectFirst("a") }
+            .map { it.text() to it.attr("href") })
+
+        return (methods8 + methods11).sortedBy { it.first }.map {
+            "<a href=\"$url${it.second}\">${it.first}</a>"
+        }
+    }
+
+    fun getInheritedMethods(info: ClassDocumentation): Map<String, Map<String, List<String>>> {
+        val classes = getClassDocumentation()
+
+        fun create(tree: List<String>): Map<String, List<String>> {
+            val tree0 = tree.map { it.noGenerics() }
+            val map = mutableMapOf<String, List<String>>()
+
+            for (clazz in tree0) {
+                val current = classes.firstOrNull { it.name == clazz }
+
+                if (current?.methods?.methods?.isNotEmpty() == true) {
+                    map[clazz] = current.methods.methods.sortedBy { it.fullName }.map {
+                        "<a href=\"/${clazz.url()}.html#${it.name}\">${it.name}</a>"
+                    }
+                } else
+                    map[clazz] = getExternalMethods(clazz)
+            }
+
+            return map
+        }
+
+        return mutableMapOf(
+            "class" to create(getHierarchyTree(info, false).reversed()),
+            "interface" to create(getImplements(info).sorted())
+        )
+    }
+
     // Logging
     
     fun log(message: String) {
