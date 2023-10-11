@@ -1,7 +1,7 @@
 {
   "class": {
     "type": "class",
-    "extends": "io.netty.handler.codec.MessageToByteEncoder<net.minecraft.network.Packet<?>>",
+    "extends": "io.netty.handler.codec.MessageToByteEncoder<net.minecraft.network.protocol.Packet<?>>",
     "comment": "Utility class for encoding the contents of a Packet."
   },
   "fields": {
@@ -38,15 +38,15 @@
           "comment": "The handler context to use."
         },
         {
-          "type": "net.minecraft.network.Packet<?>",
+          "type": "net.minecraft.network.protocol.Packet<?>",
           "name": "packet",
           "comment": "The Packet to encode."
-        }
+        },
         {
           "type": "io.netty.buffer.ByteBuf",
           "name": "buffer",
           "comment": "The Byte Buffer to use."
-        },
+        }
       ],
       "throws": [
         {
