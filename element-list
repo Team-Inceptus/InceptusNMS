@@ -12,3 +12,4 @@ net.minecraft.util
 net.minecraft.world
 net.minecraft.world.entity
 net.minecraft.world.entity.ai.navigation
+net.minecraft.world.phys
