@@ -1,0 +1,124 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Utility class for loading the registeries currently present on the server."
+  },
+  "fields": {
+    "STDOUT": {
+      "type": "java.io.PrintStream",
+      "mods": ["static", "final"],
+      "comment": "Utility field for referencing the standard output."
+    },
+    "isBootstrapped": {
+      "type": "boolean",
+      "visibility": "private",
+      "mods": ["static", "volatile"],
+      "comment": "Whether the server is currently bootstrapped, and has its registries loaded."
+    },
+    "LOGGER": {
+      "type": "org.slf4j.Logger",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The logger for this class."
+    },
+    "bootstrapDuration": {
+      "type": "java.util.concurrent.atomic.AtomicLong",
+      "mods": ["static", "final"],
+      "comment": "The amount of ticks it took to Bootstrap the server."
+    }
+  },
+  "methods": {
+    "bootStrap": {
+      "mods": ["static"],
+      "comment": "Loads all of the stored server data, loading most registeries."
+    },
+    "checkTranslations": {
+      "visibility": "private",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "java.lang.Iterable<T>",
+          "name": "iterable",
+          "comment": "The collection of objects to use."
+        },
+        {
+          "type": "java.util.function.Function<T, string>",
+          "name": "function",
+          "comment": "The function to convert the object to a translation string."
+        },
+        {
+          "type": "java.util.Set<string>",
+          "name": "set",
+          "comment": "A mutable set of translation keys to add to."
+        }
+      ],
+      "generics": {
+        "T": {
+          "comment": "The object type to check."
+        }
+      },
+      "comment": "Validates and corrects whether a collection holds all of the correct translation values."
+    },
+    "checkGameruleTranslations": {
+      "visibility": "private",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "java.util.Set<string>",
+          "name": "set",
+          "comment": "A mutable set of translation keys to add to."
+        }
+      ],
+      "comment": "Checks that all of the translations for a @(net.minecraft.world.level.GameRules) object have been loaded."
+    },
+    "getMissingTranslations": {
+      "mods": ["static"],
+      "return": {
+        "type": "java.util.Set<string>",
+        "comment": "The set of missing translation keys."
+      },
+      "comment": "Generates a @(java.util.Set) of detected missing translation keys in any Bootstrap Registry."
+    },
+    "checkBootstrapCalled": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "java.util.function.Supplier<string>",
+          "name": "supplier",
+          "comment": "The supplier for the exception cause's name."
+        }
+      ],
+      "comment": "Throws a @(java.lang.RuntimeException) if the server has not been bootstrapped."
+    },
+    "createBootstrapException": {
+      "visibility": "private",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "java.util.function.Supplier<string>",
+          "name": "supplier",
+          "comment": "The supplier for the exception cause's name."
+        }
+      ],
+      "return": {
+        "type": "java.lang.RuntimeException",
+        "comment": "The constructed RuntimeException."
+      },
+      "comment": "Creates a @(java.lang.RuntimeException) with an inputted exception source."
+    },
+    "validate": {
+      "mods": ["static"],
+      "comment": "Validates the currently loaded Bootstrap."
+    },
+    "wrapStreams": {
+      "visibility": "private",
+      "mods": ["static"],
+      "comment": "Overrides the current @(java.lang.System#out) and @(java.lang.System#err) with the server's print streams."
+    },
+    "realStdoutPrintln": {
+      "mods": ["static"],
+      "comment": "Performs a <code>println</code> with @({this}#STDOUT)."
+    }
+
+  }
+}

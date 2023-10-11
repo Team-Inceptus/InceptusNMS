@@ -1,0 +1,48 @@
+{
+  "class": {
+    "type": "enum",
+    "comment": "Represents a type of access for a Registry."
+  },
+  "enumerations": [
+    {
+      "name": "STATIC",
+      "comment": "The registry is currently frozen and read-only."
+    },
+    {
+      "name": "WORLDGEN",
+      "comment": "The registry is used for world generation."
+    },
+    {
+      "name": "DIMENSIONS",
+      "comment": "The registry is used for a world type."
+    },
+    {
+      "name": "RELOADABLE",
+      "comment": "The registry can be refreshed."
+    }
+  ],
+  "fields": {
+    "VALUES": {
+      "type": "java.util.List<{this}>",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "A list representation of @({this}#values())."
+    },
+    "STATIC_ACCESS": {
+      "type": "net.minecraft.core.RegistryAccess$Frozen",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The frozen access that represents @({this}#STATIC)."
+    }
+  },
+  "methods": {
+    "createRegistryAccess": {
+      "mods": ["static"],
+      "return": {
+        "type": "net.minecraft.core.LayeredRegistryAccess<{this}>",
+        "comment": "The constructed registry access."
+      },
+      "comment": "Creates a layered registry access from all of these values."
+    }
+  }
+}

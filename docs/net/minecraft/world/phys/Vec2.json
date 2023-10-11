@@ -1,0 +1,177 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Represents a 2-dimensional Vector."
+  },
+  "fields": {
+    "ZERO": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "A @({this}) with both angles set to <code>0.0F</code>."
+    },
+    "ONE": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "A @({this}) with both angles set to <code>1.0F</code>."
+    },
+    "UNIT_X": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "A @({this}) with x set to <code>1.0F</code>."
+    },
+    "NEG_UNIT_X": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "A @({this}) with x set to <code>-1.0F</code>."
+    },
+    "UNIT_Y": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "A @({this}) with y set to <code>1.0F</code>."
+    },
+    "NEG_UNIT_Y": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "A @({this}) with y set to <code>-1.0F</code>."
+    },
+    "MAX": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "A @({this}) with both angles set to @(java.lang.Float#MAX_VALUE)."
+    },
+    "MIN": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "A @({this}) with both angles set to @(java.lang.Float#MIN_VALUE)."
+    },
+    "x": {
+      "type": "float",
+      "mods": ["final"],
+      "comment": "The x angle for this 2D Vector."
+    },
+    "y": {
+      "type": "float",
+      "mods": ["final"],
+      "comment": "The y angle for this 2D Vector."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "float",
+          "name": "x",
+          "comment": "The x angle for this 2D Vector."
+        },
+        {
+          "type": "float",
+          "name": "y",
+          "comment": "The y angle for this 2D Vector."
+        }
+      ],
+      "comment": "Constructs a new 2D Vector."
+    }
+  ],
+  "methods": {
+    "scale": {
+      "params": [
+        {
+          "type": "float",
+          "name": "scale",
+          "comment": "The scale to use on the 2D Vector."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The newly scaled vector."
+      },
+      "comment": "Scales this 2D Vector."
+    },
+    "dot": {
+      "params": [
+        {
+          "type": "{this}",
+          "name": "vector",
+          "comment": "The other vector to perform the operation."
+        }
+      ],
+      "return": {
+        "type": "float",
+        "comment": "The dot product of both vectors."
+      },
+      "comment": "Gets the dot product of both vectors."
+    },
+    "add": [
+      {
+        "params": [
+          {
+            "type": "{this}",
+            "name": "vector",
+            "comment": "The other vector to add to this one."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "The vector with both angles added together."
+        },
+        "comment": "Adds this vector to another vector."
+      },
+      {
+        "params": [
+          {
+            "type": "float",
+            "name": "angle",
+            "comment": "The angle to add to both of the vector's angles."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "The vector with the angles added to the input."
+        },
+        "comment": "Adds this vector's angles to another angle."
+      }
+    ],
+    "normalized": {
+      "return": {
+        "type": "{this}",
+        "comment": "The normalized vector."
+      },
+      "comment": "Normalizes this vector, dividing the angles by its magnitude."
+    },
+    "length": {
+      "return": {
+        "type": "float",
+        "comment": "The magnitude or length of this Vector."
+      },
+      "comment": "Fetches the magnitude or length of this 2D Vector."
+    },
+    "lengthSquared": {
+      "return": {
+        "type": "float",
+        "comment": "The magnitude or length of this Vector, squared."
+      },
+      "comment": "Fetches the magnitude or length of this 2D Vector, squared."
+    },
+    "distanceToSqr": {
+      "params": [
+        {
+          "type": "{this}",
+          "name": "vector",
+          "comment": "The other vector to use."
+        }
+      ],
+      "return": {
+        "type": "float",
+        "comment": "The distance between this vector and the other vector."
+      },
+      "comment": "Calculates the distance between this vector and the other vector."
+    },
+    "negated": {
+      "return": {
+        "type": "{this}",
+        "comment": "The negated Vector."
+      },
+      "comment": "Negates this 2D Vector, setting the angles to negative if positive and vice-versa."
+    }
+  }
+}
