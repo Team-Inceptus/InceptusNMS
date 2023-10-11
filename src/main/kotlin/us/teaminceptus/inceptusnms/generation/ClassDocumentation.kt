@@ -116,6 +116,8 @@ data class ClassDocumentation(
                 return "$name(${params.joinToString(",")})"
             }
 
+        val paramString: String = if (parameters.isEmpty()) "()" else "(" + parameters.joinToString { it.type }.replace(" ", "") + ")"
+
         companion object {
             val VALUES = buildJsonObject {
                 put("mods", buildJsonArray { add("static") })
