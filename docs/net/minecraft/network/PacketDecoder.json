@@ -3,7 +3,7 @@
     "type": "class",
     "extends": "io.netty.handler.codec.ByteToMessageDecoder",
     "implements": [
-      "net.minecraft.network.ProtocolSwampHandler"
+      "net.minecraft.network.ProtocolSwapHandler"
     ],
     "comment": "Utility class for decoding the contents of a Packet."
   },
