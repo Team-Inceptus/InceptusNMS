@@ -185,7 +185,7 @@ object Util {
 
         return inheritance.map {
             (it.selectFirst("a")?.text() ?: it.text()).noGenerics()
-        }.filter { it.isNotEmpty() }.reversed().distinct()
+        }.filter { it.isNotEmpty() }.distinct()
     }
 
     fun getHierarchyTree(info: ClassDocumentation, includeSelf: Boolean = true): List<String> {
@@ -220,14 +220,12 @@ object Util {
 
         val methods8 = doc.selectFirst("a[name=\"method.summary\"] ~ table.memberSummary > tbody")?.select("tr")?.mapNotNull {
             val text = it.selectFirst("td.colLast > code > span.memberNameLink")?.text() ?: return@mapNotNull null
-            val href = ("#" + it.selectFirst("td.colLast > code > span.memberNameLink")?.attr("href")?.substringAfterLast('#'))
+            val href = ("#" + it.selectFirst("td.colLast > code > span.memberNameLink > a")?.attr("href")?.substringAfterLast('#'))
 
             text to href
         } ?: emptyList()
 
-        val methods11 = (doc.select("div.col-second.method-summary-table")
-            .mapNotNull { it.selectFirst("code") }
-            .mapNotNull { it.selectFirst("a") }
+        val methods11 = (doc.select("div.col-second.method-summary-table > code > a")
             .map { it.text() to it.attr("href") })
 
         return (methods8 + methods11).sortedBy { it.first }.map {
@@ -247,7 +245,7 @@ object Util {
 
                 if (current?.methods?.methods?.isNotEmpty() == true) {
                     map[clazz] = current.methods.methods.sortedBy { it.fullName }.map {
-                        "<a href=\"/${clazz.url()}.html#${it.name}\">${it.name}</a>"
+                        "<a href=\"/${clazz.url()}.html#${it.fullName}\">${it.name}</a>"
                     }
                 } else
                     map[clazz] = getExternalMethods(clazz)
