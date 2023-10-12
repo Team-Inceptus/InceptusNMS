@@ -43,6 +43,11 @@ In order for the parser to successfully generate JavaDocs, we need to input all 
 | `bytebuf`    | `io.netty.buffer.ByteBuf`              |
 | `nullable`   | `javax.annotation.Nullable`            |
 
+#### Other Aliases
+
+- `{V}` will return the version part for the name of the CraftBukkit package.
+  - e.g. `v1_20_R2` 
+
 #### Generics
 
 For Generic Types, simply include the type in the alias. For example:

@@ -39,6 +39,7 @@ object Util {
 
     fun mapTypeAliases(type: String): String {
         var newType = type.replace("[\\[\\]]".toRegex(), "")
+            .replace("{V}", "v1_20_R2")
         val classes = type.split("[<>,]".toRegex()).filter { it.isNotEmpty() }
 
         for (clazz in classes)
