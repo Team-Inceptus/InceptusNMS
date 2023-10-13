@@ -40,18 +40,13 @@ object Util {
     )
 
     fun mapTypeAliases(type: String): String {
-        var newType = type.replace("[\\[\\]]".toRegex(), "")
-            .replace("{V}", "v1_20_R2")
+        var newType = type.replace("{V}", "v1_20_R2")
         val classes = type.split("[<>,]".toRegex()).filter { it.isNotEmpty() }
 
         for (clazz in classes)
             newType = newType.replace(clazz, TYPE_ALIASES[clazz] ?: continue)
 
-        val arrayBuilder = StringBuilder()
-        for (i in 0 until type.count { it == '[' })
-            arrayBuilder.append("[]")
-
-        return newType + arrayBuilder.toString()
+        return newType
     }
 
     fun getAllJavaPackages(root: File): List<String> {
