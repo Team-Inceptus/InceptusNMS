@@ -98,7 +98,6 @@ data class ClassDocumentation(
         val annotations: List<AnnotationDocumentation> = emptyList(),
         val comment: String
     ) {
-
         val cleanName: String
             get() {
                 if (parameters.isEmpty()) return "$name()"
@@ -157,7 +156,7 @@ data class ClassDocumentation(
                         put("comment", "if the argument is null")
                     })
                 })
-                put("comment", JsonPrimitive("Returns the enum constant of this class with the specified name. The string must match <i>exactly</li> an identifier used to declare an enum constant in this class. (Extraneous whitespace characters are not permitted.)"))
+                put("comment", JsonPrimitive("Returns the enum constant of this class with the specified name. The string must match <i>exactly</i> an identifier used to declare an enum constant in this class. (Extraneous whitespace characters are not permitted.)"))
             }
         }
     }
