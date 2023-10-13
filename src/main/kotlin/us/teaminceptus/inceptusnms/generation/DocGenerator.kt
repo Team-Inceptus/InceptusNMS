@@ -100,7 +100,7 @@ object DocGenerator {
         = select("main").first()!!
 
     fun String.header(): String
-        = substringBefore("<br>")
+        = substringBefore("<br>").substringBefore(".")
 
     fun item(element: Element): Element = Element("li").appendChild(element)
 
@@ -732,7 +732,7 @@ object DocGenerator {
                 })
             }
 
-            val children = Util.getSubclasses(info)
+            val children = Util.getSubclasses(info).sortedBy { it.name }
             if (children.isNotEmpty()) {
                 appendChild(Element("dl").apply {
                     addClass("notes")
@@ -1433,11 +1433,15 @@ object DocGenerator {
         for (child in processed.split("[<>,\\s]".toRegex()).filter { it.isNotBlank() }.map { it.replace("(\\.{3}|\\s)".toRegex(), "") }) {
             if (child == "?") continue
             if (generics.contains(child)) {
+                val arrayBuilder = StringBuilder()
+                for (i in 0 until child.count { it == '[' })
+                    arrayBuilder.append("[]")
+
                 val regex = "(.*)($child)(.*)".toRegex()
 
                 finalType = finalType.replace(suffix, "")
                 finalType = regex.replace(finalType) {
-                     "${it.groupValues[1]}<a href=\"/${self.url()}.html$suffix\" title=\"member in $self\">$prefix$child$suffix</a>${it.groupValues[3]}"
+                     "${it.groupValues[1]}<a href=\"/${self.url()}.html#class-description\" title=\"member in $self\">$prefix$child$suffix</a>$arrayBuilder${it.groupValues[3]}"
                 }
                 continue
             }
