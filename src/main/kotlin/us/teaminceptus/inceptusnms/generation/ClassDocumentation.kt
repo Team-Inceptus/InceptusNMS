@@ -29,7 +29,7 @@ data class ClassDocumentation(
     val docName: String = "$simpleName${generics(this)}"
     val fullDocName: String
         get() {
-            val name = this.name.replace("$", ".")
+            val name = link(name, name, generics.map { it.name })
 
             return if (generics.isEmpty()) name
             else "$name${generics(this)}"

@@ -68,8 +68,9 @@
       },
       "return": {
         "type": "{this}$EnumCodec<E>",
-        "comment": "Generates an @({this}$EnumCodec) from a supplier and mapper for an array of serializable enums."
-      }
+        "comment": "The codec for this supplier of enumerations."
+      },
+      "comment": "Generates an @({this}$EnumCodec) from a supplier and mapper for an array of serializable enums."
     },
     "keys": {
       "mods": ["static"],
