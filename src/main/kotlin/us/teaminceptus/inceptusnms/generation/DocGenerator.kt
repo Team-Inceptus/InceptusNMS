@@ -1479,10 +1479,10 @@ object DocGenerator {
             builder.append(generic.name)
 
             if (generic.extends.isNotEmpty())
-                builder.append(" extends ${generic.extends.joinToString { g -> if (links) link(clazz.name, g, generics.map { it.name }) else g }}")
+                builder.append(" extends ${generic.extends.joinToString(" & ") { g -> if (links) link(clazz.name, g, generics.map { it.name }) else g }}")
 
             if (generic.supers.isNotEmpty())
-                builder.append(" super ${generic.supers.joinToString { g -> if (links) link(clazz.name, g, generics.map { it.name }) else g }}")
+                builder.append(" super ${generic.supers.joinToString(" & ") { g -> if (links) link(clazz.name, g, generics.map { it.name }) else g }}")
 
             if (i != generics.size - 1)
                 builder.append(", ")

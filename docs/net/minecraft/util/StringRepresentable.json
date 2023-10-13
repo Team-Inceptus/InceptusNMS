@@ -1,0 +1,90 @@
+{
+  "class": {
+    "type": "interface",
+    "comment": "Represents an Object that can be represented in @(string) form."
+  },
+  "fields": {
+    "PRE_BUILT_MAP_THRESHOLD": {
+      "type": "int",
+      "mods": ["static", "final"],
+      "value": "16",
+      "comment": "The threshold for a pre-built generated map for converting an object to a string."
+    }
+  },
+  "methods": {
+    "getSerializedName": {
+      "return": {
+        "type": "string",
+        "comment": "The serialized name of this object."
+      },
+      "comment": "Fetches the serialized name of this object."
+    },
+    "fromEnum": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "java.util.function.Supplier<E[]>",
+          "name": "supplier",
+          "comment": "The supplier of the array of objects."
+        }
+      ],
+      "generics": {
+        "E": {
+          "extends": [
+            "java.lang.Enum<E>",
+            "{this}"
+          ],
+          "comment": "The enumeration that implements this class."
+        }
+      },
+      "return": {
+        "type": "{this}$EnumCodec<E>",
+        "comment": "The codec for this supplier of enumerations."
+      },
+      "comment": "Generates an @({this}$EnumCodec) from a supplier for an array of serializable enums."
+    },
+    "fromEnumWithMapping": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "java.util.function.Supplier<E[]>",
+          "name": "supplier",
+          "comment": "The supplier of the array of objects."
+        },
+        {
+          "type": "java.util.function.Function<string, string>",
+          "name": "mapper",
+          "comment": "The function to convert @({this}#getSerializedName) into another string."
+        }
+      ],
+      "generics": {
+        "E": {
+          "extends": [
+            "java.lang.Enum<E>",
+            "{this}"
+          ],
+          "comment": "The enumeration that implements this class."
+        }
+      },
+      "return": {
+        "type": "{this}$EnumCodec<E>",
+        "comment": "Generates an @({this}$EnumCodec) from a supplier and mapper for an array of serializable enums."
+      }
+    },
+    "keys": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "{this}[]",
+          "name": "array",
+          "comment": "The array of StringRepresentables."
+        }
+      ],
+      "return": {
+        "type": "com.mojang.serialization.Keyable",
+        "comment": "The keyable representing the @({this})s."
+      },
+      "comment": "Fetches the keys from an array of @({this})s."
+    }
+  }
+}

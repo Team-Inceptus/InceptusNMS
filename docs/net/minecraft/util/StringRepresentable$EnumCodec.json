@@ -1,0 +1,107 @@
+{
+  "class": {
+    "type": "class",
+    "mods": ["static"],
+    "generics": {
+      "E": {
+        "extends": [
+          "java.util.Enum<E>",
+          "net.minecraft.util.StringRepresentable"
+        ],
+        "comment": "The enumeration for this EnumCodec."
+      }
+    },
+    "implements": [
+      "com.mojang.serialization.Codec<E>"
+    ],
+    "annotations": [
+      {
+        "type": "deprecated"
+      }
+    ],
+    "comment": "Implementation of a @(com.mojang.serialization.Codec) for enumerations."
+  },
+  "fields": {
+    "codec": {
+      "type": "com.mojang.serialization.Codec<E>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The codec handle for this EnumCodec."
+    },
+    "resolver": {
+      "type": "java.util.function.Function<string, E>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "Resolves an object based on its serialized name."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "E[]",
+          "name": "objects",
+          "comment": "An array of objects to serialize."
+        },
+        {
+          "type": "java.util.function.Function<string, E>",
+          "name": "resolver",
+          "comment": "The resolver for this EnumCodec."
+        }
+      ],
+      "comment": "Constructs an EnumCodec."
+    }
+  ],
+  "methods": {
+    "byName": [
+      {
+        "params": [
+          {
+            "type": "string",
+            "name": "str",
+            "annotations": [
+              {
+                "type": "nullable"
+              }
+            ],
+            "comment": "The string to use."
+          }
+        ],
+        "annotations": [
+          {
+            "type": "nullable"
+          }
+        ],
+        "return": {
+          "type": "E",
+          "comment": "The found object, or null if not found."
+        },
+        "comment": "Fetches an object by its serialized name."
+      },
+      {
+        "params": [
+          {
+            "type": "string",
+            "name": "str",
+            "annotations": [
+              {
+                "type": "nullable"
+              }
+            ],
+            "comment": "The string to use."
+          },
+          {
+            "type": "E",
+            "name": "def",
+            "comment": "The default object to use if not found."
+          }
+        ],
+        "return": {
+          "type": "E",
+          "comment": "The found object, or null if not found."
+        },
+        "comment": "Fetches an object by its serialized name."
+      }
+    ]
+  }
+}

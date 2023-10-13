@@ -1,0 +1,236 @@
+{
+  "_": "UNFINISHED",
+  "class": {
+    "type": "class",
+    "comment": "Utility class for efficient Math functions used throughout the game."
+  },
+  "fields": {
+    "UUID_VERSION": {
+      "type": "long",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "61440",
+      "comment": "The UUID version currently implemented in the game."
+    },
+    "UUID_VERSION_TYPE_4": {
+      "type": "long",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "16834",
+      "comment": "The UUID version 4 currently implemented in the game."
+    },
+    "UUID_VARIANT": {
+      "type": "long",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "-4611686018427387904",
+      "comment": "The UUID variant currently implemented in the game."
+    },
+    "UUID_VARIANT_2": {
+      "type": "long",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "-9.223372036854799561E18",
+      "comment": "The 2nd UUID variant currently implemented in the game."
+    },
+    "PI": {
+      "type": "float",
+      "mods": ["static", "final"],
+      "value": "3.1415927",
+      "comment": "The value of PI as a floating point number."
+    },
+    "HALF_PI": {
+      "type": "float",
+      "mods": ["static", "final"],
+      "value": "1.5707964",
+      "comment": "Half the value of PI as a floating point number."
+    },
+    "TWO_PI": {
+      "type": "float",
+      "mods": ["static", "final"],
+      "value": "6.2831855",
+      "comment": "Twice the value of PI as a floating point number."
+    },
+    "DEG_TO_RAD": {
+      "type": "float",
+      "mods": ["static", "final"],
+      "value": "0.017453292",
+      "comment": "The number used to convert an angle from degrees to radians."
+    },
+    "RAD_TO_DEG": {
+      "type": "float",
+      "mods": ["static", "final"],
+      "value": "57.295776",
+      "comment": "The number used to convert an angle from radians to degrees."
+    },
+    "EPSILON": {
+      "type": "float",
+      "mods": ["static", "final"],
+      "value": "1.0E-5",
+      "comment": "The minimum number used when comparing floating point numbers."
+    },
+    "SQRT_OF_TWO": {
+      "type": "float",
+      "mods": ["static", "final"],
+      "comment": "The value for the square root of 2.\nThis uses a function and is therefore not stored as a constant."
+    },
+    "SIN_SCALE": {
+      "type": "float",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "10430.378",
+      "comment": "The sine scale on performing trigonometric functions."
+    },
+    "SIN": {
+      "type": "float[]",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "An array representing the modern <a href=\"https://en.wikipedia.org/wiki/Unit_circle\">unit circle</a> with floating point numbers."
+    },
+    "RANDOM": {
+      "type": "net.minecraft.util.RandomSource",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The thread-safe random for this class."
+    },
+    "MULTIPLY_DE_BRUIJN_BIT_POSITION": {
+      "type": "int[]",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "A bitfield for performing logarithmic functions."
+    },
+    "ONE_SIXTH": {
+      "type": "double",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "0.16666666666666666",
+      "comment": "A double representing 1/6."
+    },
+    "FRAC_EXP": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "8",
+      "comment": ""
+    },
+    "LUT_SIZE": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "257",
+      "comment": "The size of the arcsine and cosine tab arrays."
+    },
+    "FRAC_BIAS": {
+      "type": "double",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "A double represented by long bits serving as the fractional bias for trigonometric functions."
+    },
+    "ASIN_TAB": {
+      "type": "double[]",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The cache for arcsine and related trigonometric functions."
+    },
+    "COS_TAB": {
+      "type": "double[]",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The cache for cosine and related trigonometric functions."
+    }
+  },
+  "methods": {
+    "sin": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "float",
+          "name": "ang",
+          "comment": "The angle, in radians."
+        }
+      ],
+      "return": {
+        "type": "float",
+        "comment": "The sine of the angle."
+      },
+      "comment": "Gets the sine function on an angle."
+    },
+    "cos": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "float",
+          "name": "ang",
+          "comment": "The angle, in radians."
+        }
+      ],
+      "return": {
+        "type": "float",
+        "comment": "The cosine of the angle."
+      },
+      "comment": "Gets the cosine function on an angle."
+    },
+    "sqrt": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "float",
+          "name": "num",
+          "comment": "The number to use."
+        }
+      ],
+      "return": {
+        "type": "float",
+        "comment": "The square root of the number."
+      },
+      "comment": "Gets the square root of a float."
+    },
+    "floor": [
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "double",
+            "name": "num",
+            "comment": "The number to floor."
+          }
+        ],
+        "return": {
+          "type": "int",
+          "comment": "The floored integer."
+        },
+        "comment": "Floors a double into an integer."
+      },
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "float",
+            "name": "num",
+            "comment": "The number to floor."
+          }
+        ],
+        "return": {
+          "type": "int",
+          "comment": "The floored integer."
+        },
+        "comment": "Floors a float into an integer."
+      }
+    ],
+    "lfloor": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "double",
+          "name": "num",
+          "comment": "The double to floor."
+        }
+      ],
+      "return": {
+        "type": "long",
+        "comment": "The floored long."
+      },
+      "comment": "Floors a double into a long."
+    }
+  }
+}
