@@ -7,7 +7,9 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import us.teaminceptus.inceptusnms.generation.DocGenerator.link
 import us.teaminceptus.inceptusnms.generation.DocGenerator.url
+import us.teaminceptus.inceptusnms.generation.DocGenerator.noGenerics
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -173,10 +175,6 @@ object Util {
             .get()
     }
 
-    private fun String.noGenerics() = this
-        .substringBefore("<")
-        .substringBefore("&lt;")
-
     fun getExternalExtends(name: String): List<String> {
         if (name.contains("net.minecraft") || name.contains("org.bukkit.craftbukkit")) return listOf("java.lang.Object") // Undocumented
 
@@ -197,9 +195,11 @@ object Util {
         val classes = getClassDocumentation()
 
         if (info.extends != "java.lang.Object") {
-            val extends = classes.firstOrNull { it.name == info.extends }
+            val extends = classes.firstOrNull { info.extends.noGenerics() == it.name }
             if (extends != null)
-                tree.addAll(getHierarchyTree(extends))
+                tree.addAll(getHierarchyTree(extends).toMutableList().apply {
+                    this[lastIndex] = link(info.fullName, this[lastIndex], info.generics.map { it.name } )
+                })
             else
                 tree.addAll(getExternalExtends(info.extends))
 
@@ -207,9 +207,9 @@ object Util {
         }
 
         if (includeSelf)
-            tree.add(info.fullDocName)
+            tree.add(info.fullName)
 
-        return tree.distinct()
+        return tree.distinctBy { it.noGenerics() }
     }
 
     fun getExternalMethods(name: String): List<String> {
@@ -226,7 +226,7 @@ object Util {
             text to href
         } ?: emptyList()
 
-        val methods11 = (doc.select("div.col-second.method-summary-table > code > a")
+        val methods11 = (doc.select("div.col-second.method-summary-table > code > a.member-name-link")
             .map { it.text() to it.attr("href") })
 
         return (methods8 + methods11).sortedBy { it.first }.map {
@@ -238,7 +238,7 @@ object Util {
         val classes = getClassDocumentation()
 
         fun create(tree: List<String>): Map<String, List<String>> {
-            val tree0 = tree.map { it.noGenerics() }
+            val tree0 = tree.map { it.noGenerics() }.filter { it.isNotEmpty() }
             val map = mutableMapOf<String, List<String>>()
 
             for (clazz in tree0) {

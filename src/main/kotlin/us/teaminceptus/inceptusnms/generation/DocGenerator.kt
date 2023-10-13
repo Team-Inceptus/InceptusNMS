@@ -104,8 +104,12 @@ object DocGenerator {
 
     fun item(element: Element): Element = Element("li").appendChild(element)
 
+    fun String.noGenerics() = this
+        .substringBefore("<")
+        .substringBefore("&lt;")
+
     fun String.url(): String
-        = replace('.', '/').replace('$', '.')
+        = noGenerics().replace('.', '/').replace('$', '.')
 
     fun String.serialize(): String
         = replace("<", "&lt;").replace(">", "&gt;")
@@ -521,7 +525,7 @@ object DocGenerator {
                         val generics = clazz.generics.map { it.name }
 
                         appendChild(Element("li").apply {
-                            append("<div class=\"caption\"><span>${clazz.pkg}.${link(clazz.fullDocName, clazz.docName, generics)}</span></div>")
+                            append("<div class=\"caption\"><span>${clazz.pkg}.${link(clazz.fullName, clazz.docName, generics)}</span></div>")
 
                             appendChild(Element("div").apply {
                                 classNames(setOf("summary-table", "three-column-summary"))
@@ -536,7 +540,7 @@ object DocGenerator {
 
                                     appendChild(Element("div").apply {
                                         classNames(setOf("col-first", rowColor))
-                                        append("<code id=\"${clazz.name}.${field.name}\">${field.visibility} ${field.mods.joinString(" ")} ${link(clazz.fullDocName, field.type, generics)}</code>")
+                                        append("<code id=\"${clazz.name}.${field.name}\">${field.visibility} ${field.mods.joinString(" ")} ${link(clazz.fullName, field.type, generics)}</code>")
                                     })
 
                                     appendChild(Element("div").apply {
@@ -701,7 +705,7 @@ object DocGenerator {
                         first = false
                     }
 
-                    append(if (node == info.fullDocName) node else link(info.name, node, info.generics.map { it.name }, fullName = true))
+                    append(if (node == info.fullDocName || node == info.fullName) node else link(info.name, node, info.generics.map { it.name }, fullName = true))
                 }
                 current = element
             }
@@ -724,7 +728,7 @@ object DocGenerator {
                 appendChild(Element("dl").apply {
                     addClass("notes")
                     append("<dt>All Implemented Interfaces:</dt>")
-                    append("<dd><code>${implements.map { clazz -> link(info.fullDocName, clazz, info.generics.map { it.name }) }.joinString(", ", "")}</code></dd>")
+                    append("<dd><code>${implements.map { clazz -> link(info.fullName, clazz, info.generics.map { it.name }) }.joinString(", ", "")}</code></dd>")
                 })
             }
 
@@ -733,7 +737,7 @@ object DocGenerator {
                 appendChild(Element("dl").apply {
                     addClass("notes")
                     append("<dt>Direct Known Subclasses:</dt>")
-                    append("<dd>${children.map { child -> "<code>${link(info.fullDocName, child.name, info.generics.map { it.name })}</code>" }.joinString(",&nbsp;", "")}</dd>")
+                    append("<dd>${children.map { child -> "<code>${link(info.fullName, child.name, info.generics.map { it.name })}</code>" }.joinString(",&nbsp;", "")}</dd>")
                 })
             }
 
@@ -741,7 +745,7 @@ object DocGenerator {
                 appendChild(Element("dl").apply {
                     addClass("notes")
                     append("<dt>Enclosing Class:</dt>")
-                    append("<dd>${link(info.fullDocName, info.enclosing, info.generics.map { it.name })}</dd>")
+                    append("<dd>${link(info.fullName, info.enclosing, info.generics.map { it.name })}</dd>")
                 })
             }
 
@@ -773,10 +777,10 @@ object DocGenerator {
                     appendChild(Element("span").apply {
                         val builder = StringBuilder()
                         if (info.extends != null)
-                            builder.append("\nextends ${link(info.fullDocName, info.extends)}")
+                            builder.append("\nextends ${link(info.fullName, info.extends)}")
 
                         if (info.implements.isNotEmpty())
-                            builder.append("\n${if (info.type == "interface") "extends" else "implements"} ${info.implements.map { clazz -> link(info.fullDocName, clazz, info.generics.map { it.name }) }.joinString(", ")}")
+                            builder.append("\n${if (info.type == "interface") "extends" else "implements"} ${info.implements.map { clazz -> link(info.fullName, clazz, info.generics.map { it.name }) }.joinString(", ")}")
 
                         append(builder.toString())
                     })
@@ -871,7 +875,7 @@ object DocGenerator {
                 appendChild(Element("div").apply {
                     classNames(setOf("col-second", rowColor))
 
-                    append("<code>${link(clazz.fullDocName, clazz.fullDocName, clazz.generics.map { it.name })}</code>")
+                    append("<code>${clazz.fullDocName}</code>")
                 })
 
                 appendChild(Element("div").apply {
@@ -954,7 +958,7 @@ object DocGenerator {
                         if (field.mods.isNotEmpty())
                             builder.append("${field.mods.joinString(" ")} ")
 
-                        builder.append(link(info.fullDocName, field.type, info.generics.map { it.name }))
+                        builder.append(link(info.fullName, field.type, info.generics.map { it.name }))
 
                         append(builder.toString())
                     })
@@ -1018,7 +1022,7 @@ object DocGenerator {
 
                         builder.append("<a href=\"#%3Cinit%3E(${constructor.parameters.map { it.type }.joinString(",", "")})\" class=\"member-name-link\">${info.simpleName}</a><wbr>")
                         if (constructor.parameters.isNotEmpty())
-                            builder.append("(${constructor.parameters.joinToString { param -> "${link(info.fullDocName, param.type, info.generics.map { it.name })}&nbsp;${param.name}" }})")
+                            builder.append("(${constructor.parameters.joinToString { param -> "${link(info.fullName, param.type, info.generics.map { it.name })}&nbsp;${param.name}" }})")
                         else
                             builder.append("()")
 
@@ -1149,7 +1153,7 @@ object DocGenerator {
                         if (method.mods.isNotEmpty())
                             builder.append("${method.mods.joinString(" ")} ")
 
-                        builder.append(link(info.fullDocName, method.returnType, info.generics.map { it.name }))
+                        builder.append(link(info.fullName, method.returnType, info.generics.map { it.name }))
 
                         append(builder.toString())
                     })
@@ -1159,7 +1163,7 @@ object DocGenerator {
                     classNames(classes + "col-second")
                     appendChild(Element("code").apply {
                         append("<a href=\"#${method.name}${method.paramString}\" class=\"member-name-link\">${method.name}</a>${
-                            if (method.parameters.isEmpty()) "()" else "(" + method.parameters.joinToString { param -> "${link(info.fullDocName, param.type, info.generics.map { it.name })} ${param.name}" } + ")"
+                            if (method.parameters.isEmpty()) "()" else "(" + method.parameters.joinToString { param -> "${link(info.fullName, param.type, info.generics.map { it.name })} ${param.name}" } + ")"
                         }")
                     })
                 })
@@ -1183,7 +1187,7 @@ object DocGenerator {
 
                     appendChild(Element("h3").apply {
                         id("methods-inherited-from-class-$name")
-                        append("Methods inherited from $type ${name.substringBeforeLast('.')}.${link(info.fullDocName, name)}")
+                        append("Methods inherited from $type ${name.substringBeforeLast('.')}.${link(info.fullName, name)}")
                     })
 
                     append("<code>${inherited.joinToString()}</code>")
@@ -1217,7 +1221,7 @@ object DocGenerator {
                     appendChild(Element("div").apply {
                         addClass("member-signature")
 
-                        val annotations = enum.annotations.map { annotation -> "@${link(info.fullDocName, annotation.type, info.generics.map { it.name })}" }
+                        val annotations = enum.annotations.map { annotation -> "@${link(info.fullName, annotation.type, info.generics.map { it.name })}" }
                         if (annotations.isNotEmpty())
                             append("<span class=\"annotations\">${annotations.joinString(" ", "")}</span><br>")
 
@@ -1254,7 +1258,7 @@ object DocGenerator {
                     appendChild(Element("div").apply {
                         addClass("member-signature")
 
-                        val annotations = field.annotations.map { annotation -> "@${link(info.fullDocName, annotation.type, info.generics.map { it.name })}" }
+                        val annotations = field.annotations.map { annotation -> "@${link(info.fullName, annotation.type, info.generics.map { it.name })}" }
                         if (annotations.isNotEmpty())
                             append("<span class=\"annotations\">${annotations.joinString(" ", "")}</span><br>")
 
@@ -1265,7 +1269,7 @@ object DocGenerator {
                         if (field.mods.isNotEmpty())
                             builder.append(field.mods.joinString(" "))
 
-                        builder.append(link(info.fullDocName, field.type, info.generics.map { it.name }))
+                        builder.append(link(info.fullName, field.type, info.generics.map { it.name }))
 
                         append("<span class=\"modifiers\">$builder</span>&nbsp;")
                         append("<span class=\"element-name\">${field.name}</span>")
@@ -1307,7 +1311,7 @@ object DocGenerator {
                     appendChild(Element("div").apply {
                         addClass("member-signature")
 
-                        val annotations = constructor.annotations.map { annotation -> "@${link(info.fullDocName, annotation.type, info.generics.map { it.name })}" }
+                        val annotations = constructor.annotations.map { annotation -> "@${link(info.fullName, annotation.type, info.generics.map { it.name })}" }
                         if (annotations.isNotEmpty())
                             append("<span class=\"annotations\">${annotations.joinString(" ", "")}</span><br>")
 
@@ -1317,7 +1321,7 @@ object DocGenerator {
                         appendChild(Element("span").apply {
                             addClass("parameters")
                             append("(${constructor.parameters.joinToString(separator = ", \n") { 
-                                param -> "${param.annotations.map { annotation -> link(info.fullDocName, annotation.type, info.generics.map { it.name }, true) }.joinString(" ")}${link(info.fullDocName, param.type, info.generics.map { it.name })}&nbsp;${param.name}" 
+                                param -> "${param.annotations.map { annotation -> link(info.fullName, annotation.type, info.generics.map { it.name }, true) }.joinString(" ")}${link(info.fullName, param.type, info.generics.map { it.name })}&nbsp;${param.name}" 
                             }})")
                         })
                     })
@@ -1359,7 +1363,7 @@ object DocGenerator {
                     appendChild(Element("div").apply {
                         addClass("member-signature")
 
-                        val annotations = method.annotations.map { annotation -> link(info.fullDocName, annotation.type, info.generics.map { it.name }, true) }
+                        val annotations = method.annotations.map { annotation -> link(info.fullName, annotation.type, info.generics.map { it.name }, true) }
                         if (annotations.isNotEmpty())
                             append("<span class=\"annotations\">${annotations.joinString(" ", "")}</span><br>")
 
@@ -1368,7 +1372,7 @@ object DocGenerator {
                             append("<span class=\"type-parameters\"><${generics.joinString(", ", "")}></span>")
 
                         append("<span class=\"modifiers\">${method.visibility} ${method.mods.joinString(" ")}</span>")
-                        append("<span class=\"return-type\">${link(info.fullDocName, method.returnType, info.generics.map { it.name })}</span>&nbsp;")
+                        append("<span class=\"return-type\">${link(info.fullName, method.returnType, info.generics.map { it.name })}</span>&nbsp;")
 
                         if (method.parameters.isEmpty())
                             append("<span class=\"element-name\">${method.name}</span>()")
@@ -1376,7 +1380,7 @@ object DocGenerator {
                             append("<span class=\"element-name\">${method.name}</span>")
                             append("<wbr>")
                             append("(${method.parameters.joinToString { param -> 
-                                "${param.annotations.map { annotation -> link(info.fullDocName, annotation.type, info.generics.map { it.name }, true) }.joinString(" ")}${link(info.fullDocName, param.type, generics + info.generics.map { it.name })}&nbsp;${param.name}" 
+                                "${param.annotations.map { annotation -> link(info.fullName, annotation.type, info.generics.map { it.name }, true) }.joinString(" ")}${link(info.fullName, param.type, generics + info.generics.map { it.name })}&nbsp;${param.name}" 
                             }})")
                         }
                     })
@@ -1408,7 +1412,7 @@ object DocGenerator {
                         if (method.throws.isNotEmpty()) {
                             append("<dt>Throws:</dt>")
                             for ((exception, comment) in method.throws)
-                                append("<dd><code>${link(info.fullDocName, exception, info.generics.map { it.name })}</code> - $comment</ddt>")
+                                append("<dd><code>${link(info.fullName, exception, info.generics.map { it.name })}</code> - $comment</ddt>")
                         }
                     })
                 }))
@@ -1465,7 +1469,7 @@ object DocGenerator {
         return finalType.replace('$', '.')
     }
 
-    fun generics(clazz: ClassDocumentation): String {
+    fun generics(clazz: ClassDocumentation, links: Boolean = true): String {
         val generics = clazz.generics
         if (generics.isEmpty()) return ""
 
@@ -1475,10 +1479,10 @@ object DocGenerator {
             builder.append(generic.name)
 
             if (generic.extends.isNotEmpty())
-                builder.append(" extends ${generic.extends.joinToString { g -> link(clazz.name, g, generics.map { it.name }) }}")
+                builder.append(" extends ${generic.extends.joinToString { g -> if (links) link(clazz.name, g, generics.map { it.name }) else g }}")
 
             if (generic.supers.isNotEmpty())
-                builder.append(" super ${generic.supers.joinToString { g -> link(clazz.name, g, generics.map { it.name }) }}")
+                builder.append(" super ${generic.supers.joinToString { g -> if (links) link(clazz.name, g, generics.map { it.name }) else g }}")
 
             if (i != generics.size - 1)
                 builder.append(", ")

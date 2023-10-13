@@ -34,6 +34,11 @@ data class ClassDocumentation(
             return if (generics.isEmpty()) name
             else "$name${generics(this)}"
         }
+    val fullName: String
+        get() {
+            return if (generics.isEmpty()) name
+            else "$name${generics(this, false)}"
+        }
 
     // Definitions
     
