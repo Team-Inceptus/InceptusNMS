@@ -1,0 +1,44 @@
+{
+  "class": {
+    "type": "interface",
+    "comment": "Represents an object that can hold a @(component)-based name."
+  },
+  "methods": {
+    "getName": {
+      "return": {
+        "type": "component",
+        "comment": "The name of the object."
+      },
+      "comment": "Gets the name of the object."
+    },
+    "hasCustomName": {
+      "mods": ["default"],
+      "return": {
+        "type": "boolean",
+        "comment": "True if the object has a custom name, false otherwise."
+      },
+      "comment": "Gets whether the object has a custom name."
+    },
+    "getDisplayName": {
+      "mods": ["default"],
+      "return": {
+        "type": "component",
+        "comment": "The display name of the object."
+      },
+      "comment": "Gets the display name of the object."
+    },
+    "getCustomName": {
+      "mods": ["default"],
+      "return": {
+          "type": "component",
+          "comment": "The custom name of the object."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Gets the custom name of the object."
+    }
+  }
+}

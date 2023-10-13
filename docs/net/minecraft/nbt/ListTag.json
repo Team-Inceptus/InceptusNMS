@@ -1,0 +1,241 @@
+{
+  "class": {
+    "type": "class",
+    "extends": "net.minecraft.nbt.CollectionTag<net.minecraft.nbt.Tag>",
+    "comment": "Represents a NBT Tag that can hold multiple NBT Tags in an Array."
+  },
+  "fields": {
+    "SELF_SIZE_IN_BYTES": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "37",
+      "comment": "he size in bytes of a @(java.util.List) tag."
+    },
+    "TYPE": {
+      "type": "net.minecraft.nbt.TagType<{this}>",
+      "mods": ["static", "final"],
+      "comment": "The TagType of a ListTag."
+    },
+    "list": {
+      "type": "java.util.List<net.minecraft.nbt.Tag>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The List of Tags in this ListTag."
+    },
+    "type": {
+      "type": "byte",
+      "visibility": "private",
+      "comment": "The type ID for Tags in this ListTag."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "package",
+      "params": [
+        {
+          "type": "java.util.List<net.minecraft.nbt.Tag>",
+          "name": "list",
+          "comment": "The List of Tags in this ListTag."
+        },
+        {
+          "type": "byte",
+          "name": "type",
+          "comment": "The type ID for Tags in this ListTag."
+        }
+      ],
+      "comment": "Creates a new ListTag with the given List of Tags and type ID."
+    },
+    {
+      "comment": "Creates an empty ListTag."
+    }
+  ],
+  "methods": {
+    "remove": {
+      "params": [
+        {
+          "type": "int",
+          "name": "index",
+          "comment": "The index of the Tag to remove."
+        }
+      ],
+      "return": {
+        "type": "net.minecraft.nbt.Tag",
+        "comment": "The Tag that was removed."
+      },
+      "comment": "Removes the Tag at the given index from this ListTag."
+    },
+    "isEmpty": {
+      "return": {
+        "type": "boolean",
+        "comment": "True if this ListTag is empty, false otherwise."
+      },
+      "comment": "Returns whether this ListTag is empty."
+    },
+    "getCompound": {
+      "params": [
+        {
+          "type": "int",
+          "name": "index",
+          "comment": "The index of the CompoundTag to get."
+        }
+      ],
+      "return": {
+        "type": "net.minecraft.nbt.CompoundTag",
+        "comment": "The CompoundTag at the given index."
+      },
+      "comment": "Returns the CompoundTag at the given index."
+    },
+    "getList": {
+      "params": [
+        {
+          "type": "int",
+          "name": "index",
+          "comment": "The index of the ListTag to get."
+        }
+      ],
+      "return": {
+          "type": "{this}",
+          "comment": "The ListTag at the given index."
+      },
+      "comment": "Returns the ListTag at the given index."
+    },
+    "getShort": {
+      "params": [
+        {
+          "type": "int",
+          "name": "index",
+          "comment": "The index of the ShortTag to get."
+        }
+      ],
+      "return": {
+          "type": "short",
+          "comment": "The Short at the given index."
+      },
+      "comment": "Returns the Short at the given index."
+    },
+    "getInt": {
+      "params": [
+        {
+          "type": "int",
+          "name": "index",
+          "comment": "The index of the IntTag to get."
+        }
+      ],
+      "return": {
+          "type": "int",
+          "comment": "The Int at the given index."
+      },
+      "comment": "Returns the Int at the given index."
+    },
+    "getIntArray": {
+      "params": [
+        {
+          "type": "int",
+          "name": "index",
+          "comment": "The index of the IntArrayTag to get."
+        }
+      ],
+      "return": {
+          "type": "int[]",
+          "comment": "The IntArray at the given index."
+      },
+      "comment": "Returns the IntArray at the given index."
+    },
+    "getLongArray": {
+      "params": [
+        {
+          "type": "int",
+          "name": "index",
+          "comment": "The index of the LongArrayTag to get."
+        }
+      ],
+      "return": {
+          "type": "long[]",
+          "comment": "The LongArray at the given index."
+      },
+      "comment": "Returns the LongArray at the given index."
+    },
+    "getDouble": {
+      "params": [
+        {
+          "type": "int",
+          "name": "index",
+          "comment": "The index of the DoubleTag to get."
+        }
+      ],
+      "return": {
+          "type": "double",
+          "comment": "The Double at the given index."
+      },
+      "comment": "Returns the Double at the given index."
+    },
+    "getFloat": {
+      "params": [
+        {
+          "type": "int",
+          "name": "index",
+          "comment": "The index of the FloatTag to get."
+        }
+      ],
+      "return": {
+        "type": "float",
+        "comment": "The Float at the given index."
+      },
+      "comment": "Returns the Float at the given index."
+    },
+    "getString": {
+      "params": [
+        {
+          "type": "int",
+          "name": "index",
+          "comment": "The index of the StringTag to get."
+        }
+      ],
+      "return": {
+          "type": "string",
+          "comment": "The String at the given index."
+      },
+      "comment": "Returns the String at the given index."
+    },
+    "size": {
+      "return": {
+        "type": "int",
+        "comment": "The size of this ListTag."
+      },
+      "comment": "Returns the size of this ListTag."
+    },
+    "get": {
+      "params": [
+        {
+          "type": "int",
+          "name": "index",
+          "comment": "The index of the Tag to get."
+        }
+      ],
+      "return": {
+        "type": "net.minecraft.nbt.Tag",
+        "comment": "The Tag at the given index."
+      },
+      "comment": "Returns the Tag at the given index."
+    },
+    "updateType": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "net.minecraft.nbt.Tag",
+          "name": "tag",
+          "comment": "The Tag to update the type to."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if the type was updated, false otherwise."
+      },
+      "comment": "Updates the stored type ID to the given Tag's type ID."
+    },
+    "clear": {
+      "comment": "Removes all Tags from this ListTag."
+    }
+  }
+}
