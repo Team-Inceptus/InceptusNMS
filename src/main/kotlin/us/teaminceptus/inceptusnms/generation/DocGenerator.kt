@@ -100,7 +100,7 @@ object DocGenerator {
         = select("main").first()!!
 
     fun String.header(): String
-        = substringBefore("<br>").substringBefore(".")
+        = substringBefore("<br>").substringBefore(". ")
 
     fun item(element: Element): Element = Element("li").appendChild(element)
 
@@ -113,6 +113,9 @@ object DocGenerator {
 
     fun String.serialize(): String
         = replace("<", "&lt;").replace(">", "&gt;")
+
+    fun String.deserialize(): String
+        = replace("&lt;", "<").replace("&gt;", ">")
 
     fun classSummaryButton(id: Int, text: String, prefix: String = "class-summary"): Element =
         Element("button").apply {
@@ -705,7 +708,7 @@ object DocGenerator {
                         first = false
                     }
 
-                    append(if (node == info.fullDocName || node == info.fullName) node else link(info.name, node, info.generics.map { it.name }, fullName = true))
+                    append(if (node == info.fullDocName || node == info.fullName) node else link(info.name, node.deserialize(), info.generics.map { it.name }, fullName = true))
                 }
                 current = element
             }

@@ -192,9 +192,7 @@ object Util {
         if (info.extends != "java.lang.Object") {
             val extends = classes.firstOrNull { info.extends.noGenerics() == it.name }
             if (extends != null)
-                tree.addAll(getHierarchyTree(extends).toMutableList().apply {
-                    this[lastIndex] = link(info.fullName, this[lastIndex], info.generics.map { it.name } )
-                })
+                tree.addAll(getHierarchyTree(extends))
             else
                 tree.addAll(getExternalExtends(info.extends))
 
