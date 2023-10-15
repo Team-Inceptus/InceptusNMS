@@ -1,0 +1,68 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Utility class for handling with a bukkit @(org.bukkit.Art) and a NMS @(net.minecraft.world.entity.decoration.PaintingVariant)."
+  },
+  "methods": {
+    "minecraftToBukkit": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.decoration.PaintingVariant",
+          "name": "minecraft",
+          "comment": "The NMS painting variant."
+        }
+      ],
+      "return": {
+        "type": "org.bukkit.Art",
+        "comment": "The bukkit art."
+      },
+      "comment": "Converts a NMS @(net.minecraft.world.entity.decoration.PaintingVariant) to a bukkit @(org.bukkit.Art)."
+    },
+    "minecraftHolderToBukkit": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.core.Holder<net.minecraft.world.entity.decoration.PaintingVariant>",
+          "name": "minecraft",
+          "comment": "The NMS painting holder."
+        }
+      ],
+      "return": {
+        "type": "org.bukkit.Art",
+        "comment": "The bukkit art."
+      },
+      "comment": "Converts a holder of a NMS @(net.minecraft.world.entity.decoration.PaintingVariant) to a bukkit @(org.bukkit.Art)."
+    },
+    "bukkitToMinecraft": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "org.bukkit.Art",
+          "name": "bukkit",
+          "comment": "The bukkit art."
+        }
+      ],
+      "return": {
+        "type": "net.minecraft.world.entity.decoration.PaintingVariant",
+        "comment": "The NMS painting variant."
+      },
+      "comment": "Converts a bukkit @(org.bukkit.Art) to a NMS @(net.minecraft.world.entity.decoration.PaintingVariant)."
+    },
+    "bukkitToMinecraftHolder": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "org.bukkit.Art",
+          "name": "bukkit",
+          "comment": "The bukkit art."
+        }
+      ],
+      "return": {
+        "type": "net.minecraft.core.Holder<net.minecraft.world.entity.decoration.PaintingVariant>",
+        "comment": "The NMS painting holder."
+      },
+      "comment": "Converts a bukkit @(org.bukkit.Art) to a holder of a NMS @(net.minecraft.world.entity.decoration.PaintingVariant)."
+    }
+  }
+}
