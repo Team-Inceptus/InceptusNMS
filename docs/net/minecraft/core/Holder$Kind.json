@@ -1,0 +1,17 @@
+{
+  "class": {
+    "type": "enum",
+    "enclosing": "net.minecraft.core.Holder",
+    "comment": "Represents a type of @(net.minecraft.core.Holder)."
+  },
+  "enumerations": [
+    {
+      "name": "REFERENCE",
+      "comment": "The holder is a reference to an owner of the object."
+    },
+    {
+      "name": "DIRECT",
+      "comment": "The holder is a direct reference to the object."
+    }
+  ]
+}

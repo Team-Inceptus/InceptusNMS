@@ -1,0 +1,147 @@
+{
+  "class": {
+    "type": "interface",
+    "generics": {
+      "T": {
+        "comment": "The type of the value held by this holder."
+      }
+    },
+    "comment": "Represents a holder for a single value of a given type."
+  },
+  "methods": {
+    "value": {
+      "return": {
+        "type": "T",
+        "comment": "The value held by this holder."
+      },
+      "comment": "Returns the value held by this holder."
+    },
+    "isBound": {
+      "return": {
+        "type": "boolean",
+        "comment": "True if this holder is bound to a value, false otherwise."
+      },
+      "comment": "Returns true if this holder is bound to a value."
+    },
+    "is": [
+      {
+        "params": [
+          {
+            "type": "net.minecraft.resources.ResourceLocation",
+            "name": "paramResourceLocation",
+            "comment": "The resource location to check."
+          }
+        ],
+        "return": {
+          "type": "boolean",
+          "comment": "Whether the value is linked to the given resource location."
+        },
+        "comment": "Returns true if this holder's value is linked to this resource location."
+      },
+      {
+        "params": [
+          {
+            "type": "net.minecraft.resources.ResourceKey<T>",
+            "name": "paramResourceKey",
+            "comment": "The resource key to check."
+          }
+        ],
+        "return": {
+          "type": "boolean",
+          "comment": "Whether the value is linked to the given resource key."
+        },
+        "comment": "Returns true if this holder's value is linked to this resource key."
+      },
+      {
+        "params": [
+          {
+            "type": "java.util.function.Predicate<net.minecraft.resources.ResourceKey<T>>",
+            "name": "paramPredicate",
+            "comment": "The predicate to use."
+          }
+        ],
+        "return": {
+          "type": "boolean",
+          "comment": "Whether the value is linked to a resource key that matches the given predicate."
+        },
+        "comment": "Returns true if this holder's value is linked to a resource key that matches the given predicate."
+      },
+      {
+        "params": [
+          {
+            "type": "net.minecraft.tags.TagKey",
+            "name": "paramTagKey",
+            "comment": "The tag key to check."
+          }
+        ],
+        "return": {
+          "type": "boolean",
+          "comment": "Whether the value is linked to the given tag key."
+        },
+        "comment": "Returns true if this holder's value is linked to this tag key."
+      }
+    ],
+    "tags": {
+      "return": {
+        "type": "java.util.stream.Stream<net.minecraft.tags.TagKey<T>>",
+        "comment": "A stream of all tag keys that this holder's value is linked to."
+      },
+      "comment": "Returns a stream of all tag keys that this holder's value is linked to."
+    },
+    "unwrap": {
+      "return": {
+        "type": "com.mojang.datafixers.util.Either<net.minecraft.resources.ResourceKey<T>, T>",
+        "comment": "The value held by this holder, or the resource key that it is linked to."
+      },
+      "comment": "Unwraps the value held by this holder."
+    },
+    "unwrapKey": {
+      "return": {
+        "type": "java.util.Optional<net.minecraft.resources.ResourceKey<T>>",
+        "comment": "Optionally a resource key that this holder is linked to."
+      },
+      "comment": "Unwraps the resource key held by this holder."
+    },
+    "kind": {
+      "return": {
+        "type": "{this}$Kind",
+        "comment": "The kind of this holder."
+      },
+      "comment": "Returns the type of this holder."
+    },
+    "canSerializeIn": {
+      "params": [
+        {
+          "type": "net.minecraft.core.HolderOwner<T>",
+          "name": "paramHolderOwner",
+          "comment": "The holder owner to check."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if this holder can be serialized in the given holder owner, false otherwise."
+      },
+      "comment": "Returns true if this holder can be serialized in the given holder owner."
+    },
+    "direct": {
+      "mods": ["static"],
+      "generics": {
+        "T": {
+          "comment": "The type of the value held by this holder."
+        }
+      },
+      "params": [
+        {
+          "type": "T",
+          "name": "value",
+          "comment": "The value to hold."
+        }
+      ],
+      "return": {
+        "type": "{this}<T>",
+        "comment": "A holder that holds the given value."
+      },
+      "comment": "Creates a holder that holds the given value."
+    }
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "class": {
+    "type": "class",
+    "enclosing": "net.minecraft.core.Holder",
+    "implements": [
+      "net.minecraft.core.Holder<T>"
+    ],
+    "generics": {
+      "T": {
+        "comment": "The type of the value held by this holder."
+      }
+    },
+    "comment": "A @(net.minecraft.core.Holder) that holds a reference to a value."
+  },
+  "fields": {
+    "owner": {
+      "type": "net.minecraft.core.HolderOwner<T>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The owner of this holder."
+    },
+    "tags": {
+      "type": "java.util.Set<net.minecraft.tags.TagKey<T>>",
+      "visibility": "private",
+      "comment": "The tags of this holder."
+    },
+    "type": {
+      "type": "{this}$Type",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The type of this holder."
+    },
+    "key": {
+      "type": "net.minecraft.resources.ResourceKey<T>",
+      "visibility": "private",
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "The key of this holder."
+    },
+    "value": {
+      "type": "T",
+      "visibility": "private",
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "The value of this holder."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "{this}$Type",
+          "name": "type",
+          "comment": "The type of this holder."
+        },
+        {
+          "type": "net.minecraft.core.HolderOwner<T>",
+          "name": "owner",
+          "comment": "The owner of this holder."
+        },
+        {
+          "type": "net.minecraft.resources.ResourceKey<T>",
+          "name": "key",
+          "annotations": [
+            {
+              "type": "nullable"
+            }
+          ],
+          "comment": "The key for this holder."
+        },
+        {
+          "type": "T",
+          "name": "value",
+          "annotations": [
+            {
+              "type": "nullable"
+            }
+          ],
+          "comment": "The value for this holder."
+        }
+      ],
+      "comment": "Constructs a new Reference Holder."
+    }
+  ],
+  "methods": {
+    "createStandAlone": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.core.HolderOwner<T>",
+          "name": "owner",
+          "comment": "The owner of this holder."
+        },
+        {
+          "type": "net.minecraft.resources.ResourceKey<T>",
+          "name": "key",
+          "comment": "The key for this holder."
+        }
+      ],
+      "generics": {
+        "T": {
+          "comment": "The type of the value held by this holder."
+        }
+      },
+      "comment": "Creates a new stand-alone holder."
+    },
+    "createIntrusive": {
+      "deprecated": "unsupported",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.core.HolderOwner<T>",
+          "name": "owner",
+          "comment": "The owner of this holder."
+        },
+        {
+          "type": "T",
+          "name": "value",
+          "annotations": [
+            {
+              "type": "nullable"
+            }
+          ],
+          "comment": "The nullable value for this holder."
+        }
+      ],
+      "comment": "Creates a new intrusive holder."
+    },
+    "key": {
+      "$getter": "key"
+    },
+    "bindKey": {
+      "visibility": "package",
+      "params": [
+        {
+          "type": "net.minecraft.resources.ResourceKey<T>",
+          "name": "key",
+          "comment": "The key to bind."
+        }
+      ],
+      "comment": "Binds the key to this holder."
+    },
+    "bindValue": {
+      "visibility": "package",
+      "params": [
+        {
+          "type": "T",
+          "name": "value",
+          "comment": "The value to bind."
+        }
+      ],
+      "comment": "Binds the value to this holder."
+    },
+    "bindTags": {
+      "visibility": "package",
+      "params": [
+        {
+          "type": "java.util.Collection<net.minecraft.tags.TagKey<T>>",
+          "name": "tags",
+          "comment": "The tags to bind."
+        }
+      ],
+      "comment": "Binds the tags to this holder."
+    }
+  }
+}

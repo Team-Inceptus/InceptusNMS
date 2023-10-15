@@ -1,0 +1,28 @@
+{
+  "class": {
+    "type": "record",
+    "mods": ["static", "final"],
+    "enclosing": "net.minecraft.core.Holder",
+    "implements": [
+      "net.minecraft.core.Holder<T>"
+    ],
+    "generics": {
+      "T": {
+        "comment": "The type of the object held by this holder."
+      }
+    },
+    "comment": "A @(net.minecraft.core.Holder) that holds a direct object value."
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "T",
+          "name": "value",
+          "comment": "The value to hold."
+        }
+      ],
+      "comment": "Creates a new holder with the given value."
+    }
+  ]
+}

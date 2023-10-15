@@ -1,0 +1,18 @@
+{
+  "class": {
+    "type": "enum",
+    "enclosing": "net.minecraft.core.Holder$Reference",
+    "visibility": "private",
+    "comment": "The type of Reference Holder."
+  },
+  "enumerations": [
+    {
+      "name": "STAND_ALONE",
+      "comment": "The Reference Holder has a stand-alone key."
+    },
+    {
+      "name": "INTRUSIVE",
+      "comment": "The Reference Holder has an intrusive value."
+    }
+  ]
+}
