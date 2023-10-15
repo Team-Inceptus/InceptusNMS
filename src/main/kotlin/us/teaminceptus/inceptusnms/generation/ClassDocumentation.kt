@@ -22,6 +22,7 @@ data class ClassDocumentation(
     val fields: FieldsDocumentation? = null,
     val constructors: ConstructorsDocumentation? = null,
     val methods: MethodsDocumentation? = null,
+    val deprecated: String = ""
 ) {
 
     val pkg: String = name.substring(0, name.lastIndexOf('.'))
@@ -54,17 +55,67 @@ data class ClassDocumentation(
         val name: String,
         val annotations: List<AnnotationDocumentation> = emptyList(),
         val comment: String,
-    )
+    ) {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as ParameterDocumentation
+
+            if (type != other.type) return false
+            if (name != other.name) return false
+            if (annotations != other.annotations) return false
+            if (comment != other.comment) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = type.hashCode()
+            result = 31 * result + name.hashCode()
+            result = 31 * result + annotations.hashCode()
+            result = 31 * result + comment.hashCode()
+            return result
+        }
+    }
 
     data class AnnotationDocumentation(
         val type: String,
         val parameters: List<ParameterDocumentation> = emptyList(),
-    )
+    ) {
+
+        companion object {
+            val DEPRECATED = AnnotationDocumentation(
+                "java.lang.Deprecated",
+                emptyList()
+            )
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as AnnotationDocumentation
+
+            if (type != other.type) return false
+            if (parameters != other.parameters) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = type.hashCode()
+            result = 31 * result + parameters.hashCode()
+            return result
+        }
+
+    }
 
     data class EnumDocumentation(
         val name: String,
         val annotations: List<AnnotationDocumentation> = emptyList(),
-        val comment: String
+        val comment: String,
+        val deprecated: String = ""
     )
 
     data class FieldDocumentation(
@@ -74,14 +125,16 @@ data class ClassDocumentation(
         val mods: List<String> = emptyList(),
         val annotations: List<AnnotationDocumentation> = emptyList(),
         val value: String? = null,
-        val comment: String
+        val comment: String,
+        val deprecated: String = ""
     )
 
     data class ConstructorDocumentation(
         val visibility: String = "public",
         val parameters: List<ParameterDocumentation> = emptyList(),
         val annotations: List<AnnotationDocumentation> = emptyList(),
-        val comment: String
+        val comment: String,
+        val deprecated: String = ""
     ) {
         constructor(comment: String) : this("public", comment = comment)
     }
@@ -96,7 +149,8 @@ data class ClassDocumentation(
         val returnComment: String = "",
         val throws: Map<String, String> = emptyMap(),
         val annotations: List<AnnotationDocumentation> = emptyList(),
-        val comment: String
+        val comment: String,
+        val deprecated: String = ""
     ) {
         val cleanName: String
             get() {
@@ -173,6 +227,8 @@ data class ClassDocumentation(
     companion object {
 
         fun processComment(name: String, comment: String): String {
+            if (comment.isEmpty()) return ""
+
             var newComment = comment
             val children = comment.split("\\s".toRegex()).filter { it.isNotBlank() }
 
@@ -226,6 +282,10 @@ data class ClassDocumentation(
             val clazz = json["class"]!!.jsonObject
             val type = clazz["type"]!!.jsonPrimitive.content
 
+            val isDeprecated = clazz["deprecated"] != null
+            val oDeprecated = if (isDeprecated) listOf(AnnotationDocumentation.DEPRECATED) else emptyList()
+            val annotations = async { annotations(name, clazz["annotations"]) + oDeprecated }
+
             val generics = async {
                 if (clazz.contains("generics"))
                     clazz["generics"]!!.jsonObject.map { generic ->
@@ -252,8 +312,9 @@ data class ClassDocumentation(
 
                             EnumDocumentation(
                                 obj["name"]!!.jsonPrimitive.content,
-                                annotations(name, obj["annotations"]),
-                                processComment(name, obj["comment"]!!.jsonPrimitive.content)
+                                annotations(name, obj["annotations"]) + (if (obj["deprecated"] != null) listOf(AnnotationDocumentation.DEPRECATED) else emptyList()) + oDeprecated,
+                                processComment(name, obj["comment"]!!.jsonPrimitive.content),
+                                processComment(name, obj["deprecated"]?.jsonPrimitive?.content ?: "")
                             )
                         }
                     }.awaitAll())
@@ -270,8 +331,9 @@ data class ClassDocumentation(
                             ConstructorDocumentation(
                                 (obj["visibility"]?.jsonPrimitive?.content ?: (if (type == "enum") "private" else "public")).replace("package", "package-private"),
                                 params(name, obj["params"]),
-                                annotations(name, obj["annotations"]),
-                                processComment(name, obj["comment"]!!.jsonPrimitive.content)
+                                annotations(name, obj["annotations"]) + (if (obj["deprecated"] != null) listOf(AnnotationDocumentation.DEPRECATED) else emptyList()) + oDeprecated,
+                                processComment(name, obj["comment"]!!.jsonPrimitive.content),
+                                processComment(name, obj["deprecated"]?.jsonPrimitive?.content ?: "")
                             )
                         }
                     }?.awaitAll() ?: listOf(ConstructorDocumentation(processComment(name, clazz["comment"]!!.jsonPrimitive.content))))
@@ -294,9 +356,10 @@ data class ClassDocumentation(
                                 field.key,
                                 (obj["visibility"]?.jsonPrimitive?.content ?: "public").replace("package", "package-private"),
                                 obj["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: if (type == "interface") listOf("static", "final") else emptyList(),
-                                annotations(name, obj["annotations"]),
+                                annotations(name, obj["annotations"]) + (if (obj["deprecated"] != null) listOf(AnnotationDocumentation.DEPRECATED) else emptyList()) + oDeprecated,
                                 obj["value"]?.jsonPrimitive?.content,
-                                processComment(name, obj["comment"]!!.jsonPrimitive.content)
+                                processComment(name, obj["comment"]!!.jsonPrimitive.content),
+                                processComment(name, obj["deprecated"]?.jsonPrimitive?.content ?: "")
                             )
                         }
                     }.awaitAll())
@@ -344,11 +407,12 @@ data class ClassDocumentation(
                                 obj["throws"]?.jsonArray?.associate {
                                     processType(name, it.jsonObject["type"]!!.jsonPrimitive.content) to processComment(name, it.jsonObject["comment"]!!.jsonPrimitive.content)
                                 } ?: emptyMap(),
-                                annotations(name, obj["annotations"]) + field.annotations,
+                                annotations(name, obj["annotations"]) + field.annotations + (if (obj["deprecated"] != null) listOf(AnnotationDocumentation.DEPRECATED) else emptyList()) + oDeprecated,
                                 when {
                                     obj["comment"] != null -> processComment(name, obj["comment"]!!.jsonPrimitive.content)
                                     else -> "Gets ${field.comment.replaceFirstChar { it.lowercase() }}"
-                                }
+                                },
+                                processComment(name, obj["deprecated"]?.jsonPrimitive?.content ?: "")
                             )
                         }
 
@@ -365,11 +429,12 @@ data class ClassDocumentation(
                                 obj["throws"]?.jsonArray?.associate {
                                     processType(name, it.jsonObject["type"]!!.jsonPrimitive.content) to processComment(name, it.jsonObject["comment"]!!.jsonPrimitive.content)
                                 } ?: emptyMap(),
-                                annotations(name, obj["annotations"]),
+                                annotations(name, obj["annotations"]) + (if (obj["deprecated"] != null) listOf(AnnotationDocumentation.DEPRECATED) else emptyList()) + oDeprecated,
                                 when {
                                     obj["comment"] != null -> processComment(name, obj["comment"]!!.jsonPrimitive.content)
                                     else -> "Sets ${field.comment.replaceFirstChar { it.lowercase() }}"
-                                }
+                                },
+                                processComment(name, obj["deprecated"]?.jsonPrimitive?.content ?: "")
                             )
                         }
 
@@ -393,8 +458,9 @@ data class ClassDocumentation(
                         obj["throws"]?.jsonArray?.associate {
                             processType(name, it.jsonObject["type"]!!.jsonPrimitive.content) to processComment(name, it.jsonObject["comment"]!!.jsonPrimitive.content)
                         } ?: emptyMap(),
-                        annotations(name, obj["annotations"]),
-                        processComment(name, obj["comment"]?.jsonPrimitive?.content ?: throw IllegalArgumentException("Missing comment for method '$method' in '$name'"))
+                        annotations(name, obj["annotations"]) + (if (obj["deprecated"] != null) listOf(AnnotationDocumentation.DEPRECATED) else emptyList()) + oDeprecated,
+                        processComment(name, obj["comment"]?.jsonPrimitive?.content ?: throw IllegalArgumentException("Missing comment for method '$method' in '$name'")),
+                        processComment(name, obj["deprecated"]?.jsonPrimitive?.content ?: "")
                     )
                     //</editor-fold>
                 }
@@ -467,12 +533,13 @@ data class ClassDocumentation(
                 enclosing,
                 async { clazz["visibility"]?.jsonPrimitive?.content ?: "public" }.await().replace("package", "package-private"),
                 async { clazz["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: if ((type == "enum" || type == "interface") && enclosing != null) listOf("static") else emptyList() }.await(),
-                async { annotations(name, clazz["annotations"]) }.await(),
+                annotations.await(),
                 async { processComment(name, clazz["comment"]!!.jsonPrimitive.content) }.await(),
                 enums.await(),
                 fieldsV,
                 constructorsV,
-                methods.await()
+                methods.await(),
+                async { processComment(name, clazz["deprecated"]?.jsonPrimitive?.content ?: "") }.await()
             )
 
             callback(info)

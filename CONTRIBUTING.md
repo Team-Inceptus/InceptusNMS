@@ -66,7 +66,8 @@ We document all fields and methods, regardless of visibility. This includes pack
 #### `class` object
 
 - This object should always be the first object in the JSON file.
-- `type` should always be the first line in the object.
+- If the class is annotated with `@Deprecated`, `deprecated` should be the first line in the object. The annotation will automatically be added.
+- `type` should always be the first line in the object, unless described above.
 - `extends`, if provided, should be after `type`.
 - `implements`, if provided, should be after `extends` or `type`.
   - For an interface that extends interfaces, this should be used in place of `extends`.
@@ -122,6 +123,7 @@ Record Classes will automatically generate methods for you according to the cons
 
 - This object should always be the fifth object (for enums) or fourth object (for non-enums) in the JSON file. If not provided, no methods will be generated.
 - The objects in this object should have their keys be the method name as case sensitive, and must be in the order declared on the class file.
+  - If the method is annotated with `@Deprecated`, the deprecation comment (`deprecated`) should be the first line in the object. The annotation will automatically be added.
   - `visibility`, if provided, should be the first line in the object. If not provided, it is implied to be `public`.
   - `mods`, if provided, should be after `visibility`.
     - This array must be in the order that the modifiers are declared. For example: `public static final` should be `["static", "final"]`. 

@@ -5,10 +5,11 @@ import org.jsoup.nodes.Document
 import org.jsoup.nodes.Document.OutputSettings
 import org.jsoup.nodes.DocumentType
 import org.jsoup.nodes.Element
-import us.teaminceptus.inceptusnms.generation.DocGenerator.joinString
 import us.teaminceptus.inceptusnms.generation.Util.log
 import java.io.File
 import java.nio.file.Paths
+
+private const val DEPRECATED_TYPE = "java.lang.Deprecated"
 
 object DocGenerator {
 
@@ -100,7 +101,12 @@ object DocGenerator {
         = select("main").first()!!
 
     fun String.header(): String
-        = substringBefore("<br>").substringBefore(". ")
+        = substringBefore("<br>").run {
+            if (contains(". "))
+                substringBefore(". ") + "."
+            else
+                this
+        }
 
     fun item(element: Element): Element = Element("li").appendChild(element)
 
@@ -376,7 +382,15 @@ object DocGenerator {
 
                                     appendChild(Element("div").apply {
                                         classNames(setOf("col-last", rowColor, "class-summary") + types)
-                                        append("<div class=\"block\">${clazz.comment.header()}</div>")
+                                        if (clazz.deprecated.isNotEmpty()) {
+                                            appendChild(Element("div").apply {
+                                                addClass("block")
+
+                                                append("<span class=\"deprecated-label\">Deprecated.</span>")
+                                                append("<div class=\"deprecation-comment\">${clazz.deprecated}</div>")
+                                            })
+                                        } else
+                                            append("<div class=\"block\">${clazz.comment}</div>")
                                     })
 
                                     even = !even
@@ -447,8 +461,15 @@ object DocGenerator {
                     })
 
                     appendChild(Element("div").apply {
-                        classNames(setOf("col-last", rowColor, "all-classes-table") + clazzes)
-                        append("<div class=\"block\">${clazz.comment.header()}</div>")
+                        if (clazz.deprecated.isNotEmpty()) {
+                            appendChild(Element("div").apply {
+                                addClass("block")
+
+                                append("<span class=\"deprecated-label\">Deprecated.</span>")
+                                append("<div class=\"deprecation-comment\">${clazz.deprecated}</div>")
+                            })
+                        } else
+                            append("<div class=\"block\">${clazz.comment}</div>")
                     })
 
                     even = !even
@@ -708,7 +729,7 @@ object DocGenerator {
                         first = false
                     }
 
-                    append(if (node == info.fullDocName || node == info.fullName) node else link(info.name, node.deserialize(), info.generics.map { it.name }, fullName = true))
+                    append(if (node == info.fullDocName || node == info.fullName) node.replace('$', '.') else link(info.name, node.deserialize(), info.generics.map { it.name }, fullName = true))
                 }
                 current = element
             }
@@ -735,13 +756,24 @@ object DocGenerator {
                 })
             }
 
-            val children = Util.getSubclasses(info).sortedBy { it.name }
-            if (children.isNotEmpty()) {
-                appendChild(Element("dl").apply {
-                    addClass("notes")
-                    append("<dt>Direct Known Subclasses:</dt>")
-                    append("<dd>${children.map { child -> "<code>${link(info.fullName, child.name, info.generics.map { it.name })}</code>" }.joinString(",&nbsp;", "")}</dd>")
-                })
+            if (info.type == "interface") {
+                val implementing = Util.getClassDocumentation().filter { clazz -> clazz.implements.any { it.contains(info.name) } }
+                if (implementing.isNotEmpty()) {
+                    appendChild(Element("dl").apply {
+                        addClass("notes")
+                        append("<dt>All Known Implementing Classes:</dt>")
+                        append("<dd>${implementing.map { clazz -> "<code>${link(info.fullName, clazz.name, info.generics.map { it.name })}</code>" }.joinString(",&nbsp;", "")}</dd>")
+                    })
+                }
+            } else {
+                val children = Util.getSubclasses(info).sortedBy { it.name }
+                if (children.isNotEmpty()) {
+                    appendChild(Element("dl").apply {
+                        addClass("notes")
+                        append("<dt>Direct Known Subclasses:</dt>")
+                        append("<dd>${children.map { child -> "<code>${link(info.fullName, child.name, info.generics.map { it.name })}</code>" }.joinString(",&nbsp;", "")}</dd>")
+                    })
+                }
             }
 
             if (info.enclosing != null) {
@@ -774,7 +806,7 @@ object DocGenerator {
                 if (info.type == "record" && !constructors.isNullOrEmpty())
                     clazzBuilder.append("(${constructors.maxBy { it.parameters.size }.parameters.joinToString { param -> "${link(info.name, param.type, info.generics.map { it.name })}&nbsp;${param.name}" }})")
 
-                append(clazzBuilder.toString())
+                append("$clazzBuilder&nbsp;")
 
                 if (info.implements.isNotEmpty() || info.extends != null) {
                     appendChild(Element("span").apply {
@@ -789,6 +821,16 @@ object DocGenerator {
                     })
                 }
             })
+
+            if (info.annotations.any { it.type == DEPRECATED_TYPE }) {
+                appendChild(Element("div").apply {
+                    addClass("deprecation-block")
+
+                    append("<span class=\"deprecated-label\">Deprecated.</span>")
+                    if (info.deprecated.isNotEmpty())
+                        append("<div class=\"deprecation-comment\">${info.deprecated}</div>")
+                })
+            }
 
             append("<div class=\"block\">${info.comment}</div>")
         })
@@ -883,7 +925,16 @@ object DocGenerator {
 
                 appendChild(Element("div").apply {
                     classNames(setOf("col-last", rowColor))
-                    append("<div class=\"block\">${clazz.comment.header()}</div>")
+                    if (clazz.annotations.any { it.type == DEPRECATED_TYPE }) {
+                        appendChild(Element("div").apply {
+                            addClass("block")
+
+                            append("<span class=\"deprecated-label\">Deprecated.</span>")
+                            if (clazz.deprecated.isNotEmpty())
+                                append("<div class=\"deprecation-comment\">${clazz.deprecated.header()}</div>")
+                        })
+                    } else
+                        append("<div class=\"block\">${clazz.comment.header()}</div>")
                 })
 
                 even = !even
@@ -921,7 +972,16 @@ object DocGenerator {
 
                 appendChild(Element("div").apply {
                     classNames(setOf("col-last", rowColor))
-                    append("<div class=\"block\">${enum.comment}</div>")
+                    if (enum.annotations.any { it.type == DEPRECATED_TYPE }) {
+                        appendChild(Element("div").apply {
+                            addClass("block")
+
+                            append("<span class=\"deprecated-label\">Deprecated.</span>")
+                            if (enum.deprecated.isNotEmpty())
+                                append("<div class=\"deprecation-comment\">${enum.deprecated.header()}</div>")
+                        })
+                    } else
+                        append("<div class=\"block\">${enum.comment.header()}</div>")
                 })
                 even = !even
             }
@@ -977,7 +1037,16 @@ object DocGenerator {
 
                 appendChild(Element("div").apply {
                     classNames(setOf("col-last", rowColor))
-                    append("<div class=\"block\">${field.comment.header()}</div>")
+                    if (field.annotations.any { it.type == DEPRECATED_TYPE }) {
+                        appendChild(Element("div").apply {
+                            addClass("block")
+
+                            append("<span class=\"deprecated-label\">Deprecated.</span>")
+                            if (field.deprecated.isNotEmpty())
+                                append("<div class=\"deprecation-comment\">${field.deprecated.header()}</div>")
+                        })
+                    } else
+                        append("<div class=\"block\">${field.comment.header()}</div>")
                 })
 
                 even = !even
@@ -1035,7 +1104,16 @@ object DocGenerator {
 
                 appendChild(Element("div").apply {
                     classNames(setOf("col-last", rowColor))
-                    append("<div class=\"block\">${constructor.comment}</div>")
+                    if (constructor.annotations.any { it.type == DEPRECATED_TYPE }) {
+                        appendChild(Element("div").apply {
+                            addClass("block")
+
+                            append("<span class=\"deprecated-label\">Deprecated.</span>")
+                            if (constructor.deprecated.isNotEmpty())
+                                append("<div class=\"deprecation-comment\">${constructor.deprecated.header()}</div>")
+                        })
+                    } else
+                        append("<div class=\"block\">${constructor.comment.header()}</div>")
                 })
 
                 even = !even
@@ -1101,7 +1179,7 @@ object DocGenerator {
             if (methods.any { it.mods.contains("default") })
                 appendChild(methodSummaryButton(5))
 
-            if (methods.any { method -> method.annotations.any { it.type == "deprecated" } })
+            if (methods.any { method -> method.annotations.any { it.type == DEPRECATED_TYPE } })
                 appendChild(methodSummaryButton(6))
         })
         summary.appendChild(table)
@@ -1136,11 +1214,12 @@ object DocGenerator {
                     if (method.mods.contains("default"))
                         add(5)
 
-                    if (method.annotations.any { it.type == "deprecated" })
+                    if (method.annotations.any { it.type == DEPRECATED_TYPE })
                         add(6)
                 }
 
                 val classes = setOf(rowColor, "method-summary-table") + categories.map { "method-summary-table-tab$it" }
+                val generics = if (method.mods.contains("static")) emptyList() else info.generics.map { it.name }
 
                 appendChild(Element("div").apply {
                     classNames(classes + "col-first")
@@ -1156,7 +1235,7 @@ object DocGenerator {
                         if (method.mods.isNotEmpty())
                             builder.append("${method.mods.joinString(" ")} ")
 
-                        builder.append(link(info.fullName, method.returnType, info.generics.map { it.name }))
+                        builder.append(link(info.fullName, method.returnType, generics))
 
                         append(builder.toString())
                     })
@@ -1166,14 +1245,24 @@ object DocGenerator {
                     classNames(classes + "col-second")
                     appendChild(Element("code").apply {
                         append("<a href=\"#${method.name}${method.paramString}\" class=\"member-name-link\">${method.name}</a>${
-                            if (method.parameters.isEmpty()) "()" else "(" + method.parameters.joinToString { param -> "${link(info.fullName, param.type, info.generics.map { it.name })} ${param.name}" } + ")"
+                            if (method.parameters.isEmpty()) "()" else "(" + method.parameters.joinToString { param -> "${link(info.fullName, param.type, generics)} ${param.name}" } + ")"
                         }")
                     })
                 })
 
                 appendChild(Element("div").apply {
                     classNames(classes + "col-last")
-                    append("<div class=\"block\">${method.comment}</div>")
+
+                    if (method.annotations.any { it.type == DEPRECATED_TYPE }) {
+                        appendChild(Element("div").apply {
+                            addClass("block")
+
+                            append("<span class=\"deprecated-label\">Deprecated.</span>")
+                            if (method.deprecated.isNotEmpty())
+                                append("<div class=\"deprecation-comment\">${method.deprecated.header()}</div>")
+                        })
+                    } else
+                        append("<div class=\"block\">${method.comment.header()}</div>")
                 })
 
                 even = !even
@@ -1233,6 +1322,16 @@ object DocGenerator {
                         append("<span class=\"element-name\">${enum.name}</span>")
                     })
 
+                    if (enum.annotations.any { it.type == DEPRECATED_TYPE }) {
+                        appendChild(Element("div").apply {
+                            addClass("deprecation-block")
+
+                            append("<span class=\"deprecated-label\">Deprecated.</span>")
+                            if (enum.deprecated.isNotEmpty())
+                                append("<div class=\"deprecation-comment\">${enum.deprecated}</div>")
+                        })
+                    }
+
                     append("<div class=\"block\">${enum.comment}</div>")
                 }))
             }
@@ -1277,6 +1376,16 @@ object DocGenerator {
                         append("<span class=\"modifiers\">$builder</span>&nbsp;")
                         append("<span class=\"element-name\">${field.name}</span>")
                     })
+
+                    if (field.annotations.any { it.type == DEPRECATED_TYPE }) {
+                        appendChild(Element("div").apply {
+                            addClass("deprecation-block")
+
+                            append("<span class=\"deprecated-label\">Deprecated.</span>")
+                            if (field.deprecated.isNotEmpty())
+                                append("<div class=\"deprecation-comment\">${field.deprecated}</div>")
+                        })
+                    }
 
                     append("<div class=\"block\">${field.comment}</div>")
 
@@ -1329,6 +1438,16 @@ object DocGenerator {
                         })
                     })
 
+                    if (constructor.annotations.any { it.type == DEPRECATED_TYPE }) {
+                        appendChild(Element("div").apply {
+                            addClass("deprecation-block")
+
+                            append("<span class=\"deprecated-label\">Deprecated.</span>")
+                            if (constructor.deprecated.isNotEmpty())
+                                append("<div class=\"deprecation-comment\">${constructor.deprecated}</div>")
+                        })
+                    }
+
                     append("<div class=\"block\">${constructor.comment}</div>")
 
                     if (constructor.parameters.isNotEmpty()) {
@@ -1372,10 +1491,11 @@ object DocGenerator {
 
                         val generics = method.generics.map { it.name }
                         if (generics.isNotEmpty())
-                            append("<span class=\"type-parameters\"><${generics.joinString(", ", "")}></span>")
+                            append("<span class=\"type-parameters\">&lt;${generics.joinString(", ", "")}&gt;</span>&nbsp;")
 
+                        val lGenerics = if (method.mods.contains("static")) emptyList() else info.generics.map { it.name }
                         append("<span class=\"modifiers\">${method.visibility} ${method.mods.joinString(" ")}</span>")
-                        append("<span class=\"return-type\">${link(info.fullName, method.returnType, info.generics.map { it.name })}</span>&nbsp;")
+                        append("<span class=\"return-type\">${link(info.fullName, method.returnType, lGenerics)}</span>&nbsp;")
 
                         if (method.parameters.isEmpty())
                             append("<span class=\"element-name\">${method.name}</span>()")
@@ -1383,17 +1503,25 @@ object DocGenerator {
                             append("<span class=\"element-name\">${method.name}</span>")
                             append("<wbr>")
                             append("(${method.parameters.joinToString { param -> 
-                                "${param.annotations.map { annotation -> link(info.fullName, annotation.type, info.generics.map { it.name }, true) }.joinString(" ")}${link(info.fullName, param.type, generics + info.generics.map { it.name })}&nbsp;${param.name}" 
+                                "${param.annotations.map { annotation -> link(info.fullName, annotation.type, info.generics.map { it.name }, true) }.joinString(" ")}${link(info.fullName, param.type, lGenerics)}&nbsp;${param.name}" 
                             }})")
                         }
                     })
+
+                    if (method.annotations.any { it.type == DEPRECATED_TYPE }) {
+                        appendChild(Element("div").apply {
+                            addClass("deprecation-block")
+
+                            append("<span class=\"deprecated-label\">Deprecated.</span>")
+                            if (method.deprecated.isNotEmpty())
+                                append("<div class=\"deprecation-comment\">${method.deprecated}</div>")
+                        })
+                    }
 
                     append("<div class=\"block\">${method.comment}</div>")
 
                     appendChild(Element("dl").apply {
                         addClass("notes")
-
-                        // TODO Inherited Methods
 
                         if (method.generics.isNotEmpty()) {
                             append("<dt>Type Parameters:</dt>")
