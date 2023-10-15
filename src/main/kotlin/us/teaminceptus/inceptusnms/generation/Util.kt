@@ -174,12 +174,19 @@ object Util {
         if (name.contains("net.minecraft") || name.contains("org.bukkit.craftbukkit")) return listOf("java.lang.Object") // Undocumented
 
         val repository = repository(name)
-        val doc = connect("$repository${name.substringBefore("<").url()}.html")
-        val inheritance = doc.select("div.inheritance") + doc.select("ul.inheritance > li")
+        val doc = connect("$repository${name.url()}.html")
+        val inheritance = doc.select("div.inheritance") + doc.select("ul.inheritance > li, ul.inheritance > li > a")
 
-        return inheritance.map {
-            (it.selectFirst("a")?.text() ?: it.text()).noGenerics()
-        }.filter { it.isNotEmpty() }.distinct()
+        return inheritance.mapNotNull {
+            val member = it.selectFirst("a")?.text() ?: ""
+            val extra = it.ownText()
+
+            if (member == name || extra == name) null
+            else {
+                if (member.noGenerics() == extra.noGenerics()) member
+                else member + extra
+            }
+        }.filter { it.isNotEmpty() }.distinctBy { it.noGenerics() }
     }
 
     fun getHierarchyTree(info: ClassDocumentation, includeSelf: Boolean = true): List<String> {
@@ -194,7 +201,7 @@ object Util {
             if (extends != null)
                 tree.addAll(getHierarchyTree(extends))
             else
-                tree.addAll(getExternalExtends(info.extends))
+                tree.addAll(getExternalExtends(info.extends.noGenerics()))
 
             tree.add(info.extends)
         }
@@ -202,7 +209,7 @@ object Util {
         if (includeSelf)
             tree.add(info.fullName)
 
-        return tree.distinctBy { it.noGenerics() }
+        return tree.reversed().distinctBy { it.noGenerics() }.reversed()
     }
 
     fun getExternalMethods(name: String): List<String> {
