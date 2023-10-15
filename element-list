@@ -13,3 +13,4 @@ net.minecraft.world
 net.minecraft.world.entity
 net.minecraft.world.entity.ai.navigation
 net.minecraft.world.phys
+org.bukkit.craftbukkit.v1_20_R2
