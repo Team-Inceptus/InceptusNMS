@@ -1,5 +1,6 @@
 {
   "class": {
+    "deprecated": "obsolete",
     "type": "class",
     "enclosing": "net.minecraft.util.StringRepresentable",
     "mods": ["static"],
@@ -14,11 +15,6 @@
     },
     "implements": [
       "com.mojang.serialization.Codec<E>"
-    ],
-    "annotations": [
-      {
-        "type": "deprecated"
-      }
     ],
     "comment": "Implementation of a @(com.mojang.serialization.Codec) for enumerations."
   },
