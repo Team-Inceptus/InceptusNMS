@@ -8,7 +8,7 @@
     "lookup": {
       "params": [
         {
-          "type": "net.minecraft.resources.ResourceKey<? extends Registry<? extends T>>",
+          "type": "net.minecraft.resources.ResourceKey<? extends net.minecraft.core.Registry<? extends T>>",
           "name": "registryKey",
           "comment": "The registry key."
         }
@@ -27,7 +27,7 @@
     "lookupOrThrow": {
       "params": [
         {
-          "type": "net.minecraft.resources.ResourceKey<? extends Registry<? extends T>>",
+          "type": "net.minecraft.resources.ResourceKey<? extends net.minecraft.core.Registry<? extends T>>",
           "name": "registryKey",
           "comment": "The registry key."
         }
