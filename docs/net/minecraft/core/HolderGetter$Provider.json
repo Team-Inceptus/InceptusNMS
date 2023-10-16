@@ -1,0 +1,47 @@
+{
+  "class": {
+    "type": "interface",
+    "enclosing": "net.minecraft.core.HolderGetter",
+    "comment": "A provider for a @(net.minecraft.core.HolderGetter)."
+  },
+  "methods": {
+    "lookup": {
+      "params": [
+        {
+          "type": "net.minecraft.resources.ResourceKey<? extends Registry<? extends T>>",
+          "name": "registryKey",
+          "comment": "The registry key."
+        }
+      ],
+      "generics": {
+        "T": {
+          "comment": "The type of the holder."
+        }
+      },
+      "return": {
+        "type": "java.util.Optional<net.minecraft.core.HolderGetter<T>>",
+        "comment": "The provider for the holder, or empty if none."
+      },
+      "comment": "Gets the provider for the holder."
+    },
+    "lookupOrThrow": {
+      "params": [
+        {
+          "type": "net.minecraft.resources.ResourceKey<? extends Registry<? extends T>>",
+          "name": "registryKey",
+          "comment": "The registry key."
+        }
+      ],
+      "generics": {
+        "T": {
+          "comment": "The type of the holder."
+        }
+      },
+      "return": {
+        "type": "net.minecraft.core.HolderGetter<T>",
+        "comment": "The provider for the holder."
+      },
+      "comment": "Gets the provider for the holder, or throws @(java.lang.IllegalStateException) if none."
+    }
+  }
+}

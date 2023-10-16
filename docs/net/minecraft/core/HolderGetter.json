@@ -1,0 +1,75 @@
+{
+  "class": {
+    "type": "interface",
+    "generics": {
+      "T": {
+        "comment": "The type of the stored value."
+      }
+    },
+    "comment": "Represents a class that stores a @(net.minecraft.core.Holder)."
+  },
+  "methods": {
+    "get": [
+      {
+        "params": [
+          {
+            "type": "net.minecraft.resources.ResourceKey<T>",
+            "name": "key",
+            "comment": "The key to get the value for."
+          }
+        ],
+        "return": {
+          "type": "java.util.Optional<net.minecraft.core.Holder$Reference<T>>",
+          "comment": "The holder for the given key, or empty if none."
+        },
+        "comment": "Gets the value for the given key."
+      },
+      {
+        "params": [
+          {
+            "type": "net.minecraft.tags.TagKey<T>",
+            "name": "key",
+            "comment": "The key to get the value for."
+          }
+        ],
+        "return": {
+          "type": "java.util.Optional<net.minecraft.core.HolderSet$Named<T>>",
+          "comment": "The holder set for the given key, or empty if none."
+        },
+        "comment": "Gets the value for the given key."
+      }
+    ],
+    "getOrThrow": [
+      {
+        "mods": ["default"],
+        "params": [
+          {
+            "type": "net.minecraft.resources.ResourceKey<T>",
+            "name": "key",
+            "comment": "The key to get the value for."
+          }
+        ],
+        "return": {
+          "type": "net.minecraft.core.Holder$Reference<T>",
+          "comment": "The holder for the given key."
+        },
+        "comment": "Gets the value for the given key, or throws @(java.lang.IllegalStateException) if none."
+      },
+      {
+        "mods": ["default"],
+        "params": [
+          {
+            "type": "net.minecraft.tags.TagKey<T>",
+            "name": "key",
+            "comment": "The key to get the value for."
+          }
+        ],
+        "return": {
+          "type": "net.minecraft.core.HolderSet$Named<T>",
+          "comment": "The holder set for the given key."
+        },
+        "comment": "Gets the value for the given key, or throws @(java.lang.IllegalStateException) if none."
+      }
+    ]
+  }
+}
