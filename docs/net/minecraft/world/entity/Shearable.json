@@ -1,0 +1,25 @@
+{
+  "class": {
+    "type": "interface",
+    "comment": "Represents an entity that can be sheared."
+  },
+  "methods": {
+    "shear": {
+      "params": [
+        {
+          "type": "net.minecraft.sounds.SoundSource",
+          "name": "sound",
+          "comment": "The sound to use when the entity is sheared.."
+        }
+      ],
+      "comment": "Shears this entity."
+    },
+    "readyForShearing": {
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this entity can be shared."
+      },
+      "comment": "Gets whether this entity can be shared."
+    }
+  }
+}

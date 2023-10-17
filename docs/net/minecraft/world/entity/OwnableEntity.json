@@ -1,0 +1,40 @@
+{
+  "class": {
+    "type": "interface",
+    "comment": "Represents an entity that can be owned by another entity."
+  },
+  "methods": {
+    "getOwnerUUID": {
+      "return": {
+        "type": "java.util.UUID",
+        "comment": "The UUID of the owner."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Gets the UUID of the entity that owns this entity."
+    },
+    "level": {
+      "return": {
+        "type": "net.minecraft.world.level.EntityGetter",
+        "comment": "The current world."
+      },
+      "comment": "Gets the world that this ownable currently is in."
+    },
+    "getOwner": {
+      "mods": ["default"],
+      "return": {
+        "type": "net.minecraft.world.entity.LivingEntity",
+        "comment": "The entity that owns this entity, or null if no owner or not found."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Gets the entity object that owns this entity."
+    }
+  }
+}

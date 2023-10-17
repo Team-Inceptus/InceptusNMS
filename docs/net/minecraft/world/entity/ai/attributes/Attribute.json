@@ -1,0 +1,80 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Represents the base class of an <a href=\"https://minecraft.wiki/w/Attribute\">attribute</a> that can be added to an entity."
+  },
+  "fields": {
+    "MAX_NAME_LENGTH": {
+      "type": "int",
+      "mods": ["static", "final"],
+      "value": "64",
+      "comment": "The maximum length of an attribute's name."
+    },
+    "defaultValue": {
+      "type": "double",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The default value of this Attribute."
+    },
+    "syncable": {
+      "type": "boolean",
+      "visibility": "private",
+      "comment": "Whether this Attribute is synched with the client's data."
+    },
+    "descriptionId": {
+      "type": "string",
+      "visibility": "private",
+      "comment": "The translation key of this Attribute."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "string",
+          "name": "descriptionId",
+          "comment": "The translation key of this Attribute."
+        },
+        {
+          "type": "double",
+          "name": "defaultValue",
+          "comment": "The default value of this Attribute."
+        }
+      ],
+      "comment": "Constructs a new Attribute."
+    }
+  ],
+  "methods": {
+    "getDefaultValue": {
+      "$getter": "defaultValue"
+    },
+    "isClientSyncable": {
+      "$getter": "syncable"
+    },
+    "setSyncable": {
+      "$setter": "syncable",
+      "return": {
+        "type": "{this}",
+        "comment": "This attribute, for chaining."
+      }
+    },
+    "sanitizeValue": {
+      "params": [
+        {
+          "type": "double",
+          "name": "value",
+          "comment": "Sanitizes the inputted value according to this Attribute's parameters."
+        }
+      ],
+      "return": {
+        "type": "double",
+        "comment": "The inputted value, sanitized correctly."
+      },
+      "comment": "Sanitizes an inputted value according to this Attribute's parameters."
+    },
+    "getDescriptionId": {
+      "$getter": "descriptionId"
+    }
+  }
+}

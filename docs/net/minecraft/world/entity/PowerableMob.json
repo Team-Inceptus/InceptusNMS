@@ -1,0 +1,15 @@
+{
+  "class": {
+    "type": "interface",
+    "comment": "Represents an entity that can be powered up."
+  },
+  "methods": {
+    "isPowered": {
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this entity is currently powered up."
+      },
+      "comment": "Gets whether this entity is powered up."
+    }
+  }
+}
