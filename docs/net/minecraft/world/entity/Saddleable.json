@@ -1,0 +1,45 @@
+{
+  "class": {
+    "type": "interface",
+    "comment": "Represents an entity that can equip a Saddle."
+  },
+  "methods": {
+    "isSaddleable": {
+      "return": {
+        "type": "boolean",
+        "comment": "Whether the entity can be saddled."
+      },
+      "comment": "Checks if the entity can be saddled."
+    },
+    "equipSaddle": {
+      "params": [
+        {
+          "type": "net.minecraft.sounds.SoundSource",
+          "name": "sound",
+          "annotations": [
+            {
+              "type": "nullable"
+            }
+          ],
+          "comment": "The sound to play when equipping the saddle."
+        }
+      ],
+      "comment": "Equips a saddle on the entity."
+    },
+    "getSaddleSoundEvent": {
+      "mods": ["default"],
+      "return": {
+        "type": "net.minecraft.sounds.SoundEvent",
+        "comment": "The default sound event to play when equipping the saddle."
+      },
+      "comment": "Gets the default sound event to play when equipping the saddle."
+    },
+    "isSaddled": {
+      "return": {
+        "type": "boolean",
+        "comment": "Whether the entity is saddled."
+      },
+      "comment": "Checks if the entity currently has a saddle equipped."
+    }
+  }
+}
