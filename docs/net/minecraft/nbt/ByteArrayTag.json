@@ -1,0 +1,70 @@
+{
+  "class": {
+    "type": "class",
+    "extends": "net.minecraft.nbt.CollectionTag<net.minecraft.nbt.ByteTag>",
+    "comment": "Represents a NBT Tag for byte arrays."
+  },
+  "fields": {
+    "SELF_SIZE_IN_BYTES": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "24",
+      "comment": "The size in bytes of a @(wbyte)[] tag."
+    },
+    "TYPE": {
+      "type": "net.minecraft.nbt.TagType<{this}>",
+      "mods": ["static", "final"],
+      "comment": "The type of tag this class represents."
+    },
+    "data": {
+      "type": "byte[]",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The value of this tag as a byte array."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "byte[]",
+          "name": "data",
+          "comment": "The value of this tag as a byte array."
+        }
+      ],
+      "comment": "Constructs a new byte array tag with the given value."
+    },
+    {
+      "params": [
+        {
+          "type": "java.util.List<wbyte>",
+          "name": "data",
+          "comment": "The value of this tag as a list of bytes."
+        }
+      ],
+      "comment": "Constructs a new byte array tag with the given value."
+    }
+  ],
+  "methods": {
+    "toArray": {
+      "visibility": "private",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "java.util.List<wbyte>",
+          "name": "data",
+          "comment": "The list of bytes to convert to an array."
+        }
+      ],
+      "return": {
+        "type": "byte[]",
+        "comment": "The given list as an array."
+      },
+      "comment": "Converts the given list of bytes to an array."
+    },
+    "getAsByteArray": {
+      "$getter": "data"
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "class": {
+    "type": "class",
+    "extends": "net.minecraft.nbt.CollectionTag<net.minecraft.nbt.IntTag>",
+    "comment": "Represents a NBT Tag for integer arrays."
+  },
+  "fields": {
+    "SELF_SIZE_IN_BYTES": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "24",
+      "comment": "The size in bytes of a @(wint)[] tag."
+    },
+    "TYPE": {
+      "type": "net.minecraft.nbt.TagType<{this}>",
+      "mods": ["static", "final"],
+      "comment": "The type of tag this class represents."
+    },
+    "data": {
+      "type": "int[]",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The value of this tag as an integer array."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "int[]",
+          "name": "data",
+          "comment": "The value of this tag as an integer array."
+        }
+      ],
+      "comment": "Constructs a new integer array tag with the given value."
+    },
+    {
+      "params": [
+        {
+          "type": "java.util.List<wint>",
+          "name": "data",
+          "comment": "The value of this tag as a list of integers."
+        }
+      ],
+      "comment": "Constructs a new integer array tag with the given value."
+    }
+  ],
+  "methods": {
+    "toArray": {
+      "visibility": "private",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "java.util.List<wint>",
+          "name": "data",
+          "comment": "The list of integers to convert to an array."
+        }
+      ],
+      "return": {
+        "type": "int[]",
+        "comment": "The given list as an array."
+      },
+      "comment": "Converts the given list of integers to an array."
+    },
+    "getAsIntArray": {
+      "$getter": "data"
+    }
+  }
+}

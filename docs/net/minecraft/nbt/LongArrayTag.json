@@ -1,0 +1,70 @@
+{
+  "class": {
+    "type": "class",
+    "extends": "net.minecraft.nbt.CollectionTag<net.minecraft.nbt.LongTag>",
+    "comment": "Represents a NBT Tag for long arrays."
+  },
+  "fields": {
+    "SELF_SIZE_IN_BYTES": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "24",
+      "comment": "The size in bytes of a @(wlong)[] tag."
+    },
+    "TYPE": {
+      "type": "net.minecraft.nbt.TagType<{this}>",
+      "mods": ["static", "final"],
+      "comment": "The type of tag this class represents."
+    },
+    "data": {
+      "type": "long[]",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The value of this tag as a long array."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "long[]",
+          "name": "data",
+          "comment": "The value of this tag as a long array."
+        }
+      ],
+      "comment": "Constructs a new long array tag with the given value."
+    },
+    {
+      "params": [
+        {
+          "type": "java.util.List<wlong>",
+          "name": "data",
+          "comment": "The value of this tag as a list of longs."
+        }
+      ],
+      "comment": "Constructs a new long array tag with the given value."
+    }
+  ],
+  "methods": {
+    "toArray": {
+      "visibility": "private",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "java.util.List<wlong>",
+          "name": "data",
+          "comment": "The list of longs to convert to an array."
+        }
+      ],
+      "return": {
+        "type": "long[]",
+        "comment": "The given list as an array."
+      },
+      "comment": "Converts the given list of longs to an array."
+    },
+    "getAsLongArray": {
+      "$getter": "data"
+    }
+  }
+}
