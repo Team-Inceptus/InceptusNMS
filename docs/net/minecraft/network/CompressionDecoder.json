@@ -1,0 +1,128 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Utility class for decompressing and decoding a @(io.netty.buffer.ByteBuf)."
+  },
+  "fields": {
+    "MAXIMUM_COMPRESSED_LENGTH": {
+      "type": "int",
+      "mods": ["static", "final"],
+      "value": "2097152",
+      "comment": "The maximum size of a compressed byte buffer, in bytes."
+    },
+    "MAXIMUM_UNCOMPRESSED_LENGTH": {
+      "type": "int",
+      "mods": ["static", "final"],
+      "value": "8388608",
+      "comment": "The maximum size of an uncompressed byte buffer, in bytes."
+    },
+    "inflater": {
+      "type": "java.util.zip.Inflater",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The inflater that is used to inflate a compressed buffer."
+    },
+    "threshold": {
+      "type": "int",
+      "visibility": "private",
+      "comment": "The maximum amount of bytes that can be read before the inflater must be used during decoding."
+    },
+    "validateDecompressed": {
+      "type": "boolean",
+      "visibility": "private",
+      "comment": "Whether decompressed buffers should be validated."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "int",
+          "name": "threshold",
+          "comment": "The maximum amount of bytes that can be read before the inflater must be used during decoding."
+        },
+        {
+          "type": "boolean",
+          "name": "validateDecompressed",
+          "comment": "Whether decompressed buffers should be validated."
+        }
+      ],
+      "comment": "Constructs a new CompressionDecoder."
+    }
+  ],
+  "methods": {
+    "decode": {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "io.netty.channel.ChannelHandlerContext",
+          "name": "context",
+          "comment": "The handler context to use."
+        },
+        {
+          "type": "io.netty.buffer.ByteBuf",
+          "name": "encoded",
+          "comment": "The Byte Buffer to encode."
+        },
+        {
+          "type": "java.util.List<object>",
+          "name": "list",
+          "comment": "The list to write the decoded object to."
+        }
+      ],
+      "comment": "Decodes and decompresses a ByteBuf into another ByteBuf."
+    },
+    "setupInflaterInput": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "io.netty.buffer.ByteBuf",
+          "name": "buffer",
+          "comment": "The buffer to use for the inflater."
+        }
+      ],
+      "comment": "Sets up the inflater's data with the given buffer."
+    },
+    "inflate": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "io.netty.channel.ChannelHandlerContext",
+          "name": "context",
+          "comment": "The handler context to use."
+        },
+        {
+          "type": "int",
+          "name": "initialCapacity",
+          "comment": "The initial capacity of the Byte Buffer."
+        }
+      ],
+      "return": {
+        "type": "io.netty.buffer.ByteBuf",
+        "comment": "The inflated Byte Buffer."
+      },
+      "throws": [
+        {
+          "type": "java.util.zip.DataFormatException",
+          "comment": "if the size of the read buffer does not match the inputted initial capacity"
+        }
+      ],
+      "comment": "Inflates a byte buffer."
+    },
+    "setThreshold": {
+      "params": [
+        {
+          "type": "int",
+          "name": "threshold",
+          "comment": "The maximum amount of bytes that can be read before the inflater must be used during decoding."
+        },
+        {
+          "type": "boolean",
+          "name": "validateDecompressed",
+          "comment": "Whether decompressed buffers should be validated."
+        }
+      ],
+      "comment": "Sets the threshold and whether decompressed packets should be validated."
+    }
+  }
+}

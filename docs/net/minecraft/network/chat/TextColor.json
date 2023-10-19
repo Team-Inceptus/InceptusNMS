@@ -1,0 +1,161 @@
+{
+  "class": {
+    "type": "class",
+    "mods": ["final"],
+    "comment": "Utility class for handling text colors with @(component)s."
+  },
+  "fields": {
+    "CUSTOM_COLOR_PREFIX": {
+      "type": "string",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "#",
+      "comment": "The prefix for using custom colors."
+    },
+    "CODEC": {
+      "type": "codec<{this}>",
+      "mods": ["static", "final"],
+      "comment": "A codec that serializes a TextColor."
+    },
+    "LEGACY_FORMAT_TO_COLOR": {
+      "type": "java.util.Map<net.minecraft.ChatFormatting, {this}>",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "A Map that converts a @(net.minecraft.ChatFormatting) enum to this class."
+    },
+    "NAMED_COLORS": {
+      "type": "java.util.Map<string, {this}>",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "A Map that has this class color's name to its object reference."
+    },
+    "value": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The RGB value of this TextColor."
+    },
+    "name": {
+      "type": "string",
+      "mods": ["final"],
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "The name of this TextColor, or null if it doesn't have one."
+    },
+    "format": {
+      "type": "net.minecraft.ChatFormatting",
+      "mods": ["final"],
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "The legacy format that this TextColor represents, or null if it doesn't represent one."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "int",
+          "name": "value",
+          "comment": "The RGB value of this TextColor."
+        },
+        {
+          "type": "string",
+          "name": "name",
+          "comment": "The name of this TextColor."
+        },
+        {
+          "type": "net.minecraft.ChatFormatting",
+          "name": "format",
+          "comment": "The legacy format that this TextColor represents."
+        }
+      ],
+      "comment": "Constructs a new TextColor."
+    },
+    {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "int",
+          "name": "value",
+          "comment": "The RGB value of this TextColor."
+        }
+      ],
+      "comment": "Constructs a new TextColor."
+    }
+  ],
+  "methods": {
+    "getValue": {
+      "$getter": "value"
+    },
+    "serialize": {
+      "return": {
+        "type": "string",
+        "comment": "The serialized string that represents this TextColor."
+      },
+      "comment": "Serializes this object into a String."
+    },
+    "formatValue": {
+      "visibility": "private",
+      "return": {
+        "type": "string",
+        "comment": "The formatted value of @({this}#value)."
+      },
+      "comment": "Formats the RGB value of this TextColor."
+    },
+    "fromLegacyFormat": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.ChatFormatting",
+          "name": "format",
+          "comment": "The format to search with."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The TextColor that represents the legacy format, or null if not found."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Converts a @(net.minecraft.ChatFormatting) to a @({this})."
+    },
+    "fromRgb": {
+      "mods": ["static"],
+      "return": {
+        "type": "{this}",
+        "comment": "The constructed TextColor."
+      },
+      "comment": "Constructs a TextColor with the given RGB code."
+    },
+    "parseColor": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "string",
+          "name": "s",
+          "comment": "The color string to parse."
+        }
+      ],
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The constructed TextColor."
+      },
+      "comment": "Parses a color string into a TextColor object."
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Utility class for compressing and encoding a @(io.netty.buffer.ByteBuf)."
+  },
+  "fields": {
+    "encodeBuf": {
+      "type": "byte[]",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The buffer to use when encoding a compressed buffer."
+    },
+    "deflater": {
+      "type": "java.util.zip.Deflater",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The deflater that is being used to deflate an uncompressed buffer."
+    },
+    "threshold": {
+      "type": "int",
+      "visibility": "private",
+      "comment": "The maximum amount of bytes that can be written before the deflater must be used during encoding."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "int",
+          "name": "threshold",
+          "comment": "The maximum amount of bytes that can be written before the deflater must be used during encoding."
+        }
+      ],
+      "comment": "Constructs a new CompressionEncoder."
+    }
+  ],
+  "methods": {
+    "encode": {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "io.netty.channel.ChannelHandlerContext",
+          "name": "context",
+          "comment": "The handler context to use."
+        },
+        {
+          "type": "io.netty.buffer.ByteBuf",
+          "name": "encoded",
+          "comment": "The Byte Buffer to encode."
+        },
+        {
+          "type": "io.netty.buffer.ByteBuf",
+          "name": "buffer",
+          "comment": "The Byte Buffer to encode in."
+        }
+      ],
+      "comment": "Encodes and compresses a ByteBuf into another ByteBuf."
+    },
+    "getThreshold": {
+      "$getter": "threshold"
+    },
+    "setThreshold": {
+      "$setter": "threshold"
+    }
+  }
+}
