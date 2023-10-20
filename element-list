@@ -5,8 +5,10 @@ net.minecraft.core
 net.minecraft.nbt
 net.minecraft.network
 net.minecraft.network.chat
+net.minecraft.network.protocol
 net.minecraft.server
 net.minecraft.server.advancements
+net.minecraft.server.level
 net.minecraft.util
 net.minecraft.world
 net.minecraft.world.entity
