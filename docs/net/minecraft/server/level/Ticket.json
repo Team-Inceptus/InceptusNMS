@@ -63,7 +63,7 @@
       "$getter": "type"
     },
     "getTicketLevel": {
-      "$getter": "level"
+      "$getter": "ticketLevel"
     },
     "setCreatedTick": {
       "$setter": "createdTick",
