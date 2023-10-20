@@ -1,6 +1,7 @@
 {
   "class": {
     "type": "class",
+    "extends": "io.netty.handler.codec.MessageToByteEncoder<io.netty.buffer.ByteBuf>",
     "comment": "Utility class for compressing and encoding a @(io.netty.buffer.ByteBuf)."
   },
   "fields": {

@@ -1,0 +1,167 @@
+{
+  "class": {
+    "type": "class",
+    "generics": {
+      "T": {
+        "comment": "The holder type of this TicketType."
+      }
+    },
+    "comment": "Represents the type of a @(net.minecraft.server.level.Ticket)."
+  },
+  "fields": {
+    "name": {
+      "type": "string",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The id name of this type."
+    },
+    "comparator": {
+      "type": "java.lang.Comparator<T>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The comparator for the keys that holds this TicketType."
+    },
+    "timeout": {
+      "type": "long",
+      "comment": "How many ticks a Ticket of this type can exist for before it becomes invalid."
+    },
+    "START": {
+      "type": "{this}<net.minecraft.util.Unit>",
+      "mods": ["static", "final"],
+      "comment": "A ticket used at the start of the game."
+    },
+    "DRAGON": {
+      "type": "{this}<net.minecraft.util.Unit>",
+      "mods": ["static", "final"],
+      "comment": "A ticket used during the Ender Dragon fight."
+    },
+    "PLAYER": {
+      "type": "{this}<net.minecraft.world.level.ChunkPos>",
+      "mods": ["static", "final"],
+      "comment": "A ticket used to keep Chunks that players can see rendered."
+    },
+    "FORCED": {
+      "type": "{this}<net.minecraft.world.level.ChunkPos>",
+      "mods": ["static", "final"],
+      "comment": "A ticket that forces Chunks to stay rendered."
+    },
+    "LIGHT": {
+      "type": "{this}<net.minecraft.world.level.ChunkPos>",
+      "mods": ["static", "final"],
+      "comment": "A ticket used to mark where light is in a Chunk."
+    },
+    "PORTAL": {
+      "type": "{this}<net.minecraft.core.BlockPos>",
+      "mods": ["static", "final"],
+      "comment": "A ticket used to keep Nether Portals rendered."
+    },
+    "POST_TELEPORT": {
+      "type": "{this}<wint>",
+      "mods": ["static", "final"],
+      "comment": "A ticket that is used after an entity teleports."
+    },
+    "UNKNOWN": {
+      "type": "{this}<net.minecraft.world.level.ChunkPos>",
+      "mods": ["static", "final"],
+      "comment": "An unknown ticket."
+    },
+    "PLUGIN": {
+      "type": "{this}<net.minecraft.util.Unit>",
+      "mods": ["static", "final"],
+      "comment": "A ticket used when an unknown plugin specifically requests a Chunk to remain loaded."
+    },
+    "PLUGIN_TICKET": {
+      "type": "{this}<org.bukkit.plugin.Plugin>",
+      "mods": ["static", "final"],
+      "comment": "A ticket used when an identified plugin specifically requests a Chunk to remain loaded."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "string",
+          "name": "name",
+          "comment": "The name of this TicketType."
+        },
+        {
+          "type": "java.lang.Comparator<T>",
+          "name": "comparator",
+          "comment": "The comparator for comparing keys on this TicketType."
+        },
+        {
+          "type": "long",
+          "name": "timeout",
+          "comment": "How many ticks a Ticket of this type can exist for before it becomes invalid."
+        }
+      ],
+      "comment": "Constructs a new TicketType."
+    }
+  ],
+  "methods": {
+    "create": [
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "string",
+            "name": "s",
+            "comment": "The name of this TicketType."
+          },
+          {
+            "type": "java.lang.Comparator<T>",
+            "name": "comparator",
+            "comment": "The holder type of this TicketType."
+          }
+        ],
+        "generics": {
+          "T": {
+            "comment": "The holder type of this TicketType."
+          }
+        },
+        "return": {
+          "type": "{this}<T>",
+          "comment": "The created TicketType."
+        },
+        "comment": "Creates a new TicketType."
+      },
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "string",
+            "name": "s",
+            "comment": "The name of this TicketType."
+          },
+          {
+            "type": "java.lang.Comparator<T>",
+            "name": "comparator",
+            "comment": "The holder type of this TicketType."
+          },
+          {
+            "type": "int",
+            "name": "i",
+            "comment": "How long a Ticket of this type can exist before it becomes invalid."
+          }
+        ],
+        "generics": {
+          "T": {
+            "comment": "The holder type of this TicketType."
+          }
+        },
+        "return": {
+          "type": "{this}<T>",
+          "comment": "The created TicketType."
+        },
+        "comment": "Creates a new TicketType."
+      }
+    ],
+    "getComparator": {
+      "$getter": "comparator"
+    },
+    "timeout": {
+      "$getter": "timeout"
+    }
+  }
+}

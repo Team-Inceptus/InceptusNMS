@@ -1,0 +1,88 @@
+{
+  "class": {
+    "type": "class",
+    "implements": [
+      "java.lang.Comparable<{this}>"
+    ],
+    "generics": {
+      "T": {
+        "comment": "The holder type this Ticket has."
+      }
+    },
+    "comment": "Utility class for representing a ticket, which keeps an element loaded."
+  },
+  "fields": {
+    "type": {
+      "type": "net.minecraft.server.level.TicketType<T>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The type of Ticket that this object represents."
+    },
+    "ticketLevel": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The level of this ticket."
+    },
+    "key": {
+      "type": "T",
+      "mods": ["final"],
+      "comment": "The key that holds this Ticket."
+    },
+    "createdTick": {
+      "type": "long",
+      "visibility": "private",
+      "comment": "The tick this Ticket was created on."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "net.minecraft.server.level.TicketType<T>",
+          "name": "type",
+          "comment": "The type of this Ticket."
+        },
+        {
+          "type": "int",
+          "name": "ticketLevel",
+          "comment": "The level of this ticket."
+        },
+        {
+          "type": "T",
+          "name": "key",
+          "comment": "The holder of this ticket."
+        }
+      ],
+      "comment": "Constructs a new Ticket."
+    }
+  ],
+  "methods": {
+    "getType": {
+      "$getter": "type"
+    },
+    "getTicketLevel": {
+      "$getter": "level"
+    },
+    "setCreatedTick": {
+      "$setter": "createdTick",
+      "visibility": "protected"
+    },
+    "timedOut": {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "long",
+          "name": "tickCount",
+          "comment": "The current count of ticks."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this ticket is currently timed out."
+      },
+      "comment": "Gets whether this Ticket has been timed out."
+    }
+  }
+}

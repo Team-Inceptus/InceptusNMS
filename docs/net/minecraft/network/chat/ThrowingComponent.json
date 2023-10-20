@@ -1,0 +1,47 @@
+{
+  "class": {
+    "type": "class",
+    "extends": "java.lang.Exception",
+    "comment": "A @(component)-related exception thrown "
+  },
+  "fields": {
+    "component": {
+      "type": "component",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The component involved in this Exception."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "component",
+          "name": "component",
+          "comment": "The component involved in this Exception."
+        }
+      ],
+      "comment": "Constructs a new ThrowingComponent."
+    },
+    {
+      "params": [
+        {
+          "type": "component",
+          "name": "component",
+          "comment": "The component involved in this Exception."
+        },
+        {
+          "type": "java.lang.Throwable",
+          "name": "cause",
+          "comment": "The cause of this ThrowingComponent."
+        }
+      ],
+      "comment": "Constructs a new ThrowingComponent."
+    }
+  ],
+  "methods": {
+    "getComponent": {
+      "$getter": "component"
+    }
+  }
+}
