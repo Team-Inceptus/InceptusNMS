@@ -5,6 +5,7 @@ import org.jsoup.nodes.Document
 import org.jsoup.nodes.Document.OutputSettings
 import org.jsoup.nodes.DocumentType
 import org.jsoup.nodes.Element
+import us.teaminceptus.inceptusnms.generation.Util.CRAFTBUKKIT_VERSION
 import us.teaminceptus.inceptusnms.generation.Util.log
 import java.io.File
 import java.nio.file.Paths
@@ -115,7 +116,7 @@ object DocGenerator {
         .substringBefore("&lt;")
 
     fun String.url(): String
-        = noGenerics().replace('.', '/').replace('$', '.')
+        = noGenerics().replace('.', '/').replace('$', '.').replace(CRAFTBUKKIT_VERSION, "{V}")
 
     fun String.serialize(): String
         = replace("<", "&lt;").replace(">", "&gt;")
@@ -272,12 +273,14 @@ object DocGenerator {
         main.appendChild(Element("section").apply {
             addClass("summary")
 
-            append("<ul class=\"summary-list\">")
-                .appendChild(Element("li").apply {
-                    val packages = Util.getAllJavaPackages(input).filter {
-                        (it.contains(pkg) || it == pkg.substring(0, pkg.lastIndexOf('.'))) && it != pkg
-                    }.take(6)
+            val packages = Util.getAllJavaPackages(input).filter {
+                (it.contains(pkg) || it == pkg.substring(0, pkg.lastIndexOf('.'))) && it != pkg
+            }.take(6)
 
+            val list = append("<ul class=\"summary-list\">")
+
+            if (packages.isNotEmpty())
+                list.appendChild(Element("li").apply {
                     appendChild(Element("div").apply {
                         id("related-package-summary")
                         append("<div class=\"caption\"><span>Related Packages</span></div>\n")
@@ -306,99 +309,100 @@ object DocGenerator {
                         })
                     })
                 })
-                .appendChild(Element("li").apply {
+
+            list.appendChild(Element("li").apply {
+                appendChild(Element("div").apply {
+                    id("class-summary")
+
                     appendChild(Element("div").apply {
-                        id("class-summary")
+                        addClass("table-tabs")
+                        attr("role", "tablist")
+                        attr("aria-orientation", "horizontal")
+
+                        when {
+                            classes.all { it.type == "class" } -> {
+                                append("<div class=\"caption\"><span>Classes</span></div>")
+                            }
+                            classes.all { it.type == "interface" } -> {
+                                append("<div class=\"caption\"><span>Interfaces</span></div>")
+                            }
+                            classes.all { it.type == "enum" } -> {
+                                append("<div class=\"caption\"><span>Enum Classes</span></div>")
+                            }
+                            classes.all { it.type == "record" } -> {
+                                append("<div class=\"caption\"><span>Record Classes</span></div>")
+                            }
+                            classes.all { it.type == "annotation" } -> {
+                                append("<div class=\"caption\"><span>Annotation Interfaces</span></div>")
+                            }
+                            else -> {
+                                appendChild(classSummaryButton(0, "All Classes and Interfaces"))
+
+                                if (classes.any { it.type == "interface" })
+                                    appendChild(classSummaryButton(1, "Interfaces"))
+
+                                if (classes.any { it.type == "class" })
+                                    appendChild(classSummaryButton(2, "Classes"))
+
+                                if (classes.any { it.type == "enum" })
+                                    appendChild(classSummaryButton(3, "Enum Classes"))
+
+                                if (classes.any { it.type == "record" })
+                                    appendChild(classSummaryButton(4, "Record Classes"))
+
+                                if (classes.any { it.type == "annotation" })
+                                    appendChild(classSummaryButton(7, "Annotation Interfaces"))
+                            }
+                        }
 
                         appendChild(Element("div").apply {
-                            addClass("table-tabs")
-                            attr("role", "tablist")
-                            attr("aria-orientation", "horizontal")
+                            classNames(setOf("summary-table", "two-column-summary"))
 
-                            when {
-                                classes.all { it.type == "class" } -> {
-                                    append("<div class=\"caption\"><span>Classes</span></div>")
-                                }
-                                classes.all { it.type == "interface" } -> {
-                                    append("<div class=\"caption\"><span>Interfaces</span></div>")
-                                }
-                                classes.all { it.type == "enum" } -> {
-                                    append("<div class=\"caption\"><span>Enum Classes</span></div>")
-                                }
-                                classes.all { it.type == "record" } -> {
-                                    append("<div class=\"caption\"><span>Record Classes</span></div>")
-                                }
-                                classes.all { it.type == "annotation" } -> {
-                                    append("<div class=\"caption\"><span>Annotation Interfaces</span></div>")
-                                }
-                                else -> {
-                                    appendChild(classSummaryButton(0, "All Classes and Interfaces"))
+                            append("<div class=\"table-header col-first\">Class</div>")
+                            append("<div class=\"table-header col-last\">Description</div>")
 
-                                    if (classes.any { it.type == "interface" })
-                                        appendChild(classSummaryButton(1, "Interfaces"))
+                            var even = true
+                            for (clazz in classes) {
+                                val rowColor = "${if (even) "even" else "odd"}-row-color"
+                                val types = mapOf<Int, (ClassDocumentation) -> Boolean>(
+                                    1 to { it.type == "interface" },
+                                    2 to { it.type == "class" },
+                                    3 to { it.type == "enum" },
+                                    4 to { it.type == "record" },
+                                    7 to { it.type == "annotation" }
+                                ).filterValues { it(clazz) }.keys.map { "class-summary-tab$it" }
 
-                                    if (classes.any { it.type == "class" })
-                                        appendChild(classSummaryButton(2, "Classes"))
+                                appendChild(Element("div").apply {
+                                    classNames(setOf("col-first", rowColor, "class-summary") + types)
 
-                                    if (classes.any { it.type == "enum" })
-                                        appendChild(classSummaryButton(3, "Enum Classes"))
+                                    val builder = StringBuilder()
+                                    builder.append("<a href=\"${clazz.simpleName}.html\" title=\"${clazz.type} in $pkg\">${clazz.simpleName}</a>")
 
-                                    if (classes.any { it.type == "record" })
-                                        appendChild(classSummaryButton(4, "Record Classes"))
+                                    if (clazz.generics.isNotEmpty())
+                                        builder.append(generics(clazz))
 
-                                    if (classes.any { it.type == "annotation" })
-                                        appendChild(classSummaryButton(7, "Annotation Interfaces"))
-                                }
+                                    append(builder.toString())
+                                })
+
+                                appendChild(Element("div").apply {
+                                    classNames(setOf("col-last", rowColor, "class-summary") + types)
+                                    if (clazz.deprecated.isNotEmpty()) {
+                                        appendChild(Element("div").apply {
+                                            addClass("block")
+
+                                            append("<span class=\"deprecated-label\">Deprecated.</span>")
+                                            append("<div class=\"deprecation-comment\">${clazz.deprecated}</div>")
+                                        })
+                                    } else
+                                        append("<div class=\"block\">${clazz.comment}</div>")
+                                })
+
+                                even = !even
                             }
-
-                            appendChild(Element("div").apply {
-                                classNames(setOf("summary-table", "two-column-summary"))
-
-                                append("<div class=\"table-header col-first\">Class</div>")
-                                append("<div class=\"table-header col-last\">Description</div>")
-
-                                var even = true
-                                for (clazz in classes) {
-                                    val rowColor = "${if (even) "even" else "odd"}-row-color"
-                                    val types = mapOf<Int, (ClassDocumentation) -> Boolean>(
-                                        1 to { it.type == "interface" },
-                                        2 to { it.type == "class" },
-                                        3 to { it.type == "enum" },
-                                        4 to { it.type == "record" },
-                                        7 to { it.type == "annotation" }
-                                    ).filterValues { it(clazz) }.keys.map { "class-summary-tab$it" }
-
-                                    appendChild(Element("div").apply {
-                                        classNames(setOf("col-first", rowColor, "class-summary") + types)
-
-                                        val builder = StringBuilder()
-                                        builder.append("<a href=\"${clazz.simpleName}.html\" title=\"${clazz.type} in $pkg\">${clazz.simpleName}</a>")
-
-                                        if (clazz.generics.isNotEmpty())
-                                            builder.append(generics(clazz))
-
-                                        append(builder.toString())
-                                    })
-
-                                    appendChild(Element("div").apply {
-                                        classNames(setOf("col-last", rowColor, "class-summary") + types)
-                                        if (clazz.deprecated.isNotEmpty()) {
-                                            appendChild(Element("div").apply {
-                                                addClass("block")
-
-                                                append("<span class=\"deprecated-label\">Deprecated.</span>")
-                                                append("<div class=\"deprecation-comment\">${clazz.deprecated}</div>")
-                                            })
-                                        } else
-                                            append("<div class=\"block\">${clazz.comment}</div>")
-                                    })
-
-                                    even = !even
-                                }
-                            })
                         })
                     })
                 })
+            })
         })
 
         return summary

@@ -16,6 +16,8 @@ import java.util.*
 
 object Util {
 
+    const val CRAFTBUKKIT_VERSION = "v1_20_R2"
+
     private val LOADED_DOCUMENTATION = mutableListOf<ClassDocumentation>()
 
     private val TYPE_ALIASES = mapOf(
@@ -40,7 +42,7 @@ object Util {
     )
 
     fun mapTypeAliases(type: String): String {
-        var newType = type.replace("{V}", "v1_20_R2")
+        var newType = type.replace("{V}", CRAFTBUKKIT_VERSION)
         val classes = type.split("[<>,]".toRegex()).filter { it.isNotEmpty() }
 
         for (clazz in classes)
@@ -66,7 +68,7 @@ object Util {
         val path = file.absolutePath
         val filePath = path.split("docs")[1].substring(1).replace("[/\\\\]".toRegex(), ".")
 
-        return filePath.substring(0, filePath.length - (file.name.length + 1))
+        return filePath.substring(0, filePath.length - (file.name.length + 1)).replace("{V}", CRAFTBUKKIT_VERSION)
     }
 
     fun getJavaName(file: File): String {
