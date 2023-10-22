@@ -1,0 +1,109 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "The Spigot Watchdog Thread."
+  },
+  "fields": {
+    "instance": {
+      "type": "{this}",
+      "visibility": "private",
+      "mods": ["static"],
+      "comment": "The singleton instance of the Watchdog Thread."
+    },
+    "timeoutTime": {
+      "type": "long",
+      "visibility": "private",
+      "comment": "The timeout time in milliseconds."
+    },
+    "restart": {
+      "type": "boolean",
+      "visibility": "private",
+      "comment": "Whether or not the thread should restart after a crash."
+    },
+    "lastTick": {
+      "type": "long",
+      "visibility": "private",
+      "mods": ["volatile"],
+      "comment": "The last tick time in milliseconds."
+    },
+    "stopping": {
+      "type": "boolean",
+      "visibility": "private",
+      "mods": ["volatile"],
+      "comment": "Whether or not the thread is stopping."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "long",
+          "name": "timeoutTime",
+          "comment": "The timeout time in milliseconds."
+        },
+        {
+          "type": "boolean",
+          "name": "restart",
+          "comment": "Whether or not the thread should restart after a crash."
+        }
+      ],
+      "comment": "Creates a new Watchdog Thread."
+    }
+  ],
+  "methods": {
+    "monotonicMillis": {
+      "visibility": "private",
+      "mods": ["static"],
+      "return": {
+        "type": "long",
+        "comment": "The current nano time in milliseconds."
+      },
+      "comment": "Gets the current nano time in milliseconds."
+    },
+    "doStart": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "int",
+          "name": "timeoutTime",
+          "comment": "The timeout time in milliseconds."
+        },
+        {
+          "type": "boolean",
+          "name": "restart",
+          "comment": "Whether or not the thread should restart after a crash."
+        }
+      ],
+      "comment": "Starts the Watchdog Thread."
+    },
+    "tick": {
+      "mods": ["static"],
+      "comment": "Ticks the Watchdog Thread."
+    },
+    "doStop": {
+      "mods": ["static"],
+      "comment": "Stops the Watchdog Thread."
+    },
+    "run": {
+      "comment": "Runs the Watchdog Thread."
+    },
+    "dumpThread": {
+      "visibility": "private",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "java.lang.management.ThreadInfo",
+          "name": "info",
+          "comment": "The ThreadInfo to dump."
+        },
+        {
+          "type": "java.util.logging.Logger",
+          "name": "logger",
+          "comment": "The logger to dump to."
+        }
+      ],
+      "comment": "Dumps the ThreadInfo to the logger."
+    }
+  }
+}
