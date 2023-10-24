@@ -1,0 +1,66 @@
+{
+  "class": {
+    "type": "enum",
+    "comment": "Represents the result of an entity-to-entity interaction."
+  },
+  "enumerations": [
+    {
+      "name": "SUCCESS",
+      "comment": "The interaction was successful."
+    },
+    {
+      "name": "CONSUME",
+      "comment": "The interaction was successful and the element was consumed."
+    },
+    {
+      "name": "CONSUME_PARTIAL",
+      "comment": "The interaction was successful and the element was partially consumed."
+    },
+    {
+      "name": "PASS",
+      "comment": "The interaction was successful but the element was not consumed."
+    },
+    {
+      "name": "FAIL",
+      "comment": "The interaction failed."
+    }
+  ],
+  "methods": {
+    "consumesAction": {
+      "return": {
+        "type": "boolean",
+        "comment": "Returns true if the interaction consumes the action."
+      },
+      "comment": "Gets if this interaction consumes the action."
+    },
+    "shouldSwing": {
+      "return": {
+        "type": "boolean",
+        "comment": "Returns true if the interaction should swing the player's arm."
+      },
+      "comment": "Gets if this interaction should swing the player's arm."
+    },
+    "shouldAwardStats": {
+      "return": {
+        "type": "boolean",
+        "comment": "Returns true if the interaction should award stats."
+      },
+      "comment": "Gets if this interaction should award stats."
+    },
+    "sidedSuccess": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "boolean",
+          "name": "side",
+          "comment": "The side to check."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "@({this}#SUCCESS) if input is true, @({this}#CONSUME) otherwise."
+      },
+      "comment": "Returns success if true or consume if false."
+    }
+  }
+}
