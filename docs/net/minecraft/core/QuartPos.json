@@ -1,0 +1,121 @@
+{
+  "class": {
+    "type": "class",
+    "mods": ["final"],
+    "comment": "Utility class for handling positions with bits and quarts."
+  },
+  "fields": {
+    "BITS": {
+      "type": "int",
+      "mods": ["static", "final"],
+      "value": "2",
+      "comment": "Number of bits in a quart."
+    },
+    "SIZE": {
+      "type": "int",
+      "mods": ["static", "final"],
+      "value": "4",
+      "comment": "The size of a quart."
+    },
+    "MASK": {
+      "type": "int",
+      "mods": ["static", "final"],
+      "value": "3",
+      "comment": "The mask for a quart."
+    },
+    "SECTION_TO_QUARTS_BITS": {
+      "type": "int",
+      "mods": ["static", "final"],
+      "value": "2",
+      "comment": "The number of bits in a quart section."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "private",
+      "comment": "Private constructor to prevent instantiation."
+    }
+  ],
+  "methods": {
+    "fromBlock": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "int",
+          "name": "block",
+          "comment": "The block position to get the quart from."
+        }
+      ],
+      "return": {
+        "type": "int",
+        "comment": "The quart position."
+      },
+      "comment": "Gets the quart position from the block position."
+    },
+    "quartLocal": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "int",
+          "name": "block",
+          "comment": "The block position to get the quart from."
+        }
+      ],
+      "return": {
+        "type": "int",
+        "comment": "The local quart position."
+      },
+      "comment": "Gets the local quart position from the block position."
+    },
+    "toBlock": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "int",
+          "name": "block",
+          "comment": "The block position to get the quart from."
+        },
+        {
+          "type": "int",
+          "name": "quart",
+          "comment": "The quart position to get the block from."
+        }
+      ],
+      "return": {
+        "type": "int",
+        "comment": "The block position."
+      },
+      "comment": "Gets the block position from the quart position."
+    },
+    "fromSection": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "int",
+          "name": "section",
+          "comment": "The section position to get the quart from."
+        }
+      ],
+      "return": {
+        "type": "int",
+        "comment": "The quart position."
+      },
+      "comment": "Gets the quart position from the section position."
+    },
+    "toSection": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "int",
+          "name": "quart",
+          "comment": "The quart position to get the section from."
+        }
+      ],
+      "return": {
+        "type": "int",
+        "comment": "The section position."
+      },
+      "comment": "Gets the section position from the quart position."
+    }
+  }
+}
