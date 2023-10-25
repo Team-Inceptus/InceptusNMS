@@ -584,7 +584,7 @@ object DocGenerator {
                                             "long" -> "${field.value}L"
                                             "double" -> "${field.value}d"
                                             "char" -> "'${field.value}'"
-                                            "java.lang.String" -> "\"${field.value}\""
+                                            "java.lang.String", "java.util.regex.Pattern" -> "\"${field.value}\""
                                             "byte" -> "0x${field.value!!.toByte().toString(16)}"
                                             else -> field.value
                                         }
