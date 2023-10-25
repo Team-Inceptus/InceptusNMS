@@ -1,0 +1,173 @@
+{
+  "class": {
+    "type": "class",
+    "mods": ["abstract"],
+    "comment": "Abstract Class for specific languages."
+  },
+  "fields": {
+    "LOGGER": {
+      "type": "org.slf4j.Logger",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The logger for this class."
+    },
+    "GSON": {
+      "type": "com.google.gson.Gson",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The Gson serializer for this class."
+    },
+    "UNSUPPORTED_FORMAT_PATTERN": {
+      "type": "java.util.regex.Pattern",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "%(\\d+\\$)?[\\d.]*[df]",
+      "comment": "The pattern that detects unsupported formats."
+    },
+    "DEFAULT": {
+      "type": "string",
+      "mods": ["static", "final"],
+      "value": "en_us",
+      "comment": "The default Language (English US)."
+    },
+    "instance": {
+      "type": "{this}",
+      "visibility": "private",
+      "mods": ["static", "volatile"],
+      "comment": "The loaded instance of this class, parsed from a language file.\nThe language file is usually stored in <code>assets/minecraft/lang/<language>.json<code> inside the server jar."
+    }
+  },
+  "methods": {
+    "loadDefault": {
+      "visibility": "private",
+      "mods": ["static"],
+      "return": {
+        "type": "{this}",
+        "comment": "The loaded instance."
+      },
+      "comment": "Loads the default instance of this class."
+    },
+    "parseTranslations": {
+      "visibility": "private",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "java.util.function.BiConsumer<string, string>",
+          "name": "function",
+          "comment": "The function to use with each language key and value."
+        },
+        {
+          "type": "string",
+          "name": "url",
+          "comment": "The local url to the JSON file."
+        }
+      ],
+      "comment": "Parses the translations from a language file."
+    },
+    "loadFromJson": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "java.io.InputStream",
+          "name": "stream",
+          "comment": "The input stream to read."
+        },
+        {
+          "type": "java.util.function.BiConsumer<string, string>",
+          "name": "function",
+          "comment": "The function to use with each json key and value."
+        }
+      ],
+      "comment": "Loads an input stream's json contents."
+    },
+    "getInstance": {
+      "$getter": "instance",
+      "mods": ["static"]
+    },
+    "inject": {
+      "$setter": "instance"
+    },
+    "getOrDefault": [
+      {
+        "params": [
+          {
+            "type": "string",
+            "name": "key",
+            "comment": "The key to use."
+          }
+        ],
+        "comment": "Gets the value of the json key, returning the key if not found."
+      },
+      {
+        "mods": ["abstract"],
+        "params": [
+          {
+            "type": "string",
+            "name": "key",
+            "comment": "The key to use."
+          },
+          {
+            "type": "string",
+            "name": "def",
+            "comment": "The default value to use."
+          }
+        ],
+        "comment": "Gets the value of the json key, or returning a default value if not found."
+      }
+    ],
+    "has": {
+      "mods": ["abstract"],
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The language key to check."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether the key exists in the language file."
+      },
+      "comment": "Checks whether a key exists in the language file."
+    },
+    "isDefaultRightToLeft": {
+      "mods": ["abstract"],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether language defaults are loaded right to left."
+      },
+      "comment": "Fetches whether langauge defaults are loaded right to left.\n(The key is the default value)."
+    },
+    "getVisualOrder": [
+      {
+        "mods": ["abstract"],
+        "params": [
+          {
+            "type": "net.minecraft.network.chat.FormattedText",
+            "name": "text",
+            "comment": "The formatted text sequence."
+          }
+        ],
+        "return": {
+          "type": "net.minecraft.util.FormattedCharSequence",
+          "comment": "The formatted charsequence."
+        },
+        "comment": "Gets the visual order of a formatted text according to this Language."
+      },
+      {
+        "params": [
+          {
+            "type": "java.util.List<net.minecraft.network.chat.FormattedText>",
+            "name": "texts",
+            "comment": "The formatted text sequences."
+          }
+        ],
+        "return": {
+          "type": "java.util.List<net.minecraft.network.chat.FormattedCharSequence>",
+          "comment": "The formatted charsequences."
+        },
+        "comment": "Gets the visual orders of formatted texts according to this Language."
+      }
+    ]
+  }
+}

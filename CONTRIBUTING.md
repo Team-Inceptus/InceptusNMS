@@ -103,6 +103,7 @@ Record Classes will automatically generate fields for you according to the const
   - `annotations`, if provided, should be before `value` or `comment`.
   - `value`, if provided, should be before `comment`.
     - The purpose of this field is to document constant values. This only applies to primitive values (`int`, `short`, `long`, `boolean`, etc.) and other values referred as constants (e.g. `String`)
+    - Other constant documents that **should** be documented include regex Patterns (`java.util.regex.Pattern`) and other *immutable* wrappers around strings/primitives
   - `comment` should always be the last line in the object.
 
 ### `constructors` array
