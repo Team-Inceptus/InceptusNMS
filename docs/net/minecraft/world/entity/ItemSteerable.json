@@ -1,0 +1,15 @@
+{
+  "class": {
+    "type": "interface",
+    "comment": "Represents something that can be steered with an item, such as a pig with a carrot on a stick."
+  },
+  "methods": {
+    "boost": {
+      "return": {
+        "type": "boolean",
+        "comment": "Whether the boost was successful."
+      },
+      "comment": "Boosts the speed of this vehicle for a certain amount of time according to the held item."
+    }
+  }
+}
