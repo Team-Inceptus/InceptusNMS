@@ -2,6 +2,7 @@ net.minecraft
 net.minecraft.advancements
 net.minecraft.commands
 net.minecraft.core
+net.minecraft.locale
 net.minecraft.nbt
 net.minecraft.network
 net.minecraft.network.chat
