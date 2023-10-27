@@ -1,0 +1,91 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Utility class for the awards granted for completing an @(net.minecraft.advancements.Advancement)."
+  },
+  "fields": {
+    "EMPTY": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "Empty advancement rewards."
+    },
+    "experience": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The amount of experience granted by this advancement."
+    },
+    "loot": {
+      "type": "net.minecraft.resources.ResourceLocation[]",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "Loot tables granted by this advancement."
+    },
+    "recipes": {
+      "type": "net.minecraft.resources.ResourceLocation[]",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "Recipes unlocked by this advancement."
+    },
+    "function": {
+      "type": "net.minecraft.commands.CommandFunction$CacheableFunction",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "Function to run when this advancement is granted."
+    }
+  },
+  "constructors": [
+    {
+      "$fields": [
+        "experience",
+        "loot",
+        "recipes",
+        "function"
+      ],
+      "comment": "Constructs a new AdvancementReward."
+    }
+  ],
+  "methods": {
+    "getRecipes": {
+      "$getter": "recipes"
+    },
+    "grant": {
+      "params": [
+        {
+          "type": "net.minecraft.server.level.ServerPlayer",
+          "name": "player",
+          "comment": "The player to grant the rewards to."
+        }
+      ],
+      "comment": "Grants the rewards to the given player."
+    },
+    "serializeToJson": {
+      "return": {
+        "type": "com.google.gson.JsonElement",
+        "comment": "The JSON representation of this advancement reward."
+      },
+      "comment": "Serializes this advancement reward to JSON."
+    },
+    "deserialize": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "com.google.gson.JsonObject",
+          "name": "json",
+          "comment": "The JSON object to deserialize."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The deserialized advancement reward."
+      },
+      "throws": [
+        {
+          "type": "com.google.gson.JsonParseException",
+          "comment": "If the JSON object is invalid."
+        }
+      ],
+      "comment": "Deserializes an advancement reward from JSON."
+    }
+  }
+}

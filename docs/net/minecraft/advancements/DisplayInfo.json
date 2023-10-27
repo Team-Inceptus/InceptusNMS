@@ -1,0 +1,206 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Utility class for representing the display information of an @(net.minecraft.advancements.Advancement)."
+  },
+  "fields": {
+    "title": {
+      "type": "component",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The title of the advancement."
+    },
+    "description": {
+      "type": "component",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The description of the advancement."
+    },
+    "icon": {
+      "type": "net.minecraft.world.item.ItemStack",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The icon of the advancement."
+    },
+    "background": {
+      "type": "net.minecraft.resources.ResourceLocation",
+      "visibility": "private",
+      "mods": ["final"],
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "The background texture for the advancement tab.\nThis is only used for Root Advancement."
+    },
+    "frame": {
+      "type": "net.minecraft.advancements.FrameType",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The frame type of the advancement."
+    },
+    "showToast": {
+      "type": "boolean",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "Whether the advancement should show a toast notification."
+    },
+    "announceChat": {
+      "type": "boolean",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "Whether the advancement's completion should be announced in chat."
+    },
+    "hidden": {
+      "type": "boolean",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "Whether the advancement should be hidden."
+    },
+    "x": {
+      "type": "float",
+      "visibility": "private",
+      "comment": "The X position of the advancement on the advancement tab."
+    },
+    "y": {
+      "type": "float",
+      "visibility": "private",
+      "comment": "The Y position of the advancement on the advancement tab."
+    }
+  },
+  "constructors": [
+    {
+      "$fields": [
+        "icon",
+        "title",
+        "description",
+        "background",
+        "frame",
+        "showToast",
+        "announceChat",
+        "hidden"
+      ],
+      "comment": "Constructs a new advancement display."
+    }
+  ],
+  "methods": {
+    "setLocation": {
+      "params": [
+        {
+          "type": "float",
+          "name": "x",
+          "comment": "The X position of the advancement on the advancement tab."
+        },
+        {
+          "type": "float",
+          "name": "y",
+          "comment": "The Y position of the advancement on the advancement tab."
+        }
+      ],
+      "comment": "Sets the location of the advancement."
+    },
+    "getTitle": {
+      "$getter": "title"
+    },
+    "getDescription": {
+      "$getter": "description"
+    },
+    "getIcon": [
+      {
+        "$getter": "icon"
+      },
+      {
+        "visibility": "private",
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "com.google.gson.JsonObject",
+            "name": "json",
+            "comment": "The JSON object to deserialize."
+          }
+        ],
+        "return": {
+          "type": "net.minecraft.world.item.ItemStack",
+          "comment": "The icon of the advancement."
+        },
+        "comment": "Gets the icon of the advancement from a JSON Object."
+      }
+    ],
+    "getBackground": {
+      "$getter": "background"
+    },
+    "getFrame": {
+      "$getter": "frame"
+    },
+    "getX": {
+      "$getter": "x"
+    },
+    "getY": {
+      "$getter": "y"
+    },
+    "shouldShowToast": {
+      "$getter": "showToast"
+    },
+    "shouldAnnounceChat": {
+      "$getter": "announceChat"
+    },
+    "isHidden": {
+      "$getter": "hidden"
+    },
+    "fromJson": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "com.google.gson.JsonObject",
+          "name": "json",
+          "comment": "The JSON object to deserialize."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The deserialized advancement display."
+      },
+      "comment": "Deserializes an advancement display from JSON."
+    },
+    "serializeToNetwork": {
+      "params": [
+        {
+          "type": "net.minecraft.network.FriendlyByteBuf",
+          "name": "buffer",
+          "comment": "The buffer to serialize to."
+        }
+      ],
+      "comment": "Serializes the advancement display to a byte buffer."
+    },
+    "fromNetwork": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.network.FriendlyByteBuf",
+          "name": "buffer",
+          "comment": "The buffer to deserialize from."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The deserialized advancement display."
+      },
+      "comment": "Deserializes an advancement display from a byte buffer."
+    },
+    "serializeToJson": {
+      "return": {
+        "type": "com.google.gson.JsonElement",
+        "comment": "The serialized advancement display."
+      },
+      "comment": "Serializes the advancement display to JSON."
+    },
+    "serializeIcon": {
+      "visibility": "private",
+      "return": {
+        "type": "com.google.gson.JsonObject",
+        "comment": "The serialized icon."
+      },
+      "comment": "Serializes the icon to JSON."
+    }
+  }
+}

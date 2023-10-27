@@ -1,0 +1,75 @@
+{
+  "class": {
+    "type": "enum",
+    "comment": "Represents a type of frame for an @(net.minecraft.advancements.Advancement)."
+  },
+  "enumerations": [
+    {
+      "name": "TASK",
+      "comment": "Represents a task advancement."
+    },
+    {
+      "name": "CHALLENGE",
+      "comment": "Represents a challenge advancement with Dark Purple text."
+    },
+    {
+      "name": "GOAL",
+      "comment": "Represents a goal advancement."
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "string",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The name of this frame."
+    },
+    "chatColor": {
+      "type": "net.minecraft.ChatFormatting",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The chat color shown for this frame."
+    },
+    "displayName": {
+      "type": "component",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The display name for this frame."
+    }
+  },
+  "constructors": [
+    {
+      "$fields": [
+        "name",
+        "chatColor"
+      ],
+      "comment": "Constructs a new FrameType."
+    }
+  ],
+  "methods": {
+    "getName": {
+      "$getter": "name"
+    },
+    "byName": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "string",
+          "name": "name",
+          "comment": "The name of the frame to get."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The frame with the given name, throwing if none found."
+      },
+      "comment": "Gets the frame with the given name."
+    },
+    "getChatColor": {
+      "$getter": "chatColor"
+    },
+    "getDisplayName": {
+      "$getter": "displayName"
+    }
+  }
+}

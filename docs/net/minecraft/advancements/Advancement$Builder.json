@@ -1,0 +1,352 @@
+{
+  "class": {
+    "type": "class",
+    "enclosing": "net.minecraft.advancements.Advancement",
+    "mods": ["static"],
+    "comment": "Builder class for a @(net.minecraft.advancements.Advancement)."
+  },
+  "fields": {
+    "parent": {
+      "type": "java.util.Optional<net.minecraft.resources.ResourceLocation>",
+      "visibility": "private",
+      "comment": "The parent advancement."
+    },
+    "display": {
+      "type": "java.util.Optional<net.minecraft.advancements.DisplayInfo>",
+      "visibility": "private",
+      "comment": "The display info."
+    },
+    "rewards": {
+      "type": "net.minecraft.advancements.AdvancementRewards",
+      "visibility": "private",
+      "comment": "The rewards on completion."
+    },
+    "criteria": {
+      "type": "com.google.common.collect.ImmutableMap$Builder<string, net.minecraft.advancements.Criterion<?>>",
+      "visibility": "private",
+      "comment": "The criteria for completion."
+    },
+    "requirements": {
+      "type": "java.util.Optional<net.minecraft.advancements.AdvancementRequirements>",
+      "visibility": "private",
+      "comment": "The requirements for completion."
+    },
+    "requirementsStrategy": {
+      "type": "net.minecraft.advancements.AdvancementRequirements$Strategy",
+      "visibility": "private",
+      "comment": "The requirements strategy."
+    },
+    "sendsTelemetryEvent": {
+      "type": "boolean",
+      "visibility": "private",
+      "comment": "Whether this advancement sends a telemetry event."
+    }
+  },
+  "methods": {
+    "advancement": {
+      "mods": [
+        "static"
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new Builder."
+      },
+      "comment": "Creates a new Builder with telemetry enabled."
+    },
+    "recipeAdvancement": {
+      "mods": [
+        "static"
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new Builder."
+      },
+      "comment": "Creates a new Builder with telemetry disabled."
+    },
+    "parent": [
+      {
+        "params": [
+          {
+            "type": "net.minecraft.advancements.AdvancementHolder",
+            "name": "parent",
+            "comment": "The parent advancement."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "This Builder, for chaining."
+        },
+        "comment": "Sets the parent advancement."
+      },
+      {
+        "deprecated": "use @({this}#parent(net.minecraft.advancements.AdvancementHolder))",
+        "params": [
+          {
+            "type": "net.minecraft.resources.ResourceLocation",
+            "name": "parent",
+            "comment": "The parent advancement."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "This Builder, for chaining."
+        },
+        "annotations": [
+          {
+            "type": "deprecated",
+            "params": [
+              {
+                "name": "forRemoval",
+                "value": "true"
+              }
+            ]
+          }
+        ],
+        "comment": "Sets the parent advancement."
+      }
+    ],
+    "display": [
+      {
+        "params": [
+          {
+            "type": "net.minecraft.world.item.ItemStack",
+            "name": "icon",
+            "comment": "The icon for the Advancement."
+          },
+          {
+            "type": "component",
+            "name": "title",
+            "comment": "The title of the Advancement."
+          },
+          {
+            "type": "component",
+            "name": "description",
+            "comment": "The description of the Advancement."
+          },
+          {
+            "type": "net.minecraft.resources.ResourceLocation",
+            "name": "background",
+            "annotations": [
+              {
+                "type": "nullable"
+              }
+            ],
+            "comment": "The background texture for the Advancement.\nThis is only valid for root advancements."
+          },
+          {
+            "type": "net.minecraft.advancements.FrameType",
+            "name": "frame",
+            "comment": "The frame type for the Advancement."
+          },
+          {
+            "type": "boolean",
+            "name": "showToast",
+            "comment": "Whether to show a toast when the Advancement is completed."
+          },
+          {
+            "type": "boolean",
+            "name": "announceToChat",
+            "comment": "Whether to announce to chat when the Advancement is completed."
+          },
+          {
+            "type": "boolean",
+            "name": "hidden",
+            "comment": "Whether the Advancement is hidden."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "This Builder, for chaining."
+        },
+        "comment": "Sets the display info for the Advancement."
+      },
+      {
+        "params": [
+          {
+            "type": "net.minecraft.world.level.ItemLike",
+            "name": "icon",
+            "comment": "The icon for the Advancement."
+          },
+          {
+            "type": "component",
+            "name": "title",
+            "comment": "The title of the Advancement."
+          },
+          {
+            "type": "component",
+            "name": "description",
+            "comment": "The description of the Advancement."
+          },
+          {
+            "type": "net.minecraft.resources.ResourceLocation",
+            "name": "background",
+            "annotations": [
+              {
+                "type": "nullable"
+              }
+            ],
+            "comment": "The background texture for the Advancement.\nThis is only valid for root advancements."
+          },
+          {
+            "type": "net.minecraft.advancements.FrameType",
+            "name": "frame",
+            "comment": "The frame type for the Advancement."
+          },
+          {
+            "type": "boolean",
+            "name": "showToast",
+            "comment": "Whether to show a toast when the Advancement is completed."
+          },
+          {
+            "type": "boolean",
+            "name": "announceToChat",
+            "comment": "Whether to announce to chat when the Advancement is completed."
+          },
+          {
+            "type": "boolean",
+            "name": "hidden",
+            "comment": "Whether the Advancement is hidden."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "This Builder, for chaining."
+        },
+        "comment": "Sets the display info for the Advancement."
+      },
+      {
+        "params": [
+          {
+            "type": "net.minecraft.advancements.DisplayInfo",
+            "name": "display",
+            "comment": "The display info for the Advancement."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "This Builder, for chaining."
+        },
+        "comment": "Sets the display info for the Advancement."
+      }
+    ],
+    "rewards": [
+      {
+        "params": [
+          {
+            "type": "net.minecraft.advancements.AdvancementRewards$Builder",
+            "name": "rewards",
+            "comment": "The rewards for the Advancement."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "This Builder, for chaining."
+        },
+        "comment": "Sets the rewards for the Advancement."
+      },
+      {
+        "params": [
+          {
+            "type": "net.minecraft.advancements.AdvancementRewards",
+            "name": "rewards",
+            "comment": "The rewards for the Advancement."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "This Builder, for chaining."
+        },
+        "comment": "Sets the rewards for the Advancement."
+      }
+    ],
+    "addCriterion": {
+      "params": [
+        {
+          "type": "string",
+          "name": "name",
+          "comment": "The name of the criterion."
+        },
+        {
+          "type": "net.minecraft.advancements.Criterion<?>",
+          "name": "criterion",
+          "comment": "The criterion to add."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "This Builder, for chaining."
+      },
+      "comment": "Adds a criterion to the Advancement."
+    },
+    "requirements": [
+      {
+        "params": [
+          {
+            "type": "net.minecraft.advancements.AdvancementRequirements$Strategy",
+            "name": "strategy",
+            "comment": "The requirements strategy."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "This Builder, for chaining."
+        },
+        "comment": "Sets the requirements strategy for the Advancement."
+      },
+      {
+        "params": [
+          {
+            "type": "net.minecraft.advancements.AdvancementRequirements",
+            "name": "requirements",
+            "comment": "The requirements for the Advancement."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "This Builder, for chaining."
+        },
+        "comment": "Sets the requirements for the Advancement."
+      }
+    ],
+    "sendsTelemetryEvent": {
+      "return": {
+        "type": "{this}",
+        "comment": "This Builder, for chaining."
+      },
+      "comment": "Marks this Advancement to send a telemetry event."
+    },
+    "build": {
+      "params": [
+        {
+          "type": "net.minecraft.resources.ResourceLocation",
+          "name": "id",
+          "comment": "The ID of the Advancement."
+        }
+      ],
+      "return": {
+        "type": "net.minecraft.advancements.AdvancementHolder",
+        "comment": "The built AdvancementHolder."
+      },
+      "comment": "Builds the Advancement."
+    },
+    "save": {
+      "params": [
+        {
+          "type": "java.util.function.Consumer<net.minecraft.advancements.AdvancementHolder>",
+          "name": "consumer",
+          "comment": "The consumer to save the Advancement to."
+        },
+        {
+          "type": "string",
+          "name": "id",
+          "comment": "The ID of the Advancement."
+        }
+      ],
+      "return": {
+        "type": "net.minecraft.advancements.AdvancementHolder",
+        "comment": "The built AdvancementHolder."
+      },
+      "comment": "Builds and saves the Advancement."
+    }
+  }
+}

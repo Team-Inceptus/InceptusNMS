@@ -1,0 +1,160 @@
+{
+  "class": {
+    "type": "class",
+    "enclosing": "net.minecraft.advancements.AdvancementRewards",
+    "mods": ["static"],
+    "comment": "A Builder Class for @(net.minecraft.advancements.AdvancementRewards)."
+  },
+  "fields": {
+    "experience": {
+      "type": "int",
+      "visibility": "private",
+      "comment": "The experience reward."
+    },
+    "loot": {
+      "type": "java.util.List<net.minecraft.resources.ResourceLocation>",
+      "visibility": "private",
+      "comment": "The loot table rewards."
+    },
+    "recipes": {
+      "type": "java.util.List<net.minecraft.resources.ResourceLocation>",
+      "visibility": "private",
+      "comment": "The recipe rewards."
+    },
+    "function": {
+      "type": "net.minecraft.resources.ResourceLocation",
+      "visibility": "private",
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "The function that is executed upon reward."
+    }
+  },
+  "methods": {
+    "experience": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "int",
+          "name": "experience",
+          "comment": "The experience reward."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The new builder."
+      },
+      "comment": "Constructs a new @({this}) with the given experience reward."
+    },
+    "addExperience": {
+      "params": [
+        {
+          "type": "int",
+          "name": "experience",
+          "comment": "The experience reward."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "This Builder, for chaining"
+      },
+      "comment": "Adds the given experience reward to the builder."
+    },
+    "loot": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.resources.ResourceLocation",
+          "name": "loot",
+          "comment": "The loot table reward."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The new builder."
+      },
+      "comment": "Constructs a new @({this}) with the given loot table reward."
+    },
+    "addLootTable": {
+      "params": [
+        {
+          "type": "net.minecraft.resources.ResourceLocation",
+          "name": "loot",
+          "comment": "The loot table reward."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "This Builder, for chaining"
+      },
+      "comment": "Adds the given loot table reward to the builder."
+    },
+    "recipe": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.resources.ResourceLocation",
+          "name": "recipe",
+          "comment": "The recipe reward."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The new builder."
+      },
+      "comment": "Constructs a new @({this}) with the given recipe reward."
+    },
+    "addRecipe": {
+      "params": [
+        {
+          "type": "net.minecraft.resources.ResourceLocation",
+          "name": "recipe",
+          "comment": "The recipe reward."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "This Builder, for chaining"
+      },
+      "comment": "Adds the given recipe reward to the builder."
+    },
+    "function": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.resources.ResourceLocation",
+          "name": "function",
+          "comment": "The function that is executed upon reward."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The new builder."
+      },
+      "comment": "Constructs a new @({this}) with the given function that is executed upon reward."
+    },
+    "runs": {
+      "params": [
+        {
+          "type": "net.minecraft.resources.ResourceLocation",
+          "name": "function",
+          "comment": "The function that is executed upon reward."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "This Builder, for chaining"
+      },
+      "comment": "Sets the function that is executed upon reward."
+    },
+    "build": {
+      "return": {
+        "type": "net.minecraft.advancements.AdvancementRewards",
+        "comment": "The built @(net.minecraft.advancements.AdvancementRewards)."
+      },
+      "comment": "Builds the @(net.minecraft.advancements.AdvancementRewards)."
+    }
+  }
+}

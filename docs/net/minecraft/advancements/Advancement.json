@@ -1,0 +1,174 @@
+{
+  "class": {
+    "type": "record",
+    "comment": "Represents a Minecraft <a href=\"https://minecraft.wiki/w/Advancement\">Advancement</a>."
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "java.util.Optional<net.minecraft.resources.ResourceLocation>",
+          "name": "parent",
+          "comment": "The key of this Advancement's parent advancement."
+        },
+        {
+          "type": "java.util.Optional<net.minecraft.advancements.DisplayInfo>",
+          "name": "display",
+          "comment": "The DisplayInfo of this Advancement."
+        },
+        {
+          "type": "net.minecraft.advancements.AdvancementRewards",
+          "name": "rewards",
+          "comment": "The rewards for this Advancement."
+        },
+        {
+          "type": "java.util.Map<string, net.minecraft.advancements.Criterion<?>>",
+          "name": "criteria",
+          "comment": "The criteria for the completion of this Advancement."
+        },
+        {
+          "type": "net.minecraft.advancements.AdvancementRequirements",
+          "name": "requirements",
+          "comment": "The requirements for completing this Advancement."
+        },
+        {
+          "type": "boolean",
+          "name": "sendsTelemetryEvent",
+          "comment": "Whether this Advancement sends a telemetry event when completed."
+        },
+        {
+          "type": "java.util.Optional<component>",
+          "name": "name",
+          "comment": "The name of this Advancement."
+        }
+      ],
+      "comment": "Creates a new Advancement record."
+    },
+    {
+      "params": [
+        {
+          "type": "java.util.Optional<net.minecraft.resources.ResourceLocation>",
+          "name": "parent",
+          "comment": "The key of this Advancement's parent advancement."
+        },
+        {
+          "type": "java.util.Optional<net.minecraft.advancements.DisplayInfo>",
+          "name": "display",
+          "comment": "The DisplayInfo of this Advancement."
+        },
+        {
+          "type": "net.minecraft.advancements.AdvancementRewards",
+          "name": "rewards",
+          "comment": "The rewards for this Advancement."
+        },
+        {
+          "type": "java.util.Map<string, net.minecraft.advancements.Criterion<?>>",
+          "name": "criteria",
+          "comment": "The criteria for the completion of this Advancement."
+        },
+        {
+          "type": "net.minecraft.advancements.AdvancementRequirements",
+          "name": "requirements",
+          "comment": "The requirements for completing this Advancement."
+        },
+        {
+          "type": "boolean",
+          "name": "sendsTelemetryEvent",
+          "comment": "Whether this Advancement sends a telemetry event when completed."
+        }
+      ],
+      "comment": "Creates a new Advancement record."
+    }
+  ],
+  "methods": {
+    "decorateName": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.advancements.DisplayInfo",
+          "name": "display",
+          "comment": "The DisplayInfo to decorate."
+        }
+      ],
+      "return": {
+        "type": "component",
+        "comment": "The component that represents this Advancement's name."
+      },
+      "comment": "Converts a DisplayInfo into a Component for an Advancement's name."
+    },
+    "name": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.advancements.AdvancementHolder",
+          "name": "holder",
+          "comment": "The AdvancementHolder to get the name of."
+        }
+      ],
+      "return": {
+        "type": "component",
+        "comment": "The component that represents this Advancement's name."
+      },
+      "comment": "Gets the Advancement's name from an AdvancementHolder."
+    },
+    "serializeToJson": {
+      "return": {
+        "type": "com.google.gson.JsonObject",
+        "comment": "The serialized Advancement."
+      },
+      "comment": "Serializes this Advancement to JSON."
+    },
+    "fromJson": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "com.google.gson.JsonObject",
+          "name": "json",
+          "comment": "The JSON to deserialize."
+        },
+        {
+          "type": "net.minecraft.advancements.critereon.DeserializationContext",
+          "name": "context",
+          "comment": "The DeserializationContext to use."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The deserialized Advancement."
+      },
+      "comment": "Deserializes an Advancement from JSON."
+    },
+    "write": {
+      "params": [
+        {
+          "type": "net.minecraft.network.FriendlyByteBuf",
+          "name": "buffer",
+          "comment": "The Byte Buffer to write to."
+        }
+      ],
+      "comment": "Writes this Advancement to a Byte Buffer."
+    },
+    "read": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.network.FriendlyByteBuf",
+          "name": "buffer",
+          "comment": "The Byte Buffer to read from."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The read Advancement."
+      },
+      "comment": "Reads an Advancement from a Byte Buffer."
+    },
+    "isRoot": {
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this Advancement is a root Advancement.\nThis means that this Advancement does not have a parent."
+      },
+      "comment": "Checks whether this Advancement is a root Advancement."
+    }
+  }
+}
