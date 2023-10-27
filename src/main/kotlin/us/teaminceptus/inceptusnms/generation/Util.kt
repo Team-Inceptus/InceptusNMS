@@ -149,7 +149,8 @@ object Util {
         "https://www.javadoc.io/static/com.google.code.findbugs/jsr305/3.0.2/",
         "https://joml-ci.github.io/JOML/apidocs/",
         "https://fastutil.di.unimi.it/docs/",
-        "https://netty.io/4.1/api/"
+        "https://netty.io/4.1/api/",
+        "https://www.javadoc.io/static/com.google.code.gson/gson/2.10.1/"
     )
 
     fun repository(name: String): String = when {
@@ -163,6 +164,7 @@ object Util {
         name.startsWith("org.joml") -> REPOSITORIES[7]
         name.startsWith("it.unimi.dsi.fastutil") -> REPOSITORIES[8]
         name.startsWith("io.netty") -> REPOSITORIES[9]
+        name.startsWith("com.google.gson") -> REPOSITORIES[10]
         else -> throw IllegalArgumentException("Could not find Exteral Repository for $name")
     }
 
