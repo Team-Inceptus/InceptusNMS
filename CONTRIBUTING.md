@@ -118,6 +118,36 @@ Record Classes will automatically generate fields for you according to the const
   - `annotations`, if provided, should be before `comment`.
   - `comment` should always be the last line in the object.
 
+##### `constructors` array operators 
+
+If **all** parameters in a constructor match a field, you can use the `$params` operator accordingly. The processor will copy its names, types, annotations, and documentation.
+
+A comment must still be supplied.
+
+```json
+{
+  "fields": {
+    "experience": {
+      "type": "int",
+      "comment": "The experience amount."
+    },
+    "amount": {
+      "type": "int",
+      "comment": "The amount of experience."
+    }
+  },
+  "constructors": [
+    {
+      "$params": [
+        "experience",
+        "amount"
+      ],
+      "comment": "Constructs a new Reward."
+    }
+  ]
+}
+```
+
 #### `methods` object
 
 Record Classes will automatically generate methods for you according to the constructor with the most parameters.
@@ -142,7 +172,7 @@ Methods that are overrided should have updated documentation (if necessary). Imp
 
 ##### `methods` object operators
 
-If the method is a getter or setter of a documented field, you can use the `$getter` or `$setter` operator accordingly. The documentation will copy its mods from the field, and will assume it is `public`. For example:
+If the method is a getter or setter of a documented field, you can use the `$getter` or `$setter` operator accordingly. The processor will copy its mods from the field, and will assume it is `public`. For example:
 ```json
 {
   "fields": {

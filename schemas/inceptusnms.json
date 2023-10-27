@@ -30,7 +30,7 @@
                         "description": "The Java type of the annotation"
                     },
                     "params": {
-                        "$ref": "#/definitions/params"
+                        "$ref": "#/definitions/annotation-params"
                     }
                 }
             }
@@ -64,6 +64,32 @@
                 ]
             },
             "description": "The parameters of a method or constructor"
+        },
+        "annotation-params": {
+            "type": "array",
+            "additionalItems": true,
+            "items": {
+                "additionalProperties": true,
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The case-sensitive name of the parameter"
+                    },
+                    "annotations": {
+                        "$ref": "#/definitions/annotations"
+                    },
+                    "value": {
+                        "type": "string",
+                        "description": "The value of this parameter."
+                    }
+                },
+                "required": [
+                    "name",
+                    "value"
+                ]
+            },
+            "description": "The parameters of an annotation instance"
         },
         "visibility": {
             "type": "string",
@@ -157,12 +183,20 @@
             "type": "object",
             "additionalProperties": true,
             "properties": {
+                "primary": {
+                    "type": "boolean",
+                    "description": "Whether this constructor is the primary constructor for the class. Used for identifying primary constructors in records."
+                },
                 "deprecated": {
                     "type": "string",
                     "description": "The deprecation message of the class."
                 },
                 "visibility": {
                     "$ref": "#/definitions/visibility"
+                },
+                "$fields": {
+                    "type": "array",
+                    "description": "Array of fields in order that this constructor initializes."
                 },
                 "params": {
                     "$ref": "#/definitions/params"

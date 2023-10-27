@@ -584,7 +584,9 @@ object DocGenerator {
                                             "long" -> "${field.value}L"
                                             "double" -> "${field.value}d"
                                             "char" -> "'${field.value}'"
-                                            "java.lang.String", "java.util.regex.Pattern" -> "\"${field.value}\""
+                                            "java.lang.String",
+                                            "java.util.regex.Pattern",
+                                            "java.time.format.DateTimeFormatter" -> "\"${field.value}\""
                                             "byte" -> "0x${field.value!!.toByte().toString(16)}"
                                             else -> field.value
                                         }
@@ -793,7 +795,11 @@ object DocGenerator {
             appendChild(Element("div").apply {
                 addClass("type-signature")
 
-                val annotations = info.annotations.map { annotation -> link(info.name, annotation.type, info.generics.map { it.name }, true) }
+                val annotations = info.annotations.map { annotation ->
+                    val base = link(info.name, annotation.type, info.generics.map { it.name }, true)
+                    if (annotation.parameters.isEmpty()) base
+                    else "$base(${annotation.parameters.joinToString(", ") { param -> "${param.name} = ${param.value}" }})"
+                }
                 if (annotations.isNotEmpty())
                     append("<span class=\"annotations\">${annotations.joinString(" ", "")}</span><br>")
 
@@ -1317,7 +1323,11 @@ object DocGenerator {
                     appendChild(Element("div").apply {
                         addClass("member-signature")
 
-                        val annotations = enum.annotations.map { annotation -> "@${link(info.fullName, annotation.type, info.generics.map { it.name })}" }
+                        val annotations = enum.annotations.map { annotation ->
+                            val base = link(info.name, annotation.type, info.generics.map { it.name }, true)
+                            if (annotation.parameters.isEmpty()) base
+                            else "$base(${annotation.parameters.joinToString(", ") { param -> "${param.name} = ${param.value}" }})"
+                        }
                         if (annotations.isNotEmpty())
                             append("<span class=\"annotations\">${annotations.joinString(" ", "")}</span><br>")
 
@@ -1364,7 +1374,11 @@ object DocGenerator {
                     appendChild(Element("div").apply {
                         addClass("member-signature")
 
-                        val annotations = field.annotations.map { annotation -> "@${link(info.fullName, annotation.type, info.generics.map { it.name })}" }
+                        val annotations = field.annotations.map { annotation ->
+                            val base = link(info.name, annotation.type, info.generics.map { it.name }, true)
+                            if (annotation.parameters.isEmpty()) base
+                            else "$base(${annotation.parameters.joinToString(", ") { param -> "${param.name} = ${param.value}" }})"
+                        }
                         if (annotations.isNotEmpty())
                             append("<span class=\"annotations\">${annotations.joinString(" ", "")}</span><br>")
 
@@ -1427,7 +1441,11 @@ object DocGenerator {
                     appendChild(Element("div").apply {
                         addClass("member-signature")
 
-                        val annotations = constructor.annotations.map { annotation -> "@${link(info.fullName, annotation.type, info.generics.map { it.name })}" }
+                        val annotations = constructor.annotations.map { annotation ->
+                            val base = link(info.name, annotation.type, info.generics.map { it.name }, true)
+                            if (annotation.parameters.isEmpty()) base
+                            else "$base(${annotation.parameters.joinToString(", ") { param -> "${param.name} = ${param.value}" }})"
+                        }
                         if (annotations.isNotEmpty())
                             append("<span class=\"annotations\">${annotations.joinString(" ", "")}</span><br>")
 
@@ -1489,7 +1507,11 @@ object DocGenerator {
                     appendChild(Element("div").apply {
                         addClass("member-signature")
 
-                        val annotations = method.annotations.map { annotation -> link(info.fullName, annotation.type, info.generics.map { it.name }, true) }
+                        val annotations = method.annotations.map { annotation ->
+                            val base = link(info.name, annotation.type, info.generics.map { it.name }, true)
+                            if (annotation.parameters.isEmpty()) base
+                            else "$base(${annotation.parameters.joinToString(", ") { param -> "${param.name} = ${param.value}" }})"
+                        }
                         if (annotations.isNotEmpty())
                             append("<span class=\"annotations\">${annotations.joinString(" ", "")}</span><br>")
 
