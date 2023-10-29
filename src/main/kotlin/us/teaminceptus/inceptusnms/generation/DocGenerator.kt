@@ -723,6 +723,9 @@ object DocGenerator {
                 append("<span class=\"package-label-in-type\">Package</span>&nbsp;")
                 append("<a href=\"package-summary.html\">${info.pkg}</a>")
             })
+
+            if (info.unfinished)
+                append("<p style=\"color: red\">This class's documentation is unfinished and should not be used in production.</p>")
         }
 
         if (info.type != "annotation" && info.type != "interface") {
@@ -756,7 +759,7 @@ object DocGenerator {
                         append("<dd><code>${generic.name}</code> - ${generic.comment.header()}</dd>")
                 })
 
-            val implements = Util.getImplements(info)
+            val implements = Util.getImplements(info).sorted()
             if (implements.isNotEmpty() && info.type != "interface") {
                 appendChild(Element("dl").apply {
                     addClass("notes")
@@ -766,7 +769,7 @@ object DocGenerator {
             }
 
             if (info.type == "interface") {
-                val implementing = Util.getClassDocumentation().filter { clazz -> clazz.implements.any { it.contains(info.name) } }
+                val implementing = Util.getClassDocumentation().filter { clazz -> clazz.implements.any { it.contains(info.name) } }.sortedBy { it.name }
                 if (implementing.isNotEmpty()) {
                     appendChild(Element("dl").apply {
                         addClass("notes")
@@ -895,7 +898,7 @@ object DocGenerator {
     // Class Generators - Summary
 
     fun generateNestedSummary(info: ClassDocumentation): Element? {
-        val nestedClasses = Util.getClassDocumentation().filter { it.enclosing == info.name }
+        val nestedClasses = Util.getClassDocumentation().filter { it.enclosing == info.name }.sortedBy { it.name }
         if (nestedClasses.isEmpty()) return null
 
         val summary = Element("section").apply {

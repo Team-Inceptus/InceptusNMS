@@ -29,6 +29,8 @@ data class ClassDocumentation(
     val deprecated: String = ""
 ) {
 
+    var unfinished: Boolean = false
+
     val pkg: String = name.substring(0, name.lastIndexOf('.'))
     val simpleName: String = name.substring(name.lastIndexOf('.') + 1).replace("$", ".")
     val docName: String = "$simpleName${generics(this)}"
@@ -592,6 +594,9 @@ data class ClassDocumentation(
                 methods.await(),
                 async { processComment(name, clazz["deprecated"]?.jsonPrimitive?.content ?: "") }.await()
             )
+
+            if (json["_"]?.jsonPrimitive?.content?.equals("UNFINISHED", ignoreCase = true) == true)
+                info.unfinished = true
 
             callback(info)
         }
