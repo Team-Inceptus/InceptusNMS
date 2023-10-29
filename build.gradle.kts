@@ -21,7 +21,7 @@ dependencies {
 }
 
 group = "us.teaminceptus.inceptusnms"
-version = "0.0.3"
+version = "0.0.5"
 
 val jvmVersion = JavaVersion.VERSION_17
 java {
