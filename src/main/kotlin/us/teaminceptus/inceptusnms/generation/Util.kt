@@ -8,8 +8,8 @@ import kotlinx.serialization.json.jsonObject
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import us.teaminceptus.inceptusnms.generation.DocGenerator.noArray
-import us.teaminceptus.inceptusnms.generation.DocGenerator.url
 import us.teaminceptus.inceptusnms.generation.DocGenerator.noGenerics
+import us.teaminceptus.inceptusnms.generation.DocGenerator.url
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -279,8 +279,8 @@ object Util {
     }
 
     fun error(message: String) {
-        System.err.println("[${Thread.currentThread().name.uppercase()
-            .substringAfter("-")} ${SimpleDateFormat("MMM dd, YYYY hh:mm:ss a").format(Date())}] $message")
+        System.err.println("${27.toChar().toString() + "[31m"}[${Thread.currentThread().name.uppercase()
+            .substringAfter("-")}-ERR ${SimpleDateFormat("MMM dd, YYYY hh:mm:ss a").format(Date())}] $message")
     }
 
 }
