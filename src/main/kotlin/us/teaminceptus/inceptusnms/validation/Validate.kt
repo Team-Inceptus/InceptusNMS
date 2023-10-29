@@ -10,6 +10,7 @@ import us.teaminceptus.inceptusnms.generation.Util.getJavaPackage
 import us.teaminceptus.inceptusnms.generation.Util.log
 import java.io.File
 import java.lang.AssertionError
+import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
     try {
@@ -29,6 +30,14 @@ fun main(args: Array<String>) {
                 validateClass(file, json)
             } catch (e: SerializationException) {
                 error("Invalid JSON File: ${file.absolutePath}")
+
+                var cause: Throwable? = e
+                while (cause != null) {
+                    error(cause.message ?: "Unknown Error")
+                    cause = cause.cause
+                }
+
+                exitProcess(1)
             }
         }
     } catch (e: AssertionError) {
