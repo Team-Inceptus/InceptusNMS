@@ -1,0 +1,170 @@
+{
+  "class": {
+    "type": "class",
+    "generics": {
+      "T": {
+        "comment": "The type of the registry entry."
+      }
+    },
+    "comment": "Utility class that holds a ResourceLocation linked to a registry."
+  },
+  "fields": {
+    "VALUES": {
+      "type": "java.util.concurrent.ConcurrentMap<{this}$InternKey, {this}<?>>",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The map of all registered entries."
+    },
+    "registryName": {
+      "type": "{pkg}.ResourceLocation",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The registry name of this entry."
+    },
+    "location": {
+      "type": "{pkg}.ResourceLocation",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The location of this entry."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "private",
+      "$fields": [
+        "registryName",
+        "location"
+      ],
+      "comment": "Creates a new entry for the given registry."
+    }
+  ],
+  "methods": {
+    "codec": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "{this}<? extends net.minecraft.core.Registry<T>>",
+          "name": "registry",
+          "comment": "The registry to get the codec for."
+        }
+      ],
+      "generics": {
+        "T": {
+          "comment": "The type of the registry entry."
+        }
+      },
+      "return": {
+        "type": "codec<{this}<T>>",
+        "comment": "The codec for the given registry."
+      },
+      "comment": "Gets the codec for the given registry."
+    },
+    "create": [
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "{this}<? extends net.minecraft.core.Registry<T>>",
+            "name": "registry",
+            "comment": "The registry to create the entry for."
+          },
+          {
+            "type": "{pkg}.ResourceLocation",
+            "name": "location",
+            "comment": "The location of the entry."
+          }
+        ],
+        "generics": {
+          "T": {
+            "comment": "The type of the registry entry."
+          }
+        },
+        "return": {
+          "type": "{this}<T>",
+          "comment": "The created entry."
+        },
+        "comment": "Creates a new entry for the given registry."
+      },
+      {
+        "visibility": "private",
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "{pkg}.ResourceLocation",
+            "name": "registryName",
+            "comment": "The registry name of the entry."
+          },
+          {
+            "type": "{pkg}.ResourceLocation",
+            "name": "location",
+            "comment": "The location of the entry."
+          }
+        ],
+        "generics": {
+          "T": {
+            "comment": "The type of the registry entry."
+          }
+        },
+        "return": {
+          "type": "{this}<T>",
+          "comment": "The created entry."
+        },
+        "comment": "Creates a new entry for the given registry."
+      }
+    ],
+    "createRegistryKey": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "{pkg}.ResourceLocation",
+          "name": "registryName",
+          "comment": "The registry name of the entry."
+        }
+      ],
+      "return": {
+        "type": "{this}<net.minecraft.core.Registry<T>>",
+        "comment": "The registry key for the given registry name."
+      },
+      "comment": "Creates a new registry key for the given registry name."
+    },
+    "isFor": {
+      "params": [
+        {
+          "type": "{this}<? extends net.minecraft.core.Registry<T>>",
+          "name": "registry",
+          "comment": "The registry to check."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if this entry is for the given registry."
+      },
+      "comment": "Checks if this entry is for the given registry."
+    },
+    "cast": {
+      "params": [
+        {
+          "type": "{this}<? extends net.minecraft.core.Registry<E>>",
+          "name": "registry",
+          "comment": "The registry to cast to."
+        }
+      ],
+      "generics": {
+        "E": {
+          "comment": "The type of the registry entry."
+        }
+      },
+      "return": {
+        "type": "java.util.Optional<{this}<E>>",
+        "comment": "This entry casted to the given registry."
+      },
+      "comment": "Casts this entry to the given registry."
+    },
+    "location": {
+      "$getter": "location"
+    },
+    "registry": {
+      "$getter": "registryName"
+    }
+  }
+}

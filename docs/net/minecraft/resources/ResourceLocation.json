@@ -1,0 +1,482 @@
+{
+  "class": {
+    "type": "class",
+    "implements": [
+      "java.lang.Comparable<{this}>"
+    ],
+    "comment": "Represents a key-value pair for a Minecraft element."
+  },
+  "fields": {
+    "CODEC": {
+      "type": "codec<{this}>",
+      "mods": ["static", "final"],
+      "comment": "The codec for this class."
+    },
+    "ERROR_INVALID": {
+      "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "`argument.id.invalid`"
+    },
+    "NAMESPACE_SEPARATOR": {
+      "type": "char",
+      "mods": ["static", "final"],
+      "value": ":",
+      "comment": "The character that separates a key from a value."
+    },
+    "DEFAULT_NAMESPACE": {
+      "type": "string",
+      "mods": ["static", "final"],
+      "value": "minecraft",
+      "comment": "The default namespace."
+    },
+    "REALMS_NAMESPACE": {
+      "type": "string",
+      "mods": ["static", "final"],
+      "value": "realms",
+      "comment": "The realms namespace."
+    },
+    "namespace": {
+      "type": "string",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The namespace of this element."
+    },
+    "path": {
+      "type": "string",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The path of this element."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "string",
+          "name": "namespace",
+          "comment": "The namespace of this element."
+        },
+        {
+          "type": "string",
+          "name": "path",
+          "comment": "The path of this element."
+        },
+        {
+          "type": "{this}$Dummy",
+          "name": "dummy",
+          "annotations": [
+            {
+              "type": "nullable"
+            }
+          ],
+          "comment": "A nullable dummy value."
+        }
+      ],
+      "comment": "Creates a new ResourceLocation with the given namespace and path."
+    },
+    {
+      "$fields": [
+        "namespace",
+        "path"
+      ],
+      "comment": "Creates a new ResourceLocation with the given namespace and path."
+    },
+    {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "string[]",
+          "name": "parts",
+          "comment": "The parts of the key."
+        }
+      ],
+      "comment": "Creates a new ResourceLocation with the given parts."
+    },
+    {
+      "$fields": [
+        "path"
+      ],
+      "comment": "Creates a new ResourceLocation with the default namespace."
+    }
+  ],
+  "methods": {
+    "of": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "string",
+          "name": "fullKey",
+          "comment": "The full key."
+        },
+        {
+          "type": "char",
+          "name": "separator",
+          "comment": "The separator between the namespace and the path."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new ResourceLocation with the given details."
+      },
+      "comment": "Creates a new ResourceLocation with the given full key."
+    },
+    "tryParse": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "string",
+          "name": "path",
+          "comment": "The path for the ResourceLocation."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new ResourceLocation with the given path."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Attempts to parse the given path into a ResourceLocation."
+    },
+    "tryBuild": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "string",
+          "name": "namespace",
+          "comment": "The namespace for the ResourceLocation."
+        },
+        {
+          "type": "string",
+          "name": "path",
+          "comment": "The path for the ResourceLocation."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new ResourceLocation with the given information."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Attempts to build the given details into a ResourceLocation."
+    },
+    "decompose": {
+      "visibility": "protected",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "string",
+          "name": "fullKey",
+          "comment": "The full key."
+        },
+        {
+          "type": "char",
+          "name": "separator",
+          "comment": "The separator between the namespace and the path."
+        }
+      ],
+      "return": {
+        "type": "string[]",
+        "comment": "The parts of the key."
+      },
+      "comment": "Decomposes the given full key into its parts."
+    },
+    "read": [
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "string",
+            "name": "fullKey",
+            "comment": "The full key."
+          }
+        ],
+        "return": {
+          "type": "com.mojang.serialization.DataResult<{this}>",
+          "comment": "A @(com.mojang.serialization.DataResult) potentially containing a ResourceLocation with the given details."
+        },
+        "comment": "Reads a ResourceLocation from the given full key."
+      },
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "com.mojang.brigadier.StringReader",
+            "name": "reader",
+            "comment": "The reader to read from."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "The read ResourceLocation with the given details."
+        },
+        "throws": [
+          {
+            "type": "com.mojang.brigadier.exceptions.CommandSyntaxException",
+            "comment": "If the ResourceLocation could not be read."
+          }
+        ],
+        "comment": "Reads a ResourceLocation from the given reader."
+      }
+    ],
+    "getPath": {
+      "$getter": "path"
+    },
+    "getNamespace": {
+      "$getter": "namespace"
+    },
+    "withPath": [
+      {
+        "params": [
+          {
+            "type": "string",
+            "name": "path",
+            "comment": "The new path."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new ResourceLocation with the given path."
+        },
+        "comment": "Creates a new ResourceLocation with the given path."
+      },
+      {
+        "params": [
+          {
+            "type": "java.util.function.UnaryOperator<string>",
+            "name": "operator",
+            "comment": "The operator to apply to the existing path."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new ResourceLocation with the given path."
+        },
+        "comment": "Creates a new ResourceLocation with the given path."
+      }
+    ],
+    "withPrefix": {
+      "params": [
+        {
+          "type": "string",
+          "name": "prefix",
+          "comment": "The prefix to add."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new ResourceLocation with the given prefix."
+      },
+      "comment": "Creates a new ResourceLocation with the given prefix to the path."
+    },
+    "withSuffix": {
+      "params": [
+        {
+          "type": "string",
+          "name": "suffix",
+          "comment": "The suffix to add."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new ResourceLocation with the given suffix."
+      },
+      "comment": "Creates a new ResourceLocation with the given suffix to the path."
+    },
+    "toDebugFileName": {
+      "return": {
+        "type": "string",
+        "comment": "The debug file name."
+      },
+      "comment": "Converts this ResourceLocation to a debug file name."
+    },
+    "toLanguageKey": [
+      {
+        "return": {
+          "type": "string",
+          "comment": "The language key."
+        },
+        "comment": "Converts this ResourceLocation to a language key."
+      },
+      {
+        "params": [
+          {
+            "type": "string",
+            "name": "key",
+            "comment": "The namespace and path to use."
+          }
+        ],
+        "return": {
+          "type": "string",
+          "comment": "The language key."
+        },
+        "comment": "Converts this ResourceLocation to a language key."
+      },
+      {
+        "params": [
+          {
+            "type": "string",
+            "name": "namespace",
+            "comment": "The namespace to use."
+          },
+          {
+            "type": "string",
+            "name": "path",
+            "comment": "The path to use."
+          }
+        ],
+        "return": {
+          "type": "string",
+          "comment": "The language key."
+        },
+        "comment": "Converts this ResourceLocation to a language key."
+      }
+    ],
+    "toShortLanguageKey": {
+      "return": {
+        "type": "string",
+        "comment": "The short language key."
+      },
+      "comment": "Converts this ResourceLocation to a language key, removing the default namespace."
+    },
+    "isAllowedInResourceLocation": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "char",
+          "name": "c",
+          "comment": "The character to check."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if the given character can be used in a namespace or path."
+      },
+      "comment": "Checks if the given character is allowed in a ResourceLocation."
+    },
+    "isValidPath": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "string",
+          "name": "path",
+          "comment": "The path to check."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if the given path is valid."
+      },
+      "comment": "Checks if the given path is valid."
+    },
+    "isValidNamespace": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "string",
+          "name": "namespace",
+          "comment": "The namespace to check."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if the given namespace is valid."
+      },
+      "comment": "Checks if the given namespace is valid."
+    },
+    "assertValidNamespace": {
+      "visibility": "private",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "string",
+          "name": "namespace",
+          "comment": "The namespace to check."
+        },
+        {
+          "type": "string",
+          "name": "path",
+          "comment": "The path with the namespace."
+        }
+      ],
+      "return": {
+        "type": "string",
+        "comment": "The namespace."
+      },
+      "comment": "Asserts that the given namespace is valid."
+    },
+    "validPathChar": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "char",
+          "name": "c",
+          "comment": "The character to check."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if the given character can be used in a path."
+      },
+      "comment": "Checks if the given character is valid in a path."
+    },
+    "validNamespaceChar": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "char",
+          "name": "c",
+          "comment": "The character to check."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if the given character can be used in a namespace."
+      },
+      "comment": "Checks if the given character is valid in a namespace."
+    },
+    "isValidResourceLocation": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "string",
+          "name": "fullKey",
+          "comment": "The full key to check."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if the given full key is valid."
+      },
+      "comment": "Checks if the given full key is valid."
+    },
+    "assertValidPath": {
+      "visibility": "private",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "string",
+          "name": "namespace",
+          "comment": "The namespace with the path."
+        },
+        {
+          "type": "string",
+          "name": "path",
+          "comment": "The path to check."
+        }
+      ],
+      "return": {
+        "type": "string",
+        "comment": "The path."
+      },
+      "comment": "Asserts that the given path is valid."
+    }
+  }
+}

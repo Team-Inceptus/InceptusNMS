@@ -1,0 +1,12 @@
+{
+  "class": {
+    "type": "class",
+    "enclosing": "{pkg}.ResourceLocation",
+    "mods": ["static"],
+    "implements": [
+      "com.google.gson.JsonDeserializer<{pkg}.ResourceLocation>",
+      "com.google.gson.JsonSerializer<{pkg}.ResourceLocation>"
+    ],
+    "comment": "Utility class for serializing a @({pkg}.ResourceLocation) to JSON and back."
+  }
+}

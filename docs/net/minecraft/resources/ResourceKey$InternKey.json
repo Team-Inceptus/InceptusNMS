@@ -1,0 +1,27 @@
+{
+  "class": {
+    "type": "record",
+    "enclosing": "{pkg}.ResourceKey",
+    "visibility": "private",
+    "mods": ["static", "final"],
+    "comment": "Utility internal class for storing two @(net.minecraft.resources.ResourceLocation)s."
+  },
+  "constructors": [
+    {
+      "primary": true,
+      "params": [
+        {
+          "type": "{pkg}.ResourceLocation",
+          "name": "registry",
+          "comment": "The registry key."
+        },
+        {
+          "type": "{pkg}.ResourceLocation",
+          "name": "location",
+          "comment": "The name key."
+        }
+      ],
+      "comment": "Creates a new internal resource key."
+    }
+  ]
+}
