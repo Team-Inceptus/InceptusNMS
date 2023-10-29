@@ -7,7 +7,6 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import us.teaminceptus.inceptusnms.generation.DocGenerator.link
 import us.teaminceptus.inceptusnms.generation.DocGenerator.noArray
 import us.teaminceptus.inceptusnms.generation.DocGenerator.url
 import us.teaminceptus.inceptusnms.generation.DocGenerator.noGenerics
@@ -151,7 +150,7 @@ object Util {
         "https://joml-ci.github.io/JOML/apidocs/",
         "https://fastutil.di.unimi.it/docs/",
         "https://netty.io/4.1/api/",
-        "https://www.javadoc.io/static/com.google.code.gson/gson/2.10.1/"
+        "https://www.javadoc.io/static/com.google.code.gson/gson/2.10.1/com.google.gson/"
     )
 
     fun repository(name: String): String = when {
@@ -217,6 +216,12 @@ object Util {
         return tree.reversed().distinctBy { it.noGenerics() }.reversed()
     }
 
+    private const val METHOD_JAVA8_QUERY_PARENT = "a[name=\"method.summary\"] ~ table.memberSummary > tbody, a[id=\"method.summary\"] ~ table.memberSummary > tbody"
+    private const val METHOD_JAVA8_QUERY_1 = "td.colLast > code > span.memberNameLink"
+    private const val METHOD_JAVA8_QUERY_2 = "th.colSecond > code > span.memberNameLink"
+
+    private const val METHOD_JAVA11_QUERY = "div.col-second.method-summary-table > code > a.member-name-link"
+
     fun getExternalMethods(name: String): List<String> {
         if (name.contains("net.minecraft") || name.contains("org.bukkit.craftbukkit")) return listOf() // Undocumented
 
@@ -224,14 +229,14 @@ object Util {
         val url = "$repository${name.url()}.html"
         val doc = connect(url)
 
-        val methods8 = doc.selectFirst("a[name=\"method.summary\"] ~ table.memberSummary > tbody")?.select("tr")?.mapNotNull {
-            val text = it.selectFirst("td.colLast > code > span.memberNameLink")?.text() ?: return@mapNotNull null
-            val href = ("#" + it.selectFirst("td.colLast > code > span.memberNameLink > a")?.attr("href")?.substringAfterLast('#'))
+        val methods8 = doc.selectFirst(METHOD_JAVA8_QUERY_PARENT)?.select("tr")?.mapNotNull {
+            val text = it.selectFirst("$METHOD_JAVA8_QUERY_1, $METHOD_JAVA8_QUERY_2")?.text() ?: return@mapNotNull null
+            val href = ("#" + it.selectFirst("$METHOD_JAVA8_QUERY_1 > a, $METHOD_JAVA8_QUERY_2 > a")?.attr("href")?.substringAfterLast('#'))
 
             text to href
         } ?: emptyList()
 
-        val methods11 = (doc.select("div.col-second.method-summary-table > code > a.member-name-link")
+        val methods11 = (doc.select(METHOD_JAVA11_QUERY)
             .map { it.text() to it.attr("href") })
 
         return (methods8 + methods11).sortedBy { it.first }.map {

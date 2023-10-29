@@ -1137,152 +1137,167 @@ object DocGenerator {
     }
 
     fun generateMethodSummary(info: ClassDocumentation): Element? {
-        val methods = info.methods?.methods?.sortedBy { it.name } ?: return null
+        val methods = info.methods?.methods?.sortedBy { it.name }
+        val inheritedMethods = Util.getInheritedMethods(info)
+
+        if (methods.isNullOrEmpty() && inheritedMethods.isEmpty()) return null
+
         val summary = Element("section").apply {
             addClass("method-summary")
             id("method-summary")
         }
-        summary.append("<h2>Method Summary</h2>")
 
-        fun methodSummaryButton(id: Int): Element = Element("button").apply {
-            text(when (id) {
-                0 -> "All Methods"
-                1 -> "Static Methods"
-                2 -> "Instance Methods"
-                3 -> "Abstract Methods"
-                4 -> "Concrete Methods"
-                5 -> "Default Methods"
-                6 -> "Deprecated Methods"
-                else -> throw IllegalArgumentException("Invalid ID: $id")
-            })
+        if (methods != null) {
+            summary.append("<h2>Method Summary</h2>")
 
-            id("method-summary-table-tab$id")
-            addClass(if (id == 0) "active-table-tab" else "table-tab")
+            fun methodSummaryButton(id: Int): Element = Element("button").apply {
+                text(
+                    when (id) {
+                        0 -> "All Methods"
+                        1 -> "Static Methods"
+                        2 -> "Instance Methods"
+                        3 -> "Abstract Methods"
+                        4 -> "Concrete Methods"
+                        5 -> "Default Methods"
+                        6 -> "Deprecated Methods"
+                        else -> throw IllegalArgumentException("Invalid ID: $id")
+                    }
+                )
 
-            attr("role", "tab")
-            attr("aria-selected", (id == 0).toString())
-            attr("aria-controls", "method-summary-table.tabpanel")
-            attr("tab-index", if (id == 0) "0" else "-1")
-            attr("onkeydown", "switchTab(event)")
-            attr("onclick", "show('method-summary-table', 'method-summary-table${if (id == 0) "" else "-tab$id"}', 3)")
-        }
+                id("method-summary-table-tab$id")
+                addClass(if (id == 0) "active-table-tab" else "table-tab")
 
-        val table = Element("div").apply {
-            id("method-summary-table")
-        }
-        table.appendChild(Element("div").apply {
-            addClass("table-tabs")
-            attr("role", "tablist")
-            attr("aria-orientation", "horizontal")
-
-            appendChild(methodSummaryButton(0))
-
-            if (methods.any { it.mods.contains("static") })
-                appendChild(methodSummaryButton(1))
-
-            if (methods.any { !it.mods.contains("static") })
-                appendChild(methodSummaryButton(2))
-
-            if (methods.any { it.mods.contains("abstract") })
-                appendChild(methodSummaryButton(3))
-
-            if (methods.any { !it.mods.contains("abstract") && info.type != "interface" })
-                appendChild(methodSummaryButton(4))
-
-            if (methods.any { it.mods.contains("default") })
-                appendChild(methodSummaryButton(5))
-
-            if (methods.any { method -> method.annotations.any { it.type == DEPRECATED_TYPE } })
-                appendChild(methodSummaryButton(6))
-        })
-        summary.appendChild(table)
-
-        table.appendChild(Element("div").apply {
-            id("method-summary-table.tabpanel")
-            attr("role", "tabpanel")
-        }.appendChild(Element("div").apply {
-            classNames(setOf("summary-table three-column-summary"))
-            attr("aria-labelledby", "method-summary-table-tab0")
-
-            append("<div class=\"table-header col-first\">Modifier and Type</div>")
-            append("<div class=\"table-header col-second\">Method</div>")
-            append("<div class=\"table-header col-last\">Description</div>")
-
-            var even = true
-            for (method in methods) {
-                val rowColor = "${if (even) "even" else "odd"}-row-color"
-                val categories = mutableSetOf<Int>().apply {
-                    if (method.mods.contains("static"))
-                        add(1)
-
-                    if (!method.mods.contains("static"))
-                        add(2)
-
-                    if (method.mods.contains("abstract"))
-                        add(3)
-
-                    if (!method.mods.contains("abstract"))
-                        add(4)
-
-                    if (method.mods.contains("default"))
-                        add(5)
-
-                    if (method.annotations.any { it.type == DEPRECATED_TYPE })
-                        add(6)
-                }
-
-                val classes = setOf(rowColor, "method-summary-table") + categories.map { "method-summary-table-tab$it" }
-                val generics = if (method.mods.contains("static")) emptyList() else info.generics.map { it.name }
-
-                appendChild(Element("div").apply {
-                    classNames(classes + "col-first")
-
-                    appendChild(Element("code").apply {
-                        val builder = StringBuilder()
-                        if (method.visibility != "public")
-                            builder.append("${method.visibility} ")
-
-                        if (method.generics.isNotEmpty())
-                            builder.append("&lt;${method.generics.map { it.name }.joinString(", ", "")}&gt; ")
-
-                        if (method.mods.isNotEmpty())
-                            builder.append("${method.mods.joinString(" ")} ")
-
-                        builder.append(link(info.fullName, method.returnType, generics))
-
-                        append(builder.toString())
-                    })
-                })
-
-                appendChild(Element("div").apply {
-                    classNames(classes + "col-second")
-                    appendChild(Element("code").apply {
-                        append("<a href=\"#${method.name}${method.paramString}\" class=\"member-name-link\">${method.name}</a>${
-                            if (method.parameters.isEmpty()) "()" else "(" + method.parameters.joinToString { param -> "${link(info.fullName, param.type, generics)} ${param.name}" } + ")"
-                        }")
-                    })
-                })
-
-                appendChild(Element("div").apply {
-                    classNames(classes + "col-last")
-
-                    if (method.annotations.any { it.type == DEPRECATED_TYPE }) {
-                        appendChild(Element("div").apply {
-                            addClass("block")
-
-                            append("<span class=\"deprecated-label\">Deprecated.</span>")
-                            if (method.deprecated.isNotEmpty())
-                                append("<div class=\"deprecation-comment\">${method.deprecated.header()}</div>")
-                        })
-                    } else
-                        append("<div class=\"block\">${method.comment.header()}</div>")
-                })
-
-                even = !even
+                attr("role", "tab")
+                attr("aria-selected", (id == 0).toString())
+                attr("aria-controls", "method-summary-table.tabpanel")
+                attr("tab-index", if (id == 0) "0" else "-1")
+                attr("onkeydown", "switchTab(event)")
+                attr("onclick", "show('method-summary-table', 'method-summary-table${if (id == 0) "" else "-tab$id"}', 3)")
             }
-        }))
 
-        val inheritedMethods = Util.getInheritedMethods(info)
+            val table = Element("div").apply {
+                id("method-summary-table")
+            }
+            table.appendChild(Element("div").apply {
+                addClass("table-tabs")
+                attr("role", "tablist")
+                attr("aria-orientation", "horizontal")
+
+                appendChild(methodSummaryButton(0))
+
+                if (methods.any { it.mods.contains("static") })
+                    appendChild(methodSummaryButton(1))
+
+                if (methods.any { !it.mods.contains("static") })
+                    appendChild(methodSummaryButton(2))
+
+                if (methods.any { it.mods.contains("abstract") })
+                    appendChild(methodSummaryButton(3))
+
+                if (methods.any { !it.mods.contains("abstract") && info.type != "interface" })
+                    appendChild(methodSummaryButton(4))
+
+                if (methods.any { it.mods.contains("default") })
+                    appendChild(methodSummaryButton(5))
+
+                if (methods.any { method -> method.annotations.any { it.type == DEPRECATED_TYPE } })
+                    appendChild(methodSummaryButton(6))
+            })
+            summary.appendChild(table)
+
+            table.appendChild(Element("div").apply {
+                id("method-summary-table.tabpanel")
+                attr("role", "tabpanel")
+            }.appendChild(Element("div").apply {
+                classNames(setOf("summary-table three-column-summary"))
+                attr("aria-labelledby", "method-summary-table-tab0")
+
+                append("<div class=\"table-header col-first\">Modifier and Type</div>")
+                append("<div class=\"table-header col-second\">Method</div>")
+                append("<div class=\"table-header col-last\">Description</div>")
+
+                var even = true
+                for (method in methods) {
+                    val rowColor = "${if (even) "even" else "odd"}-row-color"
+                    val categories = mutableSetOf<Int>().apply {
+                        if (method.mods.contains("static"))
+                            add(1)
+
+                        if (!method.mods.contains("static"))
+                            add(2)
+
+                        if (method.mods.contains("abstract"))
+                            add(3)
+
+                        if (!method.mods.contains("abstract"))
+                            add(4)
+
+                        if (method.mods.contains("default"))
+                            add(5)
+
+                        if (method.annotations.any { it.type == DEPRECATED_TYPE })
+                            add(6)
+                    }
+
+                    val classes = setOf(rowColor, "method-summary-table") + categories.map { "method-summary-table-tab$it" }
+                    val generics = if (method.mods.contains("static")) emptyList() else info.generics.map { it.name }
+
+                    appendChild(Element("div").apply {
+                        classNames(classes + "col-first")
+
+                        appendChild(Element("code").apply {
+                            val builder = StringBuilder()
+                            if (method.visibility != "public")
+                                builder.append("${method.visibility} ")
+
+                            if (method.generics.isNotEmpty())
+                                builder.append("&lt;${method.generics.map { it.name }.joinString(", ", "")}&gt; ")
+
+                            if (method.mods.isNotEmpty())
+                                builder.append("${method.mods.joinString(" ")} ")
+
+                            builder.append(link(info.fullName, method.returnType, generics))
+
+                            append(builder.toString())
+                        })
+                    })
+
+                    appendChild(Element("div").apply {
+                        classNames(classes + "col-second")
+                        appendChild(Element("code").apply {
+                            append("<a href=\"#${method.name}${method.paramString}\" class=\"member-name-link\">${method.name}</a>${
+                                if (method.parameters.isEmpty()) "()" else "(" + method.parameters.joinToString { param ->
+                                    "${
+                                        link(
+                                            info.fullName,
+                                            param.type,
+                                            generics
+                                        )
+                                    } ${param.name}"
+                                } + ")"
+                            }")
+                        })
+                    })
+
+                    appendChild(Element("div").apply {
+                        classNames(classes + "col-last")
+
+                        if (method.annotations.any { it.type == DEPRECATED_TYPE }) {
+                            appendChild(Element("div").apply {
+                                addClass("block")
+
+                                append("<span class=\"deprecated-label\">Deprecated.</span>")
+                                if (method.deprecated.isNotEmpty())
+                                    append("<div class=\"deprecation-comment\">${method.deprecated.header()}</div>")
+                            })
+                        } else
+                            append("<div class=\"block\">${method.comment.header()}</div>")
+                    })
+
+                    even = !even
+                }
+            }))
+        }
 
         for ((type, map) in inheritedMethods)
             for ((name, inherited) in map) {
