@@ -8,6 +8,7 @@ import kotlinx.serialization.json.jsonObject
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import us.teaminceptus.inceptusnms.generation.DocGenerator.link
+import us.teaminceptus.inceptusnms.generation.DocGenerator.noArray
 import us.teaminceptus.inceptusnms.generation.DocGenerator.url
 import us.teaminceptus.inceptusnms.generation.DocGenerator.noGenerics
 import java.io.File
@@ -46,7 +47,7 @@ object Util {
         val classes = type.split("[<>,]".toRegex()).filter { it.isNotEmpty() }
 
         for (clazz in classes)
-            newType = newType.replace(clazz, TYPE_ALIASES[clazz] ?: continue)
+            newType = newType.replace(clazz.noArray(), TYPE_ALIASES[clazz.noArray()] ?: continue)
 
         return newType
     }

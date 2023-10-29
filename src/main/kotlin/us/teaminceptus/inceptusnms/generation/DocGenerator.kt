@@ -124,6 +124,9 @@ object DocGenerator {
     fun String.deserialize(): String
         = replace("&lt;", "<").replace("&gt;", ">")
 
+    fun String.noArray(): String
+        = replace("[\\[\\]]".toRegex(), "")
+
     fun classSummaryButton(id: Int, text: String, prefix: String = "class-summary"): Element =
         Element("button").apply {
             id("$prefix-tab$id")
@@ -814,7 +817,7 @@ object DocGenerator {
 
                 clazzBuilder.append("</span>")
                 if (info.type == "record" && !constructors.isNullOrEmpty())
-                    clazzBuilder.append("(${constructors.maxBy { it.parameters.size }.parameters.joinToString { param -> "${link(info.name, param.type, info.generics.map { it.name })}&nbsp;${param.name}" }})")
+                    clazzBuilder.append("(${constructors.maxBy { if (it.primary) Int.MAX_VALUE else it.parameters.size }.parameters.joinToString { param -> "${link(info.name, param.type, info.generics.map { it.name })}&nbsp;${param.name}" }})")
 
                 append("$clazzBuilder&nbsp;")
 
