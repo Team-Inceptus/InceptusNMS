@@ -1,0 +1,33 @@
+{
+  "class": {
+    "type": "interface",
+    "enclosing": "net.minecraft.advancements.AdvancementRequirements",
+    "comment": "A Functional Interface representing the methods of constructing an AdvancementRequirements."
+  },
+  "fields": {
+    "AND": {
+      "type": "{this}",
+      "comment": "A constant representing an AdvancementRequirements that requires all of its requirements to be met."
+    },
+    "OR": {
+      "type": "{this}",
+      "comment": "A constant representing an AdvancementRequirements that requires any of its requirements to be met."
+    }
+  },
+  "methods": {
+    "create": {
+      "params": [
+        {
+          "type": "java.util.Collection<string>",
+          "name": "requirements",
+          "comment": "The requirements for the AdvancementRequirements."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The constructed AdvancementRequirements."
+      },
+      "comment": "Creates an AdvancementRequirements with the given requirements."
+    }
+  }
+}

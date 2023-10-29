@@ -1,0 +1,191 @@
+{
+  "class": {
+    "type": "record",
+    "comment": "Utility class for storing Advancement Requirements as a 2D String array."
+  },
+  "fields": {
+    "EMPTY": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "Empty advancement requirements."
+    }
+  },
+  "constructors": [
+    {
+      "primary": true,
+      "params": [
+        {
+          "type": "string[][]",
+          "name": "requirements",
+          "comment": "The 2D String array of Advancement Requirements."
+        }
+      ],
+      "comment": "Constructs a new AdvancementRequirements object."
+    },
+    {
+      "params": [
+        {
+          "type": "net.minecraft.network.FriendlyByteBuf",
+          "name": "buffer",
+          "comment": "The FriendlyByteBuf to read from."
+        }
+      ],
+      "comment": "Constructs a new AdvancementRequirements object from the given FriendlyByteBuf."
+    }
+  ],
+  "methods": {
+    "read": {
+      "visibility": "private",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.network.FriendlyByteBuf",
+          "name": "buffer",
+          "comment": "The FriendlyByteBuf to read from."
+        }
+      ],
+      "return": {
+        "type": "string[][]",
+        "comment": "The read 2D array."
+      },
+      "comment": "Reads a 2D String array from the given FriendlyByteBuf."
+    },
+    "write": {
+      "params": [
+        {
+          "type": "net.minecraft.network.FriendlyByteBuf",
+          "name": "buffer",
+          "comment": "The FriendlyByteBuf to write to."
+        }
+      ],
+      "comment": "Writes this AdvancementRequirements to the given FriendlyByteBuf."
+    },
+    "allOf": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "java.util.Collection<string>",
+          "name": "requirements",
+          "comment": "The requirements to check."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The constructed @({this})."
+      },
+      "comment": "Returns a new AdvancementRequirements object with the given requirements where all must be completed."
+    },
+    "anyOf": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "java.util.Collection<string>",
+          "name": "requirements",
+          "comment": "The requirements to check."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The constructed @({this})."
+      },
+      "comment": "Returns a new AdvancementRequirements object with the given requirements where any can be completed."
+    },
+    "size": {
+      "return": {
+        "type": "int",
+        "comment": "The size of the requirements."
+      },
+      "comment": "Returns the size of the 2D Array that stores the requirements."
+    },
+    "test": {
+      "params": [
+        {
+          "type": "java.util.function.Predicate<string>",
+          "name": "predicate",
+          "comment": "The predicate to test."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if the predicate passes."
+      },
+      "comment": "Tests the given predicate against the requirements."
+    },
+    "count": {
+      "params": [
+        {
+          "type": "java.util.function.Predicate<string>",
+          "name": "predicate",
+          "comment": "The predicate to test."
+        }
+      ],
+      "return": {
+        "type": "int",
+        "comment": "The number of requirements that pass the predicate."
+      },
+      "comment": "Counts the number of requirements that pass the given predicate."
+    },
+    "anyMatch": {
+      "visibility": "private",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "string[]",
+          "name": "requirements",
+          "comment": "The requirements to check."
+        },
+        {
+          "type": "java.util.function.Predicate<string>",
+          "name": "predicate",
+          "comment": "The predicate to test."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if any of the requirements pass the predicate."
+      },
+      "comment": "Returns true if any of the given requirements pass the given predicate."
+    },
+    "fromJson": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "com.google.gson.JsonArray",
+          "name": "json",
+          "comment": "The JsonArray to read from."
+        },
+        {
+          "type": "java.util.Set<string>",
+          "name": "criteria",
+          "comment": "The criteria to use."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The constructed @({this})."
+      },
+      "comment": "Constructs a new AdvancementRequirements object from the given JsonArray and criteria."
+    },
+    "toJson": {
+      "return": {
+        "type": "com.google.gson.JsonArray",
+        "comment": "The constructed JsonArray."
+      },
+      "comment": "Constructs a new JsonArray from this AdvancementRequirements."
+    },
+    "isEmpty": {
+      "return": {
+        "type": "boolean",
+        "comment": "True if this AdvancementRequirements is empty."
+      },
+      "comment": "Returns true if this AdvancementRequirements is empty."
+    },
+    "names": {
+      "return": {
+        "type": "java.util.Set<string>",
+        "comment": "The names of the requirements."
+      },
+      "comment": "Returns the names of the requirements."
+    }
+  }
+}
