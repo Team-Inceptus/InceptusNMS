@@ -1,7 +1,7 @@
 {
   "class": {
     "type": "class",
-    "comment": "Utility class for reading <code>eula.txt</code>."
+    "comment": "Utility class for reading `eula.txt`."
   },
   "fields": {
     "LOGGER": {
@@ -14,7 +14,7 @@
       "type": "java.nio.file.Path",
       "visibility": "private",
       "mods": ["final"],
-      "comment": "The path to the <code>eula.txt</code> file."
+      "comment": "The path to the `eula.txt` file."
     },
     "agreed": {
       "type": "boolean",
@@ -29,7 +29,7 @@
         {
           "type": "java.nio.file.Path",
           "name": "file",
-          "comment": "The path to the <code>eula.txt</code> file."
+          "comment": "The path to the `eula.txt` file."
         }
       ],
       "comment": "Constructs a new Eula."
@@ -42,7 +42,7 @@
         "type": "boolean",
         "comment": "Whether the user has agreed to the Minecraft EULA."
       },
-      "comment": "Reads the <code>eula.txt</code> file in the default location."
+      "comment": "Reads the `eula.txt` file in the default location."
     },
     "hasAgreedToEULA": {
       "return": {
@@ -53,7 +53,7 @@
     },
     "saveDefaults": {
       "visibility": "private",
-      "comment": "Creates or Saves <code>eula.txt</code>, setting agreed to <code>false</code> if it is not currently set."
+      "comment": "Creates or Saves `eula.txt`, setting agreed to `false` if it is not currently set."
     }
   }
 }

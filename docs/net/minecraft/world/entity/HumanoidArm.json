@@ -28,7 +28,7 @@
       "type": "int",
       "visibility": "private",
       "mods": ["final"],
-      "comment": "The numerical ID of this Arm.\n<code>0</code> for @({this}#LEFT) and <code>1</code> for @({this}#RIGHT)."
+      "comment": "The numerical ID of this Arm.\n`0` for @({this}#LEFT) and `1` for @({this}#RIGHT)."
     },
     "name": {
       "type": "string",
@@ -49,7 +49,7 @@
         {
           "type": "int",
           "name": "id",
-          "comment": "The numerical ID of this Arm.\n<code>0</code> for @({this}#LEFT) and <code>1</code> for @({this}#RIGHT)."
+          "comment": "The numerical ID of this Arm.\n`0` for @({this}#LEFT) and `1` for @({this}#RIGHT)."
         },
         {
           "type": "string",

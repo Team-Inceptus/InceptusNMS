@@ -158,7 +158,7 @@
   ],
   "methods": {
     "resetMaxVisitedNodesMultiplier": {
-      "comment": "Resets the maximum visited nodes multiplier to <code>1.0F</code>."
+      "comment": "Resets the maximum visited nodes multiplier to `1.0F`."
     },
     "setMaxVisitedNodesMultiplier": {
       "$setter": "maxVisitedNodesMultiplier"
@@ -571,7 +571,7 @@
       "comment": "Fetches whether or not the Navigation is in progress."
     },
     "stop": {
-      "comment": "Stops the Navigation, setting @({this}#path) to <code>null</code>."
+      "comment": "Stops the Navigation, setting @({this}#path) to `null`."
     },
     "getTempMobPos": {
       "visibility": "protected",

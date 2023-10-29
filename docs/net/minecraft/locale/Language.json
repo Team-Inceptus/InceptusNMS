@@ -34,7 +34,7 @@
       "type": "{this}",
       "visibility": "private",
       "mods": ["static", "volatile"],
-      "comment": "The loaded instance of this class, parsed from a language file.\nThe language file is usually stored in <code>assets/minecraft/lang/<language>.json<code> inside the server jar."
+      "comment": "The loaded instance of this class, parsed from a language file.\nThe language file is usually stored in `assets/minecraft/lang/<language>.json` inside the server jar."
     }
   },
   "methods": {

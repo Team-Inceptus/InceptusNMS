@@ -7,32 +7,32 @@
     "ZERO": {
       "type": "{this}",
       "mods": ["static", "final"],
-      "comment": "A @({this}) with both angles set to <code>0.0F</code>."
+      "comment": "A @({this}) with both angles set to `0.0F`."
     },
     "ONE": {
       "type": "{this}",
       "mods": ["static", "final"],
-      "comment": "A @({this}) with both angles set to <code>1.0F</code>."
+      "comment": "A @({this}) with both angles set to `1.0F`."
     },
     "UNIT_X": {
       "type": "{this}",
       "mods": ["static", "final"],
-      "comment": "A @({this}) with x set to <code>1.0F</code>."
+      "comment": "A @({this}) with x set to `1.0F`."
     },
     "NEG_UNIT_X": {
       "type": "{this}",
       "mods": ["static", "final"],
-      "comment": "A @({this}) with x set to <code>-1.0F</code>."
+      "comment": "A @({this}) with x set to `-1.0F`."
     },
     "UNIT_Y": {
       "type": "{this}",
       "mods": ["static", "final"],
-      "comment": "A @({this}) with y set to <code>1.0F</code>."
+      "comment": "A @({this}) with y set to `1.0F`."
     },
     "NEG_UNIT_Y": {
       "type": "{this}",
       "mods": ["static", "final"],
-      "comment": "A @({this}) with y set to <code>-1.0F</code>."
+      "comment": "A @({this}) with y set to `-1.0F`."
     },
     "MAX": {
       "type": "{this}",

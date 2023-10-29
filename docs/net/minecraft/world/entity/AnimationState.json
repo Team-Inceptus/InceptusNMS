@@ -56,7 +56,7 @@
           "comment": "The current count of ticks counted.\nUsually the value of @(net.minecraft.world.entity.Entity#tickCount)"
         }
       ],
-      "comment": "Starts the animation state, only if <code>condition</code> is <code>true</code>. If <code>condition</code> is <code>false</code>, then it stops the animation state."
+      "comment": "Starts the animation state, only if `condition` is `true`. If `condition` is `false`, then it stops the animation state."
     },
     "stop": {
       "comment": "Stops the animation state."
@@ -81,7 +81,7 @@
         {
           "type": "float",
           "name": "accumulatedModifier",
-          "comment": "The multiplicative modifier for <code>@({this}#accumulatedTime) - @({this}#lastTime)<code>."
+          "comment": "The multiplicative modifier for `@({this}#accumulatedTime) - @({this}#lastTime)`."
         }
       ],
       "comment": "Updates the values of @({this}#accumulatedTime) and @({this}#lastTime) according to the current tick time." 

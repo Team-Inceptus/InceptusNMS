@@ -4,6 +4,10 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.serialization.json.*
+import org.intellij.markdown.flavours.commonmark.CommonMarkFlavourDescriptor
+import org.intellij.markdown.html.HtmlGenerator
+import org.intellij.markdown.parser.MarkdownParser
+import org.jsoup.Jsoup
 import us.teaminceptus.inceptusnms.generation.DocGenerator.generics
 import us.teaminceptus.inceptusnms.generation.DocGenerator.link
 
@@ -228,6 +232,9 @@ data class ClassDocumentation(
 
     companion object {
 
+        private val markdownFlavorDescriptor = CommonMarkFlavourDescriptor()
+        private val markdownParser = MarkdownParser(markdownFlavorDescriptor)
+
         fun processComment(name: String, comment: String): String {
             if (comment.isEmpty()) return ""
 
@@ -244,12 +251,15 @@ data class ClassDocumentation(
                 }
             }
 
-            return newComment.replace("\n", "<br>")
+            val parsed = markdownParser.buildMarkdownTreeFromString(newComment)
+            val text = HtmlGenerator(newComment, parsed, markdownFlavorDescriptor).generateHtml()
+            return Jsoup.parse(text).selectFirst("body > p")?.html() ?: text
         }
 
         fun processType(name: String, type: String): String =
             Util.mapTypeAliases(type)
                 .replace("{this}", name)
+                .replace("{pkg}", name.substring(0, name.lastIndexOf('.')))
 
 
         fun params(name: String, json: JsonElement?): List<ParameterDocumentation> {
@@ -550,7 +560,11 @@ data class ClassDocumentation(
                     null
             }
 
-            val enclosing = async { clazz["enclosing"]?.jsonPrimitive?.content }.await()
+            val enclosing = async {
+                val rawEnclosing = clazz["enclosing"]?.jsonPrimitive?.content ?: return@async null
+
+                processType(name, rawEnclosing)
+            }.await()
 
             val info = ClassDocumentation(
                 type,

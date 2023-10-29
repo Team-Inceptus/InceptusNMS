@@ -42,9 +42,9 @@
       ],
       "return": {
         "type": "int",
-        "comment": "The Resource or Data Pack Version of this Server, depending on the input type of <code>PackType</code>."
+        "comment": "The Resource or Data Pack Version of this Server, depending on the input type of `PackType`."
       },
-      "comment": "Fetches the Resource or Data Pack Version of this Server, depending on the input type of <code>PackType</code>."
+      "comment": "Fetches the Resource or Data Pack Version of this Server, depending on the input type of `PackType`."
     },
     "getBuildTime": {
       "return": {

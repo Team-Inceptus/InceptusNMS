@@ -59,7 +59,7 @@
       "type": "int",
       "visibility": "private",
       "mods": ["final"],
-      "comment": "The 2D data value of this Direction.\nThis will be <code>-1</code> for 3D directions, which include @({this}#UP) and @({this}#DOWN)."
+      "comment": "The 2D data value of this Direction.\nThis will be `-1` for 3D directions, which include @({this}#UP) and @({this}#DOWN)."
     },
     "name": {
       "type": "string",
@@ -83,7 +83,7 @@
       "type": "net.minecraft.core.Vec3i",
       "visibility": "private",
       "mods": ["final"],
-      "comment": "The normal block position for this Direction.\nThis is represented with its direction being <code>1</code> or <code>-1</code> depending on the axis, and all other coordinates set to <code>0</code>."
+      "comment": "The normal block position for this Direction.\nThis is represented with its direction being `1` or `-1` depending on the axis, and all other coordinates set to `0`."
     },
     "VALUES": {
       "type": "net.minecraft.core.Direction[]",

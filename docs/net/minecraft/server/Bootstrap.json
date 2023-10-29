@@ -117,7 +117,7 @@
     },
     "realStdoutPrintln": {
       "mods": ["static"],
-      "comment": "Performs a <code>println</code> with @({this}#STDOUT)."
+      "comment": "Performs a `println` with @({this}#STDOUT)."
     }
 
   }

@@ -20,7 +20,7 @@
     "ZERO": {
       "type": "{this}",
       "mods": ["static", "final"],
-      "comment": "A @({this}) with a value of <code>0</code>."
+      "comment": "A @({this}) with a value of `0`."
     },
     "data": {
       "type": "int",

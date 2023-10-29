@@ -20,12 +20,12 @@
     "ZERO": {
       "type": "{this}",
       "mods": ["static", "final"],
-      "comment": "A @({this}) with a value of <code>0</code>."
+      "comment": "A @({this}) with a value of `0`."
     },
     "ONE": {
       "type": "{this}",
       "mods": ["static", "final"],
-      "comment": "A @({this}) with a value of <code>1</code>."
+      "comment": "A @({this}) with a value of `1`."
     },
     "data": {
       "type": "byte",
@@ -77,7 +77,7 @@
           "type": "{this}",
           "comment": "A new @(wbyte) tag with the given value."
         },
-        "comment": "Returns a new @(wbyte) tag with <code>1</code> if true or <code>0</code> if false."
+        "comment": "Returns a new @(wbyte) tag with `1` if true or `0` if false."
       }
     ]
   }
