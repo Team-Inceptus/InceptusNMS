@@ -7,6 +7,7 @@ net.minecraft.nbt
 net.minecraft.network
 net.minecraft.network.chat
 net.minecraft.network.protocol
+net.minecraft.network.syncher
 net.minecraft.resources
 net.minecraft.server
 net.minecraft.server.advancements
