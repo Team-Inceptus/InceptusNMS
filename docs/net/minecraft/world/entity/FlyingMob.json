@@ -1,0 +1,25 @@
+{
+  "class": {
+    "type": "class",
+    "extends": "{pkg}.Mob",
+    "mods": ["abstract"],
+    "comment": "Represents a @({pkg}.Mob) that can fly."
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "{pkg}.EntityType<? extends {this}>",
+          "name": "type",
+          "comment": "The type of the entity."
+        },
+        {
+          "type": "net.minecraft.world.level.Level",
+          "name": "world",
+          "comment": "The world this entity is spawning in."
+        }
+      ],
+      "comment": "Constructs a new FlyingMob."
+    }
+  ]
+}
