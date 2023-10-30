@@ -1,0 +1,113 @@
+{
+  "class": {
+    "type": "record",
+    "mods": ["final"],
+    "generics": {
+      "T": {
+        "extends": ["{pkg}.CriterionTriggerInstance"],
+        "comment": "The type of trigger instance that completes this criterion."
+      }
+    },
+    "comment": "Represents a criteria instance for an Advancement."
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "{pkg}.CriterionTrigger<T>",
+          "name": "trigger",
+          "comment": "The trigger that completes this criterion."
+        },
+        {
+          "type": "T",
+          "name": "triggerInstance",
+          "comment": "The instance of the trigger that completes this criterion."
+        }
+      ],
+      "comment": "Creates a new Criterion."
+    }
+  ],
+  "methods": {
+    "criterionFromJson": [
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "com.google.gson.JsonObject",
+            "name": "json",
+            "comment": "The JSON object to deserialize."
+          },
+          {
+            "type": "net.minecraft.advancements.critereon.DeserializationContext",
+            "name": "context",
+            "comment": "The context of the deserialization."
+          }
+        ],
+        "return": {
+          "type": "{this}<?>",
+          "comment": "The deserialized Criterion."
+        },
+        "comment": "Deserializes a Criterion from JSON."
+      },
+      {
+        "visibility": "private",
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "com.google.gson.JsonObject",
+            "name": "json",
+            "comment": "The JSON object to deserialize."
+          },
+          {
+            "type": "net.minecraft.advancements.critereon.DeserializationContext",
+            "name": "context",
+            "comment": "The context of the deserialization."
+          },
+          {
+            "type": "{pkg}.CriterionTrigger<T>",
+            "name": "trigger",
+            "comment": "The trigger that completes this criterion."
+          }
+        ],
+        "generics": {
+          "T": {
+            "extends": ["{pkg}.CriterionTriggerInstance"],
+            "comment": "The type of trigger instance that completes this criterion."
+          }
+        },
+        "return": {
+          "type": "{this}<T>",
+          "comment": "The deserialized Criterion."
+        },
+        "comment": "Deserializes a Criterion from JSON."
+      }
+    ],
+    "criteriaFromJson": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "com.google.gson.JsonObject",
+          "name": "json",
+          "comment": "The JSON object to deserialize."
+        },
+        {
+          "type": "net.minecraft.advancements.critereon.DeserializationContext",
+          "name": "context",
+          "comment": "The context of the deserialization."
+        }
+      ],
+      "return": {
+        "type": "java.util.Map<string, {this}<?>>",
+        "comment": "The deserialized Criteria."
+      },
+      "comment": "Deserializes Criteria from JSON."
+    },
+    "serializeToJson": {
+      "return": {
+        "type": "com.google.gson.JsonElement",
+        "comment": "The serialized Criterion."
+      },
+      "comment": "Serializes this Criterion to JSON."
+    }
+  }
+}
