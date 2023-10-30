@@ -1,0 +1,85 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "An immutable utility class for holding a yaw, pitch, and roll rotation value."
+  },
+  "fields": {
+    "x": {
+      "type": "float",
+      "visibility": "protected",
+      "mods": ["final"],
+      "comment": "The roll rotation value, in degrees."
+    },
+    "y": {
+      "type": "float",
+      "visibility": "protected",
+      "mods": ["final"],
+      "comment": "The pitch rotation value, in degrees."
+    },
+    "z": {
+      "type": "float",
+      "visibility": "protected",
+      "mods": ["final"],
+      "comment": "The yaw rotation value, in degrees."
+    }
+  },
+  "constructors": [
+    {
+      "$fields": [
+        "x",
+        "y",
+        "z"
+      ],
+      "comment": "Constructs a new rotation with the given yaw, pitch, and roll values."
+    },
+    {
+      "params": [
+        {
+          "type": "net.minecraft.nbt.ListTag",
+          "name": "list",
+          "comment": "The list to read from."
+        }
+      ],
+      "comment": "Constructs a new rotation from the given list tag."
+    }
+  ],
+  "methods": {
+    "save": {
+      "return": {
+        "type": "net.minecraft.nbt.ListTag",
+        "comment": "The list tag containing the rotation values."
+      },
+      "comment": "Saves this rotation as a list tag."
+    },
+    "getX": {
+      "$getter": "x"
+    },
+    "getY": {
+      "$getter": "y"
+    },
+    "getZ": {
+      "$getter": "z"
+    },
+    "getWrappedX": {
+      "return": {
+        "type": "float",
+        "comment": "The roll rotation value, in degrees, converted to be between `-180.0` and `180.0`."
+      },
+      "comment": "Gets the roll rotation value, in degrees, converted to be between `-180.0` and `180.0`."
+    },
+    "getWrappedY": {
+      "return": {
+        "type": "float",
+        "comment": "The pitch rotation value, in degrees, converted to be between `-180.0` and `180.0`."
+      },
+      "comment": "Gets the pitch rotation value, in degrees, converted to be between `-180.0` and `180.0`."
+    },
+    "getWrappedZ": {
+      "return": {
+        "type": "float",
+        "comment": "The yaw rotation value, in degrees, converted to be between `-180.0` and `180.0`."
+      },
+      "comment": "Gets the yaw rotation value, in degrees, converted to be between `-180.0` and `180.0`."
+    }
+  }
+}
