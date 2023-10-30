@@ -1,0 +1,48 @@
+{
+  "class": {
+    "type": "record",
+    "enclosing": "{pkg}.CriterionTrigger",
+    "mods": ["static"],
+    "generics": {
+      "T": {
+        "extends": ["{pkg}.CriterionTriggerInstance"],
+        "comment": "The type of the criterion trigger instance."
+      }
+    },
+    "comment": "Represents a listener for a criterion trigger that detects when it is completed."
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "T",
+          "name": "instance",
+          "comment": "The criterion trigger instance."
+        },
+        {
+          "type": "{pkg}.AdvancementHolder",
+          "name": "advancement",
+          "comment": "The advancement holder."
+        },
+        {
+          "type": "string",
+          "name": "criterion",
+          "comment": "The criterion name."
+        }
+      ],
+      "comment": "Creates a new criterion trigger listener."
+    }
+  ],
+  "methods": {
+    "run": {
+      "params": [
+        {
+          "type": "net.minecraft.server.PlayerAdvancements",
+          "name": "handler",
+          "comment": "The player advancements handler to run on."
+        }
+      ],
+      "comment": "Runs the criterion trigger listener."
+    }
+  }
+}

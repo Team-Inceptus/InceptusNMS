@@ -1,0 +1,88 @@
+{
+  "class": {
+    "type": "interface",
+    "generics": {
+      "T": {
+        "extends": ["{pkg}.CriterionTriggerInstance"],
+        "comment": "The type of the trigger instance."
+      }
+    },
+    "comment": "Interface for all classes that can be used as a trigger that completes an Advancement criterion."
+  },
+  "methods": {
+    "addPlayerListener": {
+      "params": [
+        {
+          "type": "net.minecraft.server.PlayerAdvancements",
+          "name": "handler",
+          "comment": "The player advancements handler to add the listener to."
+        },
+        {
+          "type": "{this}$Listener",
+          "name": "listener",
+          "comment": "The listener to add."
+        }
+      ],
+      "comment": "Adds the given listener to the given player advancements handler."
+    },
+    "removePlayerListener": {
+      "params": [
+        {
+          "type": "net.minecraft.server.PlayerAdvancements",
+          "name": "handler",
+          "comment": "The player advancements handler to remove the listener from."
+        },
+        {
+          "type": "{this}$Listener",
+          "name": "listener",
+          "comment": "The listener to remove."
+        }
+      ],
+      "comment": "Removes the given listener from the given player advancements handler."
+    },
+    "removePlayerListeners": {
+      "params": [
+        {
+          "type": "net.minecraft.server.PlayerAdvancements",
+          "name": "handler",
+          "comment": "The player advancements handler to remove the listeners from."
+        }
+      ],
+      "comment": "Removes all listeners from the given player advancements handler."
+    },
+    "createInstance": {
+      "params": [
+        {
+          "type": "com.google.gson.JsonObject",
+          "name": "json",
+          "comment": "The json object to create the instance from."
+        },
+        {
+          "type": "net.minecraft.advancements.critereon.DeserializationContext",
+          "name": "context",
+          "comment": "The deserialization context."
+        }
+      ],
+      "return": {
+        "type": "T",
+        "comment": "The created instance."
+      },
+      "comment": "Creates a new trigger instance for this trigger from JSON."
+    },
+    "createCriterion": {
+      "mods": ["default"],
+      "params": [
+        {
+          "type": "T",
+          "name": "instance",
+          "comment": "The instance to create the criterion for."
+        }
+      ],
+      "return": {
+        "type": "{pkg}.Criterion<T>",
+        "comment": "The created criterion."
+      },
+      "comment": "Creates a new criterion for the given instance."
+    }
+  }
+}
