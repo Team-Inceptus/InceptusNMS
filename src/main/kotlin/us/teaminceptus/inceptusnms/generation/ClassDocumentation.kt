@@ -284,16 +284,14 @@ data class ClassDocumentation(
         }
 
         fun annotations(name: String, json: JsonElement?, deprecated: Boolean = false): List<AnnotationDocumentation> {
-            if (json == null) return emptyList()
-
-            val added = json.jsonArray.map {
+            val added = json?.jsonArray?.map {
                 val annotation = it.jsonObject
 
                 AnnotationDocumentation(
                     processType(name, annotation.jsonObject["type"]!!.jsonPrimitive.content),
                     params(name, annotation.jsonObject["params"])
                 )
-            }.toMutableList()
+            }?.toMutableList() ?: mutableListOf()
 
             if (!added.any { it.type == "java.lang.Deprecated" } && deprecated)
                 added.add(AnnotationDocumentation.DEPRECATED_DEFAULT)
@@ -314,8 +312,8 @@ data class ClassDocumentation(
 
                             GenericDocumentation(
                                 generic.key,
-                                obj["extends"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
-                                obj["supers"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
+                                obj["extends"]?.jsonArray?.map { processType(name, it.jsonPrimitive.content) } ?: emptyList(),
+                                obj["supers"]?.jsonArray?.map { processType(name, it.jsonPrimitive.content) } ?: emptyList(),
                                 processComment(name, obj["comment"]!!.jsonPrimitive.content)
                             )
                         }
@@ -496,8 +494,8 @@ data class ClassDocumentation(
 
                             GenericDocumentation(
                                 generic.key,
-                                g["extends"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
-                                g["supers"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
+                                g["extends"]?.jsonArray?.map { processType(name, it.jsonPrimitive.content) } ?: emptyList(),
+                                g["supers"]?.jsonArray?.map { processType(name, it.jsonPrimitive.content) } ?: emptyList(),
                                 processComment(name, g["comment"]!!.jsonPrimitive.content)
                             )
                         } ?: emptyList(),
