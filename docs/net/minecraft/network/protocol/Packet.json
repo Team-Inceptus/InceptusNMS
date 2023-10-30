@@ -15,7 +15,7 @@
     "write": {
       "params": [
         {
-          "type": "net.minecraft.network.FriendlyByteBuf",
+          "type": "fbytebuf",
           "name": "buffer",
           "comment": "The byte buffer to write this packet's contents to."
         }

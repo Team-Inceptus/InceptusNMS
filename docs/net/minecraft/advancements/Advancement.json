@@ -141,7 +141,7 @@
     "write": {
       "params": [
         {
-          "type": "net.minecraft.network.FriendlyByteBuf",
+          "type": "fbytebuf",
           "name": "buffer",
           "comment": "The Byte Buffer to write to."
         }
@@ -152,7 +152,7 @@
       "mods": ["static"],
       "params": [
         {
-          "type": "net.minecraft.network.FriendlyByteBuf",
+          "type": "fbytebuf",
           "name": "buffer",
           "comment": "The Byte Buffer to read from."
         }

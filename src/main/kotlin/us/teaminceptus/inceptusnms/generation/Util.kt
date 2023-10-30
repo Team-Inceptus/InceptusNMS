@@ -38,6 +38,7 @@ object Util {
         "codec" to "com.mojang.serialization.Codec",
         "deprecated" to "java.lang.Deprecated",
         "bytebuf" to "io.netty.buffer.ByteBuf",
+        "fbytebuf" to "net.minecraft.network.FriendlyByteBuf",
         "nullable" to "javax.annotation.Nullable",
     )
 

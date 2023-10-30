@@ -165,7 +165,7 @@
     "serializeToNetwork": {
       "params": [
         {
-          "type": "net.minecraft.network.FriendlyByteBuf",
+          "type": "fbytebuf",
           "name": "buffer",
           "comment": "The buffer to serialize to."
         }
@@ -176,7 +176,7 @@
       "mods": ["static"],
       "params": [
         {
-          "type": "net.minecraft.network.FriendlyByteBuf",
+          "type": "fbytebuf",
           "name": "buffer",
           "comment": "The buffer to deserialize from."
         }
