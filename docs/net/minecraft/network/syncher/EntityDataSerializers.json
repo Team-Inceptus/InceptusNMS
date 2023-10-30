@@ -1,0 +1,191 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Utility class for listing all built-in Entity Data Serializers."
+  },
+  "fields": {
+    "SERIALIZERS": {
+      "type": "net.minecraft.util.CrudeIncrementalIntIdentityHashBiMap<{pkg}.EntityDataSerializer<?>>",
+      "mods": ["static", "final"],
+      "comment": "The registry of all built-in Entity Data Serializers."
+    },
+    "BYTE": {
+      "type": "{pkg}.EntityDataSerializer<wbyte>",
+      "mods": ["static", "final"],
+      "comment": "The Byte Entity Data Serializer."
+    },
+    "INT": {
+      "type": "{pkg}.EntityDataSerializer<wint>",
+      "mods": ["static", "final"],
+      "comment": "The Integer Entity Data Serializer."
+    },
+    "FLOAT": {
+      "type": "{pkg}.EntityDataSerializer<wfloat>",
+      "mods": ["static", "final"],
+      "comment": "The Float Entity Data Serializer."
+    },
+    "STRING": {
+      "type": "{pkg}.EntityDataSerializer<string>",
+      "mods": ["static", "final"],
+      "comment": "The String Entity Data Serializer."
+    },
+    "COMPONENT": {
+      "type": "{pkg}.EntityDataSerializer<component>",
+      "mods": ["static", "final"],
+      "comment": "The Component Entity Data Serializer."
+    },
+    "OPTIONAL_COMPONENT": {
+      "type": "{pkg}.EntityDataSerializer<java.util.Optional<component>>",
+      "mods": ["static", "final"],
+      "comment": "The Optional Component Entity Data Serializer."
+    },
+    "ITEM_STACK": {
+      "type": "{pkg}.EntityDataSerializer<net.minecraft.world.item.ItemStack>",
+      "mods": ["static", "final"],
+      "comment": "The ItemStack Entity Data Serializer."
+    },
+    "BLOCK_STATE": {
+      "type": "{pkg}.EntityDataSerializer<net.minecraft.world.level.block.state.BlockState>",
+      "mods": ["static", "final"],
+      "comment": "The BlockState Entity Data Serializer."
+    },
+    "OPTIONAL_BLOCK_STATE": {
+      "type": "{pkg}.EntityDataSerializer<java.util.Optional<net.minecraft.world.level.block.state.BlockState>>",
+      "mods": ["static", "final"],
+      "comment": "The Optional BlockState Entity Data Serializer."
+    },
+    "BOOLEAN": {
+      "type": "{pkg}.EntityDataSerializer<wboolean>",
+      "mods": ["static", "final"],
+      "comment": "The Boolean Entity Data Serializer."
+    },
+    "ROTATIONS": {
+      "type": "{pkg}.EntityDataSerializer<net.minecraft.core.Rotations>",
+      "mods": ["static", "final"],
+      "comment": "The Rotations Entity Data Serializer."
+    },
+    "BLOCK_POS": {
+      "type": "{pkg}.EntityDataSerializer<net.minecraft.core.BlockPos>",
+      "mods": ["static", "final"],
+      "comment": "The BlockPos Entity Data Serializer."
+    },
+    "OPTIONAL_BLOCK_POS": {
+      "type": "{pkg}.EntityDataSerializer<java.util.Optional<net.minecraft.core.BlockPos>>",
+      "mods": ["static", "final"],
+      "comment": "The Optional BlockPos Entity Data Serializer."
+    },
+    "DIRECTION": {
+      "type": "{pkg}.EntityDataSerializer<net.minecraft.core.Direction>",
+      "mods": ["static", "final"],
+      "comment": "The Direction Entity Data Serializer."
+    },
+    "OPTIONAL_UUID": {
+      "type": "{pkg}.EntityDataSerializer<java.util.Optional<java.util.UUID>>",
+      "mods": ["static", "final"],
+      "comment": "The Optional UUID Entity Data Serializer."
+    },
+    "OPTIONAL_GLOBAL_POS": {
+      "type": "{pkg}.EntityDataSerializer<java.util.Optional<net.minecraft.core.GlobalPos>>",
+      "mods": ["static", "final"],
+      "comment": "The Optional GlobalPos Entity Data Serializer."
+    },
+    "COMPOUND_TAG": {
+      "type": "{pkg}.EntityDataSerializer<net.minecraft.nbt.CompoundTag>",
+      "mods": ["static", "final"],
+      "comment": "The CompoundTag Entity Data Serializer."
+    },
+    "VILLAGER_DATA": {
+      "type": "{pkg}.EntityDataSerializer<net.minecraft.world.entity.npc.VillagerData>",
+      "mods": ["static", "final"],
+      "comment": "The VillagerData Entity Data Serializer."
+    },
+    "OPTIONAL_UNSIGNED_INT": {
+      "type": "{pkg}.EntityDataSerializer<java.util.OptionalInt>",
+      "mods": ["static", "final"],
+      "comment": "The Optional Unsigned Integer Entity Data Serializer."
+    },
+    "POSE": {
+      "type": "{pkg}.EntityDataSerializer<net.minecraft.world.entity.Pose>",
+      "mods": ["static", "final"],
+      "comment": "The Pose Entity Data Serializer."
+    },
+    "CAT_VARIANT": {
+      "type": "{pkg}.EntityDataSerializer<net.minecraft.world.entity.animal.CatVariant>",
+      "mods": ["static", "final"],
+      "comment": "The Cat Variant Entity Data Serializer."
+    },
+    "FROG_VARIANT": {
+      "type": "{pkg}.EntityDataSerializer<net.minecraft.world.entity.animal.FrogVariant>",
+      "mods": ["static", "final"],
+      "comment": "The Frog Variant Entity Data Serializer."
+    },
+    "PAINTING_VARIANT": {
+      "type": "{pkg}.EntityDataSerializer<net.minecraft.core.Holder<net.minecraft.world.entity.decoration.PaintingVariant>>",
+      "mods": ["static", "final"],
+      "comment": "The Painting Variant Entity Data Serializer."
+    },
+    "SNIFFER_STATE": {
+      "type": "{pkg}.EntityDataSerializer<net.minecraft.world.entity.animal.sniffer.Sniffer$State>",
+      "mods": ["static", "final"],
+      "comment": "The Sniffer State Entity Data Serializer."
+    },
+    "VECTOR3": {
+      "type": "{pkg}.EntityDataSerializer<org.joml.Vector3f>",
+      "mods": ["static", "final"],
+      "comment": "The Vector3f Entity Data Serializer."
+    },
+    "QUATERNION": {
+      "type": "{pkg}.EntityDataSerializer<org.joml.Quaternionf>",
+      "mods": ["static", "final"],
+      "comment": "The Quaternionf Entity Data Serializer."
+    }
+  },
+  "methods": {
+    "registerSerializer": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "{pkg}.EntityDataSerializer<?>",
+          "name": "serializer",
+          "comment": "The serializer to register."
+        }
+      ],
+      "comment": "Registers a new Entity Data Serializer."
+    },
+    "getSerializer": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "int",
+          "name": "id",
+          "comment": "The id of the serializer to get."
+        }
+      ],
+      "return": {
+        "type": "{pkg}.EntityDataSerializer<?>",
+        "comment": "The serializer with the specified id, or null if not found."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Gets the Entity Data Serializer with the specified id."
+    },
+    "getSerializedId": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "{pkg}.EntityDataSerializer<?>",
+          "name": "serializer",
+          "comment": "The serializer to get the id of."
+        }
+      ],
+      "return": {
+        "type": "int",
+        "comment": "The id of the specified serializer, or `-1` if not found."
+      },
+      "comment": "Gets the id of the specified Entity Data Serializer."
+    }
+  }
+}

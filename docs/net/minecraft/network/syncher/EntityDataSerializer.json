@@ -1,0 +1,164 @@
+{
+  "class": {
+    "type": "interface",
+    "generics": {
+      "T": {
+        "comment": "The type of the class to serialize and desesrialize."
+      }
+    },
+    "comment": "A serializer for synchronized entity data."
+  },
+  "methods": {
+    "createAccessor": {
+      "mods": ["default"],
+      "params": [
+        {
+          "type": "int",
+          "name": "id",
+          "comment": "The id of the accessor."
+        }
+      ],
+      "return": {
+        "type": "{pkg}.EntityDataAccessor<T>",
+        "comment": "The created accessor."
+      },
+      "comment": "Creates an accessor for the given id."
+    },
+    "simple": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "fbytebuf$Writer<T>",
+          "name": "writer",
+          "comment": "The writer to use."
+        },
+        {
+          "type": "fbytebuf$Reader<T>",
+          "name": "reader",
+          "comment": "The reader to use."
+        }
+      ],
+      "generics": {
+        "T": {
+          "comment": "The type of the class to serialize and desesrialize."
+        }
+      },
+      "return": {
+        "type": "{this}<T>",
+        "comment": "The created serializer."
+      },
+      "comment": "Creates a simple @({this})."
+    },
+    "optional": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "fbytebuf$Writer<T>",
+          "name": "writer",
+          "comment": "The writer to use."
+        },
+        {
+          "type": "fbytebuf$Reader<T>",
+          "name": "reader",
+          "comment": "The reader to use."
+        }
+      ],
+      "generics": {
+        "T": {
+          "comment": "The type of the class to serialize and desesrialize."
+        }
+      },
+      "return": {
+        "type": "{this}<Optional<T>>",
+        "comment": "The created serializer."
+      },
+      "comment": "Creates a simple @({this}) that serializes an optional value."
+    },
+    "simpleEnum": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "java.lang.Class<T>",
+          "name": "clazz",
+          "comment": "The class of the enum to serialize and deserialize."
+        }
+      ],
+      "generics": {
+        "T": {
+          "extends": [
+            "java.lang.Enum<T>"
+          ],
+          "comment": "The enum class to serialize and deserialize."
+        }
+      },
+      "return": {
+        "type": "{this}<T>",
+        "comment": "The created serializer."
+      },
+      "comment": "Creates a simple @({this}) for an enum."
+    },
+    "simpleId": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.core.IdMap<T>",
+          "name": "idMap",
+          "comment": "The id map to use."
+        }
+      ],
+      "generics": {
+        "T": {
+          "comment": "The type of the class to serialize and desesrialize."
+        }
+      },
+      "return": {
+        "type": "{this}<T>",
+        "comment": "The created serializer."
+      },
+      "comment": "Creates a simple @({this}) for an id map."
+    },
+    "write": {
+      "params": [
+        {
+          "type": "fbytebuf",
+          "name": "buf",
+          "comment": "The buffer to write to."
+        },
+        {
+          "type": "T",
+          "name": "value",
+          "comment": "The value to write."
+        }
+      ],
+      "comment": "Writes the given value to the given buffer."
+    },
+    "read": {
+      "params": [
+        {
+          "type": "fbytebuf",
+          "name": "buf",
+          "comment": "The buffer to read from."
+        }
+      ],
+      "return": {
+        "type": "T",
+        "comment": "The read value."
+      },
+      "comment": "Reads a value from the given buffer."
+    },
+    "copy": {
+      "params": [
+        {
+          "type": "T",
+          "name": "value",
+          "comment": "The value to copy."
+        }
+      ],
+      "return": {
+        "type": "T",
+        "comment": "A copy of the given value."
+      },
+      "comment": "Creates a copy of the given value."
+    }
+  }
+}

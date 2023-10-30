@@ -1,0 +1,42 @@
+{
+  "class": {
+    "type": "class",
+    "generics": {
+      "T": {
+        "comment": "The type of the value accessed."
+      }
+    },
+    "comment": "Utility class for accessing entity data."
+  },
+  "fields": {
+    "id": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The id of this accessor."
+    },
+    "serializer": {
+      "type": "{pkg}.EntityDataSerializer<T>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The serializer used to serialize and deserialize the entity data."
+    }
+  },
+  "constructors": [
+    {
+      "$fields": [
+        "id",
+        "serializer"
+      ],
+      "comment": "Creates a new accessor."
+    }
+  ],
+  "methods": {
+    "getId": {
+      "$getter": "id"
+    },
+    "getSerializer": {
+      "$getter": "serializer"
+    }
+  }
+}
