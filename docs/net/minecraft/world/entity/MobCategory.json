@@ -1,0 +1,119 @@
+{
+  "class": {
+    "type": "enum",
+    "implements": [
+      "net.minecraft.util.StringRepresentable"
+    ],
+    "comment": "Represents a category for a @({pkg}.Mob) entity."
+  },
+  "enumerations": [
+    {
+      "name": "MONSTER",
+      "comment": "A hostile mob that usually attacks the player."
+    },
+    {
+      "name": "CREATURE",
+      "comment": "An entity with simple ai."
+    },
+    {
+      "name": "AMBIENT",
+      "comment": "An entity that is usually aesthetical and provides no significant functionality."
+    },
+    {
+      "name": "AXOLOTLS",
+      "comment": "An axolotl mob."
+    },
+    {
+      "name": "UNDERGROUND_WATER_CREATURE",
+      "comment": "A water creature that spawns underground."
+    },
+    {
+      "name": "WATER_CREATURE",
+      "comment": "A water creature that spawns in the water."
+    },
+    {
+      "name": "WATER_AMBIENT",
+      "comment": "An ambient water creature."
+    },
+    {
+      "name": "MISC",
+      "comment": "A miscellaneous mob."
+    }
+  ],
+  "fields": {
+    "noDespawnDistance": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "value": "32",
+      "comment": "The maximum distance from which the mob will not despawn."
+    },
+    "CODEC": {
+      "type": "codec<{this}>",
+      "mods": ["static", "final"],
+      "comment": "A codec for this enum."
+    },
+    "max": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The maximum amount of entities in this category that can be present in a single chunk."
+    },
+    "isFriendly": {
+      "type": "boolean",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "Whether this category is friendly towards players."
+    },
+    "isPersistent": {
+      "type": "boolean",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "Whether this category is persistent."
+    },
+    "name": {
+      "type": "string",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The name of this category."
+    },
+    "despawnDistance": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The maximum distance from which the mob will despawn."
+    }
+  },
+  "constructors": [
+    {
+      "$fields": [
+        "name",
+        "max",
+        "isFriendly",
+        "isPersistent",
+        "despawnDistance"
+      ],
+      "comment": "Constructs a new MobCategory."
+    }
+  ],
+  "methods": {
+    "getName": {
+      "$getter": "name"
+    },
+    "getMaxInstancesPerChunk": {
+      "$getter": "max"
+    },
+    "isFriendly": {
+      "$getter": "isFriendly"
+    },
+    "isPersistent": {
+      "$getter": "isPersistent"
+    },
+    "getDespawnDistance": {
+      "$getter": "despawnDistance"
+    },
+    "getNoDespawnDistance": {
+      "$getter": "noDespawnDistance"
+    }
+  }
+}
