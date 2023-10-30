@@ -1,0 +1,78 @@
+{
+  "class": {
+    "type": "interface",
+    "implements": [
+      "java.lang.Iterable<T>"
+    ],
+    "generics": {
+      "T": {
+        "comment": "The type of the values in the map."
+      }
+    },
+    "comment": "Interface that represents a map of ids to values."
+  },
+  "fields": {
+    "DEFAULT": {
+      "type": "int",
+      "value": "-1",
+      "comment": "The default value for the fetched id."
+    }
+  },
+  "methods": {
+    "getId": {
+      "params": [
+        {
+          "type": "T",
+          "name": "value",
+          "comment": "The value to get the id for."
+        }
+      ],
+      "return": {
+        "type": "int",
+        "comment": "The id for the given value."
+      },
+      "comment": "Gets the id for the given value."
+    },
+    "byId": {
+      "params": [
+        {
+          "type": "int",
+          "name": "id",
+          "comment": "The id to get the value for."
+        }
+      ],
+      "return": {
+        "type": "T",
+        "comment": "The value for the given id."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Gets the value for the given id."
+    },
+    "byIdOrThrow": {
+      "mods": ["default"],
+      "params": [
+        {
+          "type": "int",
+          "name": "id",
+          "comment": "The id to get the value for."
+        }
+      ],
+      "return": {
+        "type": "T",
+        "comment": "The value for the given id."
+      },
+      "comment": "Gets the value for the given id, throwing an exception if a value with the id is not found."
+    },
+    "size": {
+      "return": {
+        "type": "int",
+        "comment": "The number of values in the map."
+      },
+      "comment": "Gets the number of values in the map."
+    }
+  }
+}
