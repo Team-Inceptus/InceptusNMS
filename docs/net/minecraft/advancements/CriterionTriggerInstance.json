@@ -1,0 +1,15 @@
+{
+  "class": {
+    "type": "interface",
+    "comment": "Interface for all classes that can be used as an instance for the trigger that completes an Advancement criterion."
+  },
+  "methods": {
+    "serializeToJson": {
+      "return": {
+        "type": "com.google.gson.JsonObject",
+        "comment": "The serialized JSON Object."
+      },
+      "comment": "Serializes this trigger to a JSON Object."
+    }
+  }
+}
