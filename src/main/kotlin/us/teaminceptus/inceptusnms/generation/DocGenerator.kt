@@ -1073,7 +1073,11 @@ object DocGenerator {
     }
 
     fun generateConstructorSummary(info: ClassDocumentation): Element? {
-        val constructors = info.constructors?.constructors ?: return null
+        val constructors = info.constructors?.constructors?.sortedWith(compareBy(
+            { it.primary },
+            { it.parameters.size },
+            { constr -> constr.parameters.joinToString(",") { it.type } }
+        )) ?: return null
         val summary = Element("section").apply {
             addClass("constructor-summary")
             id("constructor-summary")
@@ -1140,7 +1144,11 @@ object DocGenerator {
     }
 
     fun generateMethodSummary(info: ClassDocumentation): Element? {
-        val methods = info.methods?.methods?.sortedBy { it.name }
+        val methods = info.methods?.methods?.sortedWith(compareBy(
+            { it.name },
+            { it.parameters.size },
+            { method -> method.parameters.joinToString(",") { it.type } }
+        ))
         val inheritedMethods = Util.getInheritedMethods(info)
 
         if (methods.isNullOrEmpty() && inheritedMethods.isEmpty()) return null
@@ -1443,7 +1451,11 @@ object DocGenerator {
     }
 
     fun generateConstructorDetail(info: ClassDocumentation): Element? {
-        val constructors = info.constructors?.constructors ?: return null
+        val constructors = info.constructors?.constructors?.sortedWith(compareBy(
+            { it.primary },
+            { it.parameters.size },
+            { constr -> constr.parameters.joinToString(",") { it.type } }
+        )) ?: return null
         val detail = Element("section").apply {
             addClass("constructor-details")
             id("constructor-detail")
@@ -1509,7 +1521,11 @@ object DocGenerator {
     }
 
     fun generateMethodDetail(info: ClassDocumentation): Element? {
-        val methods = info.methods?.methods ?: return null
+        val methods = info.methods?.methods?.sortedWith(compareBy(
+            { it.name },
+            { it.parameters.size },
+            { method -> method.parameters.joinToString(",") { it.type } }
+        )) ?: return null
         val detail = Element("section").apply {
             addClass("method-details")
             id("method-detail")
