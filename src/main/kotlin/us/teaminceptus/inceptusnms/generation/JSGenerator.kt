@@ -45,7 +45,7 @@ object JSGenerator {
                 "u" to JsonPrimitive("allclasses-index.html"),
             )))
 
-            for (type in Util.getClassDocumentation())
+            for (type in Util.getClassDocumentation().sortedBy { it.name })
                 add(JsonObject(mapOf(
                     "p" to JsonPrimitive(type.pkg),
                     "l" to JsonPrimitive(type.simpleName),
@@ -60,22 +60,22 @@ object JSGenerator {
 
     fun generateMemberSearchIndex(output: File) {
         val list = buildJsonArray {
-            for (type in Util.getClassDocumentation()) {
-                for (enum in type.enumerations?.enums ?: emptyList())
+            for (type in Util.getClassDocumentation().sortedBy { it.name }) {
+                for (enum in type.enumerations?.enums?.sortedBy { it.name } ?: emptyList())
                     add(JsonObject(mapOf(
                         "p" to JsonPrimitive(type.pkg),
                         "c" to JsonPrimitive(type.simpleName),
                         "l" to JsonPrimitive(enum.name)
                     )))
 
-                for (field in type.fields?.fields ?: emptyList())
+                for (field in type.fields?.fields?.sortedBy { it.name } ?: emptyList())
                     add(JsonObject(mapOf(
                         "p" to JsonPrimitive(type.pkg),
                         "c" to JsonPrimitive(type.simpleName),
                         "l" to JsonPrimitive(field.name),
                     )))
 
-                for (method in type.methods?.methods ?: emptyList())
+                for (method in type.methods?.methods?.sortedBy { it.fullName } ?: emptyList())
                     add(JsonObject(mapOf(
                         "p" to JsonPrimitive(type.pkg),
                         "c" to JsonPrimitive(type.simpleName),
