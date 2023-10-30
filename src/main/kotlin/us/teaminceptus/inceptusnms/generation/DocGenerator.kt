@@ -813,10 +813,7 @@ object DocGenerator {
                 append("<span class=\"modifiers\">${info.visibility} ${info.mods.joinString(" ")}${info.type} </span>")
 
                 val clazzBuilder = StringBuilder()
-                clazzBuilder.append("<span class=\"element-name type-name-label\">${info.simpleName}")
-
-                if (info.generics.isNotEmpty())
-                    clazzBuilder.append("<${info.generics.map { it.name }.joinString(", ")}>")
+                clazzBuilder.append("<span class=\"element-name type-name-label\">${info.docName}")
 
                 clazzBuilder.append("</span>")
                 if (info.type == "record" && !constructors.isNullOrEmpty())
