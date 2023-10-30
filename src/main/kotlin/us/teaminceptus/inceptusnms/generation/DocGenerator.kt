@@ -988,7 +988,7 @@ object DocGenerator {
 
                 appendChild(Element("div").apply {
                     classNames(setOf("col-last", rowColor))
-                    if (enum.annotations.any { it.type == DEPRECATED_TYPE }) {
+                    if (enum.annotations.any { it.type == DEPRECATED_TYPE } || info.deprecated.isNotEmpty()) {
                         appendChild(Element("div").apply {
                             addClass("block")
 
@@ -1053,7 +1053,7 @@ object DocGenerator {
 
                 appendChild(Element("div").apply {
                     classNames(setOf("col-last", rowColor))
-                    if (field.annotations.any { it.type == DEPRECATED_TYPE }) {
+                    if (field.annotations.any { it.type == DEPRECATED_TYPE } || info.deprecated.isNotEmpty()) {
                         appendChild(Element("div").apply {
                             addClass("block")
 
@@ -1124,7 +1124,7 @@ object DocGenerator {
 
                 appendChild(Element("div").apply {
                     classNames(setOf("col-last", rowColor))
-                    if (constructor.annotations.any { it.type == DEPRECATED_TYPE }) {
+                    if (constructor.annotations.any { it.type == DEPRECATED_TYPE } || info.deprecated.isNotEmpty()) {
                         appendChild(Element("div").apply {
                             addClass("block")
 
@@ -1293,7 +1293,7 @@ object DocGenerator {
                     appendChild(Element("div").apply {
                         classNames(classes + "col-last")
 
-                        if (method.annotations.any { it.type == DEPRECATED_TYPE }) {
+                        if (method.annotations.any { it.type == DEPRECATED_TYPE } || info.deprecated.isNotEmpty()) {
                             appendChild(Element("div").apply {
                                 addClass("block")
 
@@ -1365,7 +1365,7 @@ object DocGenerator {
                         append("<span class=\"element-name\">${enum.name}</span>")
                     })
 
-                    if (enum.annotations.any { it.type == DEPRECATED_TYPE }) {
+                    if (enum.annotations.any { it.type == DEPRECATED_TYPE } || info.deprecated.isNotEmpty()) {
                         appendChild(Element("div").apply {
                             addClass("deprecation-block")
 
@@ -1424,7 +1424,7 @@ object DocGenerator {
                         append("<span class=\"element-name\">${field.name}</span>")
                     })
 
-                    if (field.annotations.any { it.type == DEPRECATED_TYPE }) {
+                    if (field.annotations.any { it.type == DEPRECATED_TYPE } || info.deprecated.isNotEmpty()) {
                         appendChild(Element("div").apply {
                             addClass("deprecation-block")
 
@@ -1493,7 +1493,7 @@ object DocGenerator {
                         })
                     })
 
-                    if (constructor.annotations.any { it.type == DEPRECATED_TYPE }) {
+                    if (constructor.annotations.any { it.type == DEPRECATED_TYPE } || info.deprecated.isNotEmpty()) {
                         appendChild(Element("div").apply {
                             addClass("deprecation-block")
 
@@ -1571,7 +1571,7 @@ object DocGenerator {
                         }
                     })
 
-                    if (method.annotations.any { it.type == DEPRECATED_TYPE }) {
+                    if (method.annotations.any { it.type == DEPRECATED_TYPE } || info.deprecated.isNotEmpty()) {
                         appendChild(Element("div").apply {
                             addClass("deprecation-block")
 
