@@ -3,7 +3,7 @@ import java.io.IOException
 import java.nio.charset.StandardCharsets
 
 plugins {
-    kotlin("jvm") version "1.9.10"
+    kotlin("jvm") version "1.9.20"
     kotlin("plugin.serialization") version "1.9.10"
 }
 
