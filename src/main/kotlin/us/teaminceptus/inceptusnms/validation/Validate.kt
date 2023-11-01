@@ -6,7 +6,6 @@ import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.*
 import us.teaminceptus.inceptusnms.generation.Util.error
 import us.teaminceptus.inceptusnms.generation.Util.getJavaName
-import us.teaminceptus.inceptusnms.generation.Util.getJavaPackage
 import us.teaminceptus.inceptusnms.generation.Util.log
 import java.io.File
 import java.lang.AssertionError
@@ -42,6 +41,7 @@ fun main(args: Array<String>) {
         }
     } catch (e: AssertionError) {
         error(e.message ?: "Assertion Error")
+        exitProcess(1)
     }
 }
 
