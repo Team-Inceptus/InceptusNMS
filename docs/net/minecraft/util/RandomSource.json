@@ -1,0 +1,199 @@
+{
+  "class": {
+    "type": "interface",
+    "comment": "NMS abstraction for generating random resources and values"
+  },
+  "fields": {
+    "GAUSSIAN_SPREAD_FACTOR": {
+      "deprecated": "Unused internally and generally unreliable",
+      "type": "double",
+      "value": "2.297",
+      "comment": "The spread factor for the gaussian distribution used by the random generator"
+    }
+  },
+  "methods": {
+    "create": [
+      {
+        "mods": ["static"],
+        "return": {
+          "type": "{this}",
+          "comment": "A new random generator"
+        },
+        "comment": "Creates a new random generator with no seed."
+      },
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "long",
+            "name": "seed",
+            "comment": "The seed to use for the random generator"
+          }
+        ],
+        "comment": "Creates a new random generator with the given seed."
+      }
+    ],
+    "createThreadSafe": {
+      "deprecated": "Use @({this}#createNewThreadLocalInstance()) to use the thread's seed instead of a random one",
+      "mods": ["static"],
+      "return": {
+        "type": "{this}",
+        "comment": "A new thread-safe random generator"
+      },
+      "comment": "Creates a thread-safe new random generator with a random seed."
+    },
+    "createNewThreadLocalInstance": {
+      "mods": ["static"],
+      "return": {
+        "type": "{this}",
+        "comment": "A new thread-safe random generator"
+      },
+      "comment": "Creates a new thread-safe random generator with its seed based on the thread's random generator."
+    },
+    "fork": {
+      "return": {
+        "type": "{this}",
+        "comment": "A new random generator with the same seed as this one"
+      },
+      "comment": "Clones this random generator."
+    },
+    "forkPositional": {
+      "return": {
+        "type": "net.minecraft.world.level.levelgen.PositionalRandomFactory",
+        "comment": "A new positional random factory with the same seed as this one"
+      },
+      "comment": "Clones this random factory to a positional one."
+    },
+    "setSeed": {
+      "params": [
+        {
+          "type": "long",
+          "name": "seed",
+          "comment": "The seed to use for the random generator"
+        }
+      ],
+      "comment": "Sets the seed of this random generator."
+    },
+    "nextInt": [
+      {
+        "return": {
+          "type": "int",
+          "comment": "A random integer"
+        },
+        "comment": "Generates a random integer."
+      },
+      {
+        "params": [
+          {
+            "type": "int",
+            "name": "bound",
+            "comment": "The upper bound (exclusive)"
+          }
+        ],
+        "return": {
+          "type": "int",
+          "comment": "A random integer"
+        },
+        "comment": "Generates a random integer between 0 (inclusive) and the given bound (exclusive)."
+      },
+      {
+        "params": [
+          {
+            "type": "int",
+            "name": "min",
+            "comment": "The lower bound (inclusive)"
+          },
+          {
+            "type": "int",
+            "name": "max",
+            "comment": "The upper bound (exclusive)"
+          }
+        ],
+        "return": {
+          "type": "int",
+          "comment": "A random integer"
+        },
+        "comment": "Generates a random integer between the given bounds (inclusive and exclusive)."
+      }
+    ],
+    "nextIntBetweenInclusive": {
+      "mods": ["default"],
+      "params": [
+        {
+          "type": "int",
+          "name": "min",
+          "comment": "The lower bound (inclusive)"
+        },
+        {
+          "type": "int",
+          "name": "max",
+          "comment": "The upper bound (inclusive)"
+        }
+      ],
+      "return": {
+        "type": "int",
+        "comment": "A random integer"
+      },
+      "comment": "Generates a random integer between the given bounds (inclusive)."
+    },
+    "nextLong": {
+      "return": {
+        "type": "long",
+        "comment": "A random long"
+      },
+      "comment": "Generates a random long."
+    },
+    "nextFloat": {
+      "return": {
+        "type": "float",
+        "comment": "A random float"
+      },
+      "comment": "Generates a random float between 0 (inclusive) and 1 (exclusive)."
+    },
+    "nextDouble": {
+      "return": {
+        "type": "double",
+        "comment": "A random double"
+      },
+      "comment": "Generates a random double between 0 (inclusive) and 1 (exclusive)."
+    },
+    "nextGaussian": {
+      "return": {
+        "type": "double",
+        "comment": "A random double"
+      },
+      "comment": "Generates a random double using a gaussian distribution."
+    },
+    "triangle": {
+      "mods": ["default"],
+      "params": [
+        {
+          "type": "double",
+          "name": "min",
+          "comment": "The minimum number."
+        },
+        {
+          "type": "double",
+          "name": "mod",
+          "comment": "The modifier to multiply by."
+        }
+      ],
+      "return": {
+        "type": "double",
+        "comment": "A random double"
+      },
+      "comment": "Generates a random double with a minimum and a modifier multiplied by a random number."
+    },
+    "consumeCount": {
+      "mods": ["default"],
+      "params": [
+        {
+          "type": "int",
+          "name": "count",
+          "comment": "The number of random numbers to consume."
+        }
+      ],
+      "comment": "Consumes the given number of random numbers."
+    }
+  }
+}
