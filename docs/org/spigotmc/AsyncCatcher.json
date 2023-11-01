@@ -1,0 +1,26 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Utility class for verifying that asynchronous tasks are not done on the main thread and vice versa."
+  },
+  "fields": {
+    "enabled": {
+      "type": "boolean",
+      "mods": ["static"],
+      "comment": "Whether or not to check for main thread violations."
+    }
+  },
+  "methods": {
+    "catchOp": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "string",
+          "name": "reason",
+          "comment": "The reason for the violation."
+        }
+      ],
+      "comment": "Called when a main thread violation is detected."
+    }
+  }
+}
