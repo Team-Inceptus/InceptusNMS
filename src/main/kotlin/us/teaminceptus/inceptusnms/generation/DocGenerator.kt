@@ -622,7 +622,7 @@ object DocGenerator {
         val classes = Util.getClassDocumentation()
         val characters = alphabet.filter { char ->
             classes.any { clazz ->
-                clazz.simpleName.startsWith(char, true) ||
+                clazz.simpleName.substringAfterLast(".").startsWith(char, true) ||
                 clazz.enumerations?.enums?.any { it.name.startsWith(char, true) } == true ||
                 clazz.fields?.fields?.any { it.name.startsWith(char, true) } == true
                 clazz.methods?.methods?.any { it.name.startsWith(char, true) } == true
@@ -634,7 +634,7 @@ object DocGenerator {
 
         for (char in characters) {
             val content =
-                (classes.filter { it.simpleName.startsWith(char, true) }.map { clazz ->
+                (classes.filter { it.simpleName.substringAfterLast(".").startsWith(char, true) }.map { clazz ->
                     val title = when (clazz.type) {
                         "interface" -> "Interface in <a href=\"/${clazz.pkg.url()}/package-summary.html\">${clazz.pkg}</a>"
                         "enum" -> "Enum Class in <a href=\"/${clazz.pkg.url()}/package-summary.html\">${clazz.pkg}</a>"
@@ -644,7 +644,7 @@ object DocGenerator {
                     }
 
                     Quadruple(
-                        clazz.simpleName,
+                        clazz.simpleName.substringAfterLast("."),
                         clazz.name,
                         "<a href=\"/${clazz.name.url()}.html\" class=\"type-name-link\" title=\"${clazz.type} in ${clazz.pkg}\">${clazz.simpleName}</a> - $title",
                         clazz.comment.header()
