@@ -1,0 +1,36 @@
+{
+  "class": {
+    "type": "interface",
+    "comment": "Server information sent to the client for display in the multiplayer menu."
+  },
+  "methods": {
+    "getMotd": {
+      "return": {
+        "type": "string",
+        "comment": "The message of the day."
+      },
+      "comment": "Gets the message of the day."
+    },
+    "getServerVersion": {
+      "return": {
+        "type": "string",
+        "comment": "The server version."
+      },
+      "comment": "Gets the server version it is running on."
+    },
+    "getPlayerCount": {
+      "return": {
+        "type": "int",
+        "comment": "The number of players on the server."
+      },
+      "comment": "Gets the number of players online."
+    },
+    "getMaxPlayers": {
+      "return": {
+        "type": "int",
+        "comment": "The maximum number of players allowed."
+      },
+      "comment": "Gets the maximum number of players allowed on the server."
+    }
+  }
+}
