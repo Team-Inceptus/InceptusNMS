@@ -1,0 +1,659 @@
+{
+  "class": {
+    "type": "class",
+    "implements": [
+      "net.minecraft.core.Position"
+    ],
+    "comment": "Represents a 3-dimensional Vector."
+  },
+  "fields": {
+    "CODEC": {
+      "type": "codec<{this}>",
+      "mods": ["static", "final"],
+      "comment": "A codec that can read and write a Vec3."
+    },
+    "ZERO": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "A vector with all components set to 0."
+    },
+    "x": {
+      "type": "double",
+      "mods": ["final"],
+      "comment": "The x component of this vector."
+    },
+    "y": {
+      "type": "double",
+      "mods": ["final"],
+      "comment": "The y component of this vector."
+    },
+    "z": {
+      "type": "double",
+      "mods": ["final"],
+      "comment": "The z component of this vector."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "double",
+          "name": "x",
+          "comment": "The x component of the vector."
+        },
+        {
+          "type": "double",
+          "name": "y",
+          "comment": "The y component of the vector."
+        },
+        {
+          "type": "double",
+          "name": "z",
+          "comment": "The z component of the vector."
+        }
+      ],
+      "comment": "Constructs a new Vec3 with X, Y, and Z."
+    },
+    {
+      "params": [
+        {
+          "type": "org.joml.Vector3f",
+          "name": "vec",
+          "comment": "The vector to copy."
+        }
+      ],
+      "comment": "Constructs a new Vec3 from a JOML Vector3f."
+    }
+  ],
+  "methods": {
+    "fromRGB24": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "int",
+          "name": "rgb",
+          "comment": "The RGB value to convert."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new Vec3 with the RGB value converted to a Vec3."
+      },
+      "comment": "Converts an RGB value to a Vec3."
+    },
+    "atLowerCornerOf": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.core.Vec3i",
+          "name": "pos",
+          "comment": "The position to get the lower corner of."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new Vec3 with the lower corner of the position."
+      },
+      "comment": "Gets the lower corner of a position."
+    },
+    "atLowerCornerWithOffset": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.core.Vec3i",
+          "name": "pos",
+          "comment": "The position to get the lower corner of."
+        },
+        {
+          "type": "double",
+          "name": "offsetX",
+          "comment": "The X offset to apply to the lower corner."
+        },
+        {
+          "type": "double",
+          "name": "offsetY",
+          "comment": "The Y offset to apply to the lower corner."
+        },
+        {
+          "type": "double",
+          "name": "offsetZ",
+          "comment": "The Z offset to apply to the lower corner."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new Vec3 with the lower corner of the position with the offset applied."
+      },
+      "comment": "Gets the lower corner of a position with an offset."
+    },
+    "atCenterOf": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.core.Vec3i",
+          "name": "pos",
+          "comment": "The position to get the center of."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new Vec3 with the center of the position.\nThis is equivalent to getting the lower corner with an offset of <code>0.5</code> for all values."
+      },
+      "comment": "Gets the center of a position."
+    },
+    "atBottomCenterOf": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.core.Vec3i",
+          "name": "pos",
+          "comment": "The position to get the bottom center of."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new Vec3 with the bottom center of the position.\nThis is equivalent to getting the lower corner with an offset of <code>0.5</code> for X and Z, and <code>0</code> for Y."
+      },
+      "comment": "Gets the bottom center of a position."
+    },
+    "upFromBottomCenterOf": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.core.Vec3i",
+          "name": "pos",
+          "comment": "The position to get the bottom center of."
+        },
+        {
+          "type": "double",
+          "name": "offset",
+          "comment": "The Y offset to apply to the bottom center."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new Vec3 with the bottom center of the position with the offset applied.\nThis is equivalent to getting the lower corner with an offset of <code>0.5</code> for X and Z, and then adding the offset to Y."
+      },
+      "comment": "Gets the bottom center of a position with an offset."
+    },
+    "vectorTo": {
+      "params": [
+        {
+          "type": "{this}",
+          "name": "other",
+          "comment": "The vector to get the difference to."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new Vec3 with the difference between this vector and the other."
+      },
+      "comment": "Gets the difference between this vector and another."
+    },
+    "normalize": {
+      "return": {
+        "type": "{this}",
+        "comment": "This Vec3 as a unit vector.\nThis means that all values are divided by the length (magnitude) of the vector."
+      },
+      "comment": "Converts this Vec3 to a unit vector of itself."
+    },
+    "dot": {
+      "params": [
+        {
+          "type": "{this}",
+          "name": "other",
+          "comment": "The other vector to use."
+        }
+      ],
+      "return": {
+        "type": "double",
+        "comment": "The dot product of this vector and the other."
+      },
+      "comment": "Gets the dot product of this vector and another."
+    },
+    "cross": {
+      "params": [
+        {
+          "type": "{this}",
+          "name": "other",
+          "comment": "The other vector to use."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The cross product of this vector and the other."
+      },
+      "comment": "Gets the cross product of this vector and another."
+    },
+    "subtract": [
+      {
+        "params": [
+          {
+            "type": "{this}",
+            "name": "other",
+            "comment": "The other vector to use."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new Vec3 with the difference between this vector and the other."
+        },
+        "comment": "Subtracts another vector from this vector."
+      },
+      {
+        "params": [
+          {
+            "type": "double",
+            "name": "x",
+            "comment": "The X component of the vector to subtract."
+          },
+          {
+            "type": "double",
+            "name": "y",
+            "comment": "The Y component of the vector to subtract."
+          },
+          {
+            "type": "double",
+            "name": "z",
+            "comment": "The Z component of the vector to subtract."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new Vec3 with the difference between this vector and the other."
+        },
+        "comment": "Subtracts another vector from this vector."
+      }
+    ],
+    "add": [
+      {
+        "params": [
+          {
+            "type": "{this}",
+            "name": "other",
+            "comment": "The other vector to use."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new Vec3 with the sum of this vector and the other."
+        },
+        "comment": "Adds another vector to this vector."
+      },
+      {
+        "params": [
+          {
+            "type": "double",
+            "name": "x",
+            "comment": "The X component of the vector to add."
+          },
+          {
+            "type": "double",
+            "name": "y",
+            "comment": "The Y component of the vector to add."
+          },
+          {
+            "type": "double",
+            "name": "z",
+            "comment": "The Z component of the vector to add."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new Vec3 with the sum of this vector and the other."
+        },
+        "comment": "Adds another vector to this vector."
+      }
+    ],
+    "closerThan": {
+      "params": [
+        {
+          "type": "net.minecraft.core.Position",
+          "name": "pos",
+          "comment": "The position to use."
+        },
+        {
+          "type": "double",
+          "name": "distanceSqr",
+          "comment": "The squared distance to check."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this is closer than the distance to the position."
+      },
+      "comment": "Checks if this vector is closer than a distance to a position."
+    },
+    "distanceTo": {
+      "params": [
+        {
+          "type": "{this}",
+          "name": "other",
+          "comment": "The other vector to get the distance of."
+        }
+      ],
+      "return": {
+        "type": "double",
+        "comment": "The distance between the vectors."
+      },
+      "comment": "Gets the distance between this vector and another."
+    },
+    "distanceToSqr": [
+      {
+        "params": [
+          {
+            "type": "{this}",
+            "name": "other",
+            "comment": "The other vector to get the distance of."
+          }
+        ],
+        "return": {
+          "type": "double",
+          "comment": "The squared distance between the vectors."
+        },
+        "comment": "Gets the squared distance between this vector and another."
+      },
+      {
+        "params": [
+          {
+            "type": "double",
+            "name": "x",
+            "comment": "The X coordinate."
+          },
+            {
+                "type": "double",
+                "name": "y",
+                "comment": "The Y coordinate."
+            },
+            {
+                "type": "double",
+                "name": "z",
+                "comment": "The Z coordinate."
+            }
+        ],
+        "return": {
+          "type": "double",
+          "comment": "The squared distance between the vectors."
+        },
+        "comment": "Gets the squared distance between this vector and another."
+      }
+    ],
+    "scale": {
+      "params": [
+        {
+          "type": "double",
+          "name": "factor",
+          "comment": "The factor to scale by."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The scaled Vector."
+      },
+      "comment": "Scales this vector, multiplying all values by one number."
+    },
+    "reverse": {
+      "return": {
+        "type": "{this}",
+        "comment": "A new Vec3 with all values negated."
+      },
+      "comment": "Reverses this vector, negating all values."
+    },
+    "multiply": {
+      "params": [
+        {
+          "type": "{this}",
+          "name": "other",
+          "comment": "The other vector to use."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new Vec3 with the product of this vector and the other."
+      },
+      "comment": "Multiplies this vector by another."
+    },
+    "offsetRandom": {
+      "params": [
+        {
+          "type": "net.minecraft.util.RandomSource",
+          "name": "random",
+          "comment": "The random source to use."
+        },
+        {
+          "type": "float",
+          "name": "maxOffset",
+          "comment": "The maximum offset to apply."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new Vec3 with the offset applied."
+      },
+      "comment": "Offsets this vector by a random amount."
+    },
+    "length": {
+      "return": {
+        "type": "double",
+        "comment": "The length (magnitude) of this vector."
+      },
+      "comment": "Gets the length of this vector."
+    },
+    "lengthSqr": {
+      "return": {
+        "type": "double",
+        "comment": "The squared length (magnitude^2) of this vector."
+      },
+      "comment": "Gets the squared length of this vector."
+    },
+    "horizontalDistance": {
+      "return": {
+        "type": "double",
+        "comment": "The horizontal distance of this vector."
+      },
+      "comment": "Gets the horizontal distance of this vector."
+    },
+    "horizontalDistanceSqr": {
+      "return": {
+        "type": "double",
+        "comment": "The squared horizontal distance of this vector."
+      },
+      "comment": "Gets the squared horizontal distance of this vector."
+    },
+    "lerp": {
+      "params": [
+        {
+          "type": "{this}",
+          "name": "other",
+          "comment": "The other vector to use."
+        },
+        {
+          "type": "double",
+          "name": "progress",
+          "comment": "The progress between the two vectors."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new Vec3 with the linear interpolation between this vector and the other."
+      },
+      "comment": "Linearly interpolates between this vector and another."
+    },
+    "xRot": {
+      "params": [
+        {
+          "type": "float",
+          "name": "angle",
+          "comment": "The angle to rotate by, in degrees."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new Vec3 with the rotation applied."
+      },
+      "comment": "Rotates this vector around the X axis."
+    },
+    "yRot": {
+      "params": [
+        {
+          "type": "float",
+          "name": "angle",
+          "comment": "The angle to rotate by, in degrees."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new Vec3 with the rotation applied."
+      },
+      "comment": "Rotates this vector around the Y axis."
+    },
+    "zRot": {
+      "params": [
+        {
+          "type": "float",
+          "name": "angle",
+          "comment": "The angle to rotate by, in degrees."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new Vec3 with the rotation applied."
+      },
+      "comment": "Rotates this vector around the Z axis."
+    },
+    "directionFromRotation": [
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "{pkg}.Vec2",
+            "name": "direction",
+            "comment": "The 2D vector to use."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new Vec3 with the rotation applied."
+        },
+        "comment": "Gets a 3D vector from a 2D direction."
+      },
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "float",
+            "name": "pitch",
+            "comment": "The pitch to use, in degrees."
+          },
+          {
+            "type": "float",
+            "name": "yaw",
+            "comment": "The yaw to use, in degrees."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A new Vec3 with the rotation applied."
+        },
+        "comment": "Gets a 3D vector from a pitch and yaw."
+      }
+    ],
+    "align": {
+      "params": [
+        {
+          "type": "java.util.EnumSet<net.minecraft.core.Direction$Axis>",
+          "name": "axes",
+          "comment": "The axes to align to."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new Vec3 with the alignment applied."
+      },
+      "comment": "Aligns this vector to the specified axes."
+    },
+    "get": {
+      "params": [
+        {
+          "type": "net.minecraft.core.Direction$Axis",
+          "name": "axis",
+          "comment": "The axis to get the value of."
+        }
+      ],
+      "return": {
+        "type": "double",
+        "comment": "The value on the axis."
+      },
+      "comment": "Gets this Vector's value on an axis."
+    },
+    "with": {
+      "params": [
+        {
+          "type": "net.minecraft.core.Direction$Axis",
+          "name": "axis",
+          "comment": "The axis to set the value of."
+        },
+        {
+          "type": "double",
+          "name": "value",
+          "comment": "The value to set."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new Vec3 with the value set."
+      },
+      "comment": "Sets this Vector's value on an axis."
+    },
+    "relative": {
+      "params": [
+        {
+          "type": "net.minecraft.core.Direction",
+          "name": "direction",
+          "comment": "The direction to set the value of."
+        },
+        {
+          "type": "double",
+          "name": "value",
+          "comment": "The value to set."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new Vec3 with the value set."
+      },
+      "comment": "Sets this Vector's value in a relative direction."
+    },
+    "x": {
+      "mods": ["final"],
+      "return": {
+        "type": "double",
+        "comment": "The X component of this vector."
+      },
+      "comment": "The X component of this vector."
+    },
+    "y": {
+      "mods": ["final"],
+      "return": {
+        "type": "double",
+        "comment": "The Y component of this vector."
+      },
+      "comment": "The Y component of this vector."
+    },
+    "z": {
+      "mods": ["final"],
+      "return": {
+        "type": "double",
+        "comment": "The Z component of this vector."
+      },
+      "comment": "The Z component of this vector."
+    },
+    "toVector3f": {
+      "return": {
+        "type": "org.joml.Vector3f",
+        "comment": "A new JOML Vector3f with the same values as this vector."
+      },
+      "comment": "Converts this Vec3 to a JOML @(org.joml.Vector3f)."
+    }
+  }
+}
