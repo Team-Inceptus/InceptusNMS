@@ -18,6 +18,11 @@ done
 cp -Rfv ./generated/* ./
 rm -rf ./generated
 
+if [ !`git status --porcelain` ]; then
+   echo "No changes to commit"
+   exit 0
+fi
+
 zip -rq javadoc.jar ./*
 
 echo "nms.teaminceptus.us" > CNAME
