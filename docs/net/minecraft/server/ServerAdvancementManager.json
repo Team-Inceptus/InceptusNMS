@@ -1,0 +1,74 @@
+{
+  "class": {
+    "type": "class",
+    "extends": "net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener",
+    "comment": "Represents all loaded and registered advancements available to players."
+  },
+  "fields": {
+    "LOGGER": {
+      "type": "org.slf4j.Logger",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The logger for this class."
+    },
+    "GSON": {
+      "type": "com.google.gson.Gson",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The Gson instance used to serialize and deserialize the advancements."
+    },
+    "advancements": {
+      "type": "java.util.Map<net.minecraft.resources.ResourceLocation, net.minecraft.advancements.Advancement>",
+      "comment": "The map of all advancements."
+    },
+    "tree": {
+      "type": "net.minecraft.advancements.AdvancementTree",
+      "visibility": "private",
+      "comment": "The advancement tree of all registered advancements."
+    },
+    "lootData": {
+      "type": "net.minecraft.world.level.storage.loot.LootDataManager",
+      "visibility": "private",
+      "comment": "The loot data manager."
+    }
+  },
+  "constructors": [
+    {
+      "$fields": [
+        "lootData"
+      ],
+      "comment": "Constructs a new server-bound advancement manager."
+    }
+  ],
+  "methods": {
+    "get": {
+      "params": [
+        {
+          "type": "net.minecraft.resources.ResourceLocation",
+          "name": "id",
+          "comment": "The id of the advancement to get."
+        }
+      ],
+      "return": {
+        "type": "net.minecraft.advancements.AdvancementHolder",
+        "comment": "The advancement holder with the given id, or null if not found."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Gets the advancement with the given id."
+    },
+    "tree": {
+      "$getter": "tree"
+    },
+    "getAllAdvancements": {
+      "return": {
+        "type": "java.util.Collection<net.minecraft.advancements.Advancement>",
+        "comment": "All advancements."
+      },
+      "comment": "Gets all registered advancements."
+    }
+  }
+}
