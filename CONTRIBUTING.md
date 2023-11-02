@@ -42,7 +42,7 @@ In order for the parser to successfully generate JavaDocs, we need to input all 
 | `codec`      | `com.mojang.serialization.Codec`            |
 | `deprecated` | `java.lang.Deprecated`                      |
 | `bytebuf`    | `io.netty.buffer.ByteBuf`                   |
-| `fbytebuf`   | `fbytebuf`     |
+| `fbytebuf`   | `net.minecraft.network.FriendlyByteBuf`     |
 | `nullable`   | `javax.annotation.Nullable`                 |
 
 #### Other Aliases
@@ -235,6 +235,17 @@ HTML and CSS is fully supported in the JSON string. Please take special care whe
 {
   // ...
   "comment": "This <strong>does not</strong> actually kill the player."
+}
+```
+
+### Markdown
+
+v0.0.5 added support for Markdown. Please take special care when using Markdown tags.
+
+```json
+{
+  // ...
+  "comment": "This **does not** actually kill the player."
 }
 ```
 
