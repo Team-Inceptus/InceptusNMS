@@ -1004,7 +1004,17 @@ object DocGenerator {
     }
 
     fun generateFieldSummary(info: ClassDocumentation): Element? {
-        val fields = info.fields?.fields ?: return null
+        val fields = info.fields?.fields?.sortedWith(compareBy(
+            {
+                when {
+                    it.mods.contains("static") && it.mods.contains("final") -> 0
+                    it.mods.contains("static") -> 1
+                    it.mods.contains("final") -> 2
+                    else -> 3
+                }
+            },
+            { it.name }
+        )) ?: return null
         val summary = Element("section").apply {
             addClass("field-summary")
             id("field-summary")
@@ -1071,7 +1081,7 @@ object DocGenerator {
 
     fun generateConstructorSummary(info: ClassDocumentation): Element? {
         val constructors = info.constructors?.constructors?.sortedWith(compareBy(
-            { it.primary },
+            { !it.primary },
             { it.parameters.size },
             { constr -> constr.parameters.joinToString(",") { it.type } }
         )) ?: return null
@@ -1381,7 +1391,17 @@ object DocGenerator {
     }
 
     fun generateFieldDetail(info: ClassDocumentation): Element? {
-        val fields = info.fields?.fields ?: return null
+        val fields = info.fields?.fields?.sortedWith(compareBy(
+            {
+                when {
+                    it.mods.contains("static") && it.mods.contains("final") -> 0
+                    it.mods.contains("static") -> 1
+                    it.mods.contains("final") -> 2
+                    else -> 3
+                }
+            },
+            { it.name }
+        )) ?: return null
         val detail = Element("section").apply {
             addClass("field-details")
             id("field-detail")
@@ -1449,7 +1469,7 @@ object DocGenerator {
 
     fun generateConstructorDetail(info: ClassDocumentation): Element? {
         val constructors = info.constructors?.constructors?.sortedWith(compareBy(
-            { it.primary },
+            { !it.primary },
             { it.parameters.size },
             { constr -> constr.parameters.joinToString(",") { it.type } }
         )) ?: return null
