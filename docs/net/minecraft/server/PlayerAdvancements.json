@@ -1,0 +1,392 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Utility class for managing, granting and revoking the advancements shown to a specific player."
+  },
+  "fields": {
+    "LOGGER": {
+      "type": "org.slf4j.Logger",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The logger for this class."
+    },
+    "GSON": {
+      "type": "com.google.gson.Gson",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The Gson instance used to serialize and deserialize data."
+    },
+    "playerList": {
+      "type": "net.minecraft.server.players.PlayerList",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The player list instance for this class."
+    },
+    "playerSavePath": {
+      "type": "java.nio.file.Path",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The path to the player's data file."
+    },
+    "tree": {
+      "type": "net.minecraft.advancements.AdvancementTree",
+      "visibility": "private",
+      "comment": "The tree of advancements for this player."
+    },
+    "progress": {
+      "type": "java.util.Map<net.minecraft.advancements.AdvancementHolder, net.minecraft.advancements.AdvancementProgress>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The advancement progress for this player."
+    },
+    "visible": {
+      "type": "java.util.Set<net.minecraft.advancements.AdvancementHolder>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The visible advancements for this player."
+    },
+    "progressChanged": {
+      "type": "java.util.Set<net.minecraft.advancements.AdvancementHolder>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "A cache for the advancements that have had their progress changed."
+    },
+    "rootsToUpdate": {
+      "type": "java.util.Set<net.minecraft.advancements.AdvancementHolder>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "A cache for the root advancements that need to be updated."
+    },
+    "player": {
+      "type": "net.minecraft.server.level.ServerPlayer",
+      "visibility": "private",
+      "comment": "The player that represents this class."
+    },
+    "lastSelectedTab": {
+      "type": "net.minecraft.advancements.AdvancementHolder",
+      "visibility": "private",
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "The last advancement tab that this player selected."
+    },
+    "isFirstPacket": {
+      "type": "boolean",
+      "visibility": "private",
+      "comment": "Whether or not a packet has been sent to the player by this class."
+    },
+    "codec": {
+      "type": "codec<{this}$Data>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The codec serializer for this class."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "com.mojang.datafixers.DataFixer",
+          "name": "dataFixer",
+          "comment": "The data fixer that is used for this class."
+        },
+        {
+          "type": "net.minecraft.server.players.PlayerList",
+          "name": "playerList",
+          "comment": "The player list instance for this class."
+        },
+        {
+          "type": "{pkg}.ServerAdvancementManager",
+          "name": "manager",
+          "comment": "The server-bound advancement manager for this class."
+        },
+        {
+          "type": "java.nio.file.Path",
+          "name": "playerSavePath",
+          "comment": "The path to the player's data file."
+        },
+        {
+          "type": "net.minecraft.server.level.ServerPlayer",
+          "name": "player",
+          "comment": "The player that represents this class."
+        }
+      ],
+      "comment": "Constructs a new advancement manager for the given player."
+    }
+  ],
+  "methods": {
+    "setPlayer": {
+      "$setter": "player"
+    },
+    "stopListening": {
+      "comment": "Stops listening to the advancement manager for automatic advancement changes."
+    },
+    "reload": {
+      "params": [
+        {
+          "type": "{pkg}.ServerAdvancementManager",
+          "name": "manager",
+          "comment": "The server-bound advancement manager to use."
+        }
+      ],
+      "comment": "Reloads the advancement information in this class, resetting all cached data."
+    },
+    "registerListeners": [
+      {
+        "visibility": "private",
+        "params": [
+          {
+            "type": "{pkg}.ServerAdvancementManager",
+            "name": "manager",
+            "comment": "The server-bound advancement manager to use."
+          }
+        ],
+        "comment": "Registers all advancements in the manager for automatic advancement changes."
+      },
+      {
+        "visibility": "private",
+        "params": [
+          {
+            "type": "net.minecraft.advancements.AdvancementHolder",
+            "name": "advancement",
+            "comment": "The advancement to register."
+          }
+        ],
+        "comment": "Registers the given advancement for automatic advancement changes."
+      }
+    ],
+    "checkForAutomaticTriggers": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "{pkg}.ServerAdvancementManager",
+          "name": "manager",
+          "comment": "The server-bound advancement manager to use."
+        }
+      ],
+      "comment": "Checks for automatic triggers for this class."
+    },
+    "load": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "{pkg}.ServerAdvancementManager",
+          "name": "manager",
+          "comment": "The server-bound advancement manager to use."
+        }
+      ],
+      "comment": "Loads the saved advancement information from the player's data file into this class."
+    },
+    "save": {
+      "comment": "Saves the advancement information in this class to the player's data file."
+    },
+    "applyFrom": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "{pkg}.ServerAdvancementManager",
+          "name": "manager",
+          "comment": "The server-bound advancement manager to use."
+        },
+        {
+          "type": "{this}$Data",
+          "name": "data",
+          "comment": "The data to apply from."
+        }
+      ],
+      "comment": "Applies the given data to this class."
+    },
+    "asData": {
+      "visibility": "private",
+      "return": {
+        "type": "{this}$Data",
+        "comment": "The data that represents this class."
+      },
+      "comment": "Returns the data that represents this class."
+    },
+    "award": {
+      "params": [
+        {
+          "type": "net.minecraft.advancements.AdvancementHolder",
+          "name": "advancement",
+          "comment": "The advancement to award."
+        },
+        {
+          "type": "string",
+          "name": "criteria",
+          "comment": "The criteria to award."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether or not the advancement criteria was awarded."
+      },
+      "comment": "Awards the given advancement criteria to this player."
+    },
+    "revoke": {
+      "params": [
+        {
+          "type": "net.minecraft.advancements.AdvancementHolder",
+          "name": "advancement",
+          "comment": "The advancement to revoke."
+        },
+        {
+          "type": "string",
+          "name": "criteria",
+          "comment": "The criteria to revoke."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether or not the advancement criteria was revoked."
+      },
+      "comment": "Revokes the given advancement criteria from this player."
+    },
+    "markForVisibilityUpdate": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "net.minecraft.advancements.AdvancementHolder",
+          "name": "advancement",
+          "comment": "The advancement to mark for a visibility update."
+        }
+      ],
+      "comment": "Adds this Advancement to the cache of advancements to update with packets."
+    },
+    "registerListener": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "net.minecraft.advancements.AdvancementHolder",
+          "name": "advancement",
+          "comment": "The advancement to register."
+        },
+        {
+          "type": "string",
+          "name": "criteria",
+          "comment": "The criteria identifier to register."
+        },
+        {
+          "type": "net.minecraft.advancements.Criterion<T>",
+          "name": "criterion",
+          "comment": "The criterion to register the listener for."
+        }
+      ],
+      "generics": {
+        "T": {
+          "extends": [
+            "net.minecraft.advancements.CriteriaTriggerInstance"
+          ],
+          "comment": "The type of the criteria trigger instance."
+        }
+      },
+      "comment": "Registers the given advancement to the criteria's player listener."
+    },
+    "unregisterListeners": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "net.minecraft.advancements.AdvancementHolder",
+          "name": "advancement",
+          "comment": "The advancement to unregister."
+        }
+      ],
+      "comment": "Unregisters the given advancement from automatic advancement changes."
+    },
+    "removeListener": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "net.minecraft.advancements.AdvancementHolder",
+          "name": "advancement",
+          "comment": "The advancement to unregister."
+        },
+        {
+          "type": "string",
+          "name": "criteria",
+          "comment": "The criteria identifier to unregister."
+        },
+        {
+          "type": "net.minecraft.advancements.Criterion<T>",
+          "name": "criterion",
+          "comment": "The criterion to unregister the listener for."
+        }
+      ],
+      "generics": {
+        "T": {
+          "extends": [
+            "net.minecraft.advancements.CriteriaTriggerInstance"
+          ],
+          "comment": "The type of the criteria trigger instance."
+        }
+      },
+      "comment": "Unregisters the given advancement from the criteria's player listener."
+    },
+    "flushDirty": {
+      "params": [
+        {
+          "type": "net.minecraft.server.level.ServerPlayer",
+          "name": "player",
+          "comment": "The player to send the packets to."
+        }
+      ],
+      "comment": "Flushes all currently cached data, sending them to the player in the form of packets.\nThis essentially updates all of the information stored in this class to be displayed on the player's advancement tab."
+    },
+    "setSelectedTab": {
+      "$setter": "lastSelectedTab"
+    },
+    "getOrStartProgress": {
+      "params": [
+        {
+          "type": "net.minecraft.advancements.AdvancementHolder",
+          "name": "advancement",
+          "comment": "The advancement to get the progress for."
+        }
+      ],
+      "return": {
+        "type": "net.minecraft.advancements.AdvancementProgress",
+        "comment": "The advancement progress for the given advancement."
+      },
+      "comment": "Returns the advancement progress for the given advancement, creating it if it doesn't exist."
+    },
+    "startProgress": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "net.minecraft.advancements.AdvancementHolder",
+          "name": "advancement",
+          "comment": "The advancement to start the progress for."
+        },
+        {
+          "type": "net.minecraft.advancements.AdvancementProgress",
+          "name": "progress",
+          "comment": "The advancement progress to start."
+        }
+      ],
+      "comment": "Starts the given advancement progress for the given advancement."
+    },
+    "updateTreeVisibility": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "net.minecraft.advancements.AdvancementNode",
+          "name": "node",
+          "comment": "The node to update the visibility for."
+        },
+        {
+          "type": "java.util.Set<net.minecraft.advancements.AdvancementHolder>",
+          "name": "visible",
+          "comment": "The advancements to be marked visible."
+        },
+        {
+          "type": "java.util.Set<net.minecraft.resources.ResourceLocation>",
+          "name": "hidden",
+          "comment": "The IDs of the advancements to marked hidden."
+        }
+      ],
+      "comment": "Updates the visibility of the given advancement and all of its parents."
+    }
+  }
+}

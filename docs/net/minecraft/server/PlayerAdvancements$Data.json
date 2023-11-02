@@ -1,0 +1,37 @@
+{
+  "class": {
+    "type": "record",
+    "comment": "Utility class for serializing advancement progress."
+  },
+  "fields": {
+    "CODEC": {
+      "type": "codec<{this}>",
+      "mods": ["static", "final"],
+      "comment": "The codec for this class."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "java.util.Map<net.minecraft.resources.ResourceLocation, net.minecraft.advancements.AdvancementProgress>",
+          "name": "map",
+          "comment": "The map of advancements to their progress."
+        }
+      ],
+      "comment": "Constructs a new advancement progress map."
+    }
+  ],
+  "methods": {
+    "forEach": {
+      "params": [
+        {
+          "type": "java.util.function.BiConsumer<net.minecraft.resources.ResourceLocation, net.minecraft.advancements.AdvancementProgress>",
+          "name": "action",
+          "comment": "The action to perform on each advancement progress."
+        }
+      ],
+      "comment": "Performs the given action for each advancement progress."
+    }
+  }
+}
