@@ -1,6 +1,7 @@
 {
   "class": {
     "type": "record",
+    "enclosing": "{pkg}.PlayerAdvancements",
     "comment": "Utility class for serializing advancement progress."
   },
   "fields": {
