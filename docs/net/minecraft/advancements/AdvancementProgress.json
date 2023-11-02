@@ -1,0 +1,224 @@
+{
+  "class": {
+    "type": "class",
+    "implements": [
+      "java.lang.Comparable<{this}>"
+    ],
+    "comment": "Represents the progress on an advancement for a player."
+  },
+  "fields": {
+    "OBTAINED_TIME_FORMAT": {
+      "type": "java.time.format.DateTimeFormatter",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "yyyy-MM-dd HH:mm:ss Z",
+      "comment": "The format for the obtained time."
+    },
+    "OBTAINED_TIME_CODEC": {
+      "type": "codec<java.time.Instant>",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The codec for the obtained time."
+    },
+    "CRITERIA_CODEC": {
+      "type": "codec<java.util.Map<string, {pkg}.CriterionProgress>>",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The codec for the criteria."
+    },
+    "CODEC": {
+      "type": "codec<{this}>",
+      "mods": ["static", "final"],
+      "comment": "The codec for this class."
+    },
+    "criteria": {
+      "type": "java.util.Map<string, {pkg}.CriterionProgress>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The criteria progress."
+    },
+    "requirements": {
+      "type": "{pkg}.AdvancementRequirements",
+      "visibility": "private",
+      "comment": "The requirements included with this progress."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "private",
+      "$fields": [
+        "criteria"
+      ],
+      "comment": "Constructs a new advancement progress."
+    },
+    {
+      "comment": "Constructs an empty advancement progress."
+    }
+  ],
+  "methods": {
+    "update": {
+      "params": [
+        {
+          "type": "{pkg}.AdvancementRequirements",
+          "name": "requirements",
+          "comment": "The requirements to update with."
+        }
+      ],
+      "comment": "Updates this progress with the given requirements."
+    },
+    "isDone": {
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this progress is done."
+      },
+      "comment": "Returns whether this progress is done."
+    },
+    "hasProgress": {
+      "return": {
+        "type": "boolean",
+        "comment": "Whether the advancement has seen any progress."
+      },
+      "comment": "Returns whether any criteria has been completed."
+    },
+    "grantProgress": {
+      "params": [
+        {
+          "type": "string",
+          "name": "criterion",
+          "comment": "The criterion identifier to grant progress for."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether progress was granted."
+      },
+      "comment": "Grants progress for the given criterion."
+    },
+    "revokeProgress": {
+      "params": [
+        {
+          "type": "string",
+          "name": "criterion",
+          "comment": "The criterion identifier to revoke progress for."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether progress was revoked."
+      },
+      "comment": "Revokes progress for the given criterion."
+    },
+    "serializeToNetwork": {
+      "params": [
+        {
+          "type": "fbytebuf",
+          "name": "buffer",
+          "comment": "The buffer to serialize to."
+        }
+      ],
+      "comment": "Serializes this progress to a byte buffer."
+    },
+    "fromNetwork": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "fbytebuf",
+          "name": "buffer",
+          "comment": "The buffer to deserialize from."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The deserialized progress."
+      },
+      "comment": "Deserializes an advancement progress from a byte buffer."
+    },
+    "getCriterion": {
+      "params": [
+        {
+          "type": "string",
+          "name": "criterion",
+          "comment": "The criterion identifier to get the progress for."
+        }
+      ],
+      "return": {
+        "type": "{pkg}.CriterionProgress",
+        "comment": "The criterion progress."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Returns the progress for the given criterion."
+    },
+    "isCriterionDone": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "string",
+          "name": "criterion",
+          "comment": "The criterion identifier to check."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether the given criterion is done."
+      },
+      "comment": "Gets whether the given criterion is done."
+    },
+    "getPercent": {
+      "return": {
+        "type": "float",
+        "comment": "The percentage of criteria completed."
+      },
+      "comment": "Gets the percentage of criteria completed between `0.0` and `1.0`."
+    },
+    "getProgressText": {
+      "return": {
+        "type": "component",
+        "comment": "The progress text, or null if the requirements are empty."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Gets the progress text as a translatable @(component)."
+    },
+    "countCompletedRequirements": {
+      "visibility": "private",
+      "return": {
+        "type": "int",
+        "comment": "The number of completed requirements."
+      },
+      "comment": "Counts the number of completed requirements."
+    },
+    "getRemainingCriteria": {
+      "return": {
+        "type": "java.lang.Iterable<string>",
+        "comment": "The remaining criteria."
+      },
+      "comment": "Gets the remaining criteria that has yet to be completed."
+    },
+    "getCompletedCriteria": {
+      "return": {
+        "type": "java.lang.Iterable<string>",
+        "comment": "The completed criteria."
+      },
+      "comment": "Gets the completed criteria."
+    },
+    "getFirstProgressDate": {
+      "return": {
+        "type": "java.time.Instant",
+        "comment": "The date of the first progress, or null if no progress has been made."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Gets the date of the first progress."
+    }
+  }
+}
