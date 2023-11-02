@@ -1,0 +1,52 @@
+{
+  "class": {
+    "type": "interface",
+    "enclosing": "{pkg}.AdvancementTree",
+    "comment": "Represents a listener for an advancement tree."
+  },
+  "methods": {
+    "onAddAdvancementRoot": {
+      "params": [
+        {
+          "type": "{pkg}.AdvancementNode",
+          "name": "root",
+          "comment": "The root of the advancement tree."
+        }
+      ],
+      "comment": "Called when a root advancement is added to this tree."
+    },
+    "onRemoveAdvancementRoot": {
+      "params": [
+        {
+          "type": "{pkg}.AdvancementNode",
+          "name": "root",
+          "comment": "The root of the advancement tree."
+        }
+      ],
+      "comment": "Called when a root advancement is removed from this tree."
+    },
+    "onAddAdvancementTask": {
+      "params": [
+        {
+          "type": "{pkg}.AdvancementNode",
+          "name": "task",
+          "comment": "The task advancement."
+        }
+      ],
+      "comment": "Called when a non-root advancement is added to this tree."
+    },
+    "onRemoveAdvancementTask": {
+      "params": [
+        {
+          "type": "{pkg}.AdvancementNode",
+          "name": "task",
+          "comment": "The task advancement."
+        }
+      ],
+      "comment": "Called when a non-root advancement is removed from this tree."
+    },
+    "onAdvancementsCleared": {
+      "comment": "Called when all advancements are cleared from this tree."
+    }
+  }
+}

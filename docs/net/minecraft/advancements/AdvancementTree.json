@@ -1,0 +1,148 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Represents a tree of advancement nodes visible to a player."
+  },
+  "fields": {
+    "LOGGER": {
+      "type": "org.slf4j.Logger",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The logger for this class."
+    },
+    "nodes": {
+      "type": "java.util.Map<net.minecraft.resources.ResourceLocation, {pkg}.AdvancementNode>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The map of advancement nodes in this tree."
+    },
+    "roots": {
+      "type": "java.util.Set<{pkg}.AdvancementNode>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The set of root advancement nodes in this tree."
+    },
+    "tasks": {
+      "type": "java.util.Set<{pkg}.AdvancementNode>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The set of non-root advancement nodes in this tree."
+    },
+    "listener": {
+      "type": "{this}$Listener",
+      "visibility": "private",
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "The listener on this tree."
+    }
+  },
+  "methods": {
+    "remove": [
+      {
+        "visibility": "private",
+        "params": [
+          {
+            "type": "{pkg}.AdvancementNode",
+            "name": "node",
+            "comment": "The node to remove."
+          }
+        ],
+        "comment": "Removes the given node from this tree."
+      },
+      {
+        "params": [
+          {
+            "type": "java.util.Set<net.minecraft.resources.ResourceLocation>",
+            "name": "ids",
+            "comment": "The set of advancement IDs to remove."
+          }
+        ],
+        "comment": "Removes the advancement nodes that match the IDs given from this tree."
+      }
+    ],
+    "addAll": {
+      "params": [
+        {
+          "type": "java.util.Collection<{pkg}.AdvancementHolder>",
+          "name": "advancements",
+          "comment": "The collection of advancement holders to add."
+        }
+      ],
+      "comment": "Adds all the advancement holders given to this tree."
+    },
+    "tryInsert": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "{pkg}.AdvancementHolder",
+          "name": "advancement",
+          "comment": "The advancement holder to insert."
+        }
+      ],
+      "comment": "Attempts to insert the given advancement holder into this tree."
+    },
+    "clear": {
+      "comment": "Clears this tree of all advancements."
+    },
+    "roots": {
+      "return": {
+        "type": "java.lang.Iterable<{pkg}.AdvancementNode>",
+        "comment": "The set of root advancement nodes in this tree."
+      },
+      "comment": "Gets the set of root advancement nodes in this tree."
+    },
+    "nodes": {
+      "return": {
+        "type": "java.util.Collection<{pkg}.AdvancementNode>",
+        "comment": "The collection of advancement nodes in this tree."
+      },
+      "comment": "Gets the collection of advancement nodes in this tree."
+    },
+    "get": [
+      {
+        "params": [
+          {
+            "type": "net.minecraft.resources.ResourceLocation",
+            "name": "id",
+            "comment": "The ID of the advancement to get."
+          }
+        ],
+        "return": {
+          "type": "{pkg}.AdvancementNode",
+          "comment": "The advancement node with the given ID, or null if it does not exist."
+        },
+        "annotations": [
+          {
+            "type": "nullable"
+          }
+        ],
+        "comment": "Gets the advancement node with the given ID."
+      },
+      {
+        "params": [
+          {
+            "type": "net.minecraft.advancements.AdvancementHolder",
+            "name": "advancement",
+            "comment": "The advancement to get the node for."
+          }
+        ],
+        "return": {
+          "type": "{pkg}.AdvancementNode",
+          "comment": "The advancement node for the given advancement, or null if it does not exist."
+        },
+        "annotations": [
+          {
+            "type": "nullable"
+          }
+        ],
+        "comment": "Gets the advancement node for the given advancement."
+      }
+    ],
+    "setListener": {
+      "$setter": "listener"
+    }
+  }
+}
