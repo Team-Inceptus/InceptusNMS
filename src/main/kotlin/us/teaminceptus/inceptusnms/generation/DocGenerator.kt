@@ -1178,6 +1178,7 @@ object DocGenerator {
                         4 -> "Concrete Methods"
                         5 -> "Default Methods"
                         6 -> "Deprecated Methods"
+                        7 -> "Public Methods"
                         else -> throw IllegalArgumentException("Invalid ID: $id")
                     }
                 )
@@ -1220,6 +1221,9 @@ object DocGenerator {
 
                 if (methods.any { method -> method.annotations.any { it.type == DEPRECATED_TYPE } })
                     appendChild(methodSummaryButton(6))
+
+                if (methods.any { it.visibility == "public" } && info.visibility == "public")
+                    appendChild(methodSummaryButton(7))
             })
             summary.appendChild(table)
 
@@ -1238,6 +1242,7 @@ object DocGenerator {
                 for (method in methods) {
                     val rowColor = "${if (even) "even" else "odd"}-row-color"
                     val categories = mutableSetOf<Int>().apply {
+
                         if (method.mods.contains("static"))
                             add(1)
 
@@ -1249,6 +1254,9 @@ object DocGenerator {
 
                         if (!method.mods.contains("abstract"))
                             add(4)
+
+                        if (method.visibility == "public" && info.visibility == "public")
+                            add(7)
 
                         if (method.mods.contains("default"))
                             add(5)
