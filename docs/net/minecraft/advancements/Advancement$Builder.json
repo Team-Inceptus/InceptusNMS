@@ -44,9 +44,7 @@
   },
   "methods": {
     "advancement": {
-      "mods": [
-        "static"
-      ],
+      "mods": ["static"],
       "return": {
         "type": "{this}",
         "comment": "A new Builder."
@@ -54,9 +52,7 @@
       "comment": "Creates a new Builder with telemetry enabled."
     },
     "recipeAdvancement": {
-      "mods": [
-        "static"
-      ],
+      "mods": ["static"],
       "return": {
         "type": "{this}",
         "comment": "A new Builder."
