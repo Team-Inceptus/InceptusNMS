@@ -1,0 +1,72 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Represents the progress on a specific criteria for an Advancement."
+  },
+  "fields": {
+    "obtained": {
+      "type": "java.time.Instant",
+      "visibility": "private",
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "The date and time when the criteria was obtained."
+    }
+  },
+  "constructors": [
+    {
+      "comment": "Creates a new CriterionProgress with no obtained date."
+    },
+    {
+      "$fields": [
+        "obtained"
+      ],
+      "comment": "Creates a new CriterionProgress."
+    }
+  ],
+  "methods": {
+    "isDone": {
+      "return": {
+        "type": "boolean",
+        "comment": "true if the criteria is done, false otherwise."
+      },
+      "comment": "Gets whether the criteria was completed."
+    },
+    "grant": {
+      "comment": "Grants the criteria."
+    },
+    "revoke": {
+      "comment": "Revokes the criteria."
+    },
+    "getObtained": {
+      "$getter": "obtained"
+    },
+    "serializeToNetwork": {
+      "params": [
+        {
+          "type": "fbytebuf",
+          "name": "buf",
+          "comment": "The buffer to write to."
+        }
+      ],
+      "comment": "Serializes this CriterionProgress to a byte buffer."
+    },
+    "fromNetwork": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "fbytebuf",
+          "name": "buf",
+          "comment": "The buffer to read from."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The CriterionProgress read from the buffer."
+      },
+      "comment": "Deserializes a CriterionProgress from a byte buffer."
+    }
+  }
+}
