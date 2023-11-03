@@ -231,6 +231,244 @@
         "comment": "The floored long."
       },
       "comment": "Floors a double into a long."
+    },
+    "abs": [
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "float",
+            "name": "num",
+            "comment": "The number to use."
+          }
+        ],
+        "return": {
+          "type": "float",
+          "comment": "The absolute value of the number."
+        },
+        "comment": "Gets the absolute value of a float."
+      },
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "int",
+            "name": "num",
+            "comment": "The number to use."
+          }
+        ],
+        "return": {
+          "type": "int",
+          "comment": "The absolute value of the number."
+        },
+        "comment": "Gets the absolute value of an integer."
+      }
+    ],
+    "ceil": [
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "float",
+            "name": "num",
+            "comment": "The number to use."
+          }
+        ],
+        "return": {
+          "type": "int",
+          "comment": "The ceiling of the number."
+        },
+        "comment": "Ceils a float into an integer."
+      },
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "double",
+            "name": "num",
+            "comment": "The number to use."
+          }
+        ],
+        "return": {
+          "type": "int",
+          "comment": "The ceiling of the number."
+        },
+        "comment": "Ceils a double into an integer."
+      }
+    ],
+    "clamp": [
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "int",
+            "name": "num",
+            "comment": "The number to clamp."
+          },
+          {
+            "type": "int",
+            "name": "min",
+            "comment": "The minimum value."
+          },
+          {
+            "type": "int",
+            "name": "max",
+            "comment": "The maximum value."
+          }
+        ],
+        "return": {
+          "type": "int",
+          "comment": "The clamped number."
+        },
+        "comment": "Clamps an integer between a minimum and maximum value."
+      },
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "long",
+            "name": "num",
+            "comment": "The number to clamp."
+          },
+          {
+            "type": "long",
+            "name": "min",
+            "comment": "The minimum value."
+          },
+          {
+            "type": "long",
+            "name": "max",
+            "comment": "The maximum value."
+          }
+        ],
+        "return": {
+          "type": "long",
+          "comment": "The clamped number."
+        },
+        "comment": "Clamps a long between a minimum and maximum value."
+      },
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "float",
+            "name": "num",
+            "comment": "The number to clamp."
+          },
+          {
+            "type": "float",
+            "name": "min",
+            "comment": "The minimum value."
+          },
+          {
+            "type": "float",
+            "name": "max",
+            "comment": "The maximum value."
+          }
+        ],
+        "return": {
+          "type": "float",
+          "comment": "The clamped number."
+        },
+        "comment": "Clamps a float between a minimum and maximum value."
+      },
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "double",
+            "name": "num",
+            "comment": "The number to clamp."
+          },
+          {
+            "type": "double",
+            "name": "min",
+            "comment": "The minimum value."
+          },
+          {
+            "type": "double",
+            "name": "max",
+            "comment": "The maximum value."
+          }
+        ],
+        "return": {
+          "type": "double",
+          "comment": "The clamped number."
+        },
+        "comment": "Clamps a double between a minimum and maximum value."
+      }
+    ],
+    "clampedLerp": [
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "double",
+            "name": "num",
+            "comment": "The number to clamp."
+          },
+          {
+            "type": "double",
+            "name": "min",
+            "comment": "The minimum value."
+          },
+          {
+            "type": "double",
+            "name": "max",
+            "comment": "The maximum value."
+          }
+        ],
+        "return": {
+          "type": "double",
+          "comment": "The linear interpolated clamped number."
+        },
+        "comment": "Clamps a double between a minimum and maximum value and linearly interpolates it."
+      },
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "float",
+            "name": "num",
+            "comment": "The number to clamp."
+          },
+          {
+            "type": "float",
+            "name": "min",
+            "comment": "The minimum value."
+          },
+          {
+            "type": "float",
+            "name": "max",
+            "comment": "The maximum value."
+          }
+        ],
+        "return": {
+          "type": "float",
+          "comment": "The linear interpolated clamped number."
+        },
+        "comment": "Clamps a float between a minimum and maximum value and linearly interpolates it."
+      }
+    ],
+    "absMax": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "double",
+          "name": "num1",
+          "comment": "The first number to use."
+        },
+        {
+          "type": "double",
+          "name": "num2",
+          "comment": "The second number to use."
+        }
+      ],
+      "return": {
+        "type": "double",
+        "comment": "The absolute maximum of the two numbers."
+      },
+      "comment": "Gets the absolute maximum of two doubles."
     }
   }
 }
