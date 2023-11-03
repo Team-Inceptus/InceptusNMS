@@ -1,0 +1,246 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Represents an @({pkg}.AdvancementNode)'s position on an Advancement Tree."
+  },
+  "fields": {
+    "node": {
+      "type": "{pkg}.AdvancementNode",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The @({pkg}.AdvancementNode) this position is for."
+    },
+    "parent": {
+      "type": "{pkg}.AdvancementNode",
+      "visibility": "private",
+      "mods": ["final"],
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "The parent node of this position."
+    },
+    "previousSibling": {
+      "type": "{pkg}.AdvancementNode",
+      "visibility": "private",
+      "mods": ["final"],
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "The previous sibling node for this position."
+    },
+    "childIndex": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The index of the child node for this position."
+    },
+    "children": {
+      "type": "java.util.List<{this}>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The list of children nodes that this position owns."
+    },
+    "ancestor": {
+      "type": "{this}",
+      "visibility": "private",
+      "comment": "The direct ancestor node for this position."
+    },
+    "thread": {
+      "type": "{this}",
+      "visibility": "private",
+      "comment": "The thread node for this position."
+    },
+    "x": {
+      "type": "int",
+      "visibility": "private",
+      "comment": "The x coordinate of the position."
+    },
+    "y": {
+      "type": "float",
+      "visibility": "private",
+      "comment": "The y coordinate of the position."
+    },
+    "mod": {
+      "type": "float",
+      "visibility": "private",
+      "comment": "The cached mod value of the position."
+    },
+    "change": {
+      "type": "float",
+      "visibility": "private",
+      "comment": "How much this position has changed before being updated."
+    },
+    "shift": {
+      "type": "float",
+      "visibility": "private",
+      "comment": "How much the y position has changed before being updated."
+    }
+  },
+  "constructors": [
+    {
+      "$fields": [
+        "node",
+        "parent",
+        "previousSibling",
+        "childIndex",
+        "x"
+      ],
+      "comment": "Creates a new @({this}) with the given parameters."
+    }
+  ],
+  "methods": {
+    "addChild": {
+      "visibility": "private",
+      "return": {
+        "type": "{this}",
+        "comment": "The added child."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Adds a child to this position."
+    },
+    "firstWalk": {
+      "visibility": "private",
+      "comment": "Walks this position and its children and sets their x and y coordinates."
+    },
+    "secondWalk": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "float",
+          "name": "shift",
+          "comment": "The amount to shift this position by in the Y direction."
+        },
+        {
+          "type": "int",
+          "name": "x",
+          "comment": "The new X value."
+        },
+        {
+          "type": "float",
+          "name": "newY",
+          "comment": "The new Y value."
+        }
+      ],
+      "return": {
+        "type": "float",
+        "comment": "The amount this position has shifted by."
+      },
+      "comment": "Walks this position and its children *again* and sets their x and y coordinates."
+    },
+    "thirdWalk": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "float",
+          "name": "shift",
+          "comment": "The amount to shift this position by in the Y direction."
+        }
+      ],
+      "comment": "Walks this position and its children *again* and changes their y coordinate."
+    },
+    "executeShifts": {
+      "visibility": "private",
+      "comment": "Executes the shifts of this position and its children."
+    },
+    "previousOrThread": {
+      "visibility": "private",
+      "return": {
+        "type": "{this}",
+        "comment": "The previous or thread node, or null if not found."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Gets the previous or thread node."
+    },
+    "nextOrThread": {
+      "visibility": "private",
+      "return": {
+        "type": "{this}",
+        "comment": "The next or thread node, or null if not found."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Gets the next or thread node."
+    },
+    "apportion": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "{this}",
+          "name": "ancestor",
+          "comment": "The ancestor node."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The ancestor node inputted."
+      },
+      "comment": "Apportions this position."
+    },
+    "moveSubtree": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "{this}",
+          "name": "node",
+          "comment": "The node subtree to move."
+        },
+        {
+          "type": "float",
+          "name": "shift",
+          "comment": "The amount to shift the node by."
+        }
+      ],
+      "comment": "Moves the subtree of this position."
+    },
+    "getAncestor": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "{this}",
+          "name": "node",
+          "comment": "The node to get the ancestor of."
+        },
+        {
+          "type": "{this}",
+          "name": "defaultAncestor",
+          "comment": "The default ancestor to return if the node has no ancestor."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The ancestor of the node."
+      },
+      "comment": "Gets the ancestor of the node."
+    },
+    "finalizePosition": {
+      "visibility": "private",
+      "comment": "Finalizes the position."
+    },
+    "run": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "{pkg}.AdvancementNode",
+          "name": "root",
+          "comment": "The root node."
+        }
+      ],
+      "comment": "Runs the algorithm on the given root node.\nThese actions position the given node correctly on an Advancement Tree."
+    }
+  }
+}
