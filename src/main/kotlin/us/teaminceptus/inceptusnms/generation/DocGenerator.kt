@@ -1121,7 +1121,10 @@ object DocGenerator {
 
                         builder.append("<a href=\"#%3Cinit%3E(${constructor.parameters.map { it.type }.joinString(",", "")})\" class=\"member-name-link\">${info.simpleName}</a><wbr>")
                         if (constructor.parameters.isNotEmpty())
-                            builder.append("(${constructor.parameters.joinToString { param -> "${link(info.fullName, param.type, info.generics.map { it.name })}&nbsp;${param.name}" }})")
+                            builder.append("(${constructor.parameters.joinToString { param ->
+                                val annotations = param.annotations.map { annotation -> link(info.name, annotation.type, info.generics.map { it.name }, true) }
+                                "${annotations.joinString(" ")}${link(info.fullName, param.type, info.generics.map { it.name })}&nbsp;${param.name}" 
+                            }})")
                         else
                             builder.append("()")
 
@@ -1293,13 +1296,8 @@ object DocGenerator {
                         appendChild(Element("code").apply {
                             append("<a href=\"#${method.name}${method.paramString}\" class=\"member-name-link\">${method.name}</a>${
                                 if (method.parameters.isEmpty()) "()" else "(" + method.parameters.joinToString { param ->
-                                    "${
-                                        link(
-                                            info.fullName,
-                                            param.type,
-                                            generics
-                                        )
-                                    } ${param.name}"
+                                    val annotations = param.annotations.map { annotation -> link(info.name, annotation.type, info.generics.map { it.name }, true) }
+                                    "${annotations.joinString(" ")}${link(info.fullName, param.type, generics)} ${param.name}"
                                 } + ")"
                             }")
                         })
@@ -1512,8 +1510,13 @@ object DocGenerator {
                         append("<wbr>")
                         appendChild(Element("span").apply {
                             addClass("parameters")
-                            append("(${constructor.parameters.joinToString(separator = ", \n") { 
-                                param -> "${param.annotations.map { annotation -> link(info.fullName, annotation.type, info.generics.map { it.name }, true) }.joinString(" ")}${link(info.fullName, param.type, info.generics.map { it.name })}&nbsp;${param.name}" 
+                            append("(${constructor.parameters.joinToString(separator = ", \n") { param ->
+                                val paramAnnotations = param.annotations.map { annotation ->
+                                    val base = link(info.name, annotation.type, info.generics.map { it.name }, true)
+                                    if (annotation.parameters.isEmpty()) base
+                                    else "$base(${annotation.parameters.joinToString(", ") { param -> "${param.name} = ${param.value}" }})"
+                                }
+                                "${paramAnnotations.joinString(" ")}${link(info.fullName, param.type, info.generics.map { it.name })}&nbsp;${param.name}" 
                             }})")
                         })
                     })
@@ -1590,8 +1593,14 @@ object DocGenerator {
                         else {
                             append("<span class=\"element-name\">${method.name}</span>")
                             append("<wbr>")
-                            append("(${method.parameters.joinToString { param -> 
-                                "${param.annotations.map { annotation -> link(info.fullName, annotation.type, info.generics.map { it.name }, true) }.joinString(" ")}${link(info.fullName, param.type, lGenerics)}&nbsp;${param.name}" 
+                            append("(${method.parameters.joinToString { param ->
+                                val paramAnnotations = param.annotations.map { annotation ->
+                                    val base = link(info.name, annotation.type, info.generics.map { it.name }, true)
+                                    if (annotation.parameters.isEmpty()) base
+                                    else "$base(${annotation.parameters.joinToString(", ") { param -> "${param.name} = ${param.value}" }})"
+                                }
+                                
+                                "${paramAnnotations.joinString(" ")}${link(info.fullName, param.type, lGenerics)}&nbsp;${param.name}" 
                             }})")
                         }
                     })

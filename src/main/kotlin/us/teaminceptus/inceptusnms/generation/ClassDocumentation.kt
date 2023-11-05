@@ -289,7 +289,7 @@ data class ClassDocumentation(
 
                 AnnotationDocumentation(
                     processType(name, annotation.jsonObject["type"]!!.jsonPrimitive.content),
-                    params(name, annotation.jsonObject["params"])
+                    if (annotation.containsKey("params")) params(name, annotation.jsonObject["params"]) else emptyList()
                 )
             }?.toMutableList() ?: mutableListOf()
 
