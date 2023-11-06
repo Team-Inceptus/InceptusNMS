@@ -124,6 +124,7 @@ object Util {
     }
 
     fun getImplements(info: ClassDocumentation): List<String> {
+        if (info.extends == null && info.implements.isEmpty()) return emptyList()
         val implements = mutableListOf<String>()
         val classes = getClassDocumentation()
 
@@ -270,6 +271,21 @@ object Util {
             "class" to create(getHierarchyTree(info, false).reversed()),
             "interface" to create(getImplements(info).sorted())
         )
+    }
+
+    fun getImplementing(info: ClassDocumentation): List<ClassDocumentation> {
+        if (info.type != "interface") return emptyList()
+
+        val implementing = mutableListOf<ClassDocumentation>()
+        for (clazz in getClassDocumentation()) {
+            if (clazz.type == "interface" || clazz.type == "annotation") continue
+
+            val implements = getImplements(clazz)
+            if (implements.contains(info.name))
+                implementing.add(clazz)
+        }
+
+        return implementing
     }
 
     // Logging

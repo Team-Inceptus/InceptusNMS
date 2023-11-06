@@ -769,7 +769,7 @@ object DocGenerator {
             }
 
             if (info.type == "interface") {
-                val implementing = Util.getClassDocumentation().filter { clazz -> clazz.implements.any { it.contains(info.name) } }.sortedBy { it.name }
+                val implementing = Util.getImplementing(info).sortedBy { it.name }
                 if (implementing.isNotEmpty()) {
                     appendChild(Element("dl").apply {
                         addClass("notes")
