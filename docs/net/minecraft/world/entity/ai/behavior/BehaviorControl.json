@@ -1,0 +1,94 @@
+{
+  "class": {
+    "type": "interface",
+    "generics": {
+      "E": {
+        "extends": [
+          "net.minecraft.world.entity.LivingEntity"
+        ],
+        "comment": "The type of entity that the behavior runs on."
+      }
+    },
+    "comment": "Represents something that can control a behavior's running state."
+  },
+  "methods": {
+    "getStatus": {
+      "return": {
+        "type": "{pkg}.Behavior$Status",
+        "comment": "The current status of the behavior."
+      },
+      "comment": "Returns the current status of the behavior."
+    },
+    "tryStart": {
+      "params": [
+        {
+          "type": "net.minecraft.server.level.ServerLevel",
+          "name": "level",
+          "comment": "The level that the behavior is running on."
+        },
+        {
+          "type": "E",
+          "name": "entity",
+          "comment": "The entity that the behavior is running on."
+        },
+        {
+          "type": "long",
+          "name": "time",
+          "comment": "The current gametime."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if the behavior was started, false otherwise."
+      },
+      "comment": "Attempts to start the behavior."
+    },
+    "tickOrStop": {
+      "params": [
+        {
+          "type": "net.minecraft.server.level.ServerLevel",
+          "name": "level",
+          "comment": "The level that the behavior is running on."
+        },
+        {
+          "type": "E",
+          "name": "entity",
+          "comment": "The entity that the behavior is running on."
+        },
+        {
+          "type": "long",
+          "name": "time",
+          "comment": "The current gametime."
+        }
+      ],
+      "comment": "Ticks the behavior, or stops it if it is no longer running."
+    },
+    "doStop": {
+      "params": [
+        {
+          "type": "net.minecraft.server.level.ServerLevel",
+          "name": "level",
+          "comment": "The level that the behavior is running on."
+        },
+        {
+          "type": "E",
+          "name": "entity",
+          "comment": "The entity that the behavior is running on."
+        },
+        {
+          "type": "long",
+          "name": "time",
+          "comment": "The current gametime."
+        }
+      ],
+      "comment": "Stops the behavior."
+    },
+    "debugString": {
+      "return": {
+        "type": "string",
+        "comment": "A string representation of the behavior's current state."
+      },
+      "comment": "Gets a string representation of the behavior's current state."
+    }
+  }
+}
