@@ -75,6 +75,14 @@ object JSGenerator {
                         "l" to JsonPrimitive(field.name),
                     )))
 
+                for (constructor in type.constructors?.constructors?.sortedBy { it.fullName } ?: emptyList())
+                    add(JsonObject(mapOf(
+                        "p" to JsonPrimitive(type.pkg),
+                        "c" to JsonPrimitive(type.simpleName),
+                        "l" to JsonPrimitive("${type.simpleName}${constructor.cleanName}"),
+                        "u" to JsonPrimitive("%3Cinit%3E${constructor.fullName}")
+                    )))
+
                 for (method in type.methods?.methods?.sortedBy { it.fullName } ?: emptyList())
                     add(JsonObject(mapOf(
                         "p" to JsonPrimitive(type.pkg),

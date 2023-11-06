@@ -10,6 +10,7 @@ import org.intellij.markdown.parser.MarkdownParser
 import org.jsoup.Jsoup
 import us.teaminceptus.inceptusnms.generation.DocGenerator.generics
 import us.teaminceptus.inceptusnms.generation.DocGenerator.link
+import us.teaminceptus.inceptusnms.generation.DocGenerator.noGenerics
 
 data class ClassDocumentation(
     val type: String,
@@ -145,6 +146,31 @@ data class ClassDocumentation(
         val primary: Boolean = false
     ) {
         constructor(comment: String) : this("public", comment = comment)
+
+        val cleanName: String
+            get() {
+                if (parameters.isEmpty()) return "()"
+
+                val params = parameters.map {
+                    val type = it.type.noGenerics()
+
+                    (if (type.contains("."))
+                        type.substring(type.lastIndexOf('.') + 1)
+                    else
+                        type).replace("$", ".")
+                }
+
+                return "(${params.joinToString(",")})"
+            }
+
+        val fullName: String
+            get() {
+                if (parameters.isEmpty()) return "()"
+                val params = parameters.map { it.type }
+
+                return "(${params.joinToString(",")})"
+            }
+
     }
 
     data class MethodDocumentation(
@@ -165,10 +191,12 @@ data class ClassDocumentation(
                 if (parameters.isEmpty()) return "$name()"
 
                 val params = parameters.map {
-                    (if (it.type.contains("."))
-                        it.type.substring(it.type.lastIndexOf('.') + 1)
+                    val type = it.type.noGenerics()
+
+                    (if (type.contains("."))
+                        type.substring(type.lastIndexOf('.') + 1)
                     else
-                        it.type).replace("$", ".")
+                        type).replace("$", ".")
                 }
 
                 return "$name(${params.joinToString(",")})"
@@ -303,6 +331,7 @@ data class ClassDocumentation(
             val clazz = json["class"]!!.jsonObject
             val type = clazz["type"]!!.jsonPrimitive.content
             val annotations = async { annotations(name, clazz["annotations"], clazz["deprecated"] != null) }
+            val visibility = async { clazz["visibility"]?.jsonPrimitive?.content ?: "public" }.await()
 
             val generics = async {
                 if (clazz.contains("generics"))
@@ -348,7 +377,7 @@ data class ClassDocumentation(
                             val obj = it.jsonObject
 
                             ConstructorDocumentation(
-                                (obj["visibility"]?.jsonPrimitive?.content ?: (if (type == "enum") "private" else "public")).replace("package", "package-private"),
+                                (obj["visibility"]?.jsonPrimitive?.content ?: (if (type == "enum") "private" else visibility)).replace("package", "package-private"),
                                 params(name, obj["params"]),
                                 annotations(name, obj["annotations"], obj["deprecated"] != null),
                                 processComment(name, obj["comment"]!!.jsonPrimitive.content),
@@ -373,7 +402,7 @@ data class ClassDocumentation(
                             FieldDocumentation(
                                 processType(name, obj["type"]!!.jsonPrimitive.content),
                                 field.key,
-                                (obj["visibility"]?.jsonPrimitive?.content ?: "public").replace("package", "package-private"),
+                                (obj["visibility"]?.jsonPrimitive?.content ?: visibility).replace("package", "package-private"),
                                 obj["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: if (type == "interface") listOf("static", "final") else emptyList(),
                                 annotations(name, obj["annotations"], obj["deprecated"] != null),
                                 obj["value"]?.jsonPrimitive?.content,
@@ -419,7 +448,7 @@ data class ClassDocumentation(
                         val cFields = obj["\$fields"]!!.jsonArray
 
                         ConstructorDocumentation(
-                            (obj["visibility"]?.jsonPrimitive?.content ?: "public").replace("package", "package-private"),
+                            (obj["visibility"]?.jsonPrimitive?.content ?: visibility).replace("package", "package-private"),
                             cFields.map { jfieldName ->
                                 val fieldName = jfieldName.jsonPrimitive.content
                                 val field = fieldsV.fields.firstOrNull { it.name == fieldName } ?: throw IllegalArgumentException("No backing field for constructor parameter named '$fieldName' in $name")
@@ -443,7 +472,7 @@ data class ClassDocumentation(
 
                             MethodDocumentation(
                                 method,
-                                (obj["visibility"]?.jsonPrimitive?.content ?: "public").replace("package", "package-private"),
+                                (obj["visibility"]?.jsonPrimitive?.content ?: visibility).replace("package", "package-private"),
                                 field.mods - listOf("final", "volatile"),
                                 emptyList(),
                                 emptyList(),
@@ -467,7 +496,7 @@ data class ClassDocumentation(
 
                             MethodDocumentation(
                                 method,
-                                (obj["visibility"]?.jsonPrimitive?.content ?: "public").replace("package", "package-private"),
+                                (obj["visibility"]?.jsonPrimitive?.content ?: visibility).replace("package", "package-private"),
                                 field.mods - listOf("final", "volatile"),
                                 emptyList(),
                                 listOf(ParameterDocumentation(field.type, "value", emptyList(), field.comment)),
@@ -487,7 +516,7 @@ data class ClassDocumentation(
 
                     return MethodDocumentation(
                         method,
-                        (obj["visibility"]?.jsonPrimitive?.content ?: "public").replace("package", "package-private"),
+                        (obj["visibility"]?.jsonPrimitive?.content ?: visibility).replace("package", "package-private"),
                         obj["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: (if (type == "interface") listOf("abstract") else emptyList()),
                         obj["generics"]?.jsonObject?.map { generic ->
                             val g = generic.value.jsonObject
@@ -541,7 +570,7 @@ data class ClassDocumentation(
                             list.add(
                                 MethodDocumentation(
                                     param.name,
-                                    "public",
+                                    visibility.replace("package", "package-private"),
                                     emptyList(),
                                     emptyList(),
                                     emptyList(),
@@ -582,7 +611,7 @@ data class ClassDocumentation(
                 async { clazz["implements"]?.jsonArray?.map { processType(name, it.jsonPrimitive.content) } ?: emptyList() }.await(),
                 generics.await(),
                 enclosing,
-                async { clazz["visibility"]?.jsonPrimitive?.content ?: "public" }.await().replace("package", "package-private"),
+                visibility.replace("package", "package-private"),
                 async { clazz["mods"]?.jsonArray?.map { it.jsonPrimitive.content } ?: if ((type == "enum" || type == "interface") && enclosing != null) listOf("static") else emptyList() }.await(),
                 annotations.await(),
                 async { processComment(name, clazz["comment"]!!.jsonPrimitive.content) }.await(),
