@@ -1,0 +1,155 @@
+{
+  "class": {
+    "type": "enum",
+    "comment": "Represents a type of activity that an entity can perform."
+  },
+  "enumerations": [
+    {
+      "name": "CORE",
+      "comment": "The main core activity."
+    },
+    {
+      "name": "IDLE",
+      "comment": "The entity is idle and not moving."
+    },
+    {
+      "name": "WORK",
+      "comment": "The entity is working with something."
+    },
+    {
+      "name": "PLAY",
+      "comment": "The entity is playing with something else."
+    },
+    {
+      "name": "REST",
+      "comment": "The entity is resting."
+    },
+    {
+      "name": "MEET",
+      "comment": "The entity is meeting with someone."
+    },
+    {
+      "name": "PANIC",
+      "comment": "The entity is panicking."
+    },
+    {
+      "name": "RAID",
+      "comment": "The entity is raiding a village."
+    },
+    {
+      "name": "PRE_RAID",
+      "comment": "The entity is preparing to raid a village."
+    },
+    {
+      "name": "HIDE",
+      "comment": "The entity is hiding from something."
+    },
+    {
+      "name": "FIGHT",
+      "comment": "The entity is fighting something."
+    },
+    {
+      "name": "CELEBRATE",
+      "comment": "The entity is celebrating something."
+    },
+    {
+      "name": "ADMIRE_ITEM",
+      "comment": "The entity is admiring an item."
+    },
+    {
+      "name": "AVOID",
+      "comment": "The entity is avoiding something."
+    },
+    {
+      "name": "RIDE",
+      "comment": "The entity is riding something."
+    },
+    {
+      "name": "PLAY_DEAD",
+      "comment": "The entity is playing dead."
+    },
+    {
+      "name": "LONG_JUMP",
+      "comment": "The entity is performing a long jump."
+    },
+    {
+      "name": "RAM",
+      "comment": "The entity is ramming into something."
+    },
+    {
+      "name": "TONGUE",
+      "comment": "The entity is using its tongue."
+    },
+    {
+      "name": "SWIM",
+      "comment": "The entity is swimming."
+    },
+    {
+      "name": "LAY_SPAWN",
+      "comment": "The entity is laying spawn eggs."
+    },
+    {
+      "name": "SNIFF",
+      "comment": "The entity is sniffing something."
+    },
+    {
+      "name": "INVESTIGATE",
+      "comment": "The entity is investigating something."
+    },
+    {
+      "name": "ROAR",
+      "comment": "The entity is roaring."
+    },
+    {
+      "name": "EMERGE",
+      "comment": "The entity is emerging from somewhere."
+    },
+    {
+      "name": "DIG",
+      "comment": "The entity is digging into the ground."
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "string",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The human-readable name of the activity."
+    },
+    "hashCode": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The hash code of the activity."
+    }
+  },
+  "constructors": [
+    {
+      "$fields": [
+        "name"
+      ],
+      "comment": "Constructs a new activity."
+    }
+  ],
+  "methods": {
+    "getName": {
+      "$getter": "name"
+    },
+    "register": {
+      "visibility": "private",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "string",
+          "name": "name",
+          "comment": "The name of the activity."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The registered activity."
+      },
+      "comment": "Registers a new activity."
+    }
+  }
+}
