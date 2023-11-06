@@ -1,0 +1,711 @@
+{
+  "class": {
+    "type": "class",
+    "implements": [
+      "{pkg}.Tag"
+    ],
+    "comment": "Represents a NBT Tag that can hold multiple values."
+  },
+  "fields": {
+    "CODEC": {
+      "type": "codec<{this}>",
+      "mods": ["static", "final"],
+      "comment": "The codec for a CompoundTag."
+    },
+    "SELF_SIZE_IN_BYTES": {
+      "type": "int",
+      "mods": ["static", "final"],
+      "value": "48",
+      "comment": "The size of a CompoundTag in bytes."
+    },
+    "MAP_ENTRY_SIZE_IN_BYTES": {
+      "type": "int",
+      "mods": ["static", "final"],
+      "value": "32",
+      "comment": "The size of a Map.Entry in bytes."
+    },
+    "TYPE": {
+      "type": "{pkg}.TagType<{this}>",
+      "mods": ["static", "final"],
+      "comment": "The TagType for a CompoundTag."
+    },
+    "tags": {
+      "type": "java.util.Map<string, {pkg}.Tag>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The tags contained in this CompoundTag."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "protected",
+      "$fields": [
+        "tags"
+      ],
+      "comment": "Constructs a CompoundTag with the given tags."
+    },
+    {
+      "comment": "Constructs a CompoundTag with no tags."
+    }
+  ],
+  "methods": {
+    "put": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the tag to put."
+        },
+        {
+          "type": "{pkg}.Tag",
+          "name": "tag",
+          "comment": "The tag to put."
+        }
+      ],
+      "return": {
+        "type": "{pkg}.Tag",
+        "comment": "The tag that was put, or null if failed."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Puts a tag into this CompoundTag."
+    },
+    "putByte": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the tag to put."
+        },
+        {
+          "type": "byte",
+          "name": "value",
+          "comment": "The value of the tag to put."
+        }
+      ],
+      "comment": "Puts a byte tag into this CompoundTag."
+    },
+    "putShort": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the tag to put."
+        },
+        {
+          "type": "short",
+          "name": "value",
+          "comment": "The value of the tag to put."
+        }
+      ],
+      "comment": "Puts a short tag into this CompoundTag."
+    },
+    "putInt": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the tag to put."
+        },
+        {
+          "type": "int",
+          "name": "value",
+          "comment": "The value of the tag to put."
+        }
+      ],
+      "comment": "Puts an int tag into this CompoundTag."
+    },
+    "putLong": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the tag to put."
+        },
+        {
+          "type": "long",
+          "name": "value",
+          "comment": "The value of the tag to put."
+        }
+      ],
+      "comment": "Puts a long tag into this CompoundTag."
+    },
+    "putUUID": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the tag to put."
+        },
+        {
+          "type": "java.util.UUID",
+          "name": "value",
+          "comment": "The value of the tag to put."
+        }
+      ],
+      "comment": "Puts a UUID tag into this CompoundTag."
+    },
+    "getUUID": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the tag to get."
+        }
+      ],
+      "return": {
+        "type": "java.util.UUID",
+        "comment": "The UUID tag with the given key, or null if failed."
+      },
+      "comment": "Gets a UUID tag from this CompoundTag."
+    },
+    "hasUUID": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the UUID tag to check."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether or not this CompoundTag has a UUID tag with the given key."
+      },
+      "comment": "Checks if this CompoundTag has a UUID tag with the given key."
+    },
+    "putFloat": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the tag to put."
+        },
+        {
+          "type": "float",
+          "name": "value",
+          "comment": "The value of the tag to put."
+        }
+      ],
+      "comment": "Puts a float tag into this CompoundTag."
+    },
+    "putDouble": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the tag to put."
+        },
+        {
+          "type": "double",
+          "name": "value",
+          "comment": "The value of the tag to put."
+        }
+      ],
+      "comment": "Puts a double tag into this CompoundTag."
+    },
+    "putString": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the string tag to put."
+        },
+        {
+          "type": "string",
+          "name": "value",
+          "comment": "The value of the string tag to put."
+        }
+      ],
+      "comment": "Puts a string tag into this CompoundTag."
+    },
+    "putByteArray": [
+      {
+        "params": [
+          {
+            "type": "string",
+            "name": "key",
+            "comment": "The key of the byte array tag to put."
+          },
+          {
+            "type": "byte[]",
+            "name": "value",
+            "comment": "The value of the byte array tag to put."
+          }
+        ],
+        "comment": "Puts a byte array tag into this CompoundTag."
+      },
+      {
+        "params": [
+          {
+            "type": "string",
+            "name": "key",
+            "comment": "The key of the byte array tag to put."
+          },
+          {
+            "type": "java.util.List<wbyte>",
+            "name": "value",
+            "comment": "The value of the byte array tag to put."
+          }
+        ],
+        "comment": "Puts a byte array tag into this CompoundTag."
+      }
+    ],
+    "putIntArray": [
+      {
+        "params": [
+          {
+            "type": "string",
+            "name": "key",
+            "comment": "The key of the int array tag to put."
+          },
+          {
+            "type": "int[]",
+            "name": "value",
+            "comment": "The value of the int array tag to put."
+          }
+        ],
+        "comment": "Puts an int array tag into this CompoundTag."
+      },
+      {
+        "params": [
+          {
+            "type": "string",
+            "name": "key",
+            "comment": "The key of the int array tag to put."
+          },
+          {
+            "type": "java.util.List<wint>",
+            "name": "value",
+            "comment": "The value of the int array tag to put."
+          }
+        ],
+        "comment": "Puts an int array tag into this CompoundTag."
+      }
+    ],
+    "putLongArray": [
+      {
+        "params": [
+          {
+            "type": "string",
+            "name": "key",
+            "comment": "The key of the long array tag to put."
+          },
+          {
+            "type": "long[]",
+            "name": "value",
+            "comment": "The value of the long array tag to put."
+          }
+        ],
+        "comment": "Puts a long array tag into this CompoundTag."
+      },
+      {
+        "params": [
+          {
+            "type": "string",
+            "name": "key",
+            "comment": "The key of the long array tag to put."
+          },
+          {
+            "type": "java.util.List<wlong>",
+            "name": "value",
+            "comment": "The value of the long array tag to put."
+          }
+        ],
+        "comment": "Puts a long array tag into this CompoundTag."
+      }
+    ],
+    "putBoolean": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the boolean tag to put."
+        },
+        {
+          "type": "boolean",
+          "name": "value",
+          "comment": "The value of the boolean tag to put."
+        }
+      ],
+      "comment": "Puts a boolean tag into this CompoundTag."
+    },
+    "get": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the tag to get."
+        }
+      ],
+      "return": {
+        "type": "{pkg}.Tag",
+        "comment": "The tag with the given key, or null if failed."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Gets a tag from this CompoundTag."
+    },
+    "getTagType": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the tag to get the type of."
+        }
+      ],
+      "return": {
+        "type": "byte",
+        "comment": "The byte representation of the tagtype for the tag with the given key, or null if failed."
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Gets the TagType of a tag from this CompoundTag."
+    },
+    "contains": [
+      {
+        "params": [
+          {
+            "type": "string",
+            "name": "key",
+            "comment": "The key of the tag to check."
+          }
+        ],
+        "return": {
+          "type": "boolean",
+          "comment": "Whether or not this CompoundTag contains a tag with the given key."
+        },
+        "comment": "Checks if this CompoundTag contains a tag with the given key."
+      },
+      {
+        "params": [
+          {
+            "type": "string",
+            "name": "key",
+            "comment": "The key of the tag to check."
+          },
+          {
+            "type": "int",
+            "name": "type",
+            "comment": "The type of the tag to check."
+          }
+        ],
+        "return": {
+          "type": "boolean",
+          "comment": "Whether or not this CompoundTag contains a tag with the given key and type."
+        },
+        "comment": "Checks if this CompoundTag contains a tag with the given key and type."
+      }
+    ],
+    "getByte": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the byte tag to get."
+        }
+      ],
+      "return": {
+        "type": "byte",
+        "comment": "The byte with the given key."
+      },
+      "comment": "Gets a byte tag from this CompoundTag."
+    },
+    "getShort": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the short tag to get."
+        }
+      ],
+      "return": {
+        "type": "short",
+        "comment": "The short with the given key."
+      },
+      "comment": "Gets a short tag from this CompoundTag."
+    },
+    "getInt": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the int tag to get."
+        }
+      ],
+      "return": {
+        "type": "int",
+        "comment": "The int with the given key."
+      },
+      "comment": "Gets an int tag from this CompoundTag."
+    },
+    "getLong": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the long tag to get."
+        }
+      ],
+      "return": {
+        "type": "long",
+        "comment": "The long with the given key."
+      },
+      "comment": "Gets a long tag from this CompoundTag."
+    },
+    "getFloat": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the float tag to get."
+        }
+      ],
+      "return": {
+        "type": "float",
+        "comment": "The float with the given key."
+      },
+      "comment": "Gets a float tag from this CompoundTag."
+    },
+    "getDouble": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the double tag to get."
+        }
+      ],
+      "return": {
+        "type": "double",
+        "comment": "The double with the given key."
+      },
+      "comment": "Gets a double tag from this CompoundTag."
+    },
+    "getString": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the string tag to get."
+        }
+      ],
+      "return": {
+        "type": "string",
+        "comment": "The string with the given key."
+      },
+      "comment": "Gets a string tag from this CompoundTag."
+    },
+    "getByteArray": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the byte array tag to get."
+        }
+      ],
+      "return": {
+        "type": "byte[]",
+        "comment": "The byte array with the given key."
+      },
+      "comment": "Gets a byte array tag from this CompoundTag."
+    },
+    "getIntArray": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the int array tag to get."
+        }
+      ],
+      "return": {
+        "type": "int[]",
+        "comment": "The int array with the given key."
+      },
+      "comment": "Gets an int array tag from this CompoundTag."
+    },
+    "getLongArray": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the long array tag to get."
+        }
+      ],
+      "return": {
+        "type": "long[]",
+        "comment": "The long array with the given key."
+      },
+      "comment": "Gets a long array tag from this CompoundTag."
+    },
+    "getCompound": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the compound tag to get."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The compound tag with the given key."
+      },
+      "comment": "Gets a compound tag from this CompoundTag."
+    },
+    "getList": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the list tag to get."
+        },
+        {
+          "type": "int",
+          "name": "type",
+          "comment": "The type of the list tag to get."
+        }
+      ],
+      "return": {
+        "type": "{pkg}.ListTag",
+        "comment": "The list tag with the given key."
+      },
+      "comment": "Gets a list tag from this CompoundTag."
+    },
+    "getBoolean": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the boolean tag to get."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "The boolean with the given key."
+      },
+      "comment": "Gets a boolean tag from this CompoundTag."
+    },
+    "remove": {
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the tag to remove."
+        }
+      ],
+      "comment": "Removes a tag from this CompoundTag."
+    },
+    "isEmpty": {
+      "return": {
+        "type": "boolean",
+        "comment": "Whether or not this CompoundTag is empty."
+      },
+      "comment": "Checks if this CompoundTag is empty."
+    },
+    "createReport": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the tag that caused the crash."
+        },
+        {
+          "type": "{pkg}.TagType<?>",
+          "name": "expected",
+          "comment": "The expected TagType of the tag that caused the crash."
+        },
+        {
+          "type": "java.lang.ClassCastException",
+          "name": "exception",
+          "comment": "The ClassCastException that caused the crash."
+        }
+      ],
+      "return": {
+        "type": "net.minecraft.CrashReport",
+        "comment": "A crash report for this CompoundTag."
+      },
+      "comment": "Creates a crash report for this CompoundTag."
+    },
+    "writeNamedTag": {
+      "visibility": "private",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the tag to write."
+        },
+        {
+          "type": "{pkg}.Tag",
+          "name": "tag",
+          "comment": "The tag to write."
+        },
+        {
+          "type": "java.io.DataOutput",
+          "name": "output",
+          "comment": "The DataOutput to write to."
+        }
+      ],
+      "throws": [
+        {
+          "type": "java.io.IOException",
+          "comment": "If an I/O error occurs."
+        }
+      ],
+      "comment": "Writes a named tag to a DataOutput."
+    },
+    "readNamedTagData": {
+      "visibility": "package",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "{pkg}.TagType<?>",
+          "name": "expected",
+          "comment": "The expected TagType of the tag to read."
+        },
+        {
+          "type": "string",
+          "name": "key",
+          "comment": "The key of the tag to read."
+        },
+        {
+          "type": "java.io.DataInput",
+          "name": "input",
+          "comment": "The DataInput to read from."
+        },
+        {
+          "type": "{pkg}.NbtAccounter",
+          "name": "accounter",
+          "comment": "The NbtAccounter to use."
+        }
+      ],
+      "comment": "Reads a named tag from a DataInput."
+    },
+    "merge": {
+      "params": [
+        {
+          "type": "{this}",
+          "name": "other",
+          "comment": "The CompoundTag to merge into this one."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "This CompoundTag."
+      },
+      "comment": "Merges another CompoundTag into this one."
+    },
+    "entries": {
+      "$getter": "tags",
+      "visibility": "protected"
+    }
+  }
+}
