@@ -1,0 +1,790 @@
+{
+  "class": {
+    "type": "class",
+    "generics": {
+      "E": {
+        "extends": [
+          "net.minecraft.world.entity.LivingEntity"
+        ],
+        "comment": "The type of entity that this Brain is for."
+      }
+    },
+    "comment": "The centralized system for a @(net.minecraft.world.entity.LivingEntity)'s AI."
+  },
+  "fields": {
+    "LOGGER": {
+      "type": "org.slf4j.Logger",
+      "visibility": "package",
+      "mods": ["static", "final"],
+      "comment": "The logger for this Brain."
+    },
+    "codec": {
+      "type": "java.util.function.Supplier<codec<{this}<E>>>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The codec for this Brain."
+    },
+    "SCHEDULE_UPDATE_DELAY": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "20",
+      "comment": "The delay between each update of this Brain's schedule, in ticks."
+    },
+    "memories": {
+      "type": "java.util.Map<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>, java.util.Optional<? extends net.minecraft.world.entity.ai.memory.ExpirableValue<?>>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The memories in this Brain."
+    },
+    "sensors": {
+      "type": "java.util.Map<net.minecraft.world.entity.ai.sensing.SensorType<? extends net.minecraft.world.entity.ai.sensing.Sensor<? super E>>, net.minecraft.world.entity.ai.sensing.Sensor<? super E>>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The sensors fir this Brain."
+    },
+    "availableBehaviorsByPriority": {
+      "type": "java.util.Map<wint, java.util.Map<net.minecraft.world.entity.schedule.Activity, java.util.Set<net.minecraft.world.entity.ai.behavior.BehaviorControl<? super E>>>>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The behaviors in this Brain, sorted by priority."
+    },
+    "schedule": {
+      "type": "net.minecraft.world.entity.schedule.Schedule",
+      "visibility": "private",
+      "comment": "The running schedule for this Brain."
+    },
+    "activityRequirements": {
+      "type": "java.util.Map<net.minecraft.world.entity.schedule.Activity, java.util.Set<com.mojang.datafixers.util.Pair<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>, net.minecraft.world.entity.ai.memory.MemoryStatus>>>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The requirements for each activity in this Brain."
+    },
+    "activityMemoriesToEraseWhenStopped": {
+      "type": "java.util.Map<net.minecraft.world.entity.schedule.Activity, java.util.Set<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>>>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The memories to erase when an activity is stopped."
+    },
+    "coreActivities": {
+      "type": "java.util.Set<net.minecraft.world.entity.schedule.Activity>",
+      "visibility": "private",
+      "comment": "The core activities for this Brain."
+    },
+    "activeActivities": {
+      "type": "java.util.Set<net.minecraft.world.entity.schedule.Activity>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The currently active activities for this Brain."
+    },
+    "defaultActivity": {
+      "type": "net.minecraft.world.entity.schedule.Activity",
+      "visibility": "private",
+      "comment": "The default activity for this Brain."
+    },
+    "lastScheduleUpdate": {
+      "type": "long",
+      "visibility": "private",
+      "comment": "The last time this Brain's schedule was updated."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "java.util.Collection<? extends net.minecraft.world.entity.ai.memory.MemoryModuleType<?>>",
+          "name": "memories",
+          "comment": "The memories to provide."
+        },
+        {
+          "type": "java.util.Collection<? extends net.minecraft.world.entity.ai.sensing.SensorType<? extends net.minecraft.world.entity.ai.sensing.Sensor<? super E>>>",
+          "name": "sensors",
+          "comment": "The sensors to provide."
+        },
+        {
+          "type": "com.google.common.collect.ImmutableList<{this}$MemoryValue<?>>",
+          "name": "memoryValues",
+          "comment": "The memory values to provide."
+        },
+        {
+          "type": "java.util.function.Supplier<codec<{this}<E>>>",
+          "name": "codec",
+          "comment": "The codec for this Brain."
+        }
+      ],
+      "comment": "Creates a new Brain."
+    }
+  ],
+  "methods": {
+    "provider": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "java.util.Collection<? extends net.minecraft.world.entity.ai.memory.MemoryModuleType<?>>",
+          "name": "memories",
+          "comment": "The memories to provide."
+        },
+        {
+          "type": "java.util.Collection<? extends net.minecraft.world.entity.ai.sensing.SensorType<? extends net.minecraft.world.entity.ai.sensing.Sensor<? super E>>>",
+          "name": "sensors",
+          "comment": "The sensors to provide."
+        }
+      ],
+      "return": {
+        "type": "{this}$Provider<E>",
+        "comment": "A provider for this Brain."
+      },
+      "comment": "Creates a provider for this Brain."
+    },
+    "codec": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "java.util.Collection<? extends net.minecraft.world.entity.ai.memory.MemoryModuleType<?>>",
+          "name": "memories",
+          "comment": "The memories to provide."
+        },
+        {
+          "type": "java.util.Collection<? extends net.minecraft.world.entity.ai.sensing.SensorType<? extends net.minecraft.world.entity.ai.sensing.Sensor<? super E>>>",
+          "name": "sensors",
+          "comment": "The sensors to provide."
+        }
+      ],
+      "return": {
+        "type": "codec<{this}<E>>",
+        "comment": "A codec for this Brain."
+      },
+      "comment": "Creates a codec for this Brain."
+    },
+    "serializeStart": {
+      "params": [
+        {
+          "type": "com.mojang.serialization.DynamicOps<T>",
+          "name": "ops",
+          "comment": "The serialization ops."
+        }
+      ],
+      "return": {
+        "type": "com.mojang.serialization.DataResult<T>",
+        "comment": "The serialization result."
+      },
+      "generics": {
+        "T": {
+          "comment": "The serialization ops type."
+        }
+      },
+      "comment": "Starts the serialization of this Brain."
+    },
+    "memories": {
+      "visibility": "package",
+      "return": {
+        "type": "java.util.stream.Stream<{this}$MemoryValue<?>>",
+        "comment": "A stream of the memory values in this Brain."
+      },
+      "comment": "Gets a stream of the memory values in this Brain."
+    },
+    "hasMemoryValue": {
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.ai.memory.MemoryModuleType<?>",
+          "name": "memory",
+          "comment": "The memory to check for."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if this Brain has the given memory."
+      },
+      "comment": "Checks if this Brain has the given memory present."
+    },
+    "clearMemories": {
+      "comment": "Clears all memories in this Brain."
+    },
+    "eraseMemory": {
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.ai.memory.MemoryModuleType<U>",
+          "name": "memory",
+          "comment": "The memory to erase."
+        }
+      ],
+      "generics": {
+        "U": {
+          "comment": "The type of the memory to erase."
+        }
+      },
+      "comment": "Erases the given memory from this Brain."
+    },
+    "setMemory": [
+      {
+        "params": [
+          {
+            "type": "net.minecraft.world.entity.ai.memory.MemoryModuleType<U>",
+            "name": "memory",
+            "comment": "The memory to set."
+          },
+          {
+            "type": "U",
+            "name": "value",
+            "annotations": [
+              {
+                "type": "nullable"
+              }
+            ],
+            "comment": "The value to set the memory to."
+          }
+        ],
+        "generics": {
+          "U": {
+            "comment": "The type of the memory to set."
+          }
+        },
+        "comment": "Sets the given memory to the given value."
+      },
+      {
+        "params": [
+          {
+            "type": "net.minecraft.world.entity.ai.memory.MemoryModuleType<U>",
+            "name": "memory",
+            "comment": "The memory to set."
+          },
+          {
+            "type": "java.util.Optional<? extends U>",
+            "name": "value",
+            "comment": "The optional value to set the memory to."
+          }
+        ],
+        "generics": {
+          "U": {
+            "comment": "The type of the memory to set."
+          }
+        },
+        "comment": "Sets the given memory to the given value."
+      }
+    ],
+    "setMemoryWithExpiry": {
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.ai.memory.MemoryModuleType<U>",
+          "name": "memory",
+          "comment": "The memory to set."
+        },
+        {
+          "type": "U",
+          "name": "value",
+          "comment": "The value to set the memory to."
+        },
+        {
+          "type": "long",
+          "name": "expiry",
+          "comment": "How long this memory should exist, in ticks."
+        }
+      ],
+      "generics": {
+        "U": {
+          "comment": "The type of the memory to set."
+        }
+      },
+      "comment": "Sets the given memory to the given value, with an expiry."
+    },
+    "setMemoryInternal": {
+      "visibility": "package",
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.ai.memory.MemoryModuleType<U>",
+          "name": "memory",
+          "comment": "The memory to set."
+        },
+        {
+          "type": "java.util.Optional<? extends net.minecraft.world.entity.ai.memory.ExpirableValue<U>>",
+          "name": "value",
+          "comment": "The optional value to set the memory to."
+        }
+      ],
+      "comment": "Sets the given memory to the given value."
+    },
+    "getMemory": {
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.ai.memory.MemoryModuleType<U>",
+          "name": "memory",
+          "comment": "The memory to get."
+        }
+      ],
+      "return": {
+        "type": "java.util.Optional<U>",
+        "comment": "The value of the given memory."
+      },
+      "generics": {
+        "U": {
+          "comment": "The type of the memory to get."
+        }
+      },
+      "comment": "Gets the value of the given memory."
+    },
+    "getMemoryInternal": {
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.ai.memory.MemoryModuleType<U>",
+          "name": "memory",
+          "comment": "The memory to get."
+        }
+      ],
+      "return": {
+        "type": "java.util.Optional<U>",
+        "comment": "The value of the given memory."
+      },
+      "generics": {
+        "U": {
+          "comment": "The type of the memory to get."
+        }
+      },
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "Gets the value of the given memory."
+    },
+    "getTimeUntilExpiry": {
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.ai.memory.MemoryModuleType<U>",
+          "name": "memory",
+          "comment": "The memory to get the expiry time for."
+        }
+      ],
+      "return": {
+        "type": "long",
+        "comment": "The time until the given memory expires, in ticks, or `0` if this memory doesn't expire."
+      },
+      "generics": {
+        "U": {
+          "comment": "The type of the memory to get the expiry time for."
+        }
+      },
+      "comment": "Gets the time until the given memory expires, in ticks."
+    },
+    "getMemories": {
+      "$getter": "memories",
+      "deprecated": "debug use only",
+      "annotations": [
+        {
+          "type": "net.minecraft.util.VisibleForDebug"
+        }
+      ]
+    },
+    "isMemoryValue": {
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.ai.memory.MemoryModuleType<U>",
+          "name": "memory",
+          "comment": "The memory to check for."
+        },
+        {
+          "type": "U",
+          "name": "value",
+          "comment": "The value to check for."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if this Brain has the given memory value."
+      },
+      "generics": {
+        "U": {
+          "comment": "The type of the memory to check for."
+        }
+      },
+      "comment": "Checks if this Brain has the given memory value."
+    },
+    "checkMemory": {
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.ai.memory.MemoryModuleType<?>",
+          "name": "memory",
+          "comment": "The memory to check for."
+        },
+        {
+          "type": "net.minecraft.world.entity.ai.memory.MemoryStatus",
+          "name": "status",
+          "comment": "The status to check for."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if this Brain has the given memory with the given status."
+      },
+      "comment": "Checks if this Brain has the given memory with the given status."
+    },
+    "getSchedule": {
+      "$getter": "schedule"
+    },
+    "setSchedule": {
+      "$setter": "schedule"
+    },
+    "setCoreActivities": {
+      "$setter": "coreActivities"
+    },
+    "getActiveActivities": {
+      "$getter": "activeActivities",
+      "deprecated": "debug use only",
+      "annotations": [
+        {
+          "type": "net.minecraft.util.VisibleForDebug"
+        }
+      ]
+    },
+    "getRunningBehaviors": {
+      "deprecated": "debug use only",
+      "return": {
+        "type": "java.util.List<net.minecraft.world.entity.ai.behavior.BehaviorControl<? super E>>",
+        "comment": "A stream of the running behaviors in this Brain."
+      },
+      "annotations": [
+        {
+          "type": "net.minecraft.util.VisibleForDebug"
+        }
+      ],
+      "comment": "Gets a stream of the running behaviors in this Brain."
+    },
+    "useDefaultActivity": {
+      "comment": "Sets the running activity to the default activity for this Brain."
+    },
+    "getActiveNonCoreActivity": {
+      "return": {
+        "type": "java.util.Optional<net.minecraft.world.entity.schedule.Activity>",
+        "comment": "The currently active non-core activity for this Brain."
+      },
+      "comment": "Gets the currently active non-core activity for this Brain."
+    },
+    "setActiveActivityIfPossible": {
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.schedule.Activity",
+          "name": "activity",
+          "comment": "The activity to set."
+        }
+      ],
+      "comment": "Sets the given activity as the active activity if possible."
+    },
+    "setActiveActivity": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.schedule.Activity",
+          "name": "activity",
+          "comment": "The activity to set."
+        }
+      ],
+      "comment": "Sets the given activity as the active activity."
+    },
+    "eraseMemoriesForOtherActivitiesThan": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.schedule.Activity",
+          "name": "activity",
+          "comment": "The activity to keep memories for."
+        }
+      ],
+      "comment": "Erases memories for activities other than the given activity."
+    },
+    "updateActivityFromSchedule": {
+      "params": [
+        {
+          "type": "long",
+          "name": "worldTime",
+          "comment": "The current world time."
+        },
+        {
+          "type": "long",
+          "name": "gameTime",
+          "comment": "The current game time."
+        }
+      ],
+      "comment": "Updates the activity from the schedule."
+    },
+    "setActiveActivityToFirstValid": {
+      "params": [
+        {
+          "type": "java.util.List<net.minecraft.world.entity.schedule.Activity>",
+          "name": "activities",
+          "comment": "The activities to check."
+        }
+      ],
+      "comment": "Sets the active activity to the first valid activity in the given list."
+    },
+    "setDefaultActivity": {
+      "$setter": "defaultActivity"
+    },
+    "addActivity": [
+      {
+        "params": [
+          {
+            "type": "net.minecraft.world.entity.schedule.Activity",
+            "name": "activity",
+            "comment": "The activity to add."
+          },
+          {
+            "type": "int",
+            "name": "priority",
+            "comment": "The priority of the activity."
+          },
+          {
+            "type": "com.google.common.collect.ImmutableList<? extends net.minecraft.world.entity.ai.behavior.BehaviorControl<? super E>>",
+            "name": "behaviors",
+            "comment": "The behaviors for the activity."
+          }
+        ],
+        "comment": "Adds an activity to this Brain."
+      },
+      {
+        "params": [
+          {
+            "type": "net.minecraft.world.entity.schedule.Activity",
+            "name": "activity",
+            "comment": "The activity to add."
+          },
+          {
+            "type": "com.google.common.collect.ImmutableList<? extends com.mojang.datafixers.util.Pair<wint, net.minecraft.world.entity.ai.behavior.BehaviorControl<? super E>>>",
+            "name": "behaviors",
+            "comment": "The behaviors for the activity, mapped by priority."
+          }
+        ],
+        "comment": "Adds an activity to this Brain."
+      }
+    ],
+    "addActivityAndRemoveMemoryWhenStopped": {
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.schedule.Activity",
+          "name": "activity",
+          "comment": "The activity to add."
+        },
+        {
+          "type": "int",
+          "name": "priority",
+          "comment": "The priority of the activity."
+        },
+        {
+          "type": "com.google.common.collect.ImmutableList<? extends net.minecraft.world.entity.ai.behavior.BehaviorControl<? super E>>",
+          "name": "behaviors",
+          "comment": "The behaviors for the activity."
+        },
+        {
+          "type": "net.minecraft.world.entity.ai.memory.MemoryModuleType<?>",
+          "name": "memory",
+          "comment": "The memory to erase when the activity is stopped."
+        }
+      ],
+      "comment": "Adds an activity to this Brain, removing the given memory when the activity is stopped."
+    },
+    "addActivityWithConditions": {
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.schedule.Activity",
+          "name": "activity",
+          "comment": "The activity to add."
+        },
+        {
+          "type": "com.google.common.collect.ImmutableList<? extends com.mojang.datafixers.util.Pair<wint, net.minecraft.world.entity.ai.behavior.BehaviorControl<? super E>>>",
+          "name": "behaviors",
+          "comment": "The behaviors for the activity, mapped by priority."
+        },
+        {
+          "type": "java.util.Set<com.mojang.datafixers.util.Pair<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>, net.minecraft.world.entity.ai.memory.MemoryStatus>>",
+          "name": "requirements",
+          "comment": "The memory requirements for the activity."
+        }
+      ],
+      "comment": "Adds an activity to this Brain, with the given memory requirements."
+    },
+    "addActivityAndRemoveMemoriesWhenStopped": {
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.schedule.Activity",
+          "name": "activity",
+          "comment": "The activity to add."
+        },
+        {
+          "type": "com.google.common.collect.ImmutableList<? extends com.mojang.datafixers.util.Pair<wint, net.minecraft.world.entity.ai.behavior.BehaviorControl<? super E>>>",
+          "name": "behaviors",
+          "comment": "The behaviors for the activity, mapped by priority."
+        },
+        {
+          "type": "java.util.Set<com.mojang.datafixers.util.Pair<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>, net.minecraft.world.entity.ai.memory.MemoryStatus>>",
+          "name": "requirements",
+          "comment": "The memory requirements for the activity."
+        },
+        {
+          "type": "java.util.Set<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>>",
+          "name": "memories",
+          "comment": "The memories to remove when the activity is stopped."
+        }
+      ],
+      "comment": "Adds an activity to this Brain, removing the given memories when the activity is stopped."
+    },
+    "removeAllBehaviors": {
+      "annotations": [
+        {
+          "type": "com.google.common.annotations.VisibleForTesting"
+        }
+      ],
+      "comment": "Removes all behaviors from this Brain."
+    },
+    "isActive": {
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.schedule.Activity",
+          "name": "activity",
+          "comment": "The activity to check."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if the given activity is active."
+      },
+      "comment": "Checks if the given activity is an active activity."
+    },
+    "copyWithoutBehaviors": {
+      "return": {
+        "type": "{this}<E>",
+        "comment": "A copy of this Brain without behaviors."
+      },
+      "comment": "Creates a copy of this Brain without behaviors."
+    },
+    "tick": {
+      "params": [
+        {
+          "type": "net.minecraft.server.level.ServerLevel",
+          "name": "world",
+          "comment": "The world."
+        },
+        {
+          "type": "E",
+          "name": "entity",
+          "comment": "The entity."
+        }
+      ],
+      "comment": "Ticks this Brain."
+    },
+    "tickSensors": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "net.minecraft.server.level.ServerLevel",
+          "name": "world",
+          "comment": "The world."
+        },
+        {
+          "type": "E",
+          "name": "entity",
+          "comment": "The entity."
+        }
+      ],
+      "comment": "Ticks the sensors in this Brain."
+    },
+    "forgetOutdatedMemories": {
+      "visibility": "private",
+      "comment": "Forgets outdated memories in this Brain."
+    },
+    "stopAll": {
+      "params": [
+        {
+          "type": "net.minecraft.server.level.ServerLevel",
+          "name": "world",
+          "comment": "The world."
+        },
+        {
+          "type": "E",
+          "name": "entity",
+          "comment": "The entity."
+        }
+      ],
+      "comment": "Stops all activities in this Brain."
+    },
+    "startEachNonRunningBehavior": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "net.minecraft.server.level.ServerLevel",
+          "name": "world",
+          "comment": "The world."
+        },
+        {
+          "type": "E",
+          "name": "entity",
+          "comment": "The entity."
+        }
+      ],
+      "comment": "Starts each non-running behavior in this Brain."
+    },
+    "tickEachRunningBehavior": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "net.minecraft.server.level.ServerLevel",
+          "name": "world",
+          "comment": "The world."
+        },
+        {
+          "type": "E",
+          "name": "entity",
+          "comment": "The entity."
+        }
+      ],
+      "comment": "Ticks each running behavior in this Brain."
+    },
+    "activityRequirementsAreMet": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.schedule.Activity",
+          "name": "activity",
+          "comment": "The activity to check."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if the requirements for the given activity are met."
+      },
+      "comment": "Checks if the requirements for the given activity are met."
+    },
+    "isEmptyCollection": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "obj",
+          "name": "collection",
+          "comment": "The collection to check."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "True if the given collection is empty."
+      },
+      "comment": "Checks if the given object is a collection and is empty."
+    },
+    "createPriorityPairs": {
+      "visibility": "package",
+      "params": [
+        {
+          "type": "int",
+          "name": "priority",
+          "comment": "The priority of the pairs."
+        },
+        {
+          "type": "com.google.common.collect.ImmutableList<? extends net.minecraft.world.entity.ai.behavior.BehaviorControl<? super E>>",
+          "name": "behaviors",
+          "comment": "The behaviors for the pairs."
+        }
+      ],
+      "return": {
+        "type": "com.google.common.collect.ImmutableList<? extends com.mojang.datafixers.util.Pair<wint, net.minecraft.world.entity.ai.behavior.BehaviorControl<? super E>>>",
+        "comment": "The priority pairs."
+      },
+      "comment": "Creates priority pairs from the given priority and behaviors."
+    }
+  }
+}

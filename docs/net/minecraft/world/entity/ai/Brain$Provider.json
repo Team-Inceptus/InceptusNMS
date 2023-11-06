@@ -1,0 +1,62 @@
+{
+  "class": {
+    "type": "class",
+    "mods": ["static", "final"],
+    "enclosing": "{pkg}.Brain",
+    "generics": {
+      "E": {
+        "extends": [
+          "net.minecraft.world.entity.LivingEntity"
+        ],
+        "comment": "The type of entity that the Brain represents."
+      }
+    },
+    "comment": "Utility class for creating a @({pkg}.Brain)."
+  },
+  "fields": {
+    "memoryTypes": {
+      "type": "java.util.Collection<? extends net.minecraft.world.entity.ai.memory.MemoryModuleType<?>>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The memory types that the Brain will have."
+    },
+    "sensorTypes": {
+      "type": "java.util.Collection<? extends net.minecraft.world.entity.ai.sensing.SensorType<? extends E>>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The sensor types that the Brain will have."
+    },
+    "codec": {
+      "type": "codec<{pkg}.Brain<E>>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The codec that will be used to serialize and deserialize the Brain."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "package",
+      "$fields": [
+        "memoryTypes",
+        "sensorTypes"
+      ],
+      "comment": "Creates a new @({this}) with the given memory and sensor types."
+    }
+  ],
+  "methods": {
+    "makeBrain": {
+      "params": [
+        {
+          "type": "com.mojang.serialization.Dynamic<?>",
+          "name": "dynamic",
+          "comment": "The dynamic that contains the serialized Brain."
+        }
+      ],
+      "return": {
+        "type": "{pkg}.Brain<E>",
+        "comment": "The newly created Brain."
+      },
+      "comment": "Creates a new @({pkg}.Brain) with the given memory and sensor types."
+    }
+  }
+}

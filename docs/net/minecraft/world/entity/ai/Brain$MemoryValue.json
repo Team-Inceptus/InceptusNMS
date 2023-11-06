@@ -1,0 +1,95 @@
+{
+  "class": {
+    "type": "class",
+    "enclosing": "{pkg}.Brain",
+    "visibility": "private",
+    "mods": ["static", "final"],
+    "generics": {
+      "U": {
+        "comment": "The type of the value stored in the memory."
+      }
+    },
+    "comment": "Utility class for representing the internal value of a memory."
+  },
+  "fields": {
+    "type": {
+      "type": "net.minecraft.world.entity.ai.memory.MemoryModuleType<U>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The type of the memory."
+    },
+    "value": {
+      "type": "java.util.Optional<? extends net.minecraft.world.entity.ai.memory.ExpirableValue<U>>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The value of the memory."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "package",
+      "$fields": [
+        "type",
+        "value"
+      ],
+      "comment": "Constructs a new internal memory value."
+    }
+  ],
+  "methods": {
+    "createUnchecked": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.ai.memory.MemoryModuleType<U>",
+          "name": "type",
+          "comment": "The type of the memory."
+        },
+        {
+          "type": "java.util.Optional<? extends net.minecraft.world.entity.ai.memory.ExpirableValue<U>>",
+          "name": "value",
+          "comment": "The value of the memory."
+        }
+      ],
+      "return": {
+        "type": "{this}<U>",
+        "comment": "The created memory value."
+      },
+      "generics": {
+        "U": {
+          "comment": "The type of the value stored in the memory."
+        }
+      },
+      "comment": "Creates a new internal memory value."
+    },
+    "setMemoryInternal": {
+      "params": [
+        {
+          "type": "{pkg}.Brain",
+          "name": "brain",
+          "comment": "The brain to set the memory for."
+        }
+      ],
+      "comment": "Sets the memory for the given brain."
+    },
+    "serialize": {
+      "params": [
+        {
+          "type": "com.mojang.serialization.DynamicOps<T>",
+          "name": "ops",
+          "comment": "The serialization ops."
+        },
+        {
+          "type": "com.mojang.serialization.RecordBuilder<T>",
+          "name": "builder",
+          "comment": "The record builder to serialize to."
+        }
+      ],
+      "generics": {
+        "T": {
+          "comment": "The type of the serialization ops."
+        }
+      },
+      "comment": "Serializes this memory value."
+    }
+  }
+}
