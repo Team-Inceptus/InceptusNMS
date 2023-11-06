@@ -1,0 +1,25 @@
+{
+  "class": {
+    "type": "enum",
+    "comment": "Represents the direction that packets are being sent between the server and the client."
+  },
+  "enumerations": [
+    {
+      "name": "SERVERBOUND",
+      "comment": "Packets sent from the client to the server."
+    },
+    {
+      "name": "CLIENTBOUND",
+      "comment": "Packets sent from the server to the client."
+    }
+  ],
+  "methods": {
+    "getOpposite": {
+      "return": {
+        "type": "{this}",
+        "comment": "The opposite direction of this packet flow direction."
+      },
+      "comment": "Gets the opposite direction of this direction."
+    }
+  }
+}
