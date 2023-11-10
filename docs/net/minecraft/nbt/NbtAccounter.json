@@ -1,0 +1,119 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Utility class for counting bytes in a NBT Tag."
+  },
+  "fields": {
+    "MAX_STACK_DEPTH": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "512",
+      "comment": "The maximum stack depth."
+    },
+    "quota": {
+      "type": "long",
+      "mods": ["final"],
+      "comment": "The quota of bytes that can be read."
+    },
+    "usage": {
+      "type": "long",
+      "visibility": "private",
+      "comment": "The number of bytes that have been read."
+    },
+    "maxDepth": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The maximum depth of the stack."
+    },
+    "depth": {
+      "type": "int",
+      "visibility": "private",
+      "comment": "The current depth of the stack."
+    }
+  },
+  "constructors": [
+    {
+      "$fields": [
+        "quota",
+        "maxDepth"
+      ],
+      "comment": "Constructs a new NbtAccounter."
+    }
+  ],
+  "methods": {
+    "create": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "long",
+          "name": "quota",
+          "comment": "The quota of bytes that can be read."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A new NbtAccounter."
+      },
+      "comment": "Creates a new NbtAccounter."
+    },
+    "unlimitedHeap": {
+      "mods": ["static"],
+      "return": {
+        "type": "{this}",
+        "comment": "A new NbtAccounter with an unlimited quota."
+      },
+      "comment": "Creates a new NbtAccounter with an unlimited quota."
+    },
+    "accountBytes": [
+      {
+        "params": [
+          {
+            "type": "long",
+            "name": "bytes",
+            "comment": "The number of bytes to account for."
+          },
+          {
+            "type": "long",
+            "name": "size",
+            "comment": "The size of each byte."
+          }
+        ],
+        "comment": "Accounts for the given number of bytes."
+      },
+      {
+        "params": [
+          {
+            "type": "long",
+            "name": "bytes",
+            "comment": "The number of bytes to account for."
+          }
+        ],
+        "comment": "Accounts for the given number of bytes."
+      }
+    ],
+    "pushDepth": {
+      "comment": "Pushes the current depth of the stack."
+    },
+    "popDepth": {
+      "comment": "Pops the current depth of the stack."
+    },
+    "getUsage": {
+      "$getter": "usage",
+      "annotations": [
+        {
+          "type": "com.google.common.annotations.VisibleForTesting"
+        }
+      ]
+    },
+    "getDepth": {
+      "$getter": "depth",
+      "annotations": [
+        {
+          "type": "com.google.common.annotations.VisibleForTesting"
+        }
+      ]
+    }
+  }
+}
