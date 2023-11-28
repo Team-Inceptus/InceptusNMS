@@ -1,0 +1,120 @@
+{
+  "class": {
+    "type": "class",
+    "generics": {
+      "T": {
+        "comment": "The type of expirable value that is held."
+      }
+    },
+    "comment": "Represents an object with a value that expires after a certain amount of time."
+  },
+  "fields": {
+    "value": {
+      "type": "T",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The expirable value that is held."
+    },
+    "timeToLive": {
+      "type": "long",
+      "visibility": "private",
+      "comment": "How many ticks this expirable value should be held for."
+    }
+  },
+  "constructors": [
+    {
+      "$fields": [
+        "value",
+        "timeToLive"
+      ],
+      "comment": "Constructs a new ExpirableValue."
+    }
+  ],
+  "methods": {
+    "tick": {
+      "comment": "Ticks this ExpirableValue."
+    },
+    "of": [
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "T",
+            "name": "value",
+            "comment": "The value that should be held."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "The constructed ExpirableValue."
+        },
+        "comment": "Creates a new ExpirableValue that cannot expire."
+      },
+      {
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "T",
+            "name": "value",
+            "comment": "The value that should be held."
+          },
+          {
+            "type": "long",
+            "name": "timeToLive",
+            "comment": "How many ticks this expirable value should be held for."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "The constructed ExpirableValue."
+        },
+        "comment": "Creates a new ExpirableValue."
+      }
+    ],
+    "getTimeToLive": {
+      "$getter": "timeToLive"
+    },
+    "getValue": {
+      "$getter": "value"
+    },
+    "hasExpired": {
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this ExpirableValue has expired."
+      },
+      "comment": "Gets whether this ExpirableValue has expired."
+    },
+    "canExpire": {
+      "annotations": [
+        {
+          "type": "net.minecraft.util.VisibleForDebug"
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this ExpirableValue can expire."
+      },
+      "comment": "Gets whether this ExpirableValue can expire."
+    },
+    "codec": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "codec<T>",
+          "name": "codec",
+          "comment": "The codec that serializes the ExpirableValue."
+        }
+      ],
+      "generics": {
+        "T": {
+          "comment": "The codec type for this ExpirableValue."
+        }
+      },
+      "return": {
+        "type": "codec<{this}<T>>",
+        "comment": "The codec for this ExpirableValue."
+      },
+      "comment": "Creates a Codec for an @({this})."
+    }
+  }
+}
