@@ -1,0 +1,77 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Represents a timeline for when an Activity should occur."
+  },
+  "fields": {
+    "keyframes": {
+      "type": "java.util.List<{pkg}.Keyframe>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The keyframes for this Timeline."
+    },
+    "previousIndex": {
+      "type": "int",
+      "visibility": "private",
+      "comment": "The previous index of the Timeline."
+    }
+  },
+  "methods": {
+    "getKeyframes": {
+      "$getter": "keyframes",
+      "return": {
+        "type": "com.google.common.collect.ImmutableList<{pkg}.Keyframe>",
+        "comment": "The keyframes for this Timeline."
+      }
+    },
+    "addKeyframe": {
+      "params": [
+        {
+          "type": "int",
+          "name": "timeStamp",
+          "comment": "The timestamp of the Keyframe."
+        },
+        {
+          "type": "float",
+          "name": "value",
+          "comment": "The value for the Keyframe."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "this Timeline, for chaining."
+      }
+    },
+    "addKeyframes": {
+      "params": [
+        {
+          "type": "java.util.Collection<{pkg}.Keyframe>",
+          "name": "keyframes",
+          "comment": "The keyframes to add."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "this Timeline, for chaining."
+      }
+    },
+    "sortAndDeduplicateKeyframes": {
+      "visibility": "private",
+      "comment": "Sorts and unduplicates keyframes."
+    },
+    "getValueAt": {
+      "params": [
+        {
+          "type": "int",
+          "name": "timeStamp",
+          "comment": "The timestamp, in ticks, to use."
+        }
+      ],
+      "return": {
+        "type": "float",
+        "comment": "The keyframe value at the specified timestamp."
+      },
+      "comment": "Gets the keyframe value at the specified timestamp."
+    }
+  }
+}

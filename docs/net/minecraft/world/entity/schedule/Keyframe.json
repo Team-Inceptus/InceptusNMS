@@ -1,0 +1,37 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Represents a Keyframe in a @({pkg}.Timeline)."
+  },
+  "fields": {
+    "timeStamp": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The timestamp that this Keyframe is ran on."
+    },
+    "value": {
+      "type": "float",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The value of this Keyframe."
+    }
+  },
+  "constructors": [
+    {
+      "$fields": [
+        "timeStamp",
+        "value"
+      ],
+      "comment": "Constructs a new Keyframe."
+    }
+  ],
+  "methods": {
+    "getTimeStamp": {
+      "$getter": "timeStamp"
+    },
+    "getValue": {
+      "$getter": "value"
+    }
+  }
+}
