@@ -1,0 +1,192 @@
+{
+  "class": {
+    "type": "class",
+    "mods": ["abstract"],
+    "implements": [
+      "{pkg}.BehaviorControl<E>"
+    ],
+    "generics": {
+      "E": {
+        "extends": [
+          "net.minecraft.world.entity.LivingEntity"
+        ],
+        "comment": "The entity type that this Behavior can use."
+      }
+    },
+    "comment": "Represents a Behavior that can be ran."
+  },
+  "fields": {
+    "DEFAULT_DURATION": {
+      "type": "int",
+      "mods": ["static", "final"],
+      "value": "60",
+      "comment": "The default duration for this Behavior's lifetime."
+    },
+    "entryCondition": {
+      "type": "java.util.Map<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>, net.minecraft.world.entity.ai.memory.MemoryStatus>",
+      "visibility": "protected",
+      "mods": ["final"],
+      "comment": "The conditions for this Behavior to start."
+    },
+    "status": {
+      "type": "{this}$Status",
+      "visibility": "private",
+      "comment": "The status of this Behavior."
+    },
+    "endTimestamp": {
+      "type": "long",
+      "visibility": "private",
+      "comment": "The timestamp, in ticks, of when this Behavior should end."
+    },
+    "minDuration": {
+      "type": "long",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The minimum duration of this Behavior."
+    },
+    "maxDuration": {
+      "type": "long",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The minimum duration of this Behavior."
+    }
+  },
+  "constructors": [
+    {
+      "$fields": [
+        "entryCondition"
+      ],
+      "comment": "Constructs a new Behavior with the default run duration of `60`."
+    },
+    {
+      "$fields": [
+        "entryCondition",
+        "minDuration"
+      ],
+      "comment": "Constructs a new Behavior with idential minimum and maximum durations."
+    },
+    {
+      "$fields": [
+        "entryCondition",
+        "minDuration",
+        "maxDuration"
+      ],
+      "comment": "Constructs a new Behavior."
+    }
+  ],
+  "methods": {
+    "start": {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "net.minecraft.world.level.ServerLevel",
+          "name": "level",
+          "comment": "The world to use in."
+        },
+        {
+          "type": "E",
+          "name": "entity",
+          "comment": "The entity that is running this behavior."
+        },
+        {
+          "type": "long",
+          "name": "tick",
+          "comment": "The current elapsed tick count."
+        }
+      ],
+      "comment": "Runs this Behavior."
+    },
+    "tick": {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "net.minecraft.world.level.ServerLevel",
+          "name": "level",
+          "comment": "The world to use in."
+        },
+        {
+          "type": "E",
+          "name": "entity",
+          "comment": "The entity that is running this behavior."
+        },
+        {
+          "type": "long",
+          "name": "tick",
+          "comment": "The current elapsed tick count."
+        }
+      ],
+      "comment": "Ticks this Behavior."
+    },
+    "stop": {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "net.minecraft.world.level.ServerLevel",
+          "name": "level",
+          "comment": "The world to use in."
+        },
+        {
+          "type": "E",
+          "name": "entity",
+          "comment": "The entity that is running this behavior."
+        },
+        {
+          "type": "long",
+          "name": "tick",
+          "comment": "The current elapsed tick count."
+        }
+      ],
+      "comment": "Stops this Behavior."
+    },
+    "timedOut": {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "long",
+          "name": "ticks",
+          "comment": "The current elapsed time, in ticks."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this Behavior is currently timed out."
+      },
+      "comment": "Gets whether this Behavior is currently timed out."
+    },
+    "checkExtraStartConditions": {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "net.minecraft.world.level.ServerLevel",
+          "name": "level",
+          "comment": "The world to use in."
+        },
+        {
+          "type": "E",
+          "name": "entity",
+          "comment": "The entity that is running this behavior."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this Behavior passed its extra conditions."
+      },
+      "comment": "Checks that this behavior can be ran, according to any extra conditions."
+    },
+    "hasRequiredMemories": {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "E",
+          "name": "entity",
+          "comment": "The entity that is running this behavior."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether the entity has the required memories."
+      },
+      "comment": "Checks that the entity has the required memories to run this Behavior."
+    }
+  }
+}

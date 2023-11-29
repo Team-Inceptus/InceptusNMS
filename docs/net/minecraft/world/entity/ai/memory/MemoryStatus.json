@@ -1,0 +1,20 @@
+{
+  "class": {
+    "type": "enum",
+    "comment": "Represents the status of a stored @({pkg}.MemoryModuleType)."
+  },
+  "enumerations": [
+    {
+      "name": "VALUE_PRESENT",
+      "comment": "The memory is registered, present and has a value."
+    },
+    {
+      "name": "VALUE_ABSENT",
+      "comment": "The memory is registered, not present and does not have a value."
+    },
+    {
+      "name": "REGISTERED",
+      "comment": "The memory is a valid memory that can be applied to this @(net.minecraft.world.entity.ai.Brain)."
+    }
+  ]
+}
