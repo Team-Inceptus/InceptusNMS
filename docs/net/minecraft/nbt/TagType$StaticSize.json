@@ -1,0 +1,27 @@
+{
+  "class": {
+    "type": "interface",
+    "enclosing": "{pkg}.TagType",
+    "implements": [
+      "{pkg}.TagType<T>"
+    ],
+    "generics": {
+      "T": {
+        "extends": [
+          "{pkg}.Tag"
+        ],
+        "comment": "The tag object that this type represents."
+      }
+    },
+    "comment": "Represents a tag type for an NBT Tag that has a fixed byte size."
+  },
+  "methods": {
+    "size": {
+      "return": {
+        "type": "int",
+        "comment": "The fixed byte size for the NBT tag."
+      },
+      "comment": "Gets the fixed byte size for the NBT tag."
+    }
+  }
+}

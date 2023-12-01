@@ -1,0 +1,167 @@
+{
+  "class": {
+    "type": "interface",
+    "generics": {
+      "T": {
+        "extends": [
+          "{pkg}.Tag"
+        ],
+        "comment": "The tag object that this type represents."
+      }
+    },
+    "comment": "Represents a type of NBT Tag."
+  },
+  "methods": {
+    "load": {
+      "params": [
+        {
+          "type": "java.io.DataInput",
+          "name": "input",
+          "comment": "The data input to load."
+        },
+        {
+          "type": "{pkg}.NbtAccounter",
+          "name": "accounter",
+          "comment": "The NBT Accounter to use."
+        }
+      ],
+      "return": {
+        "type": "T",
+        "comment": "The loaded tag."
+      },
+      "throws": [
+        {
+          "type": "java.io.IOException",
+          "comment": "if an I/O Exception occurs"
+        }
+      ],
+      "comment": "Loads a NBT tag from a data input."
+    },
+    "parse": {
+      "params": [
+        {
+          "type": "java.io.DataInput",
+          "name": "input",
+          "comment": "The data input to parse."
+        },
+        {
+          "type": "{pkg}.StreamTagVisitor",
+          "name": "visitor",
+          "comment": "The visitor to use."
+        },
+        {
+          "type": "{pkg}.NbtAccounter",
+          "name": "accounter",
+          "comment": "The NBT Accounter to use."
+        }
+      ],
+      "return": {
+        "type": "net.minecraft.nbt.StreamTagVisitor$ValueResult",
+        "comment": "The result of the parse."
+      },
+      "throws": [
+        {
+          "type": "java.io.IOException",
+          "comment": "if an I/O Exception occurs"
+        }
+      ],
+      "comment": "Parses a data input into a NBT Tag."
+    },
+    "parseRoot": {
+      "mods": ["default"],
+      "params": [
+        {
+          "type": "java.io.DataInput",
+          "name": "input",
+          "comment": "The data input to load."
+        },
+        {
+          "type": "{pkg}.NbtAccounter",
+          "name": "accounter",
+          "comment": "The NBT Accounter to use."
+        }
+      ],
+      "throws": [
+        {
+          "type": "java.io.IOException",
+          "comment": "if an I/O Exception occurs"
+        }
+      ],
+      "comment": "Parses the root of a data input."
+    },
+    "skip": [
+      {
+        "params": [
+          {
+            "type": "java.io.DataInput",
+            "name": "input",
+            "comment": "The data input to load."
+          },
+          {
+            "type": "int",
+            "name": "size",
+            "comment": "The size of the skip."
+          },
+          {
+            "type": "{pkg}.NbtAccounter",
+            "name": "accounter",
+            "comment": "The NBT Accounter to use."
+          }
+        ],
+        "comment": "Skips the currently read data input, to parse a future one."
+      },
+      {
+        "params": [
+          {
+            "type": "java.io.DataInput",
+            "name": "input",
+            "comment": "The data input to load."
+          },
+          {
+            "type": "{pkg}.NbtAccounter",
+            "name": "accounter",
+            "comment": "The NBT Accounter to use."
+          }
+        ],
+        "comment": "Skips the currently read data input, to parse the next one."
+      }
+    ],
+    "isValue": {
+      "mods": ["default"],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this tag type is its value."
+      },
+      "comment": "Gets whether this tag type is the NBT tag value."
+    },
+    "getName": {
+      "return": {
+        "type": "string",
+        "comment": "The tag's name."
+      },
+      "comment": "Gets the tag's name."
+    },
+    "getPrettyName": {
+      "return": {
+        "type": "string",
+        "comment": "The tag's name."
+      },
+      "comment": "Gets the tag's pretty name."
+    },
+    "createInvalid": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "int",
+          "name": "id",
+          "comment": "The ID of the invalid NBT tag."
+        }
+      ],
+      "return": {
+        "type": "{this}<{pkg}.EndTag>",
+        "comment": "An invalid Tag Type, used for ending tags."
+      },
+      "comment": "Creates an invalid tag type."
+    }
+  }
+}
