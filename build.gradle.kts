@@ -5,29 +5,39 @@ import java.nio.charset.StandardCharsets
 plugins {
     kotlin("jvm") version "1.9.21"
     kotlin("plugin.serialization") version "1.9.21"
+    java
+    `java-library`
 }
 
-repositories {
-    mavenCentral()
-    mavenLocal()
-}
+val jvmVersion = JavaVersion.VERSION_17
 
-dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    implementation("org.jsoup:jsoup:1.16.2")
-    implementation("org.jetbrains:markdown:0.5.2")
+allprojects {
+    apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
+    apply(plugin = "java")
+    apply(plugin = "java-library")
+
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+
+    dependencies {
+        implementation(kotlin("stdlib"))
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.1")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+        implementation("org.jsoup:jsoup:1.16.2")
+        implementation("org.jetbrains:markdown:0.5.2")
+    }
+
+    java {
+        sourceCompatibility = jvmVersion
+        targetCompatibility = jvmVersion
+    }
 }
 
 group = "us.teaminceptus.inceptusnms"
-version = "0.0.5"
-
-val jvmVersion = JavaVersion.VERSION_17
-java {
-    sourceCompatibility = jvmVersion
-    targetCompatibility = jvmVersion
-}
+version = "0.1.1"
 
 tasks {
     compileKotlin {
