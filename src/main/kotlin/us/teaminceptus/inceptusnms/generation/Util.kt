@@ -20,7 +20,7 @@ object Util {
 
     private val LOADED_DOCUMENTATION = mutableListOf<ClassDocumentation>()
 
-    private val TYPE_ALIASES = mapOf(
+    val TYPE_ALIASES = mapOf(
         "obj" to "java.lang.Object",
         "wboolean" to "java.lang.Boolean",
         "wbyte" to "java.lang.Byte",
@@ -286,6 +286,17 @@ object Util {
         }
 
         return implementing
+    }
+
+    fun constantValue(type: String, value: String?): String = when (type) {
+        "float" -> "${value}f"
+        "long" -> "${value}L"
+        "double" -> "${value}d"
+        "char" -> "'${value}'"
+        "java.lang.String", "java.util.regex.Pattern", "java.time.format.DateTimeFormatter" -> "\"${value}\""
+        "byte" -> "0x${value!!.toByte().toString(16)}"
+        "int", "short" -> value ?: "null"
+        else -> throw IllegalArgumentException("Unknown Constant Type: $type")
     }
 
     // Logging
