@@ -1,7 +1,6 @@
 {
   "class": {
     "type": "enum",
-    "enclosing": "net.minecraft.core.Holder$Reference",
     "visibility": "private",
     "comment": "The type of Reference Holder."
   },

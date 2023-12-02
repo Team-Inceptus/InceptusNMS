@@ -1,7 +1,6 @@
 {
   "class": {
     "type": "class",
-    "enclosing": "net.minecraft.world.entity.EntitySelector",
     "mods": ["static"],
     "implements": [
       "java.util.function.Predicate<net.minecraft.world.entity.Entity>"

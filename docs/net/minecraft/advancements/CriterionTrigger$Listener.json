@@ -1,7 +1,6 @@
 {
   "class": {
     "type": "record",
-    "enclosing": "{pkg}.CriterionTrigger",
     "mods": ["static"],
     "generics": {
       "T": {

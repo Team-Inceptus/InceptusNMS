@@ -1,7 +1,6 @@
 {
   "class": {
     "type": "enum",
-    "enclosing": "net.minecraft.core.Direction",
     "comment": "Represents a direction of an @(net.minecraft.core.Direction$Axis) in 3D Space."
   },
   "enumerations": [

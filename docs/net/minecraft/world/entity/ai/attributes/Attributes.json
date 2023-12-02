@@ -5,72 +5,72 @@
   },
   "fields": {
     "MAX_HEALTH": {
-      "type": "net.minecraft.world.entity.ai.Attribute",
+      "type": "{pkg}.Attribute",
       "mods": ["static", "final"],
       "comment": "An entity's maximum health."
     },
     "FOLLOW_RANGE": {
-      "type": "net.minecraft.world.entity.ai.Attribute",
+      "type": "{pkg}.Attribute",
       "mods": ["static", "final"],
       "comment": "The maximum distance between an entity and its target to follow."
     },
     "KNOCKBACK_RESISTANCE": {
-      "type": "net.minecraft.world.entity.ai.Attribute",
+      "type": "{pkg}.Attribute",
       "mods": ["static", "final"],
       "comment": "How resistant this entity is to knockback attacks."
     },
     "MOVEMENT_SPEED": {
-      "type": "net.minecraft.world.entity.ai.Attribute",
+      "type": "{pkg}.Attribute",
       "mods": ["static", "final"],
       "comment": "The movement speed of this entity."
     },
     "FLYING_SPEED": {
-      "type": "net.minecraft.world.entity.ai.Attribute",
+      "type": "{pkg}.Attribute",
       "mods": ["static", "final"],
       "comment": "The flying speed of this entity."
     },
     "ATTACK_DAMAGE": {
-      "type": "net.minecraft.world.entity.ai.Attribute",
+      "type": "{pkg}.Attribute",
       "mods": ["static", "final"],
       "comment": "How much raw damage an entity will deal by themselves on a single attack."
     },
     "ATTACK_KNOCKBACK": {
-      "type": "net.minecraft.world.entity.ai.Attribute",
+      "type": "{pkg}.Attribute",
       "mods": ["static", "final"],
       "comment": "How much raw knockback an entity will deal by themselves on a single attack."
     },
     "ATTACK_SPEED": {
-      "type": "net.minecraft.world.entity.ai.Attribute",
+      "type": "{pkg}.Attribute",
       "mods": ["static", "final"],
       "comment": "How fast an entity can attack, reducing its attack cooldown."
     },
     "ARMOR": {
-      "type": "net.minecraft.world.entity.ai.Attribute",
+      "type": "{pkg}.Attribute",
       "mods": ["static", "final"],
       "comment": "The armor value for this entity."
     },
     "ARMOR_TOUGHNESS": {
-      "type": "net.minecraft.world.entity.ai.Attribute",
+      "type": "{pkg}.Attribute",
       "mods": ["static", "final"],
       "comment": "The armor toughness value for this entity."
     },
     "LUCK": {
-      "type": "net.minecraft.world.entity.ai.Attribute",
+      "type": "{pkg}.Attribute",
       "mods": ["static", "final"],
       "comment": "The luck value for this entity, determining how lucky it is."
     },
     "MAX_ABSORPTION": {
-      "type": "net.minecraft.world.entity.ai.Attribute",
+      "type": "{pkg}.Attribute",
       "mods": ["static", "final"],
       "comment": "The maximum amount of absorption this entity can have."
     },
     "SPAWN_REINFORCEMENTS_CHANCE": {
-      "type": "net.minecraft.world.entity.ai.Attribute",
+      "type": "{pkg}.Attribute",
       "mods": ["static", "final"],
       "comment": "The percentage chance of spawning additional mobs of this type nearby when attacked. This is mostly used for a Zombie and its variants."
     },
     "JUMP_STRENGTH": {
-      "type": "net.minecraft.world.entity.ai.Attribute",
+      "type": "{pkg}.Attribute",
       "mods": ["static", "final"],
       "comment": "Determines how high a Horse-type entity can jump by itself."
     }

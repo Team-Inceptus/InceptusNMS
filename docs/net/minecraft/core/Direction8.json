@@ -1,0 +1,85 @@
+{
+  "class": {
+    "type": "enum",
+    "comment": "Represents any cardinal direction."
+  },
+  "enumerations": [
+    {
+      "name": "NORTH",
+      "comment": "The North Direction."
+    },
+    {
+      "name": "NORTH_EAST",
+      "comment": "The Northeast Direction."
+    },
+    {
+      "name": "EAST",
+      "comment": "The East Direction."
+    },
+    {
+      "name": "SOUTH_EAST",
+      "comment": "The Southeast Direction."
+    },
+    {
+      "name": "SOUTH",
+      "comment": "The South Direction."
+    },
+    {
+      "name": "SOUTH_WEST",
+      "comment": "The Southwest Direction."
+    },
+    {
+      "name": "WEST",
+      "comment": "The West Direction."
+    },
+    {
+      "name": "NORTH_WEST",
+      "comment": "The Northwest Direction."
+    }
+  ],
+  "fields": {
+    "directions": {
+      "type": "java.util.Set<{pkg}.Direction>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The 3D Directions that represent this cardinal direction."
+    },
+    "step": {
+      "type": "{pkg}.Vec3i",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The vector step for this cardinal direction."
+    }
+  },
+  "constructors": [
+    {
+      "params": [
+        {
+          "type": "{pkg}.Direction...",
+          "name": "directions",
+          "comment": "The 3D directions that represent this cardinal direction."
+        }
+      ],
+      "comment": "Constructs a new Direction8."
+    }
+  ],
+  "methods": {
+    "getDirections": {
+      "$getter": "directions"
+    },
+    "getStepX": {
+      "return": {
+        "type": "int",
+        "comment": "The X step amount."
+      },
+      "comment": "Gets the step amount in the X direction."
+    },
+    "getStepZ": {
+      "return": {
+        "type": "int",
+        "comment": "The Z step amount."
+      },
+      "comment": "Gets the step amount in the Z direction."
+    }
+  }
+}

@@ -1,7 +1,6 @@
 {
   "class": {
     "type": "class",
-    "enclosing": "{pkg}.Brain",
     "visibility": "private",
     "mods": ["static", "final"],
     "generics": {

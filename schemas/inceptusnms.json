@@ -430,6 +430,7 @@
                     "$ref": "#/definitions/javatype"
                 },
                 "enclosing": {
+                    "deprecationMessage": "Automatically detected",
                     "type": "string",
                     "description": "The enclosing class of this class (if applicable)"
                 },

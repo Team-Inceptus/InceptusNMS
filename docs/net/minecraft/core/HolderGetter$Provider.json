@@ -1,7 +1,6 @@
 {
   "class": {
     "type": "interface",
-    "enclosing": "net.minecraft.core.HolderGetter",
     "comment": "A provider for a @(net.minecraft.core.HolderGetter)."
   },
   "methods": {

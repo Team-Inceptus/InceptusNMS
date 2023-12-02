@@ -1,7 +1,6 @@
 {
   "class": {
     "type": "interface",
-    "enclosing": "net.minecraft.resources.ResourceLocation",
     "visibility": "protected",
     "comment": "A Dummy interface with no purpose to make the compiler happy."
   }

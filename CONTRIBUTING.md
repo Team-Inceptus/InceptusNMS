@@ -75,7 +75,6 @@ We document all fields and methods, regardless of visibility. This includes pack
 - `implements`, if provided, should be after `extends` or `type`.
   - For an interface that extends interfaces, this should be used in place of `extends`.
 - `generics`, if provided, should be after `implements`, `extends`, or `type`.
-- `enclosing`, if provided, should be after `generics`, `implements`, `extends`, or `type`. This is only necessary for subclasses.
 - `visibility`, if provided, should be after `generics`, `enclosing`, `implements`, `extends`, or `type`. If not provided, it is implied to be `public`.
 - `mods`, if provided, should be after `generics`, `visibility`, `enclosing`, `implements`, `extends`, or `type`.
   - This array must be in the order that the modifiers are declared. For example: `public static final` should be `["static", "final"]`.  
@@ -154,6 +153,7 @@ A comment must still be supplied.
 #### `methods` object
 
 Record Classes will automatically generate methods for you according to the constructor with the most parameters.
+Methods can be in any order and will be sorted by the processor.
 
 - This object should always be the fifth object (for enums) or fourth object (for non-enums) in the JSON file. If not provided, no methods will be generated.
 - The objects in this object should have their keys be the method name as case sensitive, and must be in the order declared on the class file.

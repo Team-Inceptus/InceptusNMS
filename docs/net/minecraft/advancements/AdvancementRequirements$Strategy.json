@@ -1,7 +1,6 @@
 {
   "class": {
     "type": "interface",
-    "enclosing": "net.minecraft.advancements.AdvancementRequirements",
     "comment": "A Functional Interface representing the methods of constructing an AdvancementRequirements."
   },
   "fields": {

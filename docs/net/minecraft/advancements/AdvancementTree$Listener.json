@@ -1,7 +1,6 @@
 {
   "class": {
     "type": "interface",
-    "enclosing": "{pkg}.AdvancementTree",
     "comment": "Represents a listener for an advancement tree."
   },
   "methods": {

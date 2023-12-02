@@ -2,7 +2,6 @@
   "class": {
     "type": "record",
     "mods": ["static", "final"],
-    "enclosing": "net.minecraft.core.Holder",
     "implements": [
       "net.minecraft.core.Holder<T>"
     ],

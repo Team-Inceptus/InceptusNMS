@@ -1,0 +1,119 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Represents an Entity's Schedule. Schedules run specific actions every tick."
+  },
+  "fields": {
+    "WORK_START_TIME": {
+      "type": "int",
+      "mods": ["static", "final"],
+      "value": "2000",
+      "comment": "The default work start time, in ticks."
+    },
+    "TOTAL_WORK_TIME": {
+      "type": "int",
+      "mods": ["static", "final"],
+      "value": "7000",
+      "comment": "The total amount of ticks that work type usually runs for."
+    },
+    "EMPTY": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "An empty schedule."
+    },
+    "SIMPLE": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "A simple schedule with WORK and REST."
+    },
+    "VILLAGER_BABY": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "The default schedule for a baby villager."
+    },
+    "VILLAGER_DEFAULT": {
+      "type": "{this}",
+      "mods": ["static", "final"],
+      "comment": "The default schedule for an adult villager."
+    },
+    "timelines": {
+      "type": "java.util.Map<{pkg}.Activity, {pkg}.Timeline>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The timelines for this Schedule."
+    }
+  },
+  "methods": {
+    "register": {
+      "visibility": "protected",
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "string",
+          "name": "name",
+          "comment": "The name of the Schedule to register."
+        }
+      ],
+      "return": {
+        "type": "{pkg}.ScheduleBuilder",
+        "comment": "A ScheduleBuilder."
+      },
+      "comment": "Registers a Schedule, returning its builder."
+    },
+    "ensureTimelineExistsFor": {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "{pkg}.Activity",
+          "name": "activity",
+          "comment": "The activity to ensure."
+        }
+      ],
+      "comment": "Ensures a timeline exists for the inputted Activity."
+    },
+    "getTimelineFor": {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "{pkg}.Activity",
+          "name": "activity",
+          "comment": "The Activity to use."
+        }
+      ],
+      "return": {
+        "type": "{pkg}.Timeline",
+        "comment": "The timeline for this Activity."
+      },
+      "comment": "Gets the timeline for the inputted Activity."
+    },
+    "getAllTimelinesExceptFor": {
+      "visibility": "protected",
+      "params": [
+        {
+          "type": "{pkg}.Activity",
+          "name": "activity",
+          "comment": "The Activity to use."
+        }
+      ],
+      "return": {
+        "type": "java.util.List<{pkg}.Timeline>",
+        "comment": "The list of timelines that exist except for the Activity inputted."
+      },
+      "comment": "Gets all of the timelines, omitting the one belonging to the Activity inputted."
+    },
+    "getActivityAt": {
+      "params": [
+        {
+          "type": "int",
+          "name": "time",
+          "comment": "The time, in ticks, that the Activity occurs."
+        }
+      ],
+      "return": {
+        "type": "{pkg}.Activity",
+        "comment": "The activity that occours during the inputted time."
+      },
+      "comment": "Gets the Activity that occurs during the inputted time."
+    }
+  }
+}

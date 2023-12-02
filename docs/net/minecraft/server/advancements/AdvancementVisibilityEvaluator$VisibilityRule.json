@@ -1,7 +1,6 @@
 {
   "class": {
     "type": "enum",
-    "enclosing": "net.minecraft.server.advancements.AdvancementVisibilityEvaluator",
     "visibility": "package",
     "comment": "Represents a rule for determining whether an advancement is visible to a player."
   },

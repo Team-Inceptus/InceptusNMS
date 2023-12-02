@@ -6,6 +6,7 @@ import org.jsoup.nodes.Document.OutputSettings
 import org.jsoup.nodes.DocumentType
 import org.jsoup.nodes.Element
 import us.teaminceptus.inceptusnms.generation.Util.CRAFTBUKKIT_VERSION
+import us.teaminceptus.inceptusnms.generation.Util.constantValue
 import us.teaminceptus.inceptusnms.generation.Util.log
 import java.io.File
 import java.nio.file.Paths
@@ -582,17 +583,7 @@ object DocGenerator {
                                     appendChild(Element("div").apply {
                                         classNames(setOf("col-third", rowColor))
 
-                                        val value = when (field.type) {
-                                            "float" -> "${field.value}f"
-                                            "long" -> "${field.value}L"
-                                            "double" -> "${field.value}d"
-                                            "char" -> "'${field.value}'"
-                                            "java.lang.String",
-                                            "java.util.regex.Pattern",
-                                            "java.time.format.DateTimeFormatter" -> "\"${field.value}\""
-                                            "byte" -> "0x${field.value!!.toByte().toString(16)}"
-                                            else -> field.value
-                                        }
+                                        val value = constantValue(field.type, field.value)
 
                                         append("<code>$value</code>")
                                     })

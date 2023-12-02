@@ -1,7 +1,6 @@
 {
   "class": {
     "type": "class",
-    "enclosing": "{pkg}.ResourceLocation",
     "mods": ["static"],
     "implements": [
       "com.google.gson.JsonDeserializer<{pkg}.ResourceLocation>",

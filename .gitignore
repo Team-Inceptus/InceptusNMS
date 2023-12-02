@@ -5,3 +5,4 @@ generated/
 build/
 .DS_Store
 bin/
+logs/

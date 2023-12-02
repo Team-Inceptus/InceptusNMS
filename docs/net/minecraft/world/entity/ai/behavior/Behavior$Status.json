@@ -1,0 +1,17 @@
+{
+  "class": {
+    "type": "enum",
+    "mods": ["static"],
+    "comment": "Represents the running status of a Behavior."
+  },
+  "enumerations": [
+    {
+      "name": "STOPPED",
+      "comment": "The Behavior is stopped."
+    },
+    {
+      "name": "RUNNING",
+      "comment": "The Behavior is running."
+    }
+  ]
+}

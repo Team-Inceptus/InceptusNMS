@@ -1,0 +1,198 @@
+{
+  "class": {
+    "type": "class",
+    "mods": ["abstract"],
+    "generics": {
+      "E": {
+        "extends": [
+          "net.minecraft.world.entity.LivingEntity"
+        ],
+        "comment": "The type of entity that can use this sensor."
+      }
+    },
+    "comment": "Represents an abstract class for a Sensor. Sensors run actions on a tick timer, and depend on what memories currently exist."
+  },
+  "fields": {
+    "RANDOM": {
+      "type": "net.minecraft.util.RandomSource",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The random source used for Sensors."
+    },
+    "DEFAULT_SCAN_RATE": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "20",
+      "comment": "The default tick timer for sensors to scan their required memories and run on."
+    },
+    "TARGETING_RANGE": {
+      "type": "int",
+      "visibility": "protected",
+      "mods": ["static", "final"],
+      "value": "16",
+      "comment": "The default range for targeting conditions that belong to a memory."
+    },
+    "TARGET_CONDITIONS": {
+      "type": "net.minecraft.world.entity.ai.targeting.TargetingConditions",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The default targeting conditions for Sensors."
+    },
+    "TARGET_CONDITIONS_IGNORE_VISIBILITY_TESTING": {
+      "type": "net.minecraft.world.entity.ai.targeting.TargetingConditions",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The default targeting conditions for Sensors that ignore whether the mob's target has invisibility."
+    },
+    "ATTACK_TARGET_CONDITIONS": {
+      "type": "net.minecraft.world.entity.ai.targeting.TargetingConditions",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The default targeting conditions for Sensors that use attacking behaviors."
+    },
+    "ATTACK_TARGET_CONDITIONS_IGNORE_VISIBILITY_TESTING": {
+      "type": "net.minecraft.world.entity.ai.targeting.TargetingConditions",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The default targeting conditions for Sensors that use attacking behaviors, while ignoring whether the mob's target has invisibility."
+    },
+    "ATTACK_TARGET_CONDITIONS_IGNORE_LINE_OF_SIGHT": {
+      "type": "net.minecraft.world.entity.ai.targeting.TargetingConditions",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The default targeting conditions for Sensors that use attacking behaviors, while ignoring whether the mob has its target in its line of sight."
+    },
+    "ATTACK_TARGET_CONDITIONS_IGNORE_INVISIBILITY_AND_LINE_OF_SIGHT": {
+      "type": "net.minecraft.world.entity.ai.targeting.TargetingConditions",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The default targeting conditions for Sensors that use attacking behaviors, while ignoring whether the mob's target has invisibility and is in its line of sight."
+    },
+    "scanRate": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The scan rate for this sensor."
+    },
+    "timeToTick": {
+      "type": "int",
+      "visibility": "private",
+      "comment": "The remaining tick count for when this sensor should run again."
+    }
+  },
+  "constructors": [
+    {
+      "comment": "Constructs a Sensor with the default scan rate of `20`."
+    },
+    {
+      "$fields": [
+        "scanRate"
+      ],
+      "comment": "Constructs a Sensor."
+    }
+  ],
+  "methods": {
+    "tick": {
+      "mods": ["final"],
+      "params": [
+        {
+          "type": "net.minecraft.server.level.ServerLevel",
+          "name": "level",
+          "comment": "The world that this Sensor is running in."
+        },
+        {
+          "type": "E",
+          "name": "entity",
+          "comment": "The entity that is using this Sensor."
+        }
+      ],
+      "comment": "Ticks this Sensor."
+    },
+    "doTick": {
+      "visibility": "protected",
+      "mods": ["abstract"],
+      "params": [
+        {
+          "type": "net.minecraft.server.level.ServerLevel",
+          "name": "level",
+          "comment": "The world that this Sensor is running in."
+        },
+        {
+          "type": "E",
+          "name": "entity",
+          "comment": "The entity that is using this Sensor."
+        }
+      ],
+      "comment": "Ticks this Sensor. This is the internal method that should be overridden."
+    },
+    "requires": {
+      "mods": ["abstract"],
+      "return": {
+        "type": "java.util.Set<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>>",
+        "comment": "The memories required to run the sensor."
+      },
+      "comment": "Gets the memories required to run the sensor."
+    },
+    "isEntityTargetable": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.LivingEntity",
+          "name": "entity",
+          "comment": "The entity to use."
+        },
+        {
+          "type": "net.minecraft.world.entity.LivingEntity",
+          "name": "target",
+          "comment": "The entity's target."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether the entity can target the inputted target."
+      },
+      "comment": "Gets whether an entity can target another entity."
+    },
+    "isEntityAttackable": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.LivingEntity",
+          "name": "entity",
+          "comment": "The entity to use."
+        },
+        {
+          "type": "net.minecraft.world.entity.LivingEntity",
+          "name": "target",
+          "comment": "The entity's target."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether the entity can attack the inputted target."
+      },
+      "comment": "Gets whether an entity can attack another entity."
+    },
+    "isEntityAttackableIgnoringLineOfSight": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.LivingEntity",
+          "name": "entity",
+          "comment": "The entity to use."
+        },
+        {
+          "type": "net.minecraft.world.entity.LivingEntity",
+          "name": "target",
+          "comment": "The entity's target."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether the entity can attack the inputted target, regardless of it being in the entity's line of sight."
+      },
+      "comment": "Gets whether an entity can attack another entity, ignoring line of sight rules."
+    }
+  }
+}

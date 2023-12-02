@@ -1,7 +1,6 @@
 {
   "class": {
     "type": "record",
-    "enclosing": "{pkg}.ResourceKey",
     "visibility": "private",
     "mods": ["static", "final"],
     "comment": "Utility internal class for storing two @(net.minecraft.resources.ResourceLocation)s."

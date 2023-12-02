@@ -1,0 +1,37 @@
+{
+  "class": {
+    "type": "class",
+    "implements": [
+      "java.lang.Runnable"
+    ],
+    "comment": "Represents a @(java.lang.Runnable) that runs on a specific tick."
+  },
+  "fields": {
+    "tick": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The tick this TickTask runs on."
+    },
+    "runnable": {
+      "type": "java.lang.Runnable",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The runnable function to run."
+    }
+  },
+  "constructors": [
+    {
+      "$fields": [
+        "tick",
+        "runnable"
+      ],
+      "comment": "Constructs a new TickTask."
+    }
+  ],
+  "methods": {
+    "getTick": {
+      "$getter": "tick"
+    }
+  }
+}
