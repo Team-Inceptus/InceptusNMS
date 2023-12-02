@@ -1,0 +1,198 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Represents a Crash Report for the game."
+  },
+  "fields": {
+    "LOGGER": {
+      "type": "org.slf4j.Logger",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "comment": "The logger for this class."
+    },
+    "DATE_TIME_FORMATTER": {
+      "type": "java.time.format.DateTimeFormatter",
+      "visibility": "private",
+      "mods": ["static", "final"],
+      "value": "yyyy-MM-dd HH:mm:ss",
+      "comment": "The format for date and time."
+    },
+    "title": {
+      "type": "string",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The title of this crash report"
+    },
+    "exception": {
+      "type": "java.lang.Throwable",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The exception thrown for this crash report."
+    },
+    "details": {
+      "type": "java.util.List<{pkg}.CrashReportCategory>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The details of the Crash Report."
+    },
+    "saveFile": {
+      "type": "file",
+      "visibility": "private",
+      "comment": "The file this CrashReport will be saved to."
+    },
+    "trackingStackTrace": {
+      "type": "boolean",
+      "visibility": "private",
+      "comment": "Whether this Crash Report is tracking the stack trace."
+    },
+    "uncategorizedStackTrace": {
+      "type": "java.lang.StackTraceElement[]",
+      "visibility": "private",
+      "comment": "An array of StackTraceElements that are not categorized."
+    },
+    "systemReport": {
+      "type": "{pkg}.SystemReport",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The system report for this crash report."
+    }
+  },
+  "constructors": [
+    {
+      "$fields": [
+        "title",
+        "exception"
+      ],
+      "comment": "Constructs a new CrashReport."
+    }
+  ],
+  "methods": {
+    "addCategory": [
+      {
+        "params": [
+          {
+            "type": "string",
+            "name": "category",
+            "comment": "The category to add"
+          },
+          {
+            "type": "int",
+            "name": "priority",
+            "comment": "The priority of the category"
+          }
+        ],
+        "return": {
+          "type": "{pkg}.CrashReportCategory",
+          "comment": "The category that was added."
+        },
+        "comment": "Adds a category to this Crash Report."
+      },
+      {
+        "params": [
+          {
+            "type": "string",
+            "name": "category",
+            "comment": "The category to add"
+          }
+        ],
+        "return": {
+          "type": "net.minecraft.CrashReportCategory",
+          "comment": "The category that was added."
+        },
+        "comment": "Adds a category to this Crash Report."
+      }
+    ],
+    "forThrowable": {
+      "mods": ["static"],
+      "params": [
+        {
+          "type": "java.lang.Throwable",
+          "name": "throwable",
+          "comment": "The throwable to create a Crash Report for."
+        },
+        {
+          "type": "string",
+          "name": "title",
+          "comment": "The title of the Crash Report."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "The Crash Report for the throwable."
+      },
+      "comment": "Creates a Crash Report for a throwable."
+    },
+    "getDetails": [
+      {
+        "params": [
+          {
+            "type": "java.lang.StringBuilder",
+            "name": "builder",
+            "comment": "The StringBuilder to append to."
+          }
+        ],
+        "comment": "Appends the details of this Crash Report to a StringBuilder."
+      },
+      {
+        "$getter": "details",
+        "return": {
+          "type": "string",
+          "comment": "The details of this Crash Report, as a string."
+        }
+      }
+    ],
+    "getErrorComment": {
+      "visibility": "private",
+      "mods": ["static"],
+      "return": {
+        "type": "string",
+        "comment": "The internal error comment."
+      },
+      "comment": "Gets the internal error comment."
+    },
+    "getException": {
+      "$getter": "exception"
+    },
+    "getExceptionMessage": {
+      "return": {
+        "type": "string",
+        "comment": "The human-readable exception message."
+      },
+      "comment": "Gets the human-readable exception message."
+    },
+    "getFriendlyReport": {
+      "return": {
+        "type": "string",
+        "comment": "The friendly report."
+      },
+      "comment": "Generates a string containing a human-friendly report."
+    },
+    "getSaveFile": {
+      "$getter": "saveFile"
+    },
+    "getSystemReport": {
+      "$getter": "systemReport"
+    },
+    "getTitle": {
+      "$getter": "title"
+    },
+    "preload": {
+      "mods": ["static"],
+      "comment": "Preloads this class."
+    },
+    "saveToFile": {
+      "params": [
+        {
+          "type": "file",
+          "name": "file",
+          "comment": "The file to save to."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether the save was successful."
+      },
+      "comment": "Saves this Crash Report to a file."
+    }
+  }
+}
