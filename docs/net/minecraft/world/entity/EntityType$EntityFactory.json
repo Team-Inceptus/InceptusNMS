@@ -1,7 +1,6 @@
 {
   "class": {
     "type": "interface",
-    "enclosing": "net.minecraft.world.entity.EntityType",
     "generics": {
       "T": {
         "extends": [

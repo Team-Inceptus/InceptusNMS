@@ -590,9 +590,11 @@ data class ClassDocumentation(
             }
 
             val enclosing = async {
-                val rawEnclosing = clazz["enclosing"]?.jsonPrimitive?.content ?: return@async null
+                if (name.contains("$")) {
+                    val rawEnclosing = name.substring(0, name.lastIndexOf('$'))
 
-                processType(name, rawEnclosing)
+                    processType(name, rawEnclosing)
+                } else return@async null
             }.await()
 
             val info = ClassDocumentation(

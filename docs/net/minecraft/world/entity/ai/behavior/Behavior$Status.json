@@ -1,7 +1,6 @@
 {
   "class": {
     "type": "enum",
-    "enclosing": "{pkg}.Behavior",
     "mods": ["static"],
     "comment": "Represents the running status of a Behavior."
   },

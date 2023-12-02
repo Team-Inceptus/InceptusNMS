@@ -1,7 +1,6 @@
 {
   "class": {
     "type": "class",
-    "enclosing": "net.minecraft.advancements.Advancement",
     "mods": ["static"],
     "comment": "Builder class for a @(net.minecraft.advancements.Advancement)."
   },

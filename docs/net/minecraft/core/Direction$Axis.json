@@ -1,7 +1,6 @@
 {
   "class": {
     "type": "enum",
-    "enclosing": "net.minecraft.core.Direction",
     "implements": [
       "net.minecraft.util.StringRepresentable",
       "java.util.function.Predicate<net.minecraft.core.Direction>"

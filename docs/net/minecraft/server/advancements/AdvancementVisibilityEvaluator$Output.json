@@ -1,7 +1,6 @@
 {
   "class": {
     "type": "interface",
-    "enclosing": "net.minecraft.server.advancements.AdvancementVisibilityEvaluator",
     "annotations": [
       {
         "type": "java.lang.FunctionalInterface"

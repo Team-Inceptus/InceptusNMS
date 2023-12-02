@@ -1,7 +1,6 @@
 {
   "class": {
     "type": "class",
-    "enclosing": "net.minecraft.nbt.ShortTag",
     "visibility": "package",
     "mods": ["static"],
     "comment": "Utility class for the cache of loaded @(net.minecraft.nbt.ShortTag)s."

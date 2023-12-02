@@ -1,7 +1,6 @@
 {
   "class": {
     "type": "enum",
-    "enclosing": "net.minecraft.core.Holder",
     "comment": "Represents a type of @(net.minecraft.core.Holder)."
   },
   "enumerations": [

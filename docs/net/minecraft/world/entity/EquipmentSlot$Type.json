@@ -1,7 +1,6 @@
 {
   "class": {
     "type": "enum",
-    "enclosing": "net.minecraft.world.entity.EquipmentSlot",
     "comment": "The type of equipment slot this is."
   },
   "enumerations": [

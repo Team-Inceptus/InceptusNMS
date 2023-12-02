@@ -2,7 +2,6 @@
   "class": {
     "deprecated": "obsolete",
     "type": "class",
-    "enclosing": "net.minecraft.util.StringRepresentable",
     "mods": ["static"],
     "generics": {
       "E": {

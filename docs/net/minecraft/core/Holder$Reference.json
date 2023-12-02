@@ -1,7 +1,6 @@
 {
   "class": {
     "type": "class",
-    "enclosing": "net.minecraft.core.Holder",
     "implements": [
       "net.minecraft.core.Holder<T>"
     ],

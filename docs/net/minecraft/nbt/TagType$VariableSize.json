@@ -1,7 +1,6 @@
 {
   "class": {
     "type": "interface",
-    "enclosing": "{pkg}.TagType",
     "implements": [
       "{pkg}.TagType<T>"
     ],
