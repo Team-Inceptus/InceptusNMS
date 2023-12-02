@@ -24,10 +24,10 @@ allprojects {
 
     dependencies {
         implementation(kotlin("stdlib"))
-        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.1")
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-        implementation("org.jsoup:jsoup:1.16.2")
-        implementation("org.jetbrains:markdown:0.5.2")
+        implementation("org.jsoup:jsoup:1.17.1")
+        implementation("org.jetbrains:markdown:0.6.0")
     }
 
     java {
