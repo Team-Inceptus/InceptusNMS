@@ -40,7 +40,8 @@
       "return": {
         "type": "{this}",
         "comment": "this Timeline, for chaining."
-      }
+      },
+      "comment": "Adds a Keyframe to this Timeline."
     },
     "addKeyframes": {
       "params": [
@@ -53,7 +54,8 @@
       "return": {
         "type": "{this}",
         "comment": "this Timeline, for chaining."
-      }
+      },
+      "comment": "Adds a collection of Keyframes to this Timeline."
     },
     "sortAndDeduplicateKeyframes": {
       "visibility": "private",
