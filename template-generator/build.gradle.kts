@@ -1,5 +1,6 @@
 repositories {
     maven("https://repo.codemc.io/repository/nms/")
+    maven("https://libraries.minecraft.net/")
 }
 
 dependencies {
