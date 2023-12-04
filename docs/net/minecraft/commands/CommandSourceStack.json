@@ -1,0 +1,685 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Represents the source of a Command."
+  },
+  "fields": {
+    "ERROR_NOT_PLAYER": {
+      "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+      "mods": ["static","final"],
+      "comment": "`permissions.requires.player`"
+    },
+    "ERROR_NOT_ENTITY": {
+      "type": "com.mojang.brigadier.exceptions.SimpleCommandExceptionType",
+      "mods": ["static","final"],
+      "comment": "`permissions.requires.entity`"
+    },
+    "source": {
+      "type": "{pkg}.CommandSource",
+      "mods": ["final"],
+      "comment": "The source of the command."
+    },
+    "worldPosition": {
+      "type": "net.minecraft.world.phys.Vec3",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The position of the source stack."
+    },
+    "level": {
+      "type": "net.minecraft.server.level.ServerLevel",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The world that the source stack is in."
+    },
+    "permissionLevel": {
+      "type": "int",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The command permission level of the source stack."
+    },
+    "textName": {
+      "type": "string",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The name of the source stack."
+    },
+    "displayName": {
+      "type": "component",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The display name of the source stack."
+    },
+    "server": {
+      "type": "net.minecraft.server.MinecraftServer",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The server that the source stack is in."
+    },
+    "silent": {
+      "type": "boolean",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "Whether the source stack is silent."
+    },
+    "entity": {
+      "type": "net.minecraft.world.entity.Entity",
+      "visibility": "private",
+      "mods": ["final"],
+      "annotations": [
+        {
+          "type": "nullable"
+        }
+      ],
+      "comment": "The entity object form of this source stack."
+    },
+    "consumer": {
+      "type": "com.mojang.brigadier.ResultConsumer<{this}>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The result consumer of the source stack."
+    },
+    "anchor": {
+      "type": "net.minecraft.commands.arguments.EntityAnchorArgument$Anchor",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The anchor used to determine the rotation of the source stack."
+    },
+    "rotation": {
+      "type": "net.minecraft.world.phys.Vec2",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The rotation of the source stack."
+    },
+    "signingContext": {
+      "type": "{pkg}.CommandSigningContext",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The context for signing the command."
+    },
+    "chatMessageChainer": {
+      "type": "net.minecraft.util.TaskChainer",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The task chainer for chat messages."
+    },
+    "returnValueConsumer": {
+      "type": "java.util.function.IntConsumer",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The function that returns the success value of the command."
+    },
+    "currentCommand": {
+      "type": "com.mojang.brigadier.tree.CommandNode",
+      "mods": ["volatile"],
+      "comment": "The current command that is being executed."
+    }
+  },
+  "constructors": [
+    {
+      "visibility": "protected",
+      "$fields": [
+        "source",
+        "worldPosition",
+        "rotation",
+        "level",
+        "permissionLevel",
+        "textName",
+        "displayName",
+        "server",
+        "entity",
+        "silent",
+        "consumer",
+        "anchor",
+        "signingContext",
+        "chatMessageChainer",
+        "returnValueConsumer"
+      ],
+      "comment": "TODO"
+    },
+    {
+      "$fields": [
+        "source",
+        "worldPosition",
+        "rotation",
+        "level",
+        "permissionLevel",
+        "textName",
+        "displayName",
+        "server",
+        "entity"
+      ],
+      "comment": "Constructs a new CommandSourceStack."
+    }
+  ],
+  "methods": {
+    "broadcastToAdmins": {
+      "visibility": "private",
+      "params": [
+        {
+          "type": "component",
+          "name": "component",
+          "comment": "The component to broadcast."
+        }
+      ],
+      "comment": "Broadcasts a component as this CommandSourceStack."
+    },
+    "customSuggestion": {
+      "params": [
+        {
+          "type": "com.mojang.brigadier.context.CommandContext<?>",
+          "name": "context",
+          "comment": "The context of the suggestion."
+        }
+      ],
+      "return": {
+        "type": "java.util.concurrent.CompletableFuture<com.mojang.brigadier.suggestion.Suggestions>",
+        "comment": "The created suggestions."
+      },
+      "comment": "Creates a custom suggestion."
+    },
+    "enabledFeatures": {
+      "return": {
+        "type": "net.minecraft.world.flag.FeatureFlagSet",
+        "comment": "The enabled flag features in the world."
+      },
+      "comment": "Gets the enabled flag features in the world."
+    },
+    "facing": [
+      {
+        "params": [
+          {
+            "type": "net.minecraft.world.phys.Vec3",
+            "name": "vec",
+            "comment": "The vector that the source stack is facing."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "This CommandSourceStack with the rotation set to the given vector."
+        },
+        "comment": "Sets the rotation of this CommandSourceStack to the given vector."
+      },
+      {
+        "params": [
+          {
+            "type": "net.minecraft.world.entity.Entity",
+            "name": "entity",
+            "comment": "The entity to face towards."
+          },
+          {
+            "type": "net.minecraft.commands.arguments.EntityAnchorArgument$Anchor",
+            "name": "anchor",
+            "comment": "The anchor to use."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "This CommandSourceStack with the rotation set to the given entity."
+        },
+        "comment": "Sets the rotation of this CommandSourceStack to the given entity."
+      }
+    ],
+    "getAllTeams": {
+      "return": {
+        "type": "java.util.Collection<string>",
+        "comment": "All team names in the current world."
+      },
+      "comment": "Gets all team names in the current world."
+    },
+    "getAnchor": {
+      "$getter": "anchor"
+    },
+    "getAvailableSounds": {
+      "return": {
+        "type": "java.util.stream.Stream<net.minecraft.resources.ResourceLocation>",
+        "comment": "All available sounds on the server."
+      },
+      "comment": "Gets all available sounds on the server."
+    },
+    "getBukkitSender": {
+      "return": {
+        "type": "org.bukkit.command.CommandSender",
+        "comment": "The bukkit sender that represents this CommandSourceStack."
+      },
+      "comment": "Gets the bukkit sender that represents this CommandSourceStack."
+    },
+    "getChatMessageChainer": {
+      "$getter": "chatMessageChainer"
+    },
+    "getDisplayName": {
+      "$getter": "displayName"
+    },
+    "getEntity": {
+      "$getter": "entity"
+    },
+    "getEntityOrException": {
+      "return": {
+        "type": "net.minecraft.world.entity.Entity",
+        "comment": "TODO"
+      },
+      "throws": [
+        {
+          "type": "com.mojang.brigadier.exceptions.CommandSyntaxException",
+          "comment": "if this is not an instance of an entity"
+        }
+      ],
+      "comment": "Gets the entity or throws an exception if the entity is null."
+    },
+    "getLevel": {
+      "$getter": "level"
+    },
+    "getOnlinePlayerNames": {
+      "return": {
+        "type": "java.util.Collection<string>",
+        "comment": "A collection of player names that are online."
+      },
+      "comment": "Gets a collection of player names that are online."
+    },
+    "getPlayer": {
+      "return": {
+        "type": "net.minecraft.server.level.ServerPlayer",
+        "comment": "The player that represents this CommandSourceStack."
+      },
+      "comment": "Gets the player that represents this CommandSourceStack."
+    },
+    "getPlayerOrException": {
+      "return": {
+        "type": "net.minecraft.server.level.ServerPlayer",
+        "comment": "The player that represents this CommandSourceStack."
+      },
+      "throws": [
+        {
+          "type": "com.mojang.brigadier.exceptions.CommandSyntaxException",
+          "comment": "if this is not an instance of a player"
+        }
+      ],
+      "comment": "Gets the player that represents this CommandSourceStack or throws an exception if the player is null."
+    },
+    "getPosition": {
+      "$getter": "worldPosition"
+    },
+    "getRecipeNames": {
+      "return": {
+        "type": "java.util.stream.Stream<net.minecraft.resources.ResourceLocation>",
+        "comment": "All recipes registered to the server."
+      },
+      "comment": "Gets all recipes registered to the server."
+    },
+    "getReturnValueConsumer": {
+      "$getter": "returnValueConsumer"
+    },
+    "getRotation": {
+      "$getter": "rotation"
+    },
+    "getServer": {
+      "$getter": "server"
+    },
+    "getSigningContext": {
+      "$getter": "signingContext"
+    },
+    "getTextName": {
+      "$getter": "textName"
+    },
+    "hasPermission": [
+      {
+        "params": [
+          {
+            "type": "int",
+            "name": "permissionLevel",
+            "comment": "The permission level to check."
+          }
+        ],
+        "return": {
+          "type": "boolean",
+          "comment": "Whether this CommandSourceStack can execute a command at that permission level."
+        },
+        "comment": "Gets whether this CommandSourceStack can execute a command at a specific permission level."
+      },
+      {
+        "params": [
+          {
+            "type": "int",
+            "name": "permissionLevel",
+            "comment": "The permission level to use."
+          },
+          {
+            "type": "string",
+            "name": "permission",
+            "comment": "The permission to check."
+          }
+        ],
+        "return": {
+          "type": "boolean",
+          "comment": "Whether this CommandSourceStack has the given permission."
+        },
+        "comment": "Gets whether this CommandSourceStack has the given permission."
+      }
+    ],
+    "isPlayer": {
+      "return": {
+        "type": "boolean",
+        "comment": "True if this CommandSourceStack is a player."
+      },
+      "comment": "Gets whether this CommandSourceStack is a player."
+    },
+    "levels": {
+      "return": {
+        "type": "java.util.Set<net.minecraft.resources.ResourceKey<net.minecraft.world.level.Level>>",
+        "comment": "All worlds that are loaded on the server."
+      },
+      "comment": "Gets all worlds that are loaded on the server."
+    },
+    "onCommandComplete": {
+      "params": [
+        {
+          "type": "com.mojang.brigadier.context.CommandContext<{this}>",
+          "name": "context",
+          "comment": "The context of the comand."
+        },
+        {
+          "type": "boolean",
+          "name": "silent",
+          "comment": "Whether the command was silent."
+        },
+        {
+          "type": "int",
+          "name": "permissionLevel",
+          "comment": "The permission level executed at."
+        }
+      ],
+      "comment": "Called when a command is tab completed."
+    },
+    "registryAccess": {
+      "return": {
+        "type": "net.minecraft.core.RegistryAccess",
+        "comment": "The registry access for the server."
+      },
+      "comment": "Gets the registry access for the server."
+    },
+    "sendChatMessage": {
+      "params": [
+        {
+          "type": "net.minecraft.network.chat.OutgoingChatMessage",
+          "name": "message",
+          "comment": "The message to send."
+        },
+        {
+          "type": "boolean",
+          "name": "silent",
+          "comment": "Whether the message is silent."
+        },
+        {
+          "type": "net.minecraft.network.chat.ChatType$Bound",
+          "name": "chatType",
+          "comment": "The type of message."
+        }
+      ],
+      "comment": "Sends a chat message."
+    },
+    "sendFailure": {
+      "params": [
+        {
+          "type": "component",
+          "name": "component",
+          "comment": "The component to send."
+        }
+      ],
+      "comment": "Sends a failure message."
+    },
+    "sendSuccess": {
+      "params": [
+        {
+          "type": "java.util.function.Supplier<component>",
+          "name": "component",
+          "comment": "The component to send."
+        },
+        {
+          "type": "boolean",
+          "name": "informAdmins",
+          "comment": "Whether this message should be sent to admins."
+        }
+      ],
+      "comment": "Sends a success message."
+    },
+    "sendSystemMessage": {
+      "params": [
+        {
+          "type": "component",
+          "name": "component",
+          "comment": "The component to send."
+        }
+      ],
+      "comment": "Sends a system message."
+    },
+    "shouldFilterMessageTo": {
+      "params": [
+        {
+          "type": "net.minecraft.server.level.ServerPlayer",
+          "name": "player",
+          "comment": "The player to use."
+        }
+      ],
+      "return": {
+        "type": "boolean",
+        "comment": "Whether this source stack is filtering messages to the given player."
+      },
+      "comment": "Gets whether this source stack is filtering messages to the given player."
+    },
+    "suggestRegistryElements": {
+      "params": [
+        {
+          "type": "net.minecraft.resources.ResourceKey<? extends net.minecraft.core.Registry<?>>",
+          "name": "key",
+          "comment": "The registry key to use."
+        },
+        {
+          "type": "{pkg}.SharedSuggestionProvider$ElementSuggestionType",
+          "name": "completionProvider",
+          "comment": "The completion provider to use."
+        },
+        {
+          "type": "com.mojang.brigadier.suggestion.SuggestionsBuilder",
+          "name": "builder",
+          "comment": "The builder for the suggestions."
+        },
+        {
+          "type": "com.mojang.brigadier.context.CommandContext",
+          "name": "context",
+          "comment": "The context of the command."
+        }
+      ],
+      "return": {
+        "type": "java.util.concurrent.CompletableFuture<com.mojang.brigadier.suggestion.Suggestions>",
+        "comment": "The created suggestions."
+      },
+      "comment": "Suggests registry elements."
+    },
+    "withAnchor": {
+      "params": [
+        {
+          "type": "net.minecraft.commands.arguments.EntityAnchorArgument$Anchor",
+          "name": "anchor",
+          "comment": "The anchor to use."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A cloned CommandSourceStack with the given anchor."
+      },
+      "comment": "Clones this CommandSourceStack with the given anchor."
+    },
+    "withCallback": [
+      {
+        "params": [
+          {
+            "type": "com.mojang.brigadier.ResultConsumer",
+            "name": "consumer",
+            "comment": "The consumer to use."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A cloned CommandSourceStack with the given consumer."
+        },
+        "comment": "Clones this CommandSourceStack with the given consumer."
+      },
+      {
+        "params": [
+          {
+            "type": "com.mojang.brigadier.ResultConsumer",
+            "name": "consumer",
+            "comment": "TODO"
+          },
+          {
+            "type": "java.util.function.BinaryOperator",
+            "name": "accumulator",
+            "comment": "The accumulator to use."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "A cloned CommandSourceStack with the given consumer and accumulator."
+        },
+        "comment": "Clones this CommandSourceStack with the given consumer."
+      }
+    ],
+    "withEntity": {
+      "params": [
+        {
+          "type": "net.minecraft.world.entity.Entity",
+          "name": "entity",
+          "comment": "The entity to use."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A cloned CommandSourceStack with the given entity."
+      },
+      "comment": "Clones this CommandSourceStack with the given entity."
+    },
+    "withLevel": {
+      "params": [
+        {
+          "type": "net.minecraft.server.level.ServerLevel",
+          "name": "level",
+          "comment": "The level to use."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A cloned CommandSourceStack with the given level."
+      },
+      "comment": "Clones this CommandSourceStack with the given level."
+    },
+    "withMaximumPermission": {
+      "params": [
+        {
+          "type": "int",
+          "name": "permissionLevel",
+          "comment": "The maximum permission level."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A cloned CommandSourceStack with the given max permission level."
+      },
+      "comment": "Clones this CommandSourceStack with the given max permission level."
+    },
+    "withPermission": {
+      "params": [
+        {
+          "type": "int",
+          "name": "permissionLevel",
+          "comment": "The permission level to use."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A cloned CommandSourceStack with the given permission level."
+      },
+      "comment": "Clones this CommandSourceStack with the given permission level."
+    },
+    "withPosition": {
+      "params": [
+        {
+          "type": "net.minecraft.world.phys.Vec3",
+          "name": "pos",
+          "comment": "The position to use."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A cloned CommandSourceStack with the given position."
+      },
+      "comment": "Clones this CommandSourceStack with the given position."
+    },
+    "withReturnValueConsumer": {
+      "params": [
+        {
+          "type": "java.util.function.IntConsumer",
+          "name": "returnValueConsumer",
+          "comment": "The return value consumer to use."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A cloned CommandSourceStack with the given return value consumer."
+      },
+      "comment": "Clones this CommandSourceStack with the given return value consumer."
+    },
+    "withRotation": {
+      "params": [
+        {
+          "type": "net.minecraft.world.phys.Vec2",
+          "name": "rotation",
+          "comment": "The rotation to use."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A cloned CommandSourceStack with the given rotation."
+      },
+      "comment": "Clones this CommandSourceStack with the given rotation."
+    },
+    "withSigningContext": {
+      "params": [
+        {
+          "type": "{pkg}.CommandSigningContext",
+          "name": "signingContext",
+          "comment": "The signing context to use."
+        },
+        {
+          "type": "net.minecraft.util.TaskChainer",
+          "name": "chatMessageChainer",
+          "comment": "The task chainer to use."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A cloned CommandSourceStack with the given signing context and task chainer."
+      },
+      "comment": "Clones this CommandSourceStack with the given signing context and task chainer."
+    },
+    "withSource": {
+      "params": [
+        {
+          "type": "{pkg}.CommandSource",
+          "name": "source",
+          "comment": "The source to use."
+        }
+      ],
+      "return": {
+        "type": "{this}",
+        "comment": "A cloned CommandSourceStack with the given source."
+      },
+      "comment": "Clones this CommandSourceStack with the given source."
+    },
+    "withSuppressedOutput": {
+      "return": {
+        "type": "{this}",
+        "comment": "A cloned CommandSourceStack with the output suppressed, making it silent."
+      },
+      "comment": "Clones this CommandSourceStack with the output suppressed."
+    }
+  }
+}
