@@ -27,7 +27,7 @@ allprojects {
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
         implementation("org.jsoup:jsoup:1.17.1")
-        implementation("org.jetbrains:markdown:0.6.0")
+        implementation("org.jetbrains:markdown:0.6.1")
     }
 
     java {
