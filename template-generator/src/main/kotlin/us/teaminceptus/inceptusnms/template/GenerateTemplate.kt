@@ -5,6 +5,9 @@ package us.teaminceptus.inceptusnms.template
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import net.minecraft.DetectedVersion
+import net.minecraft.SharedConstants
+import net.minecraft.server.Bootstrap
 import java.io.File
 import java.util.Scanner
 
@@ -15,6 +18,11 @@ val printer = Json {
 }
 
 fun main(args: Array<String>) {
+    // Boostrap
+    val v = DetectedVersion::class.java.getDeclaredConstructor().apply { isAccessible = true }.newInstance()
+    SharedConstants.setVersion(v)
+    Bootstrap.bootStrap();
+
     val clazz = try {
         Class.forName(args[0])
     } catch (e: ClassNotFoundException) {

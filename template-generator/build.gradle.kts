@@ -5,7 +5,7 @@ repositories {
 
 dependencies {
     api(rootProject)
-    runtimeOnly("org.spigotmc:spigot:1.20.2-R0.1-SNAPSHOT:remapped-mojang")
+    implementation("org.spigotmc:spigot:1.20.2-R0.1-SNAPSHOT:remapped-mojang")
 }
 
 tasks {
