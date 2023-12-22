@@ -18,13 +18,13 @@
       "comment": "A codec that serializes a TextColor."
     },
     "LEGACY_FORMAT_TO_COLOR": {
-      "type": "java.util.Map<net.minecraft.ChatFormatting, {this}>",
+      "type": "map<net.minecraft.ChatFormatting, {this}>",
       "visibility": "private",
       "mods": ["static", "final"],
       "comment": "A Map that converts a @(net.minecraft.ChatFormatting) enum to this class."
     },
     "NAMED_COLORS": {
-      "type": "java.util.Map<string, {this}>",
+      "type": "map<string, {this}>",
       "visibility": "private",
       "mods": ["static", "final"],
       "comment": "A Map that has this class color's name to its object reference."

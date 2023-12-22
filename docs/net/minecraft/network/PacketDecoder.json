@@ -46,7 +46,7 @@
           "comment": "The Byte Buffer to use."
         },
         {
-          "type": "java.util.List<obj>",
+          "type": "list<obj>",
           "name": "list",
           "comment": "The list to add the decoded object to."
         }

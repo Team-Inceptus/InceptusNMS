@@ -155,7 +155,7 @@
           "comment": "The JsonArray to read from."
         },
         {
-          "type": "java.util.Set<string>",
+          "type": "set<string>",
           "name": "criteria",
           "comment": "The criteria to use."
         }
@@ -182,7 +182,7 @@
     },
     "names": {
       "return": {
-        "type": "java.util.Set<string>",
+        "type": "set<string>",
         "comment": "The names of the requirements."
       },
       "comment": "Returns the names of the requirements."

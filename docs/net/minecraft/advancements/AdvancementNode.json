@@ -22,7 +22,7 @@
       "comment": "The parent of this advancement node (if applicable)."
     },
     "children": {
-      "type": "java.util.Set<{this}>",
+      "type": "set<{this}>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "The children of this advancement node."

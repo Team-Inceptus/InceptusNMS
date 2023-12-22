@@ -19,7 +19,7 @@
       "comment": "The owner of this holder."
     },
     "tags": {
-      "type": "java.util.Set<net.minecraft.tags.TagKey<T>>",
+      "type": "set<net.minecraft.tags.TagKey<T>>",
       "visibility": "private",
       "comment": "The tags of this holder."
     },

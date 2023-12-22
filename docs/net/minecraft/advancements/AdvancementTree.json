@@ -11,19 +11,19 @@
       "comment": "The logger for this class."
     },
     "nodes": {
-      "type": "java.util.Map<net.minecraft.resources.ResourceLocation, {pkg}.AdvancementNode>",
+      "type": "map<net.minecraft.resources.ResourceLocation, {pkg}.AdvancementNode>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "The map of advancement nodes in this tree."
     },
     "roots": {
-      "type": "java.util.Set<{pkg}.AdvancementNode>",
+      "type": "set<{pkg}.AdvancementNode>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "The set of root advancement nodes in this tree."
     },
     "tasks": {
-      "type": "java.util.Set<{pkg}.AdvancementNode>",
+      "type": "set<{pkg}.AdvancementNode>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "The set of non-root advancement nodes in this tree."
@@ -55,7 +55,7 @@
       {
         "params": [
           {
-            "type": "java.util.Set<net.minecraft.resources.ResourceLocation>",
+            "type": "set<net.minecraft.resources.ResourceLocation>",
             "name": "ids",
             "comment": "The set of advancement IDs to remove."
           }

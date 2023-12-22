@@ -249,7 +249,7 @@
       {
         "params": [
           {
-            "type": "java.util.Set<net.minecraft.core.BlockPos>",
+            "type": "set<net.minecraft.core.BlockPos>",
             "name": "targets",
             "comment": "The targets to create a path to."
           },
@@ -351,7 +351,7 @@
         "visibility": "protected",
         "params": [
           {
-            "type": "java.util.Set<net.minecraft.core.BlockPos>",
+            "type": "set<net.minecraft.core.BlockPos>",
             "name": "targets",
             "comment": "The targets to create a path to."
           },
@@ -386,7 +386,7 @@
         "visibility": "protected",
         "params": [
           {
-            "type": "java.util.Set<net.minecraft.core.BlockPos>",
+            "type": "set<net.minecraft.core.BlockPos>",
             "name": "targets",
             "comment": "The targets to create a path to."
           },

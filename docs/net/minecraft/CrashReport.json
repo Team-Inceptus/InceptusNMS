@@ -30,7 +30,7 @@
       "comment": "The exception thrown for this crash report."
     },
     "details": {
-      "type": "java.util.List<{pkg}.CrashReportCategory>",
+      "type": "list<{pkg}.CrashReportCategory>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "The details of the Crash Report."

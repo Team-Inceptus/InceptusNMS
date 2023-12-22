@@ -37,7 +37,7 @@
       "comment": "The default schedule for an adult villager."
     },
     "timelines": {
-      "type": "java.util.Map<{pkg}.Activity, {pkg}.Timeline>",
+      "type": "map<{pkg}.Activity, {pkg}.Timeline>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "The timelines for this Schedule."
@@ -96,7 +96,7 @@
         }
       ],
       "return": {
-        "type": "java.util.List<{pkg}.Timeline>",
+        "type": "list<{pkg}.Timeline>",
         "comment": "The list of timelines that exist except for the Activity inputted."
       },
       "comment": "Gets all of the timelines, omitting the one belonging to the Activity inputted."

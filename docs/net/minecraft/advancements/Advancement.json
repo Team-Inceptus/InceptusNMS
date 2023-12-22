@@ -22,7 +22,7 @@
           "comment": "The rewards for this Advancement."
         },
         {
-          "type": "java.util.Map<string, net.minecraft.advancements.Criterion<?>>",
+          "type": "map<string, net.minecraft.advancements.Criterion<?>>",
           "name": "criteria",
           "comment": "The criteria for the completion of this Advancement."
         },
@@ -62,7 +62,7 @@
           "comment": "The rewards for this Advancement."
         },
         {
-          "type": "java.util.Map<string, net.minecraft.advancements.Criterion<?>>",
+          "type": "map<string, net.minecraft.advancements.Criterion<?>>",
           "name": "criteria",
           "comment": "The criteria for the completion of this Advancement."
         },

@@ -38,7 +38,7 @@
     {
       "params": [
         {
-          "type": "java.util.List<wlong>",
+          "type": "list<wlong>",
           "name": "data",
           "comment": "The value of this tag as a list of longs."
         }
@@ -52,7 +52,7 @@
       "mods": ["static"],
       "params": [
         {
-          "type": "java.util.List<wlong>",
+          "type": "list<wlong>",
           "name": "data",
           "comment": "The list of longs to convert to an array."
         }

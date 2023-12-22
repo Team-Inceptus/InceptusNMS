@@ -23,7 +23,7 @@
       "comment": "The default duration for this Behavior's lifetime."
     },
     "entryCondition": {
-      "type": "java.util.Map<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>, net.minecraft.world.entity.ai.memory.MemoryStatus>",
+      "type": "map<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>, net.minecraft.world.entity.ai.memory.MemoryStatus>",
       "visibility": "protected",
       "mods": ["final"],
       "comment": "The conditions for this Behavior to start."

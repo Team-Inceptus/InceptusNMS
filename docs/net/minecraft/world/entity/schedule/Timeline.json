@@ -5,7 +5,7 @@
   },
   "fields": {
     "keyframes": {
-      "type": "java.util.List<{pkg}.Keyframe>",
+      "type": "list<{pkg}.Keyframe>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "The keyframes for this Timeline."

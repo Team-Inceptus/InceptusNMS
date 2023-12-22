@@ -38,7 +38,7 @@
     {
       "params": [
         {
-          "type": "java.util.List<wbyte>",
+          "type": "list<wbyte>",
           "name": "data",
           "comment": "The value of this tag as a list of bytes."
         }
@@ -52,7 +52,7 @@
       "mods": ["static"],
       "params": [
         {
-          "type": "java.util.List<wbyte>",
+          "type": "list<wbyte>",
           "name": "data",
           "comment": "The list of bytes to convert to an array."
         }

@@ -109,7 +109,7 @@
       "comment": "The character that represents a prefix."
     },
     "FORMATTING_BY_NAME": {
-      "type": "java.util.Map<String, {this}>",
+      "type": "map<String, {this}>",
       "visibility": "private",
       "mods": ["static", "final"],
       "comment": "A map of the names of the formattings to the formattings."

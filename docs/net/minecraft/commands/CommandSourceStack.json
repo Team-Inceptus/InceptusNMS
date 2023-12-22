@@ -364,7 +364,7 @@
     },
     "levels": {
       "return": {
-        "type": "java.util.Set<net.minecraft.resources.ResourceKey<net.minecraft.world.level.Level>>",
+        "type": "set<net.minecraft.resources.ResourceKey<net.minecraft.world.level.Level>>",
         "comment": "All worlds that are loaded on the server."
       },
       "comment": "Gets all worlds that are loaded on the server."

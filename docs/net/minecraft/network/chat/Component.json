@@ -65,7 +65,7 @@
     ],
     "getSiblings": {
       "return": {
-        "type": "java.util.List<{this}>",
+        "type": "list<{this}>",
         "comment": "All Components in this Component."
       },
       "comment": "Gets the components that this Component contains."
@@ -95,7 +95,7 @@
       {
         "mods": ["default"],
         "return": {
-          "type": "java.util.List<{this}>",
+          "type": "list<{this}>",
           "comment": "Returns this Component and all of its siblings as a flat list with no style."
         },
         "comment": "Gets this Component and its siblings as a flat list with no style."
@@ -110,7 +110,7 @@
           }
         ],
         "return": {
-          "type": "java.util.List<{this}>",
+          "type": "list<{this}>",
           "comment": "Returns this Component and all of its siblings formatted according to the style."
         },
         "comment": "Gets this Component and its siblings as a flat list."

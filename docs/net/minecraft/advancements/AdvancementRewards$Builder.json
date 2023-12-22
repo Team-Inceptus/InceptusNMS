@@ -11,12 +11,12 @@
       "comment": "The experience reward."
     },
     "loot": {
-      "type": "java.util.List<net.minecraft.resources.ResourceLocation>",
+      "type": "list<net.minecraft.resources.ResourceLocation>",
       "visibility": "private",
       "comment": "The loot table rewards."
     },
     "recipes": {
-      "type": "java.util.List<net.minecraft.resources.ResourceLocation>",
+      "type": "list<net.minecraft.resources.ResourceLocation>",
       "visibility": "private",
       "comment": "The recipe rewards."
     },

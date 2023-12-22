@@ -39,7 +39,7 @@
   ],
   "fields": {
     "directions": {
-      "type": "java.util.Set<{pkg}.Direction>",
+      "type": "set<{pkg}.Direction>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "The 3D Directions that represent this cardinal direction."

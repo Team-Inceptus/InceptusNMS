@@ -89,7 +89,7 @@
         }
       ],
       "return": {
-        "type": "java.util.List<net.minecraft.core.Direction>",
+        "type": "list<net.minecraft.core.Direction>",
         "comment": "A shuffled list of directions from this plane."
       },
       "comment": "Creates a shuffled list of directions from this plane."

@@ -40,6 +40,9 @@ object Util {
         "bytebuf" to "io.netty.buffer.ByteBuf",
         "fbytebuf" to "net.minecraft.network.FriendlyByteBuf",
         "nullable" to "javax.annotation.Nullable",
+        "list" to "java.util.List",
+        "set" to "java.util.Set",
+        "map" to "java.util.Map",
     )
 
     fun mapTypeAliases(type: String): String {

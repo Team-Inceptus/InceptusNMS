@@ -44,6 +44,9 @@ In order for the parser to successfully generate JavaDocs, we need to input all 
 | `bytebuf`    | `io.netty.buffer.ByteBuf`                   |
 | `fbytebuf`   | `net.minecraft.network.FriendlyByteBuf`     |
 | `nullable`   | `javax.annotation.Nullable`                 |
+| `list`       | `java.util.List`                            |
+| `set`        | `java.util.Set`                             |
+| `map`        | `java.util.Map`                             |
 
 #### Other Aliases
 
@@ -55,10 +58,10 @@ In order for the parser to successfully generate JavaDocs, we need to input all 
 
 For Generic Types, simply include the type in the alias. For example:
 
-- `java.util.List<string>`
-- `java.util.Map<string,wint>`
-- `java.util.List<java.util.Map<file,wlong>>`
-- `java.util.Set<org.bukkit.entity.Player>`
+- `list<string>`
+- `map<string,wint>`
+- `list<map<file,wlong>>`
+- `set<org.bukkit.entity.Player>`
 
 There shold be **no spaces** in between generic arguments.
 

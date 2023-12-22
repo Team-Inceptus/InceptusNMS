@@ -39,7 +39,7 @@
       "comment": "The index of the child node for this position."
     },
     "children": {
-      "type": "java.util.List<{this}>",
+      "type": "list<{this}>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "The list of children nodes that this position owns."

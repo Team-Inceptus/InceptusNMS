@@ -23,7 +23,7 @@
   ],
   "fields": {
     "VALUES": {
-      "type": "java.util.List<{this}>",
+      "type": "list<{this}>",
       "visibility": "private",
       "mods": ["static", "final"],
       "comment": "A list representation of @({this}#values())."

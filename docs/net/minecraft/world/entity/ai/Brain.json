@@ -32,19 +32,19 @@
       "comment": "The delay between each update of this Brain's schedule, in ticks."
     },
     "memories": {
-      "type": "java.util.Map<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>, java.util.Optional<? extends net.minecraft.world.entity.ai.memory.ExpirableValue<?>>",
+      "type": "map<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>, java.util.Optional<? extends net.minecraft.world.entity.ai.memory.ExpirableValue<?>>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "The memories in this Brain."
     },
     "sensors": {
-      "type": "java.util.Map<net.minecraft.world.entity.ai.sensing.SensorType<? extends net.minecraft.world.entity.ai.sensing.Sensor<? super E>>, net.minecraft.world.entity.ai.sensing.Sensor<? super E>>",
+      "type": "map<net.minecraft.world.entity.ai.sensing.SensorType<? extends net.minecraft.world.entity.ai.sensing.Sensor<? super E>>, net.minecraft.world.entity.ai.sensing.Sensor<? super E>>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "The sensors fir this Brain."
     },
     "availableBehaviorsByPriority": {
-      "type": "java.util.Map<wint, java.util.Map<net.minecraft.world.entity.schedule.Activity, java.util.Set<net.minecraft.world.entity.ai.behavior.BehaviorControl<? super E>>>>",
+      "type": "map<wint, map<net.minecraft.world.entity.schedule.Activity, set<net.minecraft.world.entity.ai.behavior.BehaviorControl<? super E>>>>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "The behaviors in this Brain, sorted by priority."
@@ -55,24 +55,24 @@
       "comment": "The running schedule for this Brain."
     },
     "activityRequirements": {
-      "type": "java.util.Map<net.minecraft.world.entity.schedule.Activity, java.util.Set<com.mojang.datafixers.util.Pair<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>, net.minecraft.world.entity.ai.memory.MemoryStatus>>>",
+      "type": "map<net.minecraft.world.entity.schedule.Activity, set<com.mojang.datafixers.util.Pair<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>, net.minecraft.world.entity.ai.memory.MemoryStatus>>>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "The requirements for each activity in this Brain."
     },
     "activityMemoriesToEraseWhenStopped": {
-      "type": "java.util.Map<net.minecraft.world.entity.schedule.Activity, java.util.Set<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>>>",
+      "type": "map<net.minecraft.world.entity.schedule.Activity, set<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>>>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "The memories to erase when an activity is stopped."
     },
     "coreActivities": {
-      "type": "java.util.Set<net.minecraft.world.entity.schedule.Activity>",
+      "type": "set<net.minecraft.world.entity.schedule.Activity>",
       "visibility": "private",
       "comment": "The core activities for this Brain."
     },
     "activeActivities": {
-      "type": "java.util.Set<net.minecraft.world.entity.schedule.Activity>",
+      "type": "set<net.minecraft.world.entity.schedule.Activity>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "The currently active activities for this Brain."
@@ -438,7 +438,7 @@
     "getRunningBehaviors": {
       "deprecated": "debug use only",
       "return": {
-        "type": "java.util.List<net.minecraft.world.entity.ai.behavior.BehaviorControl<? super E>>",
+        "type": "list<net.minecraft.world.entity.ai.behavior.BehaviorControl<? super E>>",
         "comment": "A stream of the running behaviors in this Brain."
       },
       "annotations": [
@@ -508,7 +508,7 @@
     "setActiveActivityToFirstValid": {
       "params": [
         {
-          "type": "java.util.List<net.minecraft.world.entity.schedule.Activity>",
+          "type": "list<net.minecraft.world.entity.schedule.Activity>",
           "name": "activities",
           "comment": "The activities to check."
         }
@@ -593,7 +593,7 @@
           "comment": "The behaviors for the activity, mapped by priority."
         },
         {
-          "type": "java.util.Set<com.mojang.datafixers.util.Pair<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>, net.minecraft.world.entity.ai.memory.MemoryStatus>>",
+          "type": "set<com.mojang.datafixers.util.Pair<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>, net.minecraft.world.entity.ai.memory.MemoryStatus>>",
           "name": "requirements",
           "comment": "The memory requirements for the activity."
         }
@@ -613,12 +613,12 @@
           "comment": "The behaviors for the activity, mapped by priority."
         },
         {
-          "type": "java.util.Set<com.mojang.datafixers.util.Pair<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>, net.minecraft.world.entity.ai.memory.MemoryStatus>>",
+          "type": "set<com.mojang.datafixers.util.Pair<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>, net.minecraft.world.entity.ai.memory.MemoryStatus>>",
           "name": "requirements",
           "comment": "The memory requirements for the activity."
         },
         {
-          "type": "java.util.Set<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>>",
+          "type": "set<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>>",
           "name": "memories",
           "comment": "The memories to remove when the activity is stopped."
         }

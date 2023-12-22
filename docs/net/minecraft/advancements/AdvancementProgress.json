@@ -21,7 +21,7 @@
       "comment": "The codec for the obtained time."
     },
     "CRITERIA_CODEC": {
-      "type": "codec<java.util.Map<string, {pkg}.CriterionProgress>>",
+      "type": "codec<map<string, {pkg}.CriterionProgress>>",
       "visibility": "private",
       "mods": ["static", "final"],
       "comment": "The codec for the criteria."
@@ -32,7 +32,7 @@
       "comment": "The codec for this class."
     },
     "criteria": {
-      "type": "java.util.Map<string, {pkg}.CriterionProgress>",
+      "type": "map<string, {pkg}.CriterionProgress>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "The criteria progress."

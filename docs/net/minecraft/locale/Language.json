@@ -157,13 +157,13 @@
       {
         "params": [
           {
-            "type": "java.util.List<net.minecraft.network.chat.FormattedText>",
+            "type": "list<net.minecraft.network.chat.FormattedText>",
             "name": "texts",
             "comment": "The formatted text sequences."
           }
         ],
         "return": {
-          "type": "java.util.List<net.minecraft.network.chat.FormattedCharSequence>",
+          "type": "list<net.minecraft.network.chat.FormattedCharSequence>",
           "comment": "The formatted charsequences."
         },
         "comment": "Gets the visual orders of formatted texts according to this Language."

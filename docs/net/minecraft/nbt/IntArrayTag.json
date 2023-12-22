@@ -38,7 +38,7 @@
     {
       "params": [
         {
-          "type": "java.util.List<wint>",
+          "type": "list<wint>",
           "name": "data",
           "comment": "The value of this tag as a list of integers."
         }
@@ -52,7 +52,7 @@
       "mods": ["static"],
       "params": [
         {
-          "type": "java.util.List<wint>",
+          "type": "list<wint>",
           "name": "data",
           "comment": "The list of integers to convert to an array."
         }

@@ -129,7 +129,7 @@
     "requires": {
       "mods": ["abstract"],
       "return": {
-        "type": "java.util.Set<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>>",
+        "type": "set<net.minecraft.world.entity.ai.memory.MemoryModuleType<?>>",
         "comment": "The memories required to run the sensor."
       },
       "comment": "Gets the memories required to run the sensor."

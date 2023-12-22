@@ -14,7 +14,7 @@
       "comment": "The contents of this component."
     },
     "siblings": {
-      "type": "java.util.List<component>",
+      "type": "list<component>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "The siblings of this component."
@@ -50,7 +50,7 @@
           "comment": "The contents of this component."
         },
         {
-          "type": "java.util.List<component>",
+          "type": "list<component>",
           "name": "siblings",
           "comment": "The siblings of this component."
         },

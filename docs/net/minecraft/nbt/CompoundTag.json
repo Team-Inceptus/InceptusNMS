@@ -30,7 +30,7 @@
       "comment": "The TagType for a CompoundTag."
     },
     "tags": {
-      "type": "java.util.Map<string, {pkg}.Tag>",
+      "type": "map<string, {pkg}.Tag>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "The tags contained in this CompoundTag."
@@ -245,7 +245,7 @@
             "comment": "The key of the byte array tag to put."
           },
           {
-            "type": "java.util.List<wbyte>",
+            "type": "list<wbyte>",
             "name": "value",
             "comment": "The value of the byte array tag to put."
           }
@@ -277,7 +277,7 @@
             "comment": "The key of the int array tag to put."
           },
           {
-            "type": "java.util.List<wint>",
+            "type": "list<wint>",
             "name": "value",
             "comment": "The value of the int array tag to put."
           }
@@ -309,7 +309,7 @@
             "comment": "The key of the long array tag to put."
           },
           {
-            "type": "java.util.List<wlong>",
+            "type": "list<wlong>",
             "name": "value",
             "comment": "The value of the long array tag to put."
           }

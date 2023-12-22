@@ -18,7 +18,7 @@
       "comment": "The Gson instance used to serialize and deserialize the advancements."
     },
     "advancements": {
-      "type": "java.util.Map<net.minecraft.resources.ResourceLocation, net.minecraft.advancements.Advancement>",
+      "type": "map<net.minecraft.resources.ResourceLocation, net.minecraft.advancements.Advancement>",
       "comment": "The map of all advancements."
     },
     "tree": {

@@ -34,25 +34,25 @@
       "comment": "The tree of advancements for this player."
     },
     "progress": {
-      "type": "java.util.Map<net.minecraft.advancements.AdvancementHolder, net.minecraft.advancements.AdvancementProgress>",
+      "type": "map<net.minecraft.advancements.AdvancementHolder, net.minecraft.advancements.AdvancementProgress>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "The advancement progress for this player."
     },
     "visible": {
-      "type": "java.util.Set<net.minecraft.advancements.AdvancementHolder>",
+      "type": "set<net.minecraft.advancements.AdvancementHolder>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "The visible advancements for this player."
     },
     "progressChanged": {
-      "type": "java.util.Set<net.minecraft.advancements.AdvancementHolder>",
+      "type": "set<net.minecraft.advancements.AdvancementHolder>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "A cache for the advancements that have had their progress changed."
     },
     "rootsToUpdate": {
-      "type": "java.util.Set<net.minecraft.advancements.AdvancementHolder>",
+      "type": "set<net.minecraft.advancements.AdvancementHolder>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "A cache for the root advancements that need to be updated."
@@ -376,12 +376,12 @@
           "comment": "The node to update the visibility for."
         },
         {
-          "type": "java.util.Set<net.minecraft.advancements.AdvancementHolder>",
+          "type": "set<net.minecraft.advancements.AdvancementHolder>",
           "name": "visible",
           "comment": "The advancements to be marked visible."
         },
         {
-          "type": "java.util.Set<net.minecraft.resources.ResourceLocation>",
+          "type": "set<net.minecraft.resources.ResourceLocation>",
           "name": "hidden",
           "comment": "The IDs of the advancements to marked hidden."
         }

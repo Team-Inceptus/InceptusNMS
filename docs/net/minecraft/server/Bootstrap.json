@@ -47,7 +47,7 @@
           "comment": "The function to convert the object to a translation string."
         },
         {
-          "type": "java.util.Set<string>",
+          "type": "set<string>",
           "name": "set",
           "comment": "A mutable set of translation keys to add to."
         }
@@ -64,7 +64,7 @@
       "mods": ["static"],
       "params": [
         {
-          "type": "java.util.Set<string>",
+          "type": "set<string>",
           "name": "set",
           "comment": "A mutable set of translation keys to add to."
         }
@@ -74,10 +74,10 @@
     "getMissingTranslations": {
       "mods": ["static"],
       "return": {
-        "type": "java.util.Set<string>",
+        "type": "set<string>",
         "comment": "The set of missing translation keys."
       },
-      "comment": "Generates a @(java.util.Set) of detected missing translation keys in any Bootstrap Registry."
+      "comment": "Generates a @(set) of detected missing translation keys in any Bootstrap Registry."
     },
     "checkBootstrapCalled": {
       "mods": ["static"],

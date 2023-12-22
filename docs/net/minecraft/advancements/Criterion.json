@@ -97,7 +97,7 @@
         }
       ],
       "return": {
-        "type": "java.util.Map<string, {this}<?>>",
+        "type": "map<string, {this}<?>>",
         "comment": "The deserialized Criteria."
       },
       "comment": "Deserializes Criteria from JSON."

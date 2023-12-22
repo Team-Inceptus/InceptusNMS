@@ -10,7 +10,7 @@
       "visibility": "private",
       "mods": ["static", "final"],
       "value": "37",
-      "comment": "he size in bytes of a @(java.util.List) tag."
+      "comment": "he size in bytes of a @(list) tag."
     },
     "TYPE": {
       "type": "net.minecraft.nbt.TagType<{this}>",
@@ -18,7 +18,7 @@
       "comment": "The TagType of a ListTag."
     },
     "list": {
-      "type": "java.util.List<net.minecraft.nbt.Tag>",
+      "type": "list<net.minecraft.nbt.Tag>",
       "visibility": "private",
       "mods": ["final"],
       "comment": "The List of Tags in this ListTag."
@@ -34,7 +34,7 @@
       "visibility": "package",
       "params": [
         {
-          "type": "java.util.List<net.minecraft.nbt.Tag>",
+          "type": "list<net.minecraft.nbt.Tag>",
           "name": "list",
           "comment": "The List of Tags in this ListTag."
         },
