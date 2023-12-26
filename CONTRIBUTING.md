@@ -19,14 +19,14 @@ In order for the parser to successfully generate JavaDocs, we need to input all 
 | `{this}`     | class representing the JSON file            |
 | `{pkg}`      | package of class representing the JSON file |
 | `obj`        | `java.lang.Object`                          |
-| `boolean`    | primvitive `boolean`                        |
-| `byte`       | primvitive `byte`                           |
-| `char`       | primvitive `char`                           |
-| `double`     | primvitive `double`                         |
-| `float`      | primvitive `float`                          |
-| `int`        | primvitive `int`                            |
-| `long`       | primvitive `long`                           |
-| `short`      | primivitive `short`                         |
+| `boolean`    | primitive `boolean`                         |
+| `byte`       | primitive `byte`                            |
+| `char`       | primitive `char`                            |
+| `double`     | primitive `double`                          |
+| `float`      | primitive `float`                           |
+| `int`        | primitive `int`                             |
+| `long`       | primitive `long`                            |
+| `short`      | primitive `short`                           |
 | `string`     | `java.lang.String`                          |
 | `date`       | `java.util.Date`                            |
 | `wboolean`   | `java.lang.Boolean`                         |
@@ -52,7 +52,6 @@ In order for the parser to successfully generate JavaDocs, we need to input all 
 
 - `{V}` will return the version part for the name of the CraftBukkit package.
   - e.g. `v1_20_R2` 
-- `{pkg}` will return the package of the current class. 
 
 #### Generics
 
