@@ -1,0 +1,551 @@
+{
+  "class": {
+    "type": "class",
+    "comment": "Represents a type of memory. Used by mobs to remember things.\nMemory documentation is also forked from [MobChip](https://mobchip.gamercoder215.me/me/gamercoder215/mobchip/ai/memories/EntityMemory.html)'s documentation."
+  },
+  "fields": {
+    "DUMMY": {
+      "type": "{this}<java.lang.Void>",
+      "mods": ["static", "final"],
+      "comment": "A dummy memory."
+    },
+    "HOME": {
+      "type": "{this}<net.minecraft.core.GlobalPos>",
+      "mods": ["static", "final"],
+      "comment": "This Entity's home location."
+    },
+    "JOB_SITE": {
+      "type": "{this}<net.minecraft.core.GlobalPos>",
+      "mods": ["static", "final"],
+      "comment": "The location of the Job Site for this Entity."
+    },
+    "POTENTIAL_JOB_SITE": {
+      "type": "{this}<net.minecraft.core.GlobalPos>",
+      "mods": ["static", "final"],
+      "comment": "Any potential Job Sites for this Entity."
+    },
+    "MEETING_POINT": {
+      "type": "{this}<net.minecraft.core.GlobalPos>",
+      "mods": ["static", "final"],
+      "comment": "The meeting point for this Entity."
+    },
+    "SECONDARY_JOB_SITE": {
+      "type": "{this}<list<net.minecraft.core.GlobalPos>>",
+      "mods": ["static", "final"],
+      "comment": "A list of secondary Job Sites for this Entity."
+    },
+    "NEAREST_LIVING_ENTITIES": {
+      "type": "{this}<list<net.minecraft.world.entity.LivingEntity>>",
+      "mods": ["static", "final"],
+      "comment": "A list of the nearest Living Entities."
+    },
+    "NEAREST_VISIBLE_LIVING_ENTITIES": {
+      "type": "{this}<{pkg}.NearestVisibleLivingEntities>",
+      "mods": ["static", "final"],
+      "comment": "The nearest visible Living Entities."
+    },
+    "VISIBLE_VILLAGER_BABIES": {
+      "type": "{this}<list<net.minecraft.world.entity.LivingEntity>>",
+      "mods": ["static", "final"],
+      "comment": "The list of visible Villager babies."
+    },
+    "NEAREST_PLAYERS": {
+      "type": "{this}<list<net.minecraft.world.entity.player.Player>>",
+      "mods": ["static", "final"],
+      "comment": "The list of nearest players."
+    },
+    "NEAREST_VISIBLE_PLAYER": {
+      "type": "{this}<net.minecraft.world.entity.player.Player>",
+      "mods": ["static", "final"],
+      "comment": "The nearest visible player."
+    },
+    "NEAREST_VISIBLE_ATTACKABLE_PLAYER": {
+      "type": "{this}<net.minecraft.world.entity.player.Player>",
+      "mods": ["static", "final"],
+      "comment": "The nearest visible attackable player."
+    },
+    "WALK_TARGET": {
+      "type": "{this}<{pkg}.WalkTarget>",
+      "mods": ["static", "final"],
+      "comment": "This entity's walk target."
+    },
+    "LOOK_TARGET": {
+      "type": "{this}<net.minecraft.world.entity.ai.behavior.PositionTracker.",
+      "mods": ["static", "final"],
+      "comment": "This entity's current look target."
+    },
+    "ATTACK_TARGET": {
+      "type": "{this}<net.minecraft.world.entity.LivingEntity>",
+      "mods": ["static", "final"],
+      "comment": "This entity's attack target."
+    },
+    "ATTACK_COOLING_DOWN": {
+      "type": "{this}<wboolean>",
+      "mods": ["static", "final"],
+      "comment": "Whether this entity's attack is cooling down."
+    },
+    "INTERACTION_TARGET": {
+      "type": "{this}<net.minecraft.world.entity.LivingEntity>",
+      "mods": ["static", "final"],
+      "comment": "This entity's interaction target."
+    },
+    "BREED_TARGET": {
+      "type": "{this}<net.minecraft.world.entity.AgeableMob>",
+      "mods": ["static", "final"],
+      "comment": "This entity's current breeding target."
+    },
+    "RIDE_TARGET": {
+      "type": "{this}<net.minecraft.world.entity.Entity>",
+      "mods": ["static", "final"],
+      "comment": "This entity's current riding target."
+    },
+    "PATH": {
+      "type": "{this}<net.minecraft.world.level.Path>",
+      "mods": ["static", "final"],
+      "comment": "The path that this entity is currently on."
+    },
+    "INTERACTABLE_DOORS": {
+      "type": "{this}<list<net.minecraft.core.GlobalPos>",
+      "mods": ["static", "final"],
+      "comment": "A list of interactable doors for this entity."
+    },
+    "DOORS_TO_CLOSE": {
+      "type": "{this}<set<net.minecraft.core.GlobalPos>>",
+      "mods": ["static", "final"],
+      "comment": "A set of doors to close for this entity."
+    },
+    "NEAREST_BED": {
+      "type": "{this}<net.minecraft.core.BlockPos>",
+      "mods": ["static", "final"],
+      "comment": "The nearest bed for this entity."
+    },
+    "HURT_BY": {
+      "type": "{this}<net.minecraft.world.damagesource.DamageSource>",
+      "mods": ["static", "final"],
+      "comment": "The last damage DamageSource that hurt this entity."
+    },
+    "HURT_BY_ENTITY": {
+      "type": "{this}<net.minecraft.world.entity.LivingEntity>",
+      "mods": ["static", "final"],
+      "comment": "The entity that hurt this entity."
+    },
+    "AVOID_TARGET": {
+      "type": "{this}<net.minecraft.world.entity.LivingEntity>",
+      "mods": ["static", "final"],
+      "comment": "The current entity target to avoid."
+    },
+    "NEAREST_HOSTILE": {
+      "type": "{this}<net.minecraft.world.entity.LivingEntity>",
+      "mods": ["static", "final"],
+      "comment": "The nearest hostile towards this entity."
+    },
+    "NEAREST_ATTACKABLE": {
+      "type": "{this}<net.minecraft.world.entity.LivingEntity>",
+      "mods": ["static", "final"],
+      "comment": "The nearest attackable entity according to this entity."
+    },
+    "HIDING_PLACE": {
+      "type": "{this}<net.minecraft.core.GlobalPos>",
+      "mods": ["static", "final"],
+      "comment": "The currently identified hiding place for this entity."
+    },
+    "HEARD_BELL_TIME": {
+      "type": "{this}<wlong>",
+      "mods": ["static", "final"],
+      "comment": "How long a Bell has been heard."
+    },
+    "CANT_REACH_WALK_TARGET_SINCE": {
+      "type": "{this}<wlong>",
+      "mods": ["static", "final"],
+      "comment": "How long this entity has been prevented from eaching its walk target."
+    },
+    "GOLEM_DETECTED_RECENTLY": {
+      "type": "{this}<wboolean>",
+      "mods": ["static", "final"],
+      "comment": "Whether a Golem has been detected recently."
+    },
+    "LAST_SLEPT": {
+      "type": "{this}<wlong>",
+      "mods": ["static", "final"],
+      "comment": "The timestamp for when this entity last slept."
+    },
+    "LAST_WOKEN": {
+      "type": "{this}<wlong>",
+      "mods": ["static", "final"],
+      "comment": "The timestamp for when this entity last woke up."
+    },
+    "LAST_WORKED_AT_POI": {
+      "type": "{this}<wlong>",
+      "mods": ["static", "final"],
+      "comment": "The timestamp for when an entity last worked at a current point-of-interest site."
+    },
+    "NEAREST_VISIBLE_ADULT": {
+      "type": "{this}<net.minecraft.world.entity.AgeableMob>",
+      "mods": ["static", "final"],
+      "comment": "The nearest visible adult mob according to this entity."
+    },
+    "NEAREST_VISIBLE_WANTED_ITEM": {
+      "type": "{this}<net.minecraft.world.entity.item.ItemEntity>",
+      "mods": ["static", "final"],
+      "comment": "The nearest visible wanted item according to this entity."
+    },
+    "NEAREST_VISIBLE_NEMESIS": {
+      "type": "{this}<net.minecraft.world.entity.Mob>",
+      "mods": ["static", "final"],
+      "comment": "The nearest visible 'nemesis' according to this mob."
+    },
+    "PLAY_DEAD_TICKS": {
+      "type": "{this}<wint>",
+      "mods": ["static", "final"],
+      "comment": "How many ticks this entity should play dead for."
+    },
+    "TEMPTING_PLAYER": {
+      "type": "{this}<net.minecraft.world.entity.player.Player>",
+      "mods": ["static", "final"],
+      "comment": "The player this entity is tempting."
+    },
+    "TEMPTATION_COOLDOWN_TICKS": {
+      "type": "{this}<wint>",
+      "mods": ["static", "final"],
+      "comment": "The cooldown, in ticks for this entity's own temptation."
+    },
+    "GAZE_COOLDOWN_TICKS": {
+      "type": "{this}<wint>",
+      "mods": ["static", "final"],
+      "comment": "The cooldown, in ticks for this entity's own gaze."
+    },
+    "IS_TEMPTED": {
+      "type": "{this}<wboolean>",
+      "mods": ["static", "final"],
+      "comment": "Whether this entity is currently being tempted."
+    },
+    "LONG_JUMP_COOLDOWN_TICKS": {
+      "type": "{this}<wint>",
+      "mods": ["static", "final"],
+      "comment": "The cooldown, in ticks, for this entity's long jump."
+    },
+    "LONG_JUMP_MID_JUMP": {
+      "type": "{this}<wboolean>",
+      "mods": ["static", "final"],
+      "comment": "Whether this entity is currently in its long jump/"
+    },
+    "HAS_HUNTING_COOLDOWN": {
+      "type": "{this}<wboolean>",
+      "mods": ["static", "final"],
+      "comment": "Whether this entity has a hunting cooldown."
+    },
+    "RAM_COOLDOWN_TICKS": {
+      "type": "{this}<wint>",
+      "mods": ["static", "final"],
+      "comment": "The cooldown, in ticks, for this entity to ram another entity."
+    },
+    "RAM_TARGET": {
+      "type": "{this}<net.minecraft.world.phys.Vec3>",
+      "mods": ["static", "final"],
+      "comment": "The current location of the ramming target."
+    },
+    "IS_IN_WATER": {
+      "type": "{this}<net.minecraft.util.Unit>",
+      "mods": ["static", "final"],
+      "comment": "Whether this entity is currently in water."
+    },
+    "IS_PREGNANT": {
+      "type": "{this}<net.minecraft.util.Unit>",
+      "mods": ["static", "final"],
+      "comment": "Whether this entity is currently pregnant."
+    },
+    "IS_PANICKING": {
+      "type": "{this}<wboolean>",
+      "mods": ["static", "final"],
+      "comment": "Whether this entity is currently panicking."
+    },
+    "UNREACHABLE_TONGUE_TARGETS": {
+      "type": "{this}<list<java.util.UUID>>",
+      "mods": ["static", "final"],
+      "comment": "A list of unreachable tongue targets for a Frog."
+    },
+    "ANGRY_AT": {
+      "type": "{this}<java.util.UUID>",
+      "mods": ["static", "final"],
+      "comment": "The UUID of the entity this entity is currently angry at."
+    },
+    "UNIVERSAL_ANGER": {
+      "type": "{this}<wboolean>",
+      "mods": ["static", "final"],
+      "comment": "Whether this entity has universal anger turned on.\nThis is the mechanic zombie piglins use to all target the player who damaged one of them."
+    },
+    "ADMIRING_ITEM": {
+      "type": "{this}<wboolean>",
+      "mods": ["static", "final"],
+      "comment": "Whether this entity is currently admiring an item."
+    },
+    "TIME_TRYING_TO_REACH_ADMIRE_ITEM": {
+      "type": "{this}<wint>",
+      "mods": ["static", "final"],
+      "comment": "The current number of ticks this entity has spent trying to admire an item."
+    },
+    "DISABLE_WALK_TO_ADMIRE_ITEM": {
+      "type": "{this}<wboolean>",
+      "mods": ["static", "final"],
+      "comment": "Whether attempting to cfurrently walk to an admiring item is disabled."
+    },
+    "ADMIRING_DISABLED": {
+      "type": "{this}<wboolean>",
+      "mods": ["static", "final"],
+      "comment": "Whether admiring an item is disabled."
+    },
+    "HUNTED_RECENTLY": {
+      "type": "{this}<wboolean>",
+      "mods": ["static", "final"],
+      "comment": "Whether this entity has hunted recently."
+    },
+    "CELEBRATE_LOCATION": {
+      "type": "{this}<net.minecraft.core.BlockPos>",
+      "mods": ["static", "final"],
+      "comment": "The location of the celebration.\nUsed after a raid is won."
+    },
+    "DANCING": {
+      "type": "{this}<wboolean>",
+      "mods": ["static", "final"],
+      "comment": "Whether this entity is currently dancing."
+    },
+    "NEAREST_VISIBLE_HUNTABLE_HOGLIN": {
+      "type": "{this}<net.minecraft.world.entity.monster.hoglin.Hoglin>",
+      "mods": ["static", "final"],
+      "comment": "The nearest visible huntable Hoglin entity."
+    },
+    "NEAREST_VISIBLE_BABY_HOGLIN": {
+      "type": "{this}<net.minecraft.world.entity.monster.hoglin.Hoglin>",
+      "mods": ["static", "final"],
+      "comment": "The nearest visible baby hoglin."
+    },
+    "NEAREST_TARGETABLE_PLAYER_NOT_WEARING_GOLD": {
+      "type": "{this}<net.minecraft.world.entity.player.Player>",
+      "mods": ["static", "final"],
+      "comment": "The nearest, targetable player not wearing gold armor.\nUsed by piglins to identify targets."
+    },
+    "NEARBY_ADULT_PIGLINS": {
+      "type": "{this}<list<net.minecraft.world.entity.monster.piglin.AbstractPiglin>>",
+      "mods": ["static", "final"],
+      "comment": "A list of nearby adult piglin-type mobs."
+    },
+    "NEAREST_VISIBLE_ADULT_PIGLINS": {
+      "type": "{this}<list<net.minecraft.world.entity.monster.piglin.AbstractPiglin>>",
+      "mods": ["static", "final"],
+      "comment": "A list of nearby adult piglin-type mobs, that are visible to this entity."
+    },
+    "NEAREST_VISIBLE_ADULT_HOGLINS": {
+      "type": "{this}<list<net.minecraft.world.entity.monster.hoglin.Hoglin>>",
+      "mods": ["static", "final"],
+      "comment": "A list of nearby adult hoglins, that are visible to this entity."
+    },
+    "NEAREST_VISIBLE_ADULT_PIGLIN": {
+      "type": "{this}<net.minecraft.world.entity.monster.piglin.AbstractPiglin>",
+      "mods": ["static", "final"],
+      "comment": "The nearest adult piglin-type mob, that is visible to this entity."
+    },
+    "NEAREST_VISIBLE_ZOMBIFIED": {
+      "type": "{this}<net.minecraft.world.entity.LivingEntity>",
+      "mods": ["static", "final"],
+      "comment": "The nearest visible zombified mob, according to this entity."
+    },
+    "VISIBLE_ADULT_PIGLIN_COUNT": {
+      "type": "{this}<wint>",
+      "mods": ["static", "final"],
+      "comment": "The number of visible adult piglins."
+    },
+    "VISIBLE_ADULT_HOGLIN_COUNT": {
+      "type": "{this}<wint>",
+      "mods": ["static", "final"],
+      "comment": "The number of visible adult hoglins."
+    },
+    "NEAREST_PLAYER_HOLDING_WANTED_ITEM": {
+      "type": "{this}<net.minecraft.world.entity.player.Player>",
+      "mods": ["static", "final"],
+      "comment": "The nearest player that is holding the item this entity currently wants."
+    },
+    "ATE_RECENTLY": {
+      "type": "{this}<wboolean>",
+      "mods": ["static", "final"],
+      "comment": "Whether this entity has recently ate."
+    },
+    "NEAREST_REPELLENT": {
+      "type": "{this}<net.minecraft.core.BlockPos>",
+      "mods": ["static", "final"],
+      "comment": "The location of the nearest repellent block that this entity wants to avoid."
+    },
+    "PACIFIED": {
+      "type": "{this}<wboolean>",
+      "mods": ["static", "final"],
+      "comment": "Whether this entity is currently pacified."
+    },
+    "ROAR_TARGET": {
+      "type": "{this}<net.minecraft.world.entity.LivingEntity>",
+      "mods": ["static", "final"],
+      "comment": "The roaring target for this Warden."
+    },
+    "DISTURBANCE_LOCATION": {
+      "type": "{this}<net.minecraft.core.BlockPos>",
+      "mods": ["static", "final"],
+      "comment": "The location where this Warden heard something suspicious."
+    },
+    "RECENT_PROJECTILE": {
+      "type": "{this}<net.minecraft.util.Unit>",
+      "mods": ["static", "final"],
+      "comment": "Whether there was a recent projectile."
+    },
+    "IS_SNIFFING": {
+      "type": "{this}<net.minecraft.util.Unit>",
+      "mods": ["static", "final"],
+      "comment": "Whether this Warden is currently sniffing."
+    },
+    "IS_EMERGING": {
+      "type": "{this}<net.minecraft.util.Unit>",
+      "mods": ["static", "final"],
+      "comment": "Whether this Warden is emerging from the ground."
+    },
+    "ROAR_SOUND_DELAY": {
+      "type": "{this}<net.minecraft.util.Unit>",
+      "mods": ["static", "final"],
+      "comment": "A Unit Memory that represents the sound delay between this Warden's roar."
+    },
+    "DIG_COOLDOWN": {
+      "type": "{this}<net.minecraft.util.Unit>",
+      "mods": ["static", "final"],
+      "comment": "A Unit Memory representing the cooldown for this Warden's digging back into the ground."
+    },
+    "ROAR_SOUND_COOLDOWN": {
+      "type": "{this}<net.minecraft.util.Unit>",
+      "mods": ["static", "final"],
+      "comment": "A Unit Memory representing the cooldown for when this Warden can roar again."
+    },
+    "SNIFF_COOLDOWN": {
+      "type": "{this}<net.minecraft.util.Unit>",
+      "mods": ["static", "final"],
+      "comment": "A Unit Memory representing the cooldown for when this Warden can sniff the area again."
+    },
+    "TOUCH_COOLDOWN": {
+      "type": "{this}<net.minecraft.util.Unit>",
+      "mods": ["static", "final"],
+      "comment": "A Unit Memory representing the cooldown for when this Warden can touch again."
+    },
+    "VIBRATION_COOLDOWN": {
+      "type": "{this}<net.minecraft.util.Unit>",
+      "mods": ["static", "final"],
+      "comment": "A Unit Memory representing the cooldown for when this Warden can receive a vibration again."
+    },
+    "SONIC_BOOM_COOLDOWN": {
+      "type": "{this}<net.minecraft.util.Unit>",
+      "mods": ["static", "final"],
+      "comment": "A Unit Memory representing the cooldown for when this Warden can perform another sonic boom attack."
+    },
+    "SONIC_BOOM_SOUND_COOLDOWN": {
+      "type": "{this}<net.minecraft.util.Unit>",
+      "mods": ["static", "final"],
+      "comment": "A Unit Memory representing the sound cooldown for a Warden's sonic boom attack."
+    },
+    "SONIC_BOOM_SOUND_DELAY": {
+      "type": "{this}<net.minecraft.util.Unit>",
+      "mods": ["static", "final"],
+      "comment": "A Unit Memory representing the sound delay for a Warden's sonic boom attack."
+    },
+    "LIKED_PLAYER": {
+      "type": "{this}<java.util.UUID>",
+      "mods": ["static", "final"],
+      "comment": "The UUID of the player this entity currently has high opinions of."
+    },
+    "LIKED_NOTEBLOCK_POSITION": {
+      "type": "{this}<net.minecraft.core.GlobalPos>",
+      "mods": ["static", "final"],
+      "comment": "The position of the Note Block this entity currently likes."
+    },
+    "LIKED_NOTEBLOCK_COOLDOWN_TICKS": {
+      "type": "{this}<wint>",
+      "mods": ["static", "final"],
+      "comment": "The cooldown, in ticks, for when this entity can like another Note Block."
+    },
+    "ITEM_PICKUP_COOLDOWN_TICKS": {
+      "type": "{this}<wint>",
+      "mods": ["static", "final"],
+      "comment": "The cooldown, in ticks, for when this entity can pick up another item."
+    },
+    "SNIFFER_EXPLORED_POSITIONS": {
+      "type": "{this}<list<net.minecraft.core.GlobalPos>>",
+      "mods": ["static", "final"],
+      "comment": "A list of positions this Sniffer has currently explored."
+    },
+    "SNIFFER_SNIFFING_TARGET": {
+      "type": "{this}<net.minecraft.core.BlockPos>",
+      "mods": ["static", "final"],
+      "comment": "The current sniffing target for this Sniffer."
+    },
+    "SNIFFER_DIGGING": {
+      "type": "{this}<wboolean>",
+      "mods": ["static", "final"],
+      "comment": "Whether this Sniffer is currently digging."
+    },
+    "SNIFFER_HAPPY": {
+      "type": "{this}<wboolean>",
+      "mods": ["static", "final"],
+      "comment": "Whether this Sniffer is currently happy."
+    },
+    "codec": {
+      "type": "java.util.Optional<codec<net.minecraft.world.entity.ai.memory.ExpirableValue<U>>>",
+      "visibility": "private",
+      "mods": ["final"],
+      "comment": "The codec for this memory."
+    }
+  },
+  "constructors": [
+    {
+      "$fields": [
+        "codec"
+      ],
+      "comment": "Constructs a new MemoryModuleType."
+    }
+  ],
+  "methods": {
+    "getCodec": {
+      "$getter": "codec"
+    },
+    "register": [
+      {
+        "visibility": "private",
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "string",
+            "name": "id",
+            "comment": "The ID of the memory."
+          },
+          {
+            "type": "codec<U>",
+            "name": "codec",
+            "comment": "The codec of the MemoryModuleType."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "The registered Memory."
+        },
+        "comment": "Registers a new MemoryModuleType with a Codec."
+      },
+      {
+        "visibility": "private",
+        "mods": ["static"],
+        "params": [
+          {
+            "type": "string",
+            "name": "id",
+            "comment": "The ID of the memory."
+          }
+        ],
+        "return": {
+          "type": "{this}",
+          "comment": "The registered Memory."
+        },
+        "comment": "Registers a new MemoryModuleType."
+      }
+    ]
+  }
+}
